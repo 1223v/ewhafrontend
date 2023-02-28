@@ -1,5 +1,8 @@
 import React,{useState} from 'react'
+import {useDispatch} from 'react-redux';
+import { registerUser } from '../../../_actions/user_action';
 import '../LoginPage/LoginPage.css';
+import { Link,useNavigate } from 'react-router-dom';
 
 function RegisterPage() {
 	
@@ -12,6 +15,7 @@ function RegisterPage() {
 	const [ConfirmPassword, setConfirmPassword] = useState("")
 	const [Major,setMajor] = useState("")
 	const [Role,setRole] = useState("")
+	const [Isactive, setIsactive] = useState("false");
 	
 	const onEmailHandler = (event) => {
 		setEmail(event.currentTarget.value)
@@ -42,18 +46,28 @@ function RegisterPage() {
 	const onSubmitHandler = (event) => {
 		event.preventDefault();
 		
+		if(Password !== ConfirmPassword){
+			setIsactive(!Isactive);
+			return alert('비밀번호가 일치하지 않습니다.')
+			
+		}
 		
 		let body = {
 			email:Email,
-			pw: Password
+			pw: Password,
+			name: Name,
+			major: Major,
+			role: Role
 		}
 		
-		dispatch(loginUser(body))
+		dispatch(registerUser(body))
 		.then(response => {
-			if(response.payload.loginSuccess){
+			if(response.payload.registerSuccess){
 				
 				
-				navigate("/");
+				navigate("/login");
+			}else{
+				alert('다시 시도해주세요.');
 			}
 		})
 
@@ -76,7 +90,7 @@ function RegisterPage() {
 
                     <form
                         
-                        
+                        onSubmit={onSubmitHandler}
                         id="register-form"
                         style={{marginTop: '10%'}}
                     >
@@ -88,7 +102,7 @@ function RegisterPage() {
                                 placeholder="Email"
                                 className="input-style"
 								value={Email}
-								
+								onChange={onEmailHandler}
 								
                             />
                             <div className="error-tag">
@@ -104,6 +118,7 @@ function RegisterPage() {
                                 placeholder="Password"
                                 className="input-style"
 								value={Password}
+								onChange={onPasswordHandler}
                             />
                             <div className="pwerror-tag">
                                 영문, 숫자, 특수문자, 포함 8자 이상으로 설정해 주세요.
@@ -118,8 +133,9 @@ function RegisterPage() {
                                 placeholder="Password"
                                 className="input-style"
 								value={ConfirmPassword}
+								onChange={onConfirmPasswordHandler}
                             />
-                            <div className="cpwerror-tag">
+                            <div className={"cpwerror-tag" +(Isactive ? "" : " active")}>
                                 비밀번호가 일치하지 않아요.
                             </div>
                         </div>
@@ -132,12 +148,13 @@ function RegisterPage() {
                             style={{marginBottom: '8%'}}
                             className="input-style"
 							value={Name}
+							onChange={onNameHandler}
                         />
 
                         <div className="id-text">
                             <label htmlFor="join-dp">전공</label>
                             <div className="input-area">
-                                <select className="major_chk" id="join-dp" name="major" value={Major}>
+                                <select className="major_chk" id="join-dp" name="major" value={Major} onChange={onMajorHandler}>
                                     <option>한일번역</option>
                                     <option>한일통역</option>
                                     <option>한중번역</option>
@@ -153,7 +170,7 @@ function RegisterPage() {
                         <div className="id-text">
                             <label htmlFor="join-type">분류</label>
                             <div className="input-area">
-                                <select className="job_chk" id="join-type" name="perm" value={Role}>
+                                <select className="job_chk" id="join-type" name="perm" value={Role} onChange={onRoleHandler}>
                                     <option>교수</option>
                                     <option>학생</option>
                                     <option>조교</option>

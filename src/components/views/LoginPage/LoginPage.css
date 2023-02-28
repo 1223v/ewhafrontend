@@ -104,8 +104,13 @@
 }
 
 .cpwerror-tag {
+	display:none;
     font-size: 12px;
     color: red;
+}
+.cpwerror-tag.active {
+	display: flex;
+    
 }
 .input-area {
     margin-top: 3%;
