@@ -3,13 +3,14 @@ import './NavBar.css';
 import { Link,useNavigate } from 'react-router-dom';
 import Ewha from './ewha_logo.png';
 import Axios from 'axios';
+import { useCookies } from 'react-cookie'; // useCookies import
 
 function NavBar() {
 
 	
 	let navigate = useNavigate();
 	const [isActive, setActive] = useState("false");
-
+	const [cookies, setCookie, removeCookie] = useCookies([]);
 
 
 	const onNavtoggleHandler = (event) =>{
@@ -22,6 +23,8 @@ function NavBar() {
 		Axios.get('https://translation-platform.site:8443/api/user/logout')
 		.then(response => {
 			if(response.data.logoutSuccess){
+				removeCookie('access_token', { path: '/' });
+				removeCookie('refresh_token', { path: '/' });
 				navigate("/login");
 			}else{
 				alert('Error');
