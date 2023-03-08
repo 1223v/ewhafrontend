@@ -34,10 +34,9 @@ function LoginPage() {
 		
 		dispatch(loginUser(body))
 		.then(response => {
+			console.log(response.payload.loginSuccess);
 			if(response.payload.loginSuccess){
 				
-				setCookie('access_token', response.payload.access_token);
-				setCookie('refresh_token', response.payload.refresh_token);
 				navigate("/");
 			}
 		})
@@ -85,7 +84,7 @@ function LoginPage() {
                     <div className="findview">
                         <Link to="/">아이디 찾기 |</Link> 
                         <Link to="/">비밀번호 찾기 |</Link>
-                        <Link to="/"> 회원가입</Link>
+                        <Link to="/register"> 회원가입</Link>
                     </div>
                 </div>
             </div>
