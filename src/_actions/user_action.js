@@ -4,7 +4,7 @@ import { LOGIN_USER, AUTH_USER,REGISTER_USER } from './types';
 export function loginUser(dataToSubmit){
 	const request = Axios.post('https://translation-platform.site:8443/api/user/login',dataToSubmit,{ withCredentials: true,
   headers: {
-    'Access-Control-Allow-Origin': 'https://frontend-krlwv.run.goorm.site'
+    'Access-Control-Allow-Origin': 'true'
   } })
 	.then(response => response.data)
 	

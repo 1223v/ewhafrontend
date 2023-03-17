@@ -4,6 +4,7 @@ import { loginUser } from '../../../_actions/user_action';
 import background from './background.mp4';
 import { Link,useNavigate } from 'react-router-dom';
 import { useCookies } from 'react-cookie'; // useCookies import
+import Axios from 'axios'
 import './LoginPage.css';
 
 function LoginPage() {
@@ -32,14 +33,19 @@ function LoginPage() {
 			pw: Password
 		}
 		
-		dispatch(loginUser(body))
-		.then(response => {
-			console.log(response.payload.loginSuccess);
-			if(response.payload.loginSuccess){
+        Axios.defaults.withCredentials = true;
+        Axios.post('https://translation-platform.site:8443/api/user/login',body,{ withCredentials: true })
+	.then(response => {
+        console.log(response)
+    })
+		// dispatch(loginUser(body))
+		// .then(response => {
+		// 	console.log(response.payload.loginSuccess);
+		// 	if(response.payload.loginSuccess){
 				
-				navigate("/");
-			}
-		})
+		// 		navigate("/");
+		// 	}
+		// })
 
 		
 	}
@@ -65,6 +71,7 @@ function LoginPage() {
                             width="60%"
                             height="60%"
                             style={{margin: 'auto', display: 'block', marginBottom: '15%'}}
+                            alt=""
                         />
                     </h2>
 
