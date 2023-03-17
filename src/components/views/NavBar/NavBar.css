@@ -1,4 +1,4 @@
-.navbar a {
+.navbar > a {
     text-decoration: none;
     color: white;
 }

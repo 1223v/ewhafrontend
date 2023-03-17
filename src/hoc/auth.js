@@ -10,20 +10,21 @@ export default function (SpecificComponent, option, adminRoute = null) {
 		const dispatch = useDispatch();
 		useEffect(() => {
 			dispatch(auth()).then((response) => {
-				if (!response.payload.isAuth) {
-					if (option) {
-						navigate('/login', { replace: true });
-					}
-				} else {
-					//로그인한 상태
-					if (adminRoute && !response.payload.isAdmin) {
-						navigate('/', { replace: true });
-					} else {
-						if (option === false) {
-							navigate('/', { replace: true });
-						}
-					}
-				}
+				console.log(response.payload.isAuth);
+				// if (!response.payload.isAuth) {
+				// 	if (option) {
+				// 		navigate('/login', { replace: true });
+				// 	}
+				// } else {
+				// 	//로그인한 상태
+				// 	if (adminRoute && !response.payload.isAdmin) {
+				// 		navigate('/', { replace: true });
+				// 	} else {
+				// 		if (option === false) {
+				// 			navigate('/', { replace: true });
+				// 		}
+				// 	}
+				// }
 			});
 		}, []);
 

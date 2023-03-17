@@ -4,6 +4,7 @@ import { loginUser } from '../../../_actions/user_action';
 import background from './background.mp4';
 import { Link,useNavigate } from 'react-router-dom';
 import { useCookies } from 'react-cookie'; // useCookies import
+import Axios from 'axios'
 import './LoginPage.css';
 
 function LoginPage() {
@@ -32,15 +33,19 @@ function LoginPage() {
 			pw: Password
 		}
 		
-		dispatch(loginUser(body))
-		.then(response => {
-			if(response.payload.loginSuccess){
+        Axios.defaults.withCredentials = true;
+        Axios.post('https://translation-platform.site:8443/api/user/login',body,{ withCredentials: true })
+	.then(response => {
+        console.log(response)
+    })
+		// dispatch(loginUser(body))
+		// .then(response => {
+		// 	console.log(response.payload.loginSuccess);
+		// 	if(response.payload.loginSuccess){
 				
-				setCookie('access_token', response.payload.access_token);
-				setCookie('refresh_token', response.payload.refresh_token);
-				navigate("/");
-			}
-		})
+		// 		navigate("/");
+		// 	}
+		// })
 
 		
 	}
@@ -66,6 +71,7 @@ function LoginPage() {
                             width="60%"
                             height="60%"
                             style={{margin: 'auto', display: 'block', marginBottom: '15%'}}
+                            alt=""
                         />
                     </h2>
 
@@ -85,7 +91,7 @@ function LoginPage() {
                     <div className="findview">
                         <Link to="/">아이디 찾기 |</Link> 
                         <Link to="/">비밀번호 찾기 |</Link>
-                        <Link to="/"> 회원가입</Link>
+                        <Link to="/register"> 회원가입</Link>
                     </div>
                 </div>
             </div>
