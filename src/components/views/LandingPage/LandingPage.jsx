@@ -9,8 +9,15 @@ import { Row } from "antd";
 
 function LandingPage() {
   const [Lectures, setLectures] = useState([]);
-  const listdivstart = '<div className="lecture_list">';
-  const listdivend = "</div>";
+
+  let userinfo = [
+    {
+      id: "1223v",
+      name: "노윤서",
+      role: "서양화전공",
+      img: "https://mblogthumb-phinf.pstatic.net/MjAyMjA2MDVfMjk0/MDAxNjU0Mzc3NDAwMDY2.fpzyHUUMYtTHrvXHnDZBLZDjWrHwh_RuDOB_iXowzMcg.tIADVzejBdjUnkt_TEDGKtD_lpFGrabxZzNYEwXtb8Qg.JPEG.idujh/img_(1).jpg?type=w800",
+    },
+  ];
 
   let request = [
     {
@@ -23,40 +30,36 @@ function LandingPage() {
     {
       num: 2,
       lecture: "한|중",
-      title: "한일 통역 01분반",
+      title: "한중 통역 01분반",
       class: "02",
       dday: "5",
     },
     {
       num: 3,
       lecture: "한|러",
-      title: "한일 통역 01분반",
+      title: "한러 통역 01분반",
       class: "03",
       dday: "7",
     },
     {
       num: 4,
       lecture: "한|영",
-      title: "한일 통역 01분반",
-      class: "04",
-      dday: "32",
-    },
-    {
-      num: 4,
-      lecture: "한|영",
-      title: "한일 통역 01분반",
-      class: "04",
+      title: "한영 통역 02분반",
+      class: "02",
       dday: "32",
     },
   ];
-  useEffect(() => {
-    console.log(request[1]);
-  }, []);
+  useEffect(() => {}, []);
   return (
     <div>
       <NavBar />
       <div className="lecture_class">
-        <Profile />
+        <Profile
+          userId={userinfo[0].id}
+          userImg={userinfo[0].img}
+          userName={userinfo[0].name}
+          userRole={userinfo[0].role}
+        />
         <SearchBar />
         <div className="calender_Area">
           <CalenderComponent />

@@ -1,6 +1,11 @@
-.navbar > a {
+.navbar a {
   text-decoration: none;
-  color: white;
+  color: #ffffff99;
+}
+
+.navbar a:hover {
+  text-decoration: none;
+  color: #ffffff;
 }
 .navbar {
   display: flex;
@@ -8,6 +13,7 @@
   align-items: center;
   background-color: #05422b;
   padding: 0px 12px;
+  height: 64px;
 }
 
 .navbar__logo {
@@ -53,6 +59,7 @@
   .navbar {
     flex-direction: column;
     align-items: flex-start;
+    height: auto;
   }
   .navbar__menu {
     display: none;
@@ -66,7 +73,7 @@
   }
 
   .navbar__menu li:hover {
-    background-color: #d3d3d3;
+    background-color: #ffffff40;
     border-radius: 4px;
   }
   .navbar__icons {

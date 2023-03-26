@@ -3,11 +3,6 @@ body {
   font-family: "Malgun Gothic";
 }
 
-a {
-  text-decoration: none;
-  color: white;
-}
-
 .lecture_class {
   width: 800px;
   margin: 0 auto;

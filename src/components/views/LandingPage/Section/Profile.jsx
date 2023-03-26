@@ -1,22 +1,31 @@
-import React from 'react'
+import React from "react";
+import styled from "styled-components";
 
-
-function Profile() {
+function Profile(props) {
   return (
     <div className="profile_class2">
-					<img
-						src="https://img1.daumcdn.net/thumb/C428x428/?scode=mtistory2&fname=https%3A%2F%2Ftistory2.daumcdn.net%2Ftistory%2F5283603%2Fattach%2F29c858d89c1a47508a9d8edc4ee0455a"
-						className="profile_img"
-						alt='img'
-					/>
-					<div className="user_icons">
-						<i className="fa-regular fa-envelope"></i>
-						<i className="fa-solid fa-book-bookmark"></i>
-						<i className="fa-regular fa-bell"></i>
-					</div>
-					<div>dk Tlqkf ws gkrl tlfgek.</div>
-				</div>
-  )
+      <img src={props.userImg} className="profile_img" alt="img" />
+      <div className="user_icons">
+        <i className="fa-regular fa-envelope"></i>
+        <i className="fa-solid fa-book-bookmark"></i>
+        <i className="fa-regular fa-bell"></i>
+      </div>
+      <Profilename>{props.userName}</Profilename>
+      <Profilemajor>{props.userRole}</Profilemajor>
+    </div>
+  );
 }
 
-export default Profile
+export default Profile;
+
+const Profilename = styled.div`
+  margin-bottom: 8px;
+  font-weight: 600;
+`;
+
+const Profilemajor = styled.div`
+  font-size: 12px;
+  color: #00000098;
+  margin-bottom: 8px;
+  font-weight: 500;
+`;
