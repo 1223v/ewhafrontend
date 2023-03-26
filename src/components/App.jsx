@@ -1,29 +1,29 @@
-import './App.css';
-import {Route,Routes} from 'react-router-dom'
-import NavBar from './views/NavBar/NavBar'
+import "./App.css";
+import { Route, Routes } from "react-router-dom";
+import NavBar from "./views/NavBar/NavBar";
 //import Footer from './views/Footer/Footer'
-import LandingPage from './views/LandingPage/LandingPage';
-import LoginPage from './views/LoginPage/LoginPage';
-import RegisterPage from './views/RegisterPage/RegisterPage';
-import Auth from '../hoc/auth'
+import LandingPage from "./views/LandingPage/LandingPage";
+import LoginPage from "./views/LoginPage/LoginPage";
+import RegisterPage from "./views/RegisterPage/RegisterPage";
+import Auth from "../hoc/auth";
+import ProbSubmitList from "./views/ProbSubmitList/ProbSubmitList";
+import Prob from "./views/Prob/Prob";
 
 function App() {
-	const NewLandingPage = Auth(LandingPage, true);
+  const NewLandingPage = Auth(LandingPage, true);
   const NewLoginPage = Auth(LoginPage, false);
   const NewRegisterPage = Auth(RegisterPage, false);
+  const NewProbSubmitList = Auth(ProbSubmitList, true);
+  const NewProb = Auth(Prob, true);
   return (
     <div className="App">
-      
-      
       <Routes>
-		  
-						<Route path="/" element={<NewLandingPage />} />			  
-						<Route path="/login" element={<NewLoginPage/>} />
-            			<Route path="/register" element={<NewRegisterPage/>} />
+        <Route path="/" element={<NewLandingPage />} />
+        <Route path="/login" element={<NewLoginPage />} />
+        <Route path="/register" element={<NewRegisterPage />} />
+        <Route path="/prob" element={<NewProb />} />
+        <Route path="/prob_submit_list" element={<NewProbSubmitList />} />
       </Routes>
-			
-    
-      
     </div>
   );
 }
