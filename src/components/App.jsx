@@ -8,6 +8,7 @@ import RegisterPage from "./views/RegisterPage/RegisterPage";
 import Auth from "../hoc/auth";
 import ProbSubmitList from "./views/ProbSubmitList/ProbSubmitList";
 import Prob from "./views/Prob/Prob";
+import LectureAddPage from "./views/LectureAddPage/LectureAddPage";
 import Test from "./views/LandingPage/Section/Test";
 
 function App() {
@@ -16,6 +17,7 @@ function App() {
   const NewRegisterPage = Auth(RegisterPage, false);
   const NewProbSubmitList = Auth(ProbSubmitList, true);
   const NewProb = Auth(Prob, true);
+  const NewLectureAddPage = Auth(LectureAddPage, true);
   const NewTest = Auth(Test, true);
 
   return (
@@ -26,9 +28,9 @@ function App() {
         <Route path="/register" element={<NewRegisterPage />} />
         <Route path="/prob" element={<NewProb />} />
         <Route path="/prob_submit_list" element={<NewProbSubmitList />} />
+        <Route path="/lecture_add" element={<NewLectureAddPage />} />
 
         <Route path="/test" element={<NewTest />} />
-
       </Routes>
     </div>
   );
