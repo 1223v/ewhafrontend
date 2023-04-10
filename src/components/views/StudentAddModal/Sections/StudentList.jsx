@@ -3,9 +3,12 @@ import React from "react";
 function StudentList() {
   return (
     <div className="flex flex-col">
-      <div className="overflow-y-auto h-400px">
+      <div
+        className="overflow-y-auto overflow-x-hidden"
+        style={{ height: "400px" }}
+      >
         <div className="p-1.5 w-full inline-block align-middle">
-          <div className="overflow-y-auto border rounded-lg">
+          <div className="border rounded-lg">
             <table className="min-w-full divide-y divide-gray-200">
               <thead className="bg-gray-50">
                 <tr>

@@ -22,11 +22,11 @@ function StudentAddModal({ onClose }) {
           <i className="fa-solid fa-xmark"></i>
         </CloseButton>
         <Contents>
-          <h1>학생 명단</h1>
+          <h2>학생 명단</h2>
           <div>
             <StudentList />
           </div>
-          <Button onClick={handleClose}>Close</Button>
+          <Button onClick={handleClose}>+ 추가하기</Button>
         </Contents>
       </ModalWrap>
     </Overlay>
@@ -85,14 +85,15 @@ const Contents = styled.div`
   }
 `;
 const Button = styled.button`
+  margin: 15px auto auto;
+  display: block;
   font-size: 14px;
   padding: 10px 20px;
   border: none;
-  background-color: #ababab;
+  background-color: #2e462f;
   border-radius: 10px;
   color: white;
-  font-style: italic;
-  font-weight: 200;
+  font-weight: 600;
   cursor: pointer;
   &:hover {
     background-color: #898989;
