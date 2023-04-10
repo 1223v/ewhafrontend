@@ -4,7 +4,6 @@ import styled from "styled-components";
 import Modal from "../Modal/Modal";
 
 function Prob() {
-  const num = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16];
   const [isOpen, setIsOpen] = useState(false);
   const [Weeklist, setWeeklist] = useState("");
   let weeks = [
@@ -18,19 +17,63 @@ function Prob() {
     },
     {
       number: 2,
-      list: [{ name: "조현식", lecture: "6", as: "32", week: 1 }],
+      list: [{ name: "조현식", lecture: "6", as: "32", week: 2 }],
     },
     {
       number: 3,
-      list: [{ name: "윤태호", lecture: "6", as: "32", week: 1 }],
+      list: [{ name: "윤태호", lecture: "6", as: "32", week: 3 }],
     },
     {
       number: 4,
-      list: [{ name: "과제4", lecture: "6", as: "32", week: 1 }],
+      list: [{ name: "과제4", lecture: "6", as: "32", week: 4 }],
     },
     {
       number: 5,
-      list: [{ name: "hello", lecture: "6", as: "32", week: 1 }],
+      list: [{ name: "hello", lecture: "6", as: "32", week: 5 }],
+    },
+    {
+      number: 6,
+      list: [{ name: "hello", lecture: "6", as: "32", week: 6 }],
+    },
+    {
+      number: 7,
+      list: [{ name: "hello", lecture: "6", as: "32", week: 7 }],
+    },
+    {
+      number: 8,
+      list: [{ name: "hello", lecture: "6", as: "32", week: 8 }],
+    },
+    {
+      number: 9,
+      list: [{ name: "hello", lecture: "6", as: "32", week: 9 }],
+    },
+    {
+      number: 10,
+      list: [{ name: "hello", lecture: "6", as: "32", week: 10 }],
+    },
+    {
+      number: 11,
+      list: [{ name: "hello", lecture: "6", as: "32", week: 11 }],
+    },
+    {
+      number: 12,
+      list: [{ name: "hello", lecture: "6", as: "32", week: 12 }],
+    },
+    {
+      number: 13,
+      list: [{ name: "hello", lecture: "6", as: "32", week: 13 }],
+    },
+    {
+      number: 14,
+      list: [{ name: "hello", lecture: "6", as: "32", week: 14 }],
+    },
+    {
+      number: 15,
+      list: [{ name: "hello", lecture: "6", as: "32", week: 15 }],
+    },
+    {
+      number: 16,
+      list: [{ name: "hello", lecture: "6", as: "32", week: 16 }],
     },
   ];
 

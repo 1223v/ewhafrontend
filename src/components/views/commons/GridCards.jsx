@@ -9,7 +9,7 @@ function GridCards(props) {
   return (
     <Col lg={12} md={8} xs={24}>
       <div className="lecture_list">
-        <Link to={`/leture/${props.num}`}>
+        <Link to={`/prob?lecture_no=${props.num}`}>
           <div className="lecture_list_class">
             <div className="class_tag">
               <h5 style={{ color: "black" }}>{props.lecture}</h5>

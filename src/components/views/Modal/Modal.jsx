@@ -28,7 +28,7 @@ function Modal({ onClose, weeklist }) {
           </CloseButton>
 
           <Contents>{weeklist[0].week}주차 과제</Contents>
-          <ModalContent />
+          <ModalContent weeklistcontent={weeklist} />
         </ModalWrap>
       </Overlay>
     </ModalContainer>

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
 import StudentList from "./Sections/StudentList";
 
@@ -6,6 +6,15 @@ function StudentAddModal({ onClose }) {
   const handleClose = () => {
     onClose?.();
   };
+  useEffect(() => {
+    const $body = document.querySelector("body");
+    const overflow = $body.style.overflow;
+    $body.style.overflow = "hidden";
+    return () => {
+      $body.style.overflow = overflow;
+    };
+  }, []);
+
   return (
     <Overlay>
       <ModalWrap>
@@ -13,7 +22,7 @@ function StudentAddModal({ onClose }) {
           <i className="fa-solid fa-xmark"></i>
         </CloseButton>
         <Contents>
-          <h1>This is a Modal Dialog</h1>
+          <h1>학생 명단</h1>
           <div>
             <StudentList />
           </div>
@@ -47,6 +56,9 @@ const ModalWrap = styled.div`
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+  @media screen and (max-width: 768px) {
+    width: 400px;
+  }
 `;
 
 const CloseButton = styled.div`
@@ -66,7 +78,6 @@ const Contents = styled.div`
   h1 {
     font-size: 30px;
     font-weight: 600;
-    margin-bottom: 60px;
   }
   img {
     margin-top: 60px;
