@@ -9,7 +9,10 @@ import { Row } from "antd";
 
 function LandingPage() {
   const [Lectures, setLectures] = useState([]);
-
+  const [message, setMessage] = useState("");
+  const handleSearchClick = (value) => {
+    setMessage(value);
+  };
   let userinfo = [
     {
       id: "1223v",
@@ -60,7 +63,7 @@ function LandingPage() {
           userName={userinfo[0].name}
           userRole={userinfo[0].role}
         />
-        <SearchBar />
+        <SearchBar onSearchClick={handleSearchClick} />
         <div className="calender_Area">
           <CalenderComponent />
         </div>

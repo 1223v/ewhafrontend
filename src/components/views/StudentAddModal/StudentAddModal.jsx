@@ -1,15 +1,11 @@
-import React, { useEffect, useRef } from "react";
-import useOutSideClick from "../../../hooks/useOutSideClick";
+import React, { useEffect } from "react";
 import styled from "styled-components";
-import ModalContainer from "./ModalContainer";
-import ModalContent from "./ModalContent";
+import StudentList from "./Sections/StudentList";
 
-function Modal({ onClose, weeklist }) {
-  const modalRef = useRef(null);
+function StudentAddModal({ onClose }) {
   const handleClose = () => {
     onClose?.();
   };
-
   useEffect(() => {
     const $body = document.querySelector("body");
     const overflow = $body.style.overflow;
@@ -18,25 +14,26 @@ function Modal({ onClose, weeklist }) {
       $body.style.overflow = overflow;
     };
   }, []);
-  useOutSideClick(modalRef, handleClose);
+
   return (
-    <ModalContainer>
-      <Overlay>
-        <ModalWrap ref={modalRef}>
-          <CloseButton onClick={handleClose}>
-            <i className="fa-solid fa-xmark"></i>
-          </CloseButton>
-
-          <Contents>{weeklist[0].week}주차 과제</Contents>
-
-          <ModalContent weeklistcontent={weeklist} />
-        </ModalWrap>
-      </Overlay>
-    </ModalContainer>
+    <Overlay>
+      <ModalWrap>
+        <CloseButton onClick={handleClose}>
+          <i className="fa-solid fa-xmark"></i>
+        </CloseButton>
+        <Contents>
+          <h1>학생 명단</h1>
+          <div>
+            <StudentList />
+          </div>
+          <Button onClick={handleClose}>Close</Button>
+        </Contents>
+      </ModalWrap>
+    </Overlay>
   );
 }
 
-export default Modal;
+export default StudentAddModal;
 
 const Overlay = styled.div`
   position: fixed;
@@ -51,7 +48,7 @@ const Overlay = styled.div`
 `;
 
 const ModalWrap = styled.div`
-  width: 800px;
+  width: 600px;
   height: fit-content;
   border-radius: 15px;
   background-color: #fff;
@@ -81,7 +78,6 @@ const Contents = styled.div`
   h1 {
     font-size: 30px;
     font-weight: 600;
-    margin-bottom: 60px;
   }
   img {
     margin-top: 60px;
