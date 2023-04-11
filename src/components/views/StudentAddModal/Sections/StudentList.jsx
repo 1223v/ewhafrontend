@@ -9,8 +9,21 @@ function StudentList({ onClose }) {
   const handleClose = () => {
     onClose?.();
   };
+  const handleChange = (event) => {
+    const item = event.target.name;
+    const isChecked = event.target.checked;
+    this.setState((prevState) => ({
+      checkedItems: prevState.checkedItems.set(item, isChecked),
+    }));
+  };
+
+  const checkedItems = Array.from(this.state.checkedItems.entries())
+    .filter((item) => item[1])
+    .map((item) => item[0]);
+
   const studentslist = [
     {
+      num: 1,
       name: "김남형",
       major: "한일번역",
       email: "jane.cooper@example.com",
@@ -18,6 +31,7 @@ function StudentList({ onClose }) {
         "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=4&w=256&h=256&q=60",
     },
     {
+      num: 2,
       name: "조현식",
       major: "한일번역",
       email: "john.doe@example.com",
@@ -25,6 +39,7 @@ function StudentList({ onClose }) {
         "https://images.unsplash.com/flagged/photo-1570612861542-284f4c12e75f?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8cGVyc29ufGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=400&q=60",
     },
     {
+      num: 3,
       name: "Veronica Lodge",
       major: " Software Engineer",
       email: "veronica.lodge@example.com",
@@ -79,7 +94,7 @@ function StudentList({ onClose }) {
                               className="text-blue-600 border-gray-200 rounded focus:ring-blue-500"
                               name={student.name}
                               value
-                              onChange
+                              onChange={handleChange}
                             />
                             <label htmlFor="checkbox" className="sr-only">
                               Checkbox
