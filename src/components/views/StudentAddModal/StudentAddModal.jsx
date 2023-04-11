@@ -1,8 +1,12 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import StudentList from "./Sections/StudentList";
 
 function StudentAddModal({ onClose }) {
+  const [isChecked, setIsChecked] = useState(false);
+  function handleData(data) {
+    console.log(data);
+  }
   const handleClose = () => {
     onClose?.();
   };
@@ -24,7 +28,11 @@ function StudentAddModal({ onClose }) {
         <Contents>
           <h2>학생 명단</h2>
 
-          <StudentList onClose={onClose} />
+          <StudentList
+            onClose={onClose}
+            onData={handleData}
+            isChecked={isChecked}
+          />
         </Contents>
       </ModalWrap>
     </Overlay>

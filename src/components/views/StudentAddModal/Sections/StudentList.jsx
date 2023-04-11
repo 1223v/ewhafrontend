@@ -1,25 +1,37 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 
-function StudentList({ onClose }) {
-  const [Studentadd, setStudentadd] = useState("");
-  useState = {
-    checkedItems: new Map(),
-  };
+function StudentList(props) {
+  const [Studentcheck, setStudentcheck] = useState([]);
+
   const handleClose = () => {
-    onClose?.();
-  };
-  const handleChange = (event) => {
-    const item = event.target.name;
-    const isChecked = event.target.checked;
-    this.setState((prevState) => ({
-      checkedItems: prevState.checkedItems.set(item, isChecked),
-    }));
+    props.onClose?.();
+    props.onData(Studentcheck);
   };
 
-  const checkedItems = Array.from(this.state.checkedItems.entries())
-    .filter((item) => item[1])
-    .map((item) => item[0]);
+  const handleChange = (event) => {
+    const { name, id, value } = event.target;
+
+    const data = event.target.getAttribute("data");
+
+    console.log(event.target.checked);
+    if (event.target.checked) {
+      setStudentcheck((prevState) => ({
+        ...prevState,
+
+        [id]: { value, data, name },
+      }));
+    } else {
+      deleteNumber(id);
+    }
+  };
+
+  const deleteNumber = (num) => {
+    const newUsers = { ...Studentcheck };
+    delete newUsers[num];
+    setStudentcheck(newUsers);
+    console.log("Deleted user:", newUsers);
+  };
 
   const studentslist = [
     {
@@ -89,12 +101,14 @@ function StudentList({ onClose }) {
                         <td className="px-6 py-4 text-sm font-medium text-gray-800 whitespace-nowrap">
                           <div className="flex items-center h-5">
                             <input
-                              id="checkbox-all"
+                              id={student.num}
                               type="checkbox"
                               className="text-blue-600 border-gray-200 rounded focus:ring-blue-500"
                               name={student.name}
-                              value
+                              value={student.email}
+                              data={student.major}
                               onChange={handleChange}
+                              checked={props.isChecked}
                             />
                             <label htmlFor="checkbox" className="sr-only">
                               Checkbox
