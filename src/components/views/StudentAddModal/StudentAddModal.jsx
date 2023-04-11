@@ -23,10 +23,8 @@ function StudentAddModal({ onClose }) {
         </CloseButton>
         <Contents>
           <h2>학생 명단</h2>
-          <div>
-            <StudentList />
-          </div>
-          <Button onClick={handleClose}>+ 추가하기</Button>
+
+          <StudentList onClose={onClose} />
         </Contents>
       </ModalWrap>
     </Overlay>
