@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import NavBar from "../NavBar/NavBar";
 import LectureListPage from "./Sections/LectureListPage";
@@ -6,10 +6,56 @@ import StudentAddModal from "../StudentAddModal/StudentAddModal";
 
 function LectureAddPage() {
   const [isOpen, setIsOpen] = useState(false);
+  const [checkedList, setCheckedList] = useState([]);
+  const [Liststudent, setListstudent] = useState([]);
+
+  const studentslist = [
+    {
+      num: 1,
+      name: "김남형",
+      major: "한일번역",
+      email: "jane.cooper@example.com",
+      image:
+        "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=4&w=256&h=256&q=60",
+    },
+    {
+      num: 2,
+      name: "조현식",
+      major: "한일번역",
+      email: "john.doe@example.com",
+      image:
+        "https://images.unsplash.com/flagged/photo-1570612861542-284f4c12e75f?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8cGVyc29ufGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=400&q=60",
+    },
+    {
+      num: 3,
+      name: "Veronica Lodge",
+      major: " Software Engineer",
+      email: "veronica.lodge@example.com",
+      image:
+        "https://media.istockphoto.com/photos/portrait-of-smiling-mixed-race-woman-looking-at-camera-picture-id1319763830?b=1&k=20&m=1319763830&s=170667a&w=0&h=wE44n9yP1nrefeqv5DCl5mE3ouU01FNNHeZPR0yDCWA=",
+    },
+  ];
 
   const onClickButton = () => {
     setIsOpen(true);
   };
+
+  const onRemove = (item) => {
+    setCheckedList(checkedList.filter((el) => el !== item));
+  };
+
+  useEffect(() => {
+    const CheckedStudentList = [];
+    const CheckedStudentsList = [];
+    for (let i = 0; i < checkedList.length; i++) {
+      CheckedStudentList[0] = studentslist.filter(
+        (obj) => obj.email === checkedList[i]
+      );
+      CheckedStudentsList.push(CheckedStudentList[0][0]);
+    }
+
+    setListstudent(CheckedStudentsList);
+  }, [checkedList]);
 
   return (
     <LectureBackgroudDiv>
@@ -150,6 +196,9 @@ function LectureAddPage() {
               {isOpen && (
                 <StudentAddModal
                   open={isOpen}
+                  setCheckedList={setCheckedList}
+                  Checklist={checkedList}
+                  studentslist={studentslist}
                   onClose={() => {
                     setIsOpen(false);
                   }}
@@ -158,7 +207,7 @@ function LectureAddPage() {
             </LectureName2>
           </LectureNameDiv>
           <div>
-            <LectureListPage />
+            <LectureListPage Liststudent={Liststudent} onRemove={onRemove} />
           </div>
         </div>
       </LectureAddFormDiv>

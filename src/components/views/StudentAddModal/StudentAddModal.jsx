@@ -1,10 +1,10 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import StudentList from "./Sections/StudentList";
 
-function StudentAddModal({ onClose }) {
+function StudentAddModal(props) {
   const handleClose = () => {
-    onClose?.();
+    props.onClose?.();
   };
   useEffect(() => {
     const $body = document.querySelector("body");
@@ -22,11 +22,14 @@ function StudentAddModal({ onClose }) {
           <i className="fa-solid fa-xmark"></i>
         </CloseButton>
         <Contents>
-          <h1>학생 명단</h1>
-          <div>
-            <StudentList />
-          </div>
-          <Button onClick={handleClose}>Close</Button>
+          <h2>학생 명단</h2>
+
+          <StudentList
+            onClose={props.onClose}
+            setCheckedList={props.setCheckedList}
+            Checklist={props.Checklist}
+            studentslist={props.studentslist}
+          />
         </Contents>
       </ModalWrap>
     </Overlay>
@@ -85,14 +88,15 @@ const Contents = styled.div`
   }
 `;
 const Button = styled.button`
+  margin: 15px auto auto;
+  display: block;
   font-size: 14px;
   padding: 10px 20px;
   border: none;
-  background-color: #ababab;
+  background-color: #2e462f;
   border-radius: 10px;
   color: white;
-  font-style: italic;
-  font-weight: 200;
+  font-weight: 600;
   cursor: pointer;
   &:hover {
     background-color: #898989;
