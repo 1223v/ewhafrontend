@@ -3,9 +3,10 @@ import styled from "styled-components";
 import StudentList from "./Sections/StudentList";
 
 function StudentAddModal({ onClose }) {
-  const [isChecked, setIsChecked] = useState(false);
+  const [Liststudent, setListstudent] = useState([]);
   function handleData(data) {
     console.log(data);
+    setListstudent(data);
   }
   const handleClose = () => {
     onClose?.();
@@ -31,7 +32,7 @@ function StudentAddModal({ onClose }) {
           <StudentList
             onClose={onClose}
             onData={handleData}
-            isChecked={isChecked}
+            data={Liststudent}
           />
         </Contents>
       </ModalWrap>

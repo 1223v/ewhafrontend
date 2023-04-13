@@ -1,36 +1,22 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 
 function StudentList(props) {
-  const [Studentcheck, setStudentcheck] = useState([]);
+  const [checkedList, setCheckedList] = useState([]);
+  // 1️⃣ onChange함수를 사용하여 이벤트 감지, 필요한 값 받아오기
 
   const handleClose = () => {
     props.onClose?.();
-    props.onData(Studentcheck);
+    props.onData(checkedList);
+    console.log(checkedList);
   };
 
-  const handleChange = (event) => {
-    const { name, id, value } = event.target;
-
-    const data = event.target.getAttribute("data");
-
-    console.log(event.target.checked);
-    if (event.target.checked) {
-      setStudentcheck((prevState) => ({
-        ...prevState,
-
-        [id]: { value, data, name },
-      }));
-    } else {
-      deleteNumber(id);
+  const onCheckedElement = (checked, item) => {
+    if (checked) {
+      setCheckedList([...checkedList, item]);
+    } else if (!checked) {
+      setCheckedList(checkedList.filter((el) => el !== item));
     }
-  };
-
-  const deleteNumber = (num) => {
-    const newUsers = { ...Studentcheck };
-    delete newUsers[num];
-    setStudentcheck(newUsers);
-    console.log("Deleted user:", newUsers);
   };
 
   const studentslist = [
@@ -59,6 +45,7 @@ function StudentList(props) {
         "https://media.istockphoto.com/photos/portrait-of-smiling-mixed-race-woman-looking-at-camera-picture-id1319763830?b=1&k=20&m=1319763830&s=170667a&w=0&h=wE44n9yP1nrefeqv5DCl5mE3ouU01FNNHeZPR0yDCWA=",
     },
   ];
+
   return (
     <div>
       <div className="flex flex-col">
@@ -101,14 +88,21 @@ function StudentList(props) {
                         <td className="px-6 py-4 text-sm font-medium text-gray-800 whitespace-nowrap">
                           <div className="flex items-center h-5">
                             <input
-                              id={student.num}
                               type="checkbox"
                               className="text-blue-600 border-gray-200 rounded focus:ring-blue-500"
-                              name={student.name}
-                              value={student.email}
+                              value={student.name}
                               data={student.major}
-                              onChange={handleChange}
-                              checked={props.isChecked}
+                              checked={
+                                checkedList.includes(student.name)
+                                  ? true
+                                  : false
+                              }
+                              onChange={(e) => {
+                                onCheckedElement(
+                                  e.target.checked,
+                                  e.target.value
+                                );
+                              }}
                             />
                             <label htmlFor="checkbox" className="sr-only">
                               Checkbox
