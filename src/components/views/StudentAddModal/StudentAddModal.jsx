@@ -2,14 +2,10 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import StudentList from "./Sections/StudentList";
 
-function StudentAddModal({ onClose }) {
-  const [Liststudent, setListstudent] = useState([]);
-  function handleData(data) {
-    console.log(data);
-    setListstudent(data);
-  }
+function StudentAddModal(props) {
+  const [checkedList, setCheckedList] = useState([]);
   const handleClose = () => {
-    onClose?.();
+    props.onClose?.();
   };
   useEffect(() => {
     const $body = document.querySelector("body");
@@ -30,9 +26,11 @@ function StudentAddModal({ onClose }) {
           <h2>학생 명단</h2>
 
           <StudentList
-            onClose={onClose}
-            onData={handleData}
-            data={Liststudent}
+            onClose={props.onClose}
+            onData={props.onData}
+            setCheckedList={props.setCheckedList}
+            Checklist={props.Checklist}
+            studentslist={props.studentslist}
           />
         </Contents>
       </ModalWrap>

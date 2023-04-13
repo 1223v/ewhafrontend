@@ -16,9 +16,9 @@ function LandingPage() {
   let userinfo = [
     {
       id: "1223v",
-      name: "노윤서",
-      role: "서양화전공",
-      img: "https://mblogthumb-phinf.pstatic.net/MjAyMjA2MDVfMjk0/MDAxNjU0Mzc3NDAwMDY2.fpzyHUUMYtTHrvXHnDZBLZDjWrHwh_RuDOB_iXowzMcg.tIADVzejBdjUnkt_TEDGKtD_lpFGrabxZzNYEwXtb8Qg.JPEG.idujh/img_(1).jpg?type=w800",
+      name: "김남형",
+      role: "한일 번역",
+      img: "https://cdn-icons-png.flaticon.com/512/17/17797.png",
     },
   ];
 

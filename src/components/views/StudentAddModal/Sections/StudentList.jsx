@@ -2,49 +2,26 @@ import React, { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 
 function StudentList(props) {
-  const [checkedList, setCheckedList] = useState([]);
+  const [studentslist, setstudentslist] = useState([]);
   // 1️⃣ onChange함수를 사용하여 이벤트 감지, 필요한 값 받아오기
 
   const handleClose = () => {
     props.onClose?.();
-    props.onData(checkedList);
-    console.log(checkedList);
+    props.onData(props.Checklist);
+    console.log(props.Checklist);
   };
 
-  const onCheckedElement = (checked, item, item2) => {
+  const onCheckedElement = (checked, item) => {
     if (checked) {
-      setCheckedList([...checkedList, item]);
+      props.setCheckedList([...props.Checklist, item]);
     } else if (!checked) {
-      setCheckedList(checkedList.filter((el) => el !== item));
+      props.setCheckedList(props.Checklist.filter((el) => el !== item));
     }
   };
 
-  const studentslist = [
-    {
-      num: 1,
-      name: "김남형",
-      major: "한일번역",
-      email: "jane.cooper@example.com",
-      image:
-        "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=4&w=256&h=256&q=60",
-    },
-    {
-      num: 2,
-      name: "조현식",
-      major: "한일번역",
-      email: "john.doe@example.com",
-      image:
-        "https://images.unsplash.com/flagged/photo-1570612861542-284f4c12e75f?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8cGVyc29ufGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=400&q=60",
-    },
-    {
-      num: 3,
-      name: "Veronica Lodge",
-      major: " Software Engineer",
-      email: "veronica.lodge@example.com",
-      image:
-        "https://media.istockphoto.com/photos/portrait-of-smiling-mixed-race-woman-looking-at-camera-picture-id1319763830?b=1&k=20&m=1319763830&s=170667a&w=0&h=wE44n9yP1nrefeqv5DCl5mE3ouU01FNNHeZPR0yDCWA=",
-    },
-  ];
+  useEffect(() => {
+    setstudentslist(props.studentslist);
+  }, []);
 
   return (
     <div>
@@ -90,19 +67,17 @@ function StudentList(props) {
                             <input
                               type="checkbox"
                               className="text-blue-600 border-gray-200 rounded focus:ring-blue-500"
-                              value={student.name}
-                              name={student.email}
-                              data={student.major}
+                              value={student.email}
+                              id={student.major}
                               checked={
-                                checkedList.includes(student.name)
+                                props.Checklist.includes(student.email)
                                   ? true
                                   : false
                               }
                               onChange={(e) => {
                                 onCheckedElement(
                                   e.target.checked,
-                                  e.target.value,
-                                  e.target.name
+                                  e.target.value
                                 );
                               }}
                             />
