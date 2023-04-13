@@ -1,29 +1,6 @@
 import React from "react";
 
-function LectureListPage() {
-  const people = [
-    {
-      num: 1,
-      name: "김남형",
-      major: "한일번역",
-      email: "jane.cooper@example.com",
-      image: "https://cdn-icons-png.flaticon.com/512/17/17797.png",
-    },
-    {
-      num: 2,
-      name: "조현식",
-      major: "한일번역",
-      email: "john.doe@example.com",
-      image: "https://cdn-icons-png.flaticon.com/512/17/17797.png",
-    },
-    {
-      num: 3,
-      name: "Veronica Lodge",
-      major: " Software Engineer",
-      email: "veronica.lodge@example.com",
-      image: "https://cdn-icons-png.flaticon.com/512/17/17797.png",
-    },
-  ];
+function LectureListPage(props) {
   return (
     <div>
       <div style={{ marginTop: "50px" }}>
@@ -50,7 +27,7 @@ function LectureListPage() {
                     </tr>
                   </thead>
                   <tbody className="bg-white divide-y divide-gray-200">
-                    {people.map((person) => (
+                    {props.Liststudent.map((person) => (
                       <tr key={person.email}>
                         <td className="px-6 py-4 whitespace-nowrap">
                           <div className="flex items-center">

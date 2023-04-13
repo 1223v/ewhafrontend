@@ -49,6 +49,7 @@ function LectureAddPage() {
       );
       CheckedStudentsList.push(CheckedStudentList[0][0]);
     }
+    setListstudent(CheckedStudentsList);
     console.log(CheckedStudentsList);
   }
 
@@ -203,7 +204,7 @@ function LectureAddPage() {
             </LectureName2>
           </LectureNameDiv>
           <div>
-            <LectureListPage />
+            <LectureListPage Liststudent={Liststudent} />
           </div>
         </div>
       </LectureAddFormDiv>

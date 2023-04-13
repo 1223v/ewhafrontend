@@ -3,7 +3,6 @@ import styled from "styled-components";
 import StudentList from "./Sections/StudentList";
 
 function StudentAddModal(props) {
-  const [checkedList, setCheckedList] = useState([]);
   const handleClose = () => {
     props.onClose?.();
   };
