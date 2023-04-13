@@ -11,7 +11,7 @@ function StudentList(props) {
     console.log(checkedList);
   };
 
-  const onCheckedElement = (checked, item) => {
+  const onCheckedElement = (checked, item, item2) => {
     if (checked) {
       setCheckedList([...checkedList, item]);
     } else if (!checked) {
@@ -91,6 +91,7 @@ function StudentList(props) {
                               type="checkbox"
                               className="text-blue-600 border-gray-200 rounded focus:ring-blue-500"
                               value={student.name}
+                              name={student.email}
                               data={student.major}
                               checked={
                                 checkedList.includes(student.name)
@@ -100,7 +101,8 @@ function StudentList(props) {
                               onChange={(e) => {
                                 onCheckedElement(
                                   e.target.checked,
-                                  e.target.value
+                                  e.target.value,
+                                  e.target.name
                                 );
                               }}
                             />
