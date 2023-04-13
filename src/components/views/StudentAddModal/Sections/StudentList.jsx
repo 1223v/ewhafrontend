@@ -7,8 +7,6 @@ function StudentList(props) {
 
   const handleClose = () => {
     props.onClose?.();
-    props.onData(props.Checklist);
-    console.log(props.Checklist);
   };
 
   const onCheckedElement = (checked, item) => {

@@ -26,7 +26,6 @@ function StudentAddModal(props) {
 
           <StudentList
             onClose={props.onClose}
-            onData={props.onData}
             setCheckedList={props.setCheckedList}
             Checklist={props.Checklist}
             studentslist={props.studentslist}

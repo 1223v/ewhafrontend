@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import NavBar from "../NavBar/NavBar";
 import LectureListPage from "./Sections/LectureListPage";
@@ -40,18 +40,22 @@ function LectureAddPage() {
     setIsOpen(true);
   };
 
-  function handleData(data) {
+  const onRemove = (item) => {
+    setCheckedList(checkedList.filter((el) => el !== item));
+  };
+
+  useEffect(() => {
     const CheckedStudentList = [];
     const CheckedStudentsList = [];
-    for (let i = 0; i < data.length; i++) {
+    for (let i = 0; i < checkedList.length; i++) {
       CheckedStudentList[0] = studentslist.filter(
-        (obj) => obj.email === data[i]
+        (obj) => obj.email === checkedList[i]
       );
       CheckedStudentsList.push(CheckedStudentList[0][0]);
     }
+
     setListstudent(CheckedStudentsList);
-    console.log(CheckedStudentsList);
-  }
+  }, [checkedList]);
 
   return (
     <LectureBackgroudDiv>
@@ -192,7 +196,6 @@ function LectureAddPage() {
               {isOpen && (
                 <StudentAddModal
                   open={isOpen}
-                  onData={handleData}
                   setCheckedList={setCheckedList}
                   Checklist={checkedList}
                   studentslist={studentslist}
@@ -204,7 +207,7 @@ function LectureAddPage() {
             </LectureName2>
           </LectureNameDiv>
           <div>
-            <LectureListPage Liststudent={Liststudent} />
+            <LectureListPage Liststudent={Liststudent} onRemove={onRemove} />
           </div>
         </div>
       </LectureAddFormDiv>

@@ -24,6 +24,10 @@ function LectureListPage(props) {
                       >
                         전공
                       </th>
+                      <th
+                        scope="col"
+                        className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                      ></th>
                     </tr>
                   </thead>
                   <tbody className="bg-white divide-y divide-gray-200">
@@ -51,6 +55,14 @@ function LectureListPage(props) {
 
                         <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                           {person.major}
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap">
+                          <span
+                            className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800"
+                            onClick={() => props.onRemove(person.email)}
+                          >
+                            X
+                          </span>
                         </td>
                       </tr>
                     ))}
