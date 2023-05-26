@@ -10,6 +10,8 @@ import ProbSubmitList from "./views/ProbSubmitList/ProbSubmitList";
 import Prob from "./views/Prob/Prob";
 import LectureAddPage from "./views/LectureAddPage/LectureAddPage";
 import Test from "./views/LandingPage/Section/Test";
+import ProbAddPage from "./views/ProbAddPage/ProbAddPage";
+import ProbFeedbackPage from "./views/ProbFeedbackPage/ProbFeedbackPage"
 
 function App() {
   const NewLandingPage = Auth(LandingPage, true);
@@ -18,6 +20,8 @@ function App() {
   const NewProbSubmitList = Auth(ProbSubmitList, true);
   const NewProb = Auth(Prob, true);
   const NewLectureAddPage = Auth(LectureAddPage, true);
+const NewProbAddPage = Auth(ProbAddPage, true);
+  const NewProbFeedbackPage = Auth(ProbFeedbackPage, true);
   const NewTest = Auth(Test, true);
 
   return (
@@ -29,7 +33,8 @@ function App() {
         <Route path="/prob" element={<NewProb />} />
         <Route path="/prob_submit_list" element={<NewProbSubmitList />} />
         <Route path="/lecture_add" element={<NewLectureAddPage />} />
-
+		<Route path="/prob_add" element={<NewProbAddPage />} />
+		  <Route path="/prob_feedback" element={<NewProbFeedbackPage />} />
         <Route path="/test" element={<NewTest />} />
       </Routes>
     </div>
