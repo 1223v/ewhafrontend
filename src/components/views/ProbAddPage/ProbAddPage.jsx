@@ -1,62 +1,8 @@
 import React, { useEffect, useState } from "react";
-import styled from "styled-components";
 import NavBar from "../NavBar/NavBar";
-import LectureListPage from "./Sections/LectureListPage";
-import StudentAddModal from "../StudentAddModal/StudentAddModal";
+import styled from "styled-components";
 
-function LectureAddPage() {
-  const [isOpen, setIsOpen] = useState(false);
-  const [checkedList, setCheckedList] = useState([]);
-  const [Liststudent, setListstudent] = useState([]);
-
-  const studentslist = [
-    {
-      num: 1,
-      name: "김남형",
-      major: "한일번역",
-      email: "jane.cooper@example.com",
-      image:
-        "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=4&w=256&h=256&q=60",
-    },
-    {
-      num: 2,
-      name: "조현식",
-      major: "한일번역",
-      email: "john.doe@example.com",
-      image:
-        "https://images.unsplash.com/flagged/photo-1570612861542-284f4c12e75f?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8cGVyc29ufGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=400&q=60",
-    },
-    {
-      num: 3,
-      name: "Veronica Lodge",
-      major: " Software Engineer",
-      email: "veronica.lodge@example.com",
-      image:
-        "https://media.istockphoto.com/photos/portrait-of-smiling-mixed-race-woman-looking-at-camera-picture-id1319763830?b=1&k=20&m=1319763830&s=170667a&w=0&h=wE44n9yP1nrefeqv5DCl5mE3ouU01FNNHeZPR0yDCWA=",
-    },
-  ];
-
-  const onClickButton = () => {
-    setIsOpen(true);
-  };
-
-  const onRemove = (item) => {
-    setCheckedList(checkedList.filter((el) => el !== item));
-  };
-
-  useEffect(() => {
-    const CheckedStudentList = [];
-    const CheckedStudentsList = [];
-    for (let i = 0; i < checkedList.length; i++) {
-      CheckedStudentList[0] = studentslist.filter(
-        (obj) => obj.email === checkedList[i]
-      );
-      CheckedStudentsList.push(CheckedStudentList[0][0]);
-    }
-
-    setListstudent(CheckedStudentsList);
-  }, [checkedList]);
-
+function ProbAddPage() {
   return (
     <LectureBackgroudDiv>
       <NavBar />
@@ -85,11 +31,11 @@ function LectureAddPage() {
             </svg>
           </a>
         </LectureBackDiv>
-        <LectureTitleDiv>강의 생성하기</LectureTitleDiv>
+        <LectureTitleDiv>과제 생성하기</LectureTitleDiv>
       </div>
       <LectureAddFormDiv>
         <LectureNameDiv>
-          <LectureName>강의명</LectureName>
+          <LectureName>과제 명</LectureName>
           <LectureNameinputDiv>
             <LectureNameinput
               type="text"
@@ -101,37 +47,48 @@ function LectureAddPage() {
         </LectureNameDiv>
         <hr style={{ background: "#d3d3d3", height: "1px", border: "0" }} />
         <LectureNameDiv>
-          <LectureName>학습 연도</LectureName>
+          <LectureName>과제 주차</LectureName>
           <LectureNameinputDiv style={{ marginTop: "10px" }}>
             <select
               id="countries"
               class="bg-white-50 border border-green-800 text-gray-900 text-sm rounded-lg focus:ring-green-500 focus:border-green-500 block w-full p-2.5 dark:bg-white-700 dark:border-white-600 dark:placeholder-white-400 dark:text-black dark:focus:ring-green-500 dark:focus:border-green-500"
             >
-              <option value="2024">2024 년</option>
-              <option value="2023">2023 년</option>
-              <option value="2022">2022 년</option>
-              <option value="2021">2021 년</option>
+              <option value="1">1주차</option>
+              <option value="2">2주차</option>
+              <option value="3">3주차</option>
+              <option value="4">4주차</option>
+              <option value="5">5주차</option>
+              <option value="6">6주차</option>
+              <option value="7">7주차</option>
+              <option value="8">8주차</option>
+              <option value="9">9주차</option>
+              <option value="11">10주차</option>
+              <option value="11">11주차</option>
+              <option value="12">12주차</option>
+              <option value="13">13주차</option>
+              <option value="14">14주차</option>
+              <option value="15">15주차</option>
+              <option value="16">16주차</option>
             </select>
           </LectureNameinputDiv>
         </LectureNameDiv>
         <hr style={{ background: "#d3d3d3", height: "1px", border: "0" }} />
         <LectureNameDiv>
-          <LectureName>학습 학기</LectureName>
+          <LectureName>과제 종류</LectureName>
           <LectureNameinputDiv style={{ marginTop: "10px" }}>
             <select
               id="countries"
               class="bg-white-50 border border-green-800 text-gray-900 text-sm rounded-lg focus:ring-green-500 focus:border-green-500 block w-full p-2.5 dark:bg-white-700 dark:border-white-600 dark:placeholder-white-400 dark:text-black dark:focus:ring-green-500 dark:focus:border-green-500"
             >
-              <option value="1학기">1학기</option>
-              <option value="2학기">2학기</option>
-              <option value="여름학기">여름학기</option>
-              <option value="겨울학기">겨울학기</option>
+              <option value="순차 통역">순차 통역</option>
+              <option value="동시 통역">동시 통역</option>
+              <option value="번역">번역</option>
             </select>
           </LectureNameinputDiv>
         </LectureNameDiv>
         <hr style={{ background: "#d3d3d3", height: "1px", border: "0" }} />
         <LectureNameDiv>
-          <LectureName>개설 전공</LectureName>
+          <LectureName>출발 언어</LectureName>
           <LectureNameinputDiv style={{ marginTop: "10px" }}>
             <select
               id="countries"
@@ -150,7 +107,7 @@ function LectureAddPage() {
         </LectureNameDiv>
         <hr style={{ background: "#d3d3d3", height: "1px", border: "0" }} />
         <LectureNameDiv>
-          <LectureName>학습 분반</LectureName>
+          <LectureName>과제 기한</LectureName>
           <LectureNameinputDiv style={{ marginTop: "10px" }}>
             <select
               id="countries"
@@ -171,7 +128,7 @@ function LectureAddPage() {
         </LectureNameDiv>
         <hr style={{ background: "#d3d3d3", height: "1px", border: "0" }} />
         <LectureNameDiv>
-          <LectureName>담당교수</LectureName>
+          <LectureName>과제 설명</LectureName>
           <LectureNameinputDiv>
             <LectureNameinput
               type="text"
@@ -182,30 +139,6 @@ function LectureAddPage() {
           </LectureNameinputDiv>
         </LectureNameDiv>
         <hr style={{ background: "#d3d3d3", height: "1px", border: "0" }} />
-        <div>
-          <LectureNameDiv>
-            <LectureName>수강생 명단</LectureName>
-            <LectureName2>
-              <StudentAddButton onClick={onClickButton}>
-                + 추가
-              </StudentAddButton>
-              {isOpen && (
-                <StudentAddModal
-                  open={isOpen}
-                  setCheckedList={setCheckedList}
-                  Checklist={checkedList}
-                  studentslist={studentslist}
-                  onClose={() => {
-                    setIsOpen(false);
-                  }}
-                />
-              )}
-            </LectureName2>
-          </LectureNameDiv>
-          <div>
-            <LectureListPage Liststudent={Liststudent} onRemove={onRemove} />
-          </div>
-        </div>
       </LectureAddFormDiv>
       <LectureCreateDiv>
         <LectureCreateButton>생성하기</LectureCreateButton>
@@ -214,7 +147,7 @@ function LectureAddPage() {
   );
 }
 
-export default LectureAddPage;
+export default ProbAddPage;
 
 const LectureBackgroudDiv = styled.div`
   background-color: #f7f7fa;
