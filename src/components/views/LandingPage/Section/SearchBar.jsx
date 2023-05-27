@@ -30,7 +30,7 @@ function SearchBar(props) {
           type="text"
           value={searchTerm}
           onChange={handleChange}
-          placeholder="아이디를 검색하세요."
+          placeholder="강의를 검색하세요."
         />
         <ul>
           {searchResults.map((result) => (

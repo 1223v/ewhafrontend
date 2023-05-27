@@ -34,6 +34,7 @@ function App() {
         <Route path="/prob" element={<NewProb />} />
         <Route path="/prob_submit_list" element={<NewProbSubmitList />} />
         <Route path="/lecture_add" element={<NewLectureAddPage />} />
+
         <Route path="/prob_add" element={<NewProbAddPage />} />
         <Route path="/prob_feedback" element={<NewProbFeedbackPage />} />
 
