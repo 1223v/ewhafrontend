@@ -16,6 +16,7 @@
       user's mobile device or desktop. See https://developers.google.com/web/fundamentals/web-app-manifest/
     -->
     <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
+	  
     <script
       src="https://kit.fontawesome.com/3f61cdcb91.js"
       crossorigin="anonymous"
@@ -38,8 +39,12 @@
   </head>
 
   <body>
-    <noscript>You need to enable JavaScript to run this app.</noscript>
+   
     <div id="root"></div>
+	   <script
+      type="text/javascript"
+      src="//dapi.kakao.com/v2/maps/sdk.js?appkey=fee994db012d84bb62731171a36af0e6&libraries=services"></script>
+	  <script src="https://textae.pubannotation.org/lib/textae.min.js"></script>
     <div id="modal"></div>
 
     <!-- 아래와 같이 정적 컨텐츠로 들어갈 경우만 가능 가상돔 환경은 불가능 -->
