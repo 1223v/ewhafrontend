@@ -93,7 +93,7 @@ const TextAEEditor = () => {
 	return (
 		<div>
 		
-			<div id="textae" className="textae-editor" mode="edit"></div>
+			<div id="textae" className="textae-editor" mode="edit" target="https://raw.githubusercontent.com/pubannotation/textae/gh-pages/examples/textae-annotation-example-1.json"></div>
 			
 		</div>
 	);

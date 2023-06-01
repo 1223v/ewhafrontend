@@ -17,12 +17,12 @@ function ProbFeedbackPage() {
 				<Translation>
 					<h4>원문</h4>
 					<TranslationBox>
-						<TextAEEditor />
+						test
 					</TranslationBox>
 				</Translation>
 				<Interpretation>
 					<h4>통역 전사문</h4>
-					<InterpretationBox>test</InterpretationBox>
+					<InterpretationBox><TextAEEditor /></InterpretationBox>
 				</Interpretation>
 
 				<Feedback>
@@ -38,6 +38,7 @@ function ProbFeedbackPage() {
 
 			<LectureCreateDiv>
 				<LectureCreateButton onClick={onClickButton}>그래프 보기</LectureCreateButton>
+				<LectureCreateButton onClick={onClickButton}>저장하기</LectureCreateButton>
 			</LectureCreateDiv>
 
 			<BottomSheetSection open={open} setOpen={setOpen} />

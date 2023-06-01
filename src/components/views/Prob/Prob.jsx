@@ -2,8 +2,10 @@ import React, { useState } from "react";
 import NavBar from "../NavBar/NavBar";
 import styled from "styled-components";
 import Modal from "../Modal/Modal";
+import { Link, useNavigate } from "react-router-dom";
 
 function Prob() {
+	let navigate = useNavigate();
   const [isOpen, setIsOpen] = useState(false);
   const [Weeklist, setWeeklist] = useState("");
   let weeks = [
@@ -165,10 +167,8 @@ function Prob() {
                           {week.number}주차 과제
                         </td>
                         <td className="px-6 py-4 text-sm font-medium float-right text-right whitespace-nowrap">
-                          <a
-                            className="text-green-500 hover:text-green-700"
-                            href="#"
-                          >
+                          <Link to="/prob_add" className="text-green-500 hover:text-green-700">
+							
                             <svg
                               fill="none"
                               className="object-center"
@@ -186,7 +186,7 @@ function Prob() {
                                 d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m3.75 9v6m3-3H9m1.5-12H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z"
                               ></path>
                             </svg>
-                          </a>
+                          </Link>
                         </td>
                         <td className="px-6 py-4 text-sm font-medium text-center whitespace-nowrap mx-auto">
                           <Button onClick={onClickButton} data={week.number}>
