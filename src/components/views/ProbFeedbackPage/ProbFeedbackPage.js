@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import NavBar from '../NavBar/NavBar';
 import styled from 'styled-components';
 import TextAEEditor from './Sections/TextAEEditor';
@@ -6,9 +6,21 @@ import BottomSheetSection from './Sections/BottomSheetSection';
 
 function ProbFeedbackPage() {
 	const [open, setOpen] = useState(false);
+	const [Load, setLoad] = useState(false);
+	const [Content, setContent] = useState("");
+	
+	
+	
 	const onClickButton = () => {
 		console.log('hello');
 		setOpen(true);
+	};
+	
+	const onSaveButton = () => {
+		
+		setLoad(!(Load));
+		console.log(Content);
+		
 	};
 	return (
 		<div>
@@ -22,7 +34,7 @@ function ProbFeedbackPage() {
 				</Translation>
 				<Interpretation>
 					<h4>통역 전사문</h4>
-					<InterpretationBox><TextAEEditor /></InterpretationBox>
+					<InterpretationBox><TextAEEditor Load={Load} setContent={setContent}/></InterpretationBox>
 				</Interpretation>
 
 				<Feedback>
@@ -38,7 +50,7 @@ function ProbFeedbackPage() {
 
 			<LectureCreateDiv>
 				<LectureCreateButton onClick={onClickButton}>그래프 보기</LectureCreateButton>
-				<LectureCreateButton onClick={onClickButton}>저장하기</LectureCreateButton>
+				<LectureCreateButton onClick={onSaveButton}>저장하기</LectureCreateButton>
 			</LectureCreateDiv>
 
 			<BottomSheetSection open={open} setOpen={setOpen} />
