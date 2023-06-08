@@ -1,10 +1,62 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { BottomSheet } from 'react-spring-bottom-sheet';
 import 'react-spring-bottom-sheet/dist/style.css';
 import { GrClose } from 'react-icons/gr';
 import styled from 'styled-components';
+import ReactApexChart from 'react-apexcharts';
 
 function BottomSheetSection(props) {
+	const donutData = {
+		series: [30, 40, 5, 15, 10],
+		options: {
+			chart: {
+				type: 'donut',
+			},
+			legend: {
+				position: 'bottom',
+			},
+			responsive: [
+				{
+					breakpoint: 480,
+				},
+			],
+			plotOptions: {
+				pie: {
+					donut: {
+						// hollow: {
+						//   margin: 15,
+						//   size: '70%',
+						//   image: '../../css/images/a-icon.jpg',
+						//   imageWidth: 64,
+						//   imageHeight: 64,
+						//   imageClipped: false
+						// },
+						labels: {
+							show: true,
+							total: {
+								showAlways: true,
+								show: true,
+								label: 'FeedBack',
+								fontSize: '12px',
+								color: 'red',
+							},
+							value: {
+								fontSize: '22px',
+								show: true,
+								color: 'blue',
+							},
+						},
+					},
+				},
+			},
+			labels: ['내용 오역', '불필요한 첨가', '일관성 문제', '표현 어색', '칭찬'],
+			title: {
+				text: '피드백별 통계',
+				align: 'center',
+			},
+		},
+	};
+
 	const onClose = () => {
 		props.setOpen(false);
 	};
@@ -16,24 +68,28 @@ function BottomSheetSection(props) {
 				onDismiss={onClose}
 				header={
 					<StyledBottomSheetHeader>
-						<div className="sheetHeader">test</div>{' '}
+						<div className="sheetHeader">Chart</div>
 						<GrClose size="23" onClick={onClose} />
 					</StyledBottomSheetHeader>
 				}
-				snapPoints={({ maxHeight }) => 0.9 * maxHeight}
+				snapPoints={({ maxHeight }) => 0.6 * maxHeight}
 			>
 				<div
 					style={{
-						height: '50vh',
+						height: '70vh',
 					}}
 				>
 					<StyledNewWishList>
 						<StyledButtonWrapper>
 							<ParkingInDiv>
-								<ParkingInChildDiv>주차 :</ParkingInChildDiv>
-							</ParkingInDiv>
-							<ParkingInDiv>
-								<ParkingInChildDiv>출차 예정 :</ParkingInChildDiv>
+								<div id="chart">
+									<ReactApexChart
+										options={donutData.options}
+										series={donutData.series}
+										type="donut"
+										width="500"
+									/>
+								</div>
 							</ParkingInDiv>
 						</StyledButtonWrapper>
 					</StyledNewWishList>

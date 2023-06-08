@@ -13,6 +13,7 @@ import Test from "./views/LandingPage/Section/Test";
 import ProbAddPage from "./views/ProbAddPage/ProbAddPage";
 import ProbFeedbackPage from "./views/ProbFeedbackPage/ProbFeedbackPage";
 import TextAEEditor from "./views/ProbFeedbackPage/Sections/TextAEEditor";
+import Audio from "./views/Audio/Audio"
 
 function App() {
   const NewLandingPage = Auth(LandingPage, true);
