@@ -1,4 +1,4 @@
-import React, { useState,useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import NavBar from '../NavBar/NavBar';
 import styled from 'styled-components';
 import TextAEEditor from './Sections/TextAEEditor';
@@ -7,34 +7,33 @@ import BottomSheetSection from './Sections/BottomSheetSection';
 function ProbFeedbackPage() {
 	const [open, setOpen] = useState(false);
 	const [Load, setLoad] = useState(false);
-	const [Content, setContent] = useState("");
-	
-	
-	
+	const [Content, setContent] = useState('');
+
 	const onClickButton = () => {
 		console.log('hello');
 		setOpen(true);
 	};
-	
+
 	const onSaveButton = () => {
-		
-		setLoad(!(Load));
-		console.log(Content);
-		
+		setLoad(!Load);
 	};
+
+	useEffect(() => {
+		console.log(Content);
+	}, [Content]);
 	return (
 		<div>
 			<NavBar />
 			<FeedbackDiv>
 				<Translation>
 					<h4>원문</h4>
-					<TranslationBox>
-						test
-					</TranslationBox>
+					<TranslationBox>test</TranslationBox>
 				</Translation>
 				<Interpretation>
 					<h4>통역 전사문</h4>
-					<InterpretationBox><TextAEEditor Load={Load} setContent={setContent}/></InterpretationBox>
+					<InterpretationBox>
+						<TextAEEditor Load={Load} setContent={setContent} />
+					</InterpretationBox>
 				</Interpretation>
 
 				<Feedback>
@@ -167,14 +166,14 @@ const LectureCreateButton = styled.button`
 `;
 
 const LectureCreateDiv = styled.div`
-  position: fixed;
-  bottom: 0px;
-  z-index: 2;
-  display: flex;
-  -webkit-box-align: center;
-  align-items: center;
-  width: 100%;
-  height: 4rem;
-  background: rgb(255, 255, 255);
-  box-shadow: rgb(232, 232, 238) 0px 1px 0px inset;
+	position: fixed;
+	bottom: 0px;
+	z-index: 2;
+	display: flex;
+	-webkit-box-align: center;
+	align-items: center;
+	width: 100%;
+	height: 4rem;
+	background: rgb(255, 255, 255);
+	box-shadow: rgb(232, 232, 238) 0px 1px 0px inset;
 `;

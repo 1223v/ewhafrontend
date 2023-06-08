@@ -2,23 +2,41 @@
 import React, { useEffect, useState, useRef } from 'react';
 import useScript from '../../../../hooks/useScript';
 import styled, { keyframes } from 'styled-components';
+import Axios from 'axios';
 
 const TextAEEditor = (props) => {
 	const [Textae, setTextae] = useState('');
-	const [Url,setUrl] = useState("");
+	const [Url, setUrl] = useState("");
 	const elementRef = useRef(null);
-	
 
 	useEffect(() => {
 		let id = elementRef.current.textContent;
-		console.log(id);
-		props.setContent(id);
+
+		props.setContent(elementRef.current.textContent);
 	}, [props.Load]);
 
 	useEffect(() => {
-		setUrl("https://raw.githubusercontent.com/pubannotation/textae/gh-pages/examples/textae-annotation-example-1.json");
-		var initializeTextAEEditor = window.initializeTextAEEditor;
-		initializeTextAEEditor('#textae-editor');
+		setTimeout(() => {
+			var initializeTextAEEditor = window.initializeTextAEEditor;
+			initializeTextAEEditor('#textae-editor');
+		}, 2000);
+	}, [Url]);
+
+	useEffect(() => {
+		Axios.get('https://edu-trans.ewha.ac.kr:8443/r_feedback', {
+            withCredentials: true,
+        })
+			.then((response) => {
+				// 요청이 성공한 경우의 처리
+				console.log(response.data.url);
+				setUrl(response.data.url);
+			})
+
+			.catch((error) => {
+				// 요청이 실패한 경우의 처리
+				console.error(error);
+			});
+		//setUrl("https://edu-trans.ewha.ac.kr:8443/upload/95cb2cec-8c0e-4782-b84f-9335d81ea3d6.json");
 	}, []);
 
 	return (
@@ -27,7 +45,7 @@ const TextAEEditor = (props) => {
 				id="textae"
 				className="textae-editor"
 				mode="edit"
-				target="https://raw.githubusercontent.com/pubannotation/textae/gh-pages/examples/textae-annotation-example-1.json"
+				target={Url}
 				inspect="annotation"
 			></div>
 			<div id="annotation" ref={elementRef}></div>
