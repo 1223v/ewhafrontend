@@ -5,23 +5,31 @@ import Audio from '../Audio';
 
 const fileTypes = ['wav', 'mp3'];
 
-function DragNDrop() {
-	const [file, setFile] = useState(null);
-	const handleChange = (file) => {
-		setFile(file);
+function DragNDrop(props) {
+	
+	const handleChange = (fileURL) => {
+		
+
+		// 파일 경로 출력
+		console.log('업로드된 파일 경로:', fileURL);
+		props.setUrlfile(URL.createObjectURL(fileURL));
 	};
 	return (
 		<div>
 			<DragDrop>
-				<FileUploader
-					multiple={true}
-					handleChange={handleChange}
-					name="file"
-					types={fileTypes}
-				/>
-				<p>{file ? `File name: ${file[0].name}` : 'no files uploaded yet'}</p>
+				<p>
+					{props.Urlfile ? (
+						<Audio style={{ margin: '10px 10px auto' }} soundtrack={props.Urlfile} />
+					) : (
+						<FileUploader
+							multiple={false}
+							handleChange={handleChange}
+							name="file"
+							types={fileTypes}
+						/>
+					)}
+				</p>
 			</DragDrop>
-			<Audio style={{margin: '10px 10px auto'}} />
 		</div>
 	);
 }
@@ -35,7 +43,7 @@ const DragDrop = styled.div`
 	justify-content: center;
 	align-items: center;
 	flex-direction: column;
-	margin-top: 80px;
+	
 
 	& > label {
 		min-width: 450px;
@@ -45,7 +53,7 @@ const DragDrop = styled.div`
 
 	@media screen and (max-width: 768px) {
 		& > label {
-			min-width: 300px;
+			min-width: auto;
 			box-sizing: border-box;
 		}
 	}

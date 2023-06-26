@@ -24,7 +24,7 @@ function App() {
   const NewLectureAddPage = Auth(LectureAddPage, true);
   const NewProbAddPage = Auth(ProbAddPage, true);
   const NewProbFeedbackPage = Auth(ProbFeedbackPage, true);
-  const NewTest = Auth(TextAEEditor, true);
+  const NewTest = Auth(Audio, true);
 
   return (
     <div className="App">
