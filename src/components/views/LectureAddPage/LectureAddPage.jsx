@@ -230,7 +230,7 @@ const LectureAddFormDiv = styled.div`
   width: 800px;
   height: 80%;
   @media screen and (max-width: 768px) {
-    width: 320px;
+    width: auto;
   }
 `;
 
@@ -303,7 +303,7 @@ const LectureName = styled.div`
 const LectureCreateDiv = styled.div`
   position: fixed;
   bottom: 0px;
-  z-index: 2;
+  z-index: 8;
   display: flex;
   -webkit-box-align: center;
   align-items: center;

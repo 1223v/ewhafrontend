@@ -12,6 +12,8 @@ import RegionsPlugin from "wavesurfer.js/dist/plugin/wavesurfer.regions.min";
 import TimelinePlugin from "wavesurfer.js/dist/plugin/wavesurfer.timeline.min";
 import MarkersPlugin from "wavesurfer.js/src/plugin/markers";
 
+//https://velog.io/@seorim0801/react%EB%A1%9C-%EC%9D%8C%EC%84%B1-%EB%85%B9%EC%9D%8C-%EA%B8%B0%EB%8A%A5%EC%9D%84-%EA%B5%AC%ED%98%84%ED%95%B4%EB%B3%B4%EC%9E%90
+
 const Buttons = styled.div`
   display: inline-block;
 `;
@@ -33,7 +35,7 @@ function generateTwoNumsWithDistance(distance, min, max) {
   return generateTwoNumsWithDistance(distance, min, max);
 }
 
-function Audio() {
+function Audio(props) {
   const [timelineVis, setTimelineVis] = useState(true);
 
   const [markers, setMarkers] = useState([
@@ -138,7 +140,8 @@ function Audio() {
       wavesurferRef.current = waveSurfer;
 
       if (wavesurferRef.current) {
-        wavesurferRef.current.load("https://edu-trans.ewha.ac.kr:8443/upload/7f8cff46-b642-4307-a488-6296cd49f644.wav");
+		  console.log(props.soundtrack)
+        wavesurferRef.current.load(props.soundtrack);
 
         wavesurferRef.current.on("region-created", regionCreatedHandler);
 

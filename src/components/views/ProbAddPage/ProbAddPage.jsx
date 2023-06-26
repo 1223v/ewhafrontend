@@ -1,9 +1,156 @@
 import React, { useEffect, useState } from 'react';
 import NavBar from '../NavBar/NavBar';
 import styled from 'styled-components';
-import DragNDrop from '../Audio/Sections/DragNDrop'
+import DragNDrop from '../Audio/Sections/DragNDrop';
+import FileRead from '../Audio/Sections/FileRead';
+import Axios from 'axios';
+
+
+const Week = [
+	{value: 1, label: "1주차"},
+	{value: 2, label: "2주차"},
+	{value: 3, label: "3주차"},
+	{value: 4, label: "4주차"},
+	{value: 5, label: "5주차"},
+	{value: 6, label: "6주차"},
+	{value: 7, label: "7주차"},
+	{value: 8, label: "8주차"},
+	{value: 9, label: "9주차"},
+	{value: 10, label: "10주차"},
+	{value: 11, label: "11주차"},
+	{value: 12, label: "12주차"},
+	{value: 13, label: "13주차"},
+	{value: 14, label: "14주차"},
+	{value: 15, label: "15주차"},
+	{value: 16, label: "16주차"},
+	
+];
+
+const ClassOption = [
+	{value: 1, label: "1분반"},
+	{value: 2, label: "2분반"},
+	{value: 3, label: "3분반"},
+	{value: 4, label: "4분반"},
+	{value: 5, label: "5분반"},
+	{value: 6, label: "6분반"},
+	{value: 7, label: "7분반"},
+	{value: 8, label: "8분반"},
+	{value: 9, label: "9분반"},
+	{value: 10, label: "10분반"},
+
+	
+];
+
+const Startlanguage = [
+	{value: "한국어", label: "한국어"},
+	{value: "일본어", label: "일본어"},
+	{value: "중국어", label: "중국어"},
+	{value: "영어", label: "영어"},
+	{value: "불어", label: "불어"},
+];
+
+const Endlanguage = [
+	{value: "일본어", label: "일본어"},
+	{value: "한국어", label: "한국어"},
+	{value: "중국어", label: "중국어"},
+	{value: "영어", label: "영어"},
+	{value: "불어", label: "불어"},
+];
+
+const AssignmentOption = [
+	{value: "순차 통역", label: "순차 통역"},
+	{value: "동시 통역", label: "동시 통역"},
+	{value: "번역", label: "번역"},
+
+];
+
+const SpeedOption = [
+	{value: 1, label: "1배속"},
+	{value: 0.5, label: "0.5배속"},
+	{value: 1.25, label: "1.25배속"},
+	{value: 1.5, label: "1.5배속"},
+	{value: 1.75, label: "1.75배속"},
+	{value: 2, label: "2배속"},
+	
+
+];
+
+
 
 function ProbAddPage() {
+	const [Title, setTitle] = useState('');
+	const [Description, setDescription] = useState('');
+	const [Weeklist, setWeeklist] = useState('');
+	const [Limitlist, setLimitlist] = useState('');
+	const [Startlanguagelist, setStartlanguagelist] = useState('');
+	const [Endlanguagelist, setEndlanguagelist] = useState('');
+	const [Assignmentlist, setAssignmentlist] = useState('');
+	const [Speedlist, setSpeedlist] = useState('');
+	const [Txtread, setTxtread] = useState('');
+	const [Urlfile, setUrlfile] = useState('');
+	
+	const onTitleChange = (e) => {
+		setTitle(e.currentTarget.value);
+	}
+	
+	const onDescriptionChange = (e) => {
+		setDescription(e.currentTarget.value);
+	}
+	
+	const onWeekChange = (e) => {
+		setWeeklist(e.currentTarget.value);
+	}
+	
+	const onLimitChange = (e) => {
+		setLimitlist(e.currentTarget.value);
+	}
+	
+	const onStartlanguageChange = (e) => {
+		setStartlanguagelist(e.currentTarget.value);
+	}
+	
+	const onEndlanguageChange = (e) => {
+		setEndlanguagelist(e.currentTarget.value);
+	}
+	
+	const onAssignmentChange = (e) => {
+		setAssignmentlist(e.currentTarget.value);
+	}
+	
+	const onSpeedChange = (e) => {
+		setSpeedlist(e.currentTarget.value);
+	}
+
+	const onSaveButton = () => {
+		
+		let body = {
+			lecture_no : Title,
+			prob_week: Weeklist,
+			prob_timeEnd:Limitlist,
+			prob_name:Title,
+			prob_type:Assignmentlist,
+			prob_keyword:"",
+			prob_translang_source:Startlanguagelist,
+			prob_translang_destination:Endlanguagelist,
+			prob_exp:Txtread,
+			prob_play_speed: Speedlist,
+			prob_open: Txtread,
+			prob_region: Txtread,
+			prob_replay: Txtread,
+			original_text:Txtread,
+			prob_sound_path:Txtread,
+			file: Urlfile
+		};
+		
+		const config = {
+			header: {'content-type' : 'multipart/form-data'}
+		}
+		
+		Axios.post('/api',body,config)
+		.then(response => {
+			console.log(response.data);
+		})
+	};
 	return (
 		<LectureBackgroudDiv>
 			<NavBar />
@@ -43,6 +190,9 @@ function ProbAddPage() {
 							placeholder=" 강의명을 적어주세요"
 							size="10"
 							maxlength="8"
+							value={Title}
+							onChange={onTitleChange}
+						
 						/>
 					</LectureNameinputDiv>
 				</LectureNameDiv>
@@ -53,23 +203,12 @@ function ProbAddPage() {
 						<select
 							id="countries"
 							class="bg-white-50 border border-green-800 text-gray-900 text-sm rounded-lg focus:ring-green-500 focus:border-green-500 block w-full p-2.5 dark:bg-white-700 dark:border-white-600 dark:placeholder-white-400 dark:text-black dark:focus:ring-green-500 dark:focus:border-green-500"
+							onChange={onWeekChange}
 						>
-							<option value="1">1주차</option>
-							<option value="2">2주차</option>
-							<option value="3">3주차</option>
-							<option value="4">4주차</option>
-							<option value="5">5주차</option>
-							<option value="6">6주차</option>
-							<option value="7">7주차</option>
-							<option value="8">8주차</option>
-							<option value="9">9주차</option>
-							<option value="11">10주차</option>
-							<option value="11">11주차</option>
-							<option value="12">12주차</option>
-							<option value="13">13주차</option>
-							<option value="14">14주차</option>
-							<option value="15">15주차</option>
-							<option value="16">16주차</option>
+							{Week.map((item,index)=>(
+								<option key={index} value={item.value}>{item.label}</option>
+							))}
+					
 						</select>
 					</LectureNameinputDiv>
 				</LectureNameDiv>
@@ -80,10 +219,11 @@ function ProbAddPage() {
 						<select
 							id="countries"
 							class="bg-white-50 border border-green-800 text-gray-900 text-sm rounded-lg focus:ring-green-500 focus:border-green-500 block w-full p-2.5 dark:bg-white-700 dark:border-white-600 dark:placeholder-white-400 dark:text-black dark:focus:ring-green-500 dark:focus:border-green-500"
+							onChange={onAssignmentChange}
 						>
-							<option value="순차 통역">순차 통역</option>
-							<option value="동시 통역">동시 통역</option>
-							<option value="번역">번역</option>
+							{AssignmentOption.map((item,index)=>(
+								<option key={index} value={item.value}>{item.label}</option>
+							))}
 						</select>
 					</LectureNameinputDiv>
 				</LectureNameDiv>
@@ -94,15 +234,23 @@ function ProbAddPage() {
 						<select
 							id="countries"
 							class="bg-white-50 border border-green-800 text-gray-900 text-sm rounded-lg focus:ring-green-500 focus:border-green-500 block w-full p-2.5 dark:bg-white-700 dark:border-white-600 dark:placeholder-white-400 dark:text-black dark:focus:ring-green-500 dark:focus:border-green-500"
+						onChange={onStartlanguageChange}
 						>
-							<option value="한일번역">한일번역</option>
-							<option value="한중번역">한중번역</option>
-							<option value="한러번역">한러번역</option>
-							<option value="한불번역">한불번역</option>
-							<option value="한일통역">한일통역</option>
-							<option value="한중통역">한중통역</option>
-							<option value="한러통역">한러통역</option>
-							<option value="한불통역">한불통역</option>
+							{Startlanguage.map((item,index)=>(
+								<option key={index} value={item.value}>{item.label}</option>
+							))}
+						</select>
+					</LectureNameinputDiv>
+					<LectureName>도착 언어</LectureName>
+					<LectureNameinputDiv style={{ marginTop: '10px' }}>
+						<select
+							id="countries"
+							class="bg-white-50 border border-green-800 text-gray-900 text-sm rounded-lg focus:ring-green-500 focus:border-green-500 block w-full p-2.5 dark:bg-white-700 dark:border-white-600 dark:placeholder-white-400 dark:text-black dark:focus:ring-green-500 dark:focus:border-green-500"
+						onChange={onEndlanguageChange}
+						>
+							{Endlanguage.map((item,index)=>(
+								<option key={index} value={item.value}>{item.label}</option>
+							))}
 						</select>
 					</LectureNameinputDiv>
 				</LectureNameDiv>
@@ -110,38 +258,58 @@ function ProbAddPage() {
 				<LectureNameDiv>
 					<LectureName>과제 기한</LectureName>
 					<LectureNameinputDiv style={{ marginTop: '10px' }}>
+						<input type="datetime-local" name="bday" onChange={onLimitChange}/>
+					</LectureNameinputDiv>
+				</LectureNameDiv>
+				<hr style={{ background: '#d3d3d3', height: '1px', border: '0' }} />
+				<LectureNameDiv>
+					<LectureName>재생 속도</LectureName>
+					<LectureNameinputDiv style={{ marginTop: '10px' }}>
 						<select
 							id="countries"
 							class="bg-white-50 border border-green-800 text-gray-900 text-sm rounded-lg focus:ring-green-500 focus:border-green-500 block w-full p-2.5 dark:bg-white-700 dark:border-white-600 dark:placeholder-white-400 dark:text-black dark:focus:ring-green-500 dark:focus:border-green-500"
+						onChange={onSpeedChange}
 						>
-							<option value="1분반">1 분반</option>
-							<option value="2분반">2 분반</option>
-							<option value="3분반">3 분반</option>
-							<option value="4분반">4 분반</option>
-							<option value="5분반">5 분반</option>
-							<option value="6분반">6 분반</option>
-							<option value="7분반">7 분반</option>
-							<option value="8분반">8 분반</option>
-							<option value="9분반">9 분반</option>
-							<option value="10분반">10 분반</option>
+							{SpeedOption.map((item,index)=>(
+								<option key={index} value={item.value}>{item.label}</option>
+							))}
 						</select>
+					</LectureNameinputDiv>
+				</LectureNameDiv>
+				<hr style={{ background: '#d3d3d3', height: '1px', border: '0' }} />
+				<LectureNameDiv>
+					<LectureName>과제 용도</LectureName>
+					<LectureNameinputDiv style={{ marginTop: '10px' }}>
+						<input type="checkbox" id="remember-check" /> 자습용 과제
 					</LectureNameinputDiv>
 				</LectureNameDiv>
 				<hr style={{ background: '#d3d3d3', height: '1px', border: '0' }} />
 				<LectureNameDiv>
 					<LectureName>과제 설명</LectureName>
 					<LectureNameinputDiv>
-						<LectureNameinput type="text" placeholder="교수" size="10" maxlength="8" />
+						<LectureNameinput
+							type="text"
+							placeholder="과제 설명해주세요."
+							size="10"
+							maxlength="8"
+							value={Description}
+							onChange={onDescriptionChange}
+						/>
 					</LectureNameinputDiv>
 				</LectureNameDiv>
 				<hr style={{ background: '#d3d3d3', height: '1px', border: '0' }} />
 
 				<div>
-					<DragNDrop />
+					<DragNDrop Urlfile={Urlfile} setUrlfile={setUrlfile} />
+				</div>
+
+				<hr style={{ background: '#d3d3d3', height: '1px', border: '0' }} />
+				<div>
+					<FileRead setTxtreads={setTxtread} Txtreads={Txtread} />
 				</div>
 			</LectureAddFormDiv>
 			<LectureCreateDiv>
-				<LectureCreateButton>생성하기</LectureCreateButton>
+				<LectureCreateButton onClick={onSaveButton}>생성하기</LectureCreateButton>
 			</LectureCreateDiv>
 		</LectureBackgroudDiv>
 	);
@@ -163,7 +331,8 @@ const LectureAddFormDiv = styled.div`
 	width: 800px;
 	height: 80%;
 	@media screen and (max-width: 768px) {
-		width: 320px;
+		width: auto;
+		margin: 10px;
 	}
 `;
 
@@ -236,7 +405,7 @@ const LectureName = styled.div`
 const LectureCreateDiv = styled.div`
 	position: fixed;
 	bottom: 0px;
-	z-index: 2;
+	z-index: 8;
 	display: flex;
 	-webkit-box-align: center;
 	align-items: center;
