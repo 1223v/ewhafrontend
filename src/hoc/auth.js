@@ -11,7 +11,7 @@ export default function (SpecificComponent, option, adminRoute = null) {
     const dispatch = useDispatch();
     useEffect(() => {
       dispatch(auth()).then((response) => {
-        console.log(response.payload.isAuth);
+        console.log(response.payload);
         if (!response.payload.isAuth) {
           if (option) {
             navigate("/login", { replace: true });

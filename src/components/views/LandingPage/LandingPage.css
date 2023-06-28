@@ -3,6 +3,10 @@ body {
   font-family: "Malgun Gothic";
 }
 
+.react-calendar{
+	width: auto;
+}
+
 .lecture_class {
   width: 800px;
   margin: 0 auto;

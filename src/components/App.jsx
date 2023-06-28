@@ -14,6 +14,7 @@ import ProbAddPage from "./views/ProbAddPage/ProbAddPage";
 import ProbFeedbackPage from "./views/ProbFeedbackPage/ProbFeedbackPage";
 import TextAEEditor from "./views/ProbFeedbackPage/Sections/TextAEEditor";
 import Audio from "./views/Audio/Audio"
+import AudioRecordPage from "./views/AudioRecordPage/AudioRecordPage";
 
 function App() {
   const NewLandingPage = Auth(LandingPage, true);
@@ -24,6 +25,7 @@ function App() {
   const NewLectureAddPage = Auth(LectureAddPage, true);
   const NewProbAddPage = Auth(ProbAddPage, true);
   const NewProbFeedbackPage = Auth(ProbFeedbackPage, true);
+  const NewAudioRecordPage = Auth(AudioRecordPage, true);
   const NewTest = Auth(Audio, true);
 
   return (
@@ -35,7 +37,7 @@ function App() {
         <Route path="/prob" element={<NewProb />} />
         <Route path="/prob_submit_list" element={<NewProbSubmitList />} />
         <Route path="/lecture_add" element={<NewLectureAddPage />} />
-
+		<Route path="/record" element={<NewAudioRecordPage />} />
         <Route path="/prob_add" element={<NewProbAddPage />} />
         <Route path="/prob_feedback" element={<NewProbFeedbackPage />} />
 
