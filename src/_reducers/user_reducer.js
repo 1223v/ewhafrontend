@@ -14,7 +14,9 @@ export default function(state={}, action){
 			return{...state, userData: action.payload}
 			break;
 		default:
-			return state;
+			return {
+        ...state,
+      };
 			
 	}
 }

@@ -11,7 +11,7 @@ function CalenderComponent() {
   
   return (
     <div>
-      <Calendar onChange={onChange} value={value} formatDay ={(locale, date) => dayjs(date).format('DD')}/>
+      <Calendar onChange={onChange} value={value} formatDay ={(locale, date) => dayjs(date).format('DD')} style={{width:'auto'}}/>
          
     </div>
   )
