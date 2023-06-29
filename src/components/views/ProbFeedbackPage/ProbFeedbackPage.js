@@ -8,9 +8,11 @@ function ProbFeedbackPage() {
 	const [open, setOpen] = useState(false);
 	const [Load, setLoad] = useState(false);
 	const [Content, setContent] = useState('');
+	const [Graphcontent, setGraphcontent] = useState('');
 
 	const onClickButton = () => {
 		console.log('hello');
+		
 		setOpen(true);
 	};
 
@@ -20,6 +22,7 @@ function ProbFeedbackPage() {
 
 	useEffect(() => {
 		console.log(Content);
+		
 	}, [Content]);
 	return (
 		<div>
@@ -32,7 +35,7 @@ function ProbFeedbackPage() {
 				<Interpretation>
 					<h4>통역 전사문</h4>
 					<InterpretationBox>
-						<TextAEEditor Load={Load} setContent={setContent} />
+						<TextAEEditor Open={open} Load={Load} setContent={setContent} setGraphcontent={setGraphcontent} />
 					</InterpretationBox>
 				</Interpretation>
 
@@ -52,7 +55,7 @@ function ProbFeedbackPage() {
 				<LectureCreateButton onClick={onSaveButton}>저장하기</LectureCreateButton>
 			</LectureCreateDiv>
 
-			<BottomSheetSection open={open} setOpen={setOpen} />
+			<BottomSheetSection open={open} setOpen={setOpen} Graphcontent = {Graphcontent} />
 		</div>
 	);
 }

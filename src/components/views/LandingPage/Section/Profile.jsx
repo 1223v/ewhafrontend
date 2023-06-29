@@ -11,7 +11,7 @@ function Profile(props) {
         <i className="fa-regular fa-bell"></i>
       </div>
       <Profilename>{props.userName}</Profilename>
-      <Profilemajor>{props.userRole === 1 ? 'Admin' : props.userRole === 2 ? '학생' : props.userRole === 3 ? '교수' : ''}</Profilemajor>
+      <Profilemajor>{props.userRole === 1 ? '학생' : props.userRole === 2 ? '조교' : props.userRole === 3 ? '교수' : ''}</Profilemajor>
     </div>
   );
 }

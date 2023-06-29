@@ -6,14 +6,22 @@ import Axios from 'axios';
 
 const TextAEEditor = (props) => {
 	const [Textae, setTextae] = useState('');
-	const [Url, setUrl] = useState("");
+	const [Url, setUrl] = useState('');
+	
 	const elementRef = useRef(null);
 
-	useEffect(() => {
-		let id = elementRef.current.textContent;
+	
+
+	useEffect(() => {		
 
 		props.setContent(elementRef.current.textContent);
 	}, [props.Load]);
+
+	useEffect(() => {
+			
+		
+		props.setGraphcontent(elementRef.current.textContent);
+	}, [props.Open]);
 
 	useEffect(() => {
 		setTimeout(() => {
@@ -24,8 +32,8 @@ const TextAEEditor = (props) => {
 
 	useEffect(() => {
 		Axios.get('https://edu-trans.ewha.ac.kr:8443/r_feedback', {
-            withCredentials: true,
-        })
+			withCredentials: true,
+		})
 			.then((response) => {
 				// 요청이 성공한 경우의 처리
 				console.log(response.data.url);
@@ -48,7 +56,7 @@ const TextAEEditor = (props) => {
 				target={Url}
 				inspect="annotation"
 			></div>
-			<div id="annotation" ref={elementRef}></div>
+			<div id="annotation" ref={elementRef} ></div>
 		</div>
 	);
 };

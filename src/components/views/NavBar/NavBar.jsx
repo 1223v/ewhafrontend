@@ -16,11 +16,10 @@ function NavBar() {
   };
 
   const onLogoutHandler = () => {
-    Axios.get("https://translation-platform.site:8443/api/user/logout").then(
+    Axios.get("https://edu-trans.ewha.ac.kr:8443/api/user/logout",{ withCredentials: true }).then(
       (response) => {
         if (response.data.logoutSuccess) {
-          removeCookie("access_token", { path: "/" });
-          removeCookie("refresh_token", { path: "/" });
+          
           navigate("/login");
         } else {
           alert("Error");

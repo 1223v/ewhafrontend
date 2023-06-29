@@ -94,13 +94,34 @@
 }
 
 .error-tag {
+	display:none;
     font-size: 12px;
     color: red;
 }
+.error-tag.active {
+	display: flex;
+    
+}
 
-.pwerror-tag {
+.nameerror-tag {
+	display:none;
     font-size: 12px;
     color: red;
+	margin-bottom:10px;
+}
+.nameerror-tag.active {
+	display: flex;
+    
+}
+
+.pwerror-tag {
+	display:none;
+    font-size: 12px;
+    color: red;
+}
+.pwerror-tag.active {
+	display: flex;
+    
 }
 
 .cpwerror-tag {
