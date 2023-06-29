@@ -11,20 +11,13 @@ import { useSelector } from 'react-redux';
 function LandingPage() {
 	const [Lectures, setLectures] = useState([]);
 	const [message, setMessage] = useState('');
-	const [Userinfo,setUserinfo] = useState('');
+	const userinfos= useSelector((state) => state.user);
 	
 	const handleSearchClick = (value) => {
 		setMessage(value);
 	};
 
-	let userinfo = [
-		{
-			id: '1223v',
-			name: '김남형',
-			role: '한일 번역',
-			img: 'https://cdn-icons-png.flaticon.com/512/17/17797.png',
-		},
-	];
+
 
 	let request = [
 		{
@@ -57,7 +50,7 @@ function LandingPage() {
 		},
 	];
 	
-	const userinfos= useSelector((state) => state.user);
+	
 	return (
 		<div>
 			<NavBar />

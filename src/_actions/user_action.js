@@ -12,7 +12,7 @@ export function loginUser(dataToSubmit){
 }
 
 export function registerUser(dataToSubmit){
-	const request = Axios.post('https://edu-trans.ewha.ac.kr:8443/api/user/register',dataToSubmit,{ withCredentials: true })
+	const request = Axios.post('https://edu-trans.ewha.ac.kr:8443/api/user/join',dataToSubmit,{ withCredentials: true })
 	.then(response => response.data)
 	
 	return{

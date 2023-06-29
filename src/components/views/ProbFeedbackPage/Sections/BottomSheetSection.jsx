@@ -61,6 +61,9 @@ function BottomSheetSection(props) {
 		props.setOpen(false);
 	};
 
+	useEffect(()=>{
+		console.log(props.Graphcontent);
+	},[props.open])
 	return (
 		<div>
 			<BottomSheet
