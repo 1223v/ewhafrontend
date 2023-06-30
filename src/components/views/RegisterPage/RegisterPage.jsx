@@ -79,27 +79,24 @@ function RegisterPage() {
 			email: Email,
 		};
 
-		dispatch(registerUser(body))
-			.then((response) => {
-				if (response.payload.registerSuccess) {
-					alert(response.payload.msg);
+		dispatch(registerUser(body)).then((response) => {
+			if (response.payload.registerSuccess) {
+				alert(response.payload.msg);
 
-					Axios.post('edu-trans.ewha.ac.kr:8443/email', dataToSubmit, {
-						withCredentials: true,
-					}).then((secondresponse) => {
-						
-						if (secondresponse.data.emailcheckSuccess) {
-							alert(secondresponse.data.msg);
-							navigate('/login');
-						} else {
-							alert(secondresponse.data.msg);
-						}
-					});
-				} else {
-					alert(response.payload.msg);
-				}
-			})
-			
+				Axios.post('edu-trans.ewha.ac.kr:8443/email', dataToSubmit, {
+					withCredentials: true,
+				}).then((secondresponse) => {
+					if (secondresponse.data.emailcheckSuccess) {
+						alert(secondresponse.data.msg);
+						navigate('/login');
+					} else {
+						alert(secondresponse.data.msg);
+					}
+				});
+			} else {
+				alert(response.payload.msg);
+			}
+		});
 	};
 
 	return (
@@ -107,12 +104,14 @@ function RegisterPage() {
 			<div className="register-wrapper2">
 				<div className="register-wrapper-padding">
 					<h2>
-						<img
-							src="https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2FbCAVka%2FbtrY2o9XY6e%2Fld0UENc2vedDW60ngkDyI1%2Fimg.jpg"
-							width="50%"
-							height="50%"
-							style={{ margin: 'auto', display: 'block', marginBottom: '10%' }}
-						/>
+						<Link to="/login">
+							<img
+								src="https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2FbCAVka%2FbtrY2o9XY6e%2Fld0UENc2vedDW60ngkDyI1%2Fimg.jpg"
+								width="50%"
+								height="50%"
+								style={{ margin: 'auto', display: 'block', marginBottom: '10%' }}
+							/>
+						</Link>
 					</h2>
 					<h2>회원 정보</h2>
 

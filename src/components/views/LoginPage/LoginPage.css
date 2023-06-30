@@ -55,7 +55,7 @@
     margin: 0 auto;
     background-color: #ffffff;
     border-radius: 10px;
-    border:solid 2px #D3D3D3;
+    /* border:solid 2px #D3D3D3; */
 }
 .register-wrapper-padding {
     padding: 20px;
