@@ -61,7 +61,7 @@ function NavBar() {
 
         <ul className={"navbar__icons" + (isActive ? "" : " active")}>
           <li>
-            <Link to="#" onClick={onLogoutHandler}>
+            <Link to="/login" onClick={onLogoutHandler}>
               <i className="fa-solid fa-arrow-right-from-bracket"></i>
             </Link>
           </li>
