@@ -6,105 +6,18 @@ import styled from 'styled-components';
 import ReactApexChart from 'react-apexcharts';
 
 function BottomSheetSection(props) {
-	const NameOptions = [
-		{ value: '학생 1', label: '학생 1' },
-		{ value: '학생 2', label: '학생 2' },
-		{ value: '학생 3', label: '학생 3' },
-		{ value: '학생 4', label: '학생 4' },
-		{ value: '학생 5', label: '학생 5' },
+	const series = [
+		{
+			name: '나',
+			data: [76, 85, 101, 98],
+		},
+		{
+			name: '평균',
+			data: [35, 41, 36, 26],
+		},
 	];
-	const [Namelist, setNamelist] = useState('');
-
-	const onNameChange = (e) => {
-		setNamelist(e.currentTarget.value);
-	};
-	const [series] = useState([
-		{
-			name: '학생 1',
-			data: [70, 50, 30, 40],
-		},
-		{
-			name: '학생 2',
-			data: [20, 30, 40, 100],
-		},
-		{
-			name: '학생 3',
-			data: [44, 70, 70, 13],
-		},
-	]);
 
 	const options = {
-		chart: {
-			height: 350,
-			type: 'radar',
-			dropShadow: {
-				enabled: true,
-				blur: 1,
-				left: 1,
-				top: 1,
-			},
-		},
-		title: {
-			text: '전달력 결과',
-		},
-		stroke: {
-			width: 2,
-		},
-		fill: {
-			opacity: 0.1,
-		},
-		markers: {
-			size: 0,
-		},
-		xaxis: {
-			categories: ['침묵', '필러', '백트레킹', '기타'],
-		},
-	};
-
-	const [series2] = useState([
-		{
-			name: '학생 1',
-			data: [80, 50, 30, 40, 100],
-		},
-		{
-			name: '학생 2',
-			data: [20, 30, 40, 80, 20],
-		},
-		{
-			name: '학생 3',
-			data: [44, 76, 78, 13, 43],
-		},
-	]);
-
-	const options2 = {
-		chart: {
-			height: 350,
-			type: 'radar',
-			dropShadow: {
-				enabled: true,
-				blur: 1,
-				left: 1,
-				top: 1,
-			},
-		},
-		title: {
-			text: '내용 정확도 결과',
-		},
-		stroke: {
-			width: 2,
-		},
-		fill: {
-			opacity: 0.1,
-		},
-		markers: {
-			size: 0,
-		},
-		xaxis: {
-			categories: ['오역', '누락', '문법 오류', '발음', '억양'],
-		},
-	};
-
-	const options3 = {
 		chart: {
 			type: 'bar',
 			height: 350,
@@ -143,7 +56,18 @@ function BottomSheetSection(props) {
 		},
 	};
 
-	const options4 = {
+	const series2 = [
+		{
+			name: '나',
+			data: [76, 85, 101, 98, 28],
+		},
+		{
+			name: '평균',
+			data: [35, 41, 36, 26, 54],
+		},
+	];
+
+	const options2 = {
 		chart: {
 			type: 'bar',
 			height: 350,
@@ -181,7 +105,7 @@ function BottomSheetSection(props) {
 			},
 		},
 	};
-
+	
 	const series3 = [
 		{
 			name: '1회차',
@@ -196,7 +120,7 @@ function BottomSheetSection(props) {
 			data: [76, 85, 101, 98],
 		},
 	];
-
+	
 	const series4 = [
 		{
 			name: '1회차',
@@ -226,7 +150,7 @@ function BottomSheetSection(props) {
 				onDismiss={onClose}
 				header={
 					<StyledBottomSheetHeader>
-						<div className="sheetHeader">교수자 평가결과</div>
+						<div className="sheetHeader">학생 평가결과</div>
 						<GrClose size="23" onClick={onClose} />
 					</StyledBottomSheetHeader>
 				}
@@ -243,7 +167,7 @@ function BottomSheetSection(props) {
 								<ReactApexChart
 									options={options}
 									series={series}
-									type="radar"
+									type="bar"
 									width="500"
 								/>
 							</ChartInDiv>
@@ -251,31 +175,15 @@ function BottomSheetSection(props) {
 								<ReactApexChart
 									options={options2}
 									series={series2}
-									type="radar"
+									type="bar"
 									width="500"
 								/>
 							</ChartInDiv>
 						</StyledButtonWrapper>
 						<StyledButtonWrapper>
-							<Name>학생</Name>
-							<NameinputDiv style={{ marginTop: '10px' }}>
-								<select
-									id="countries"
-									class="bg-white-50 border border-green-800 text-gray-900 text-sm rounded-lg focus:ring-green-500 focus:border-green-500 block w-full p-2.5 dark:bg-white-700 dark:border-white-600 dark:placeholder-white-400 dark:text-black dark:focus:ring-green-500 dark:focus:border-green-500"
-									onChange={onNameChange}
-								>
-									{NameOptions.map((item, index) => (
-										<option key={index} value={item.value}>
-											{item.label}
-										</option>
-									))}
-								</select>
-							</NameinputDiv>
-						</StyledButtonWrapper>
-						<StyledButtonWrapper>
 							<ChartInDiv>
 								<ReactApexChart
-									options={options3}
+									options={options}
 									series={series3}
 									type="bar"
 									width="500"
@@ -283,7 +191,7 @@ function BottomSheetSection(props) {
 							</ChartInDiv>
 							<ChartInDiv>
 								<ReactApexChart
-									options={options4}
+									options={options2}
 									series={series4}
 									type="bar"
 									width="500"
@@ -378,7 +286,7 @@ const StyledNewWishList = styled.div`
 		font-size: 1.2rem;
 		line-height: 1.4rem;
 		color: gray;
-		margin-bottom: 1rem;
+		margin-bottom: 6.8rem;
 	}
 
 	& > button {
@@ -395,14 +303,4 @@ const StyledNewWishList = styled.div`
 	& > button:disabled {
 		background-color: gray;
 	}
-`;
-
-const NameinputDiv = styled.div`
-	flex-grow: 2;
-`;
-
-const Name = styled.div`
-	margin: 20px;
-	flexgrow: 1;
-	fontweight: 500;
 `;

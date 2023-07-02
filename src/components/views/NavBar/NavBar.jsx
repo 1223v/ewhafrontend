@@ -49,7 +49,7 @@ function NavBar() {
             <Link to="/lecture_add">과제 생성</Link>
           </li>
           <li>
-            <Link to="/">제출확인</Link>
+            <Link to="/prob_feedback">제출확인</Link>
           </li>
           <li>
             <Link to="/">Q&A</Link>

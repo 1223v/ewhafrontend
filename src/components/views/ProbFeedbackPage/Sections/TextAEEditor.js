@@ -7,21 +7,17 @@ import Axios from 'axios';
 const TextAEEditor = (props) => {
 	const [Textae, setTextae] = useState('');
 	const [Url, setUrl] = useState('');
-	
+
 	const elementRef = useRef(null);
 
-	
 
-	useEffect(() => {		
-
+	useEffect(() => {
 		props.setContent(elementRef.current.textContent);
 	}, [props.Load]);
 
 	useEffect(() => {
-			
-		
 		props.setGraphcontent(elementRef.current.textContent);
-	}, [props.Open]);
+	}, [props.Graphcheck]);
 
 	useEffect(() => {
 		setTimeout(() => {
@@ -56,7 +52,7 @@ const TextAEEditor = (props) => {
 				target={Url}
 				inspect="annotation"
 			></div>
-			<div id="annotation" ref={elementRef} ></div>
+			<div id="annotation" ref={elementRef}></div>
 		</div>
 	);
 };
