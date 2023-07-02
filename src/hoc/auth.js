@@ -39,7 +39,7 @@ export default function (SpecificComponent, option, adminRoute = null) {
 						navigate('/login');
 					} else {
 						// 서버 오류 또는 네트워크 오류 등의 다른 오류 처리
-						navigate('/login');
+						
 					}
 				});
 		}, []);

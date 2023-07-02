@@ -3,17 +3,22 @@ import NavBar from '../NavBar/NavBar';
 import styled from 'styled-components';
 import TextAEEditor from './Sections/TextAEEditor';
 import BottomSheetSection from './Sections/BottomSheetSection';
+import StudentBottomSheet from './Sections/StudentBottomSheet';
+import { useSelector } from 'react-redux';
 
 function ProbFeedbackPage() {
+	const userinfos = useSelector((state) => state.user);
 	const [open, setOpen] = useState(false);
+	const [Graphcheck, setGraphcheck] = useState(false);
 	const [Load, setLoad] = useState(false);
 	const [Content, setContent] = useState('');
 	const [Graphcontent, setGraphcontent] = useState('');
 
 	const onClickButton = () => {
-		console.log('hello');
-		
-		setOpen(true);
+		setGraphcheck(!Graphcheck);
+		setTimeout(() => {
+			setOpen(true);
+		}, 1000);
 	};
 
 	const onSaveButton = () => {
@@ -21,8 +26,7 @@ function ProbFeedbackPage() {
 	};
 
 	useEffect(() => {
-		console.log(Content);
-		
+		console.log(Content); //API를 위한 콘솔 로그
 	}, [Content]);
 	return (
 		<div>
@@ -35,7 +39,12 @@ function ProbFeedbackPage() {
 				<Interpretation>
 					<h4>통역 전사문</h4>
 					<InterpretationBox>
-						<TextAEEditor Open={open} Load={Load} setContent={setContent} setGraphcontent={setGraphcontent} />
+						<TextAEEditor
+							Graphcheck={Graphcheck}
+							Load={Load}
+							setContent={setContent}
+							setGraphcontent={setGraphcontent}
+						/>
 					</InterpretationBox>
 				</Interpretation>
 
@@ -55,7 +64,16 @@ function ProbFeedbackPage() {
 				<LectureCreateButton onClick={onSaveButton}>저장하기</LectureCreateButton>
 			</LectureCreateDiv>
 
-			<BottomSheetSection open={open} setOpen={setOpen} Graphcontent = {Graphcontent} />
+			{userinfos?.userData?.role === 1 ? (
+				<StudentBottomSheet open={open} setOpen={setOpen} Graphcontent={Graphcontent} />
+			) : userinfos?.userData?.role === 2 ? (
+				<BottomSheetSection open={open} setOpen={setOpen} Graphcontent={Graphcontent} />
+			) : userinfos?.userData?.role === 3 ? (
+				<BottomSheetSection open={open} setOpen={setOpen} Graphcontent={Graphcontent} />
+			) : (
+				''
+			)}
+			
 		</div>
 	);
 }
