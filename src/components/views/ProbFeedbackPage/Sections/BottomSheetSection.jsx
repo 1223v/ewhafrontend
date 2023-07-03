@@ -218,7 +218,7 @@ function BottomSheetSection(props) {
 
 	useEffect(() => {
 		console.log(props.Graphcontent);
-	}, [props.open]);
+	}, [props.Graphcontent]);
 	return (
 		<div>
 			<BottomSheet
@@ -307,9 +307,6 @@ const ChartInDiv = styled.div`
 	margin-left: 10px;
 `;
 
-const ParkingInChildDiv = styled.div`
-	margin: 10px;
-`;
 
 const StyledButtonWrapper = styled.div`
 	display: flex;

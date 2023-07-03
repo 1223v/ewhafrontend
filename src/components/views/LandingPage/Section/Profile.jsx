@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 
+
 function Profile(props) {
   return (
     <div className="profile_class2">

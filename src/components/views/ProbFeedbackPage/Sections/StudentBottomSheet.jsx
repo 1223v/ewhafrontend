@@ -142,7 +142,7 @@ function BottomSheetSection(props) {
 
 	useEffect(() => {
 		console.log(props.Graphcontent);
-	}, [props.open]);
+	}, [props.Graphcontent]);
 	return (
 		<div>
 			<BottomSheet

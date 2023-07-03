@@ -9,16 +9,14 @@ import { useSelector } from 'react-redux';
 function ProbFeedbackPage() {
 	const userinfos = useSelector((state) => state.user);
 	const [open, setOpen] = useState(false);
-	const [Graphcheck, setGraphcheck] = useState(false);
 	const [Load, setLoad] = useState(false);
 	const [Content, setContent] = useState('');
-	const [Graphcontent, setGraphcontent] = useState('');
+	const [Graphcontent, setGraphcontent] = useState([]);
 
 	const onClickButton = () => {
-		setGraphcheck(!Graphcheck);
-		setTimeout(() => {
-			setOpen(true);
-		}, 1000);
+		console.log("test")
+		setOpen(!open);
+		
 	};
 
 	const onSaveButton = () => {
@@ -40,7 +38,7 @@ function ProbFeedbackPage() {
 					<h4>통역 전사문</h4>
 					<InterpretationBox>
 						<TextAEEditor
-							Graphcheck={Graphcheck}
+							
 							Load={Load}
 							setContent={setContent}
 							setGraphcontent={setGraphcontent}

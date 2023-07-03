@@ -9,15 +9,17 @@ const TextAEEditor = (props) => {
 	const [Url, setUrl] = useState('');
 
 	const elementRef = useRef(null);
+	
+	const handleMouseUp = () => {
+    	props.setGraphcontent(elementRef.current.textContent);
+  };
 
 
 	useEffect(() => {
 		props.setContent(elementRef.current.textContent);
 	}, [props.Load]);
 
-	useEffect(() => {
-		props.setGraphcontent(elementRef.current.textContent);
-	}, [props.Graphcheck]);
+	
 
 	useEffect(() => {
 		setTimeout(() => {
@@ -27,13 +29,18 @@ const TextAEEditor = (props) => {
 	}, [Url]);
 
 	useEffect(() => {
-		Axios.get('https://edu-trans.ewha.ac.kr:8443/r_feedback', {
+		Axios.get('https://edu-trans.ewha.ac.kr:8443/r_feedback?as_no=137&lecture_no=6&user_no=2', {
 			withCredentials: true,
 		})
 			.then((response) => {
 				// 요청이 성공한 경우의 처리
 				console.log(response.data.url);
 				setUrl(response.data.url);
+				Axios.get(response.data.url,{withCredentials: true})
+				.then((response2) => {
+					console.log(response2.data);
+					props.setGraphcontent(response2.data);
+				})
 			})
 
 			.catch((error) => {
@@ -51,6 +58,7 @@ const TextAEEditor = (props) => {
 				mode="edit"
 				target={Url}
 				inspect="annotation"
+				onMouseUp={handleMouseUp}
 			></div>
 			<div id="annotation" ref={elementRef}></div>
 		</div>
