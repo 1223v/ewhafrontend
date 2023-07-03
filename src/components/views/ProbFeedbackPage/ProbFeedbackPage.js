@@ -14,8 +14,8 @@ function ProbFeedbackPage() {
 	const [Graphcontent, setGraphcontent] = useState([]);
 
 	const onClickButton = () => {
-		
-		setOpen(true);
+		console.log("test")
+		setOpen(!open);
 		
 	};
 

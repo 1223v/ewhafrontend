@@ -29,7 +29,7 @@ const TextAEEditor = (props) => {
 	}, [Url]);
 
 	useEffect(() => {
-		Axios.get('https://edu-trans.ewha.ac.kr:8443/r_feedback', {
+		Axios.get('https://edu-trans.ewha.ac.kr:8443/r_feedback?as_no=137&lecture_no=6&user_no=2', {
 			withCredentials: true,
 		})
 			.then((response) => {

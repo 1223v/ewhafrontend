@@ -7,55 +7,38 @@ import SearchBar from './Section/SearchBar';
 import GridCards from './../commons/GridCards';
 import { Row } from 'antd';
 import { useSelector } from 'react-redux';
+import Axios from 'axios';
+import { Link } from 'react-router-dom';
+import { AiOutlinePlus } from 'react-icons/ai';
+
 
 function LandingPage() {
 	const [Lectures, setLectures] = useState([]);
 	const [message, setMessage] = useState('');
-	const userinfos= useSelector((state) => state.user);
-	
+
+	const userinfos = useSelector((state) => state.user);
+
 	const handleSearchClick = (value) => {
 		setMessage(value);
 	};
 
+	useEffect(() => {
+		Axios.get('https://edu-trans.ewha.ac.kr:8443/api/lecture', {
+			withCredentials: true,
+		}).then((response) => {
+			// 요청이 성공한 경우의 처리
+			setLectures(response.data.lecturelist);
+		});
+	}, []);
 
-
-	let request = [
-		{
-			num: 1,
-			lecture: '한|일',
-			title: '한일 통역 01분반',
-			class: '01',
-			dday: '6',
-		},
-		{
-			num: 2,
-			lecture: '한|중',
-			title: '한중 통역 01분반',
-			class: '02',
-			dday: '5',
-		},
-		{
-			num: 3,
-			lecture: '한|러',
-			title: '한러 통역 01분반',
-			class: '03',
-			dday: '7',
-		},
-		{
-			num: 4,
-			lecture: '한|영',
-			title: '한영 통역 02분반',
-			class: '02',
-			dday: '32',
-		},
-	];
-	
-	
 	return (
 		<div>
 			<NavBar />
 			<div className="lecture_class">
-				<Profile userName={userinfos?.userData?.name} userRole={userinfos?.userData?.role} />
+				<Profile
+					userName={userinfos?.userData?.name}
+					userRole={userinfos?.userData?.role}
+				/>
 				<SearchBar onSearchClick={handleSearchClick} />
 				<div className="calender_Area">
 					<CalenderComponent />
@@ -63,25 +46,33 @@ function LandingPage() {
 				<div className="lecture_Area">
 					<h3 style={{ paddingLeft: '20px' }}>
 						강의 목록
-						<nav className="class_menu">
-							<a href="#" className="class_menu-link" data-menu="1">
-								1 학기
-							</a>
-							<a href="#" className="class_menu-link" data-menu="2">
-								2 학기
-							</a>
-						</nav>
+						{userinfos?.userData?.role === 3 ? (
+							<nav className="class_menu">
+								<Link to={'/lecture_add'}>
+									<button
+										class="middle none center rounded-lg bg-green-900 py-2 px-6 font-sans text-xs font-bold uppercase text-white  transition-all border-none"
+										data-ripple-light="true"
+									>
+										+ 강의 개설
+									</button>
+								</Link>
+							</nav>
+						) : (
+							''
+						)}
 					</h3>
 
 					<Row>
-						{request.map((lesson, index) => (
+						{Lectures?.map((lesson, index) => (
 							<React.Fragment key={index}>
 								<GridCards
-									lecture={lesson.lecture}
-									index={index}
-									num={lesson.num}
-									title={lesson.title}
-									dday={lesson.dday}
+									lectureName={lesson.lecture_name}
+									num={lesson.lecture_no}
+									major={lesson.major}
+									professor={lesson.professor}
+									separated={lesson.separated}
+									year={lesson.year}
+									semester={lesson.semester}
 								/>
 							</React.Fragment>
 						))}
