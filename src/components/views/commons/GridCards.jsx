@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { Col } from 'antd';
 import { BiSolidPencil, BiSolidTrash } from 'react-icons/bi';
 import { useSelector } from 'react-redux';
+import Axios from 'axios';
 
 function GridCards(props) {
 	const userinfos = useSelector((state) => state.user);
@@ -35,6 +36,7 @@ function GridCards(props) {
 								<div style={{ color: 'black', display: 'flex', float: 'right' }}>
 									<Link
 										to={`/lecture_mod?lecture_no=${props.num}`}
+										state={{num:props.num}}
 										style={{ color: '#05422b' }}
 									>
 										<BiSolidPencil size="20" />
