@@ -23,7 +23,7 @@ function LandingPage() {
 	};
 
 	useEffect(() => {
-		Axios.get('https://edu-trans.ewha.ac.kr:8443/api/lecture', {
+		Axios.get('https://edu-trans.ewha.ac.kr:8443/api/lecture/list', {
 			withCredentials: true,
 		}).then((response) => {
 			// 요청이 성공한 경우의 처리
