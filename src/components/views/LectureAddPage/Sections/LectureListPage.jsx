@@ -1,6 +1,10 @@
-import React from "react";
+import React,{useEffect} from "react";
 
 function LectureListPage(props) {
+	
+	useEffect(() => {
+    console.log(props.Liststudent);
+  }, [props.Liststudent]);
   return (
     <div>
       <div style={{ marginTop: "50px" }}>
@@ -32,29 +36,29 @@ function LectureListPage(props) {
                   </thead>
                   <tbody className="bg-white divide-y divide-gray-200">
                     {props.Liststudent.map((person) => (
-                      <tr key={person.email}>
+                      <tr key={person?.email}>
                         <td className="px-6 py-4 whitespace-nowrap">
                           <div className="flex items-center">
                             <div className="flex-shrink-0 h-10 w-10">
                               <img
                                 className="h-10 w-10 rounded-full"
-                                src={person.image}
+                                src="https://cdn-icons-png.flaticon.com/512/17/17797.png"
                                 alt=""
                               />
                             </div>
                             <div className="ml-4">
                               <div className="text-sm font-medium text-gray-900">
-                                {person.name}
+                                {person?.name}
                               </div>
                               <div className="text-sm text-gray-500">
-                                {person.email}
+                                {person?.email}
                               </div>
                             </div>
                           </div>
                         </td>
 
                         <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                          {person.major}
+                          {person?.major}
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap">
                           <span

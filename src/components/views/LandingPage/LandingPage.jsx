@@ -8,11 +8,12 @@ import GridCards from './../commons/GridCards';
 import { Row } from 'antd';
 import { useSelector } from 'react-redux';
 import Axios from 'axios';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { AiOutlinePlus } from 'react-icons/ai';
 
 
 function LandingPage() {
+	let navigate = useNavigate();
 	const [Lectures, setLectures] = useState([]);
 	const [message, setMessage] = useState('');
 
@@ -23,12 +24,17 @@ function LandingPage() {
 	};
 
 	useEffect(() => {
-		Axios.get('https://edu-trans.ewha.ac.kr:8443/api/lecture', {
+		Axios.get('https://edu-trans.ewha.ac.kr:8443/api/lecture/list', {
 			withCredentials: true,
 		}).then((response) => {
 			// 요청이 성공한 경우의 처리
 			setLectures(response.data.lecturelist);
-		});
+		})
+		.catch((error) => {
+				// 요청이 실패한 경우의 처리
+				console.error(error);
+				navigate(-1);
+			});
 	}, []);
 
 	return (
