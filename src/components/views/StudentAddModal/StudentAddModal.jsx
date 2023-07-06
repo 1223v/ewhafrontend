@@ -13,7 +13,7 @@ function StudentAddModal(props) {
     return () => {
       $body.style.overflow = overflow;
     };
-	  console.log(props.Checklist);
+	  console.log("dlq",props.Checklist);
   }, []);
 
   return (

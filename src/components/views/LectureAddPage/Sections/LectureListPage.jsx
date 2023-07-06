@@ -1,6 +1,10 @@
-import React from "react";
+import React,{useEffect} from "react";
 
 function LectureListPage(props) {
+	
+	useEffect(() => {
+    console.log(props.Liststudent);
+  }, [props.Liststudent]);
   return (
     <div>
       <div style={{ marginTop: "50px" }}>

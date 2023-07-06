@@ -376,6 +376,7 @@ const LectureNameinput = styled.input`
 	&:hover {
 		outline: 2px solid #04653d;
 	}
+	padding-left: 10px;
 `;
 
 const LectureNameinputDiv = styled.div`

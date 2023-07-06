@@ -15,12 +15,17 @@ function StudentList(props) {
     } else if (!checked) {
       props.setCheckedList(props.Checklist.filter((el) => el !== item));
     }
+	 
   };
 
   useEffect(() => {
     setstudentslist(props.studentslist);
   }, []);
 
+	useEffect(() => {
+    console.log(props.Checklist);
+  }, [props.Checklist]);
+	
   return (
     <div>
       <div className="flex flex-col">

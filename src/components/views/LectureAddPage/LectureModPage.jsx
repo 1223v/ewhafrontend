@@ -47,7 +47,7 @@ const Separated = [
 
 function LectureAddPage() {
 	const location = useLocation();
-  	const data = location.state;
+	const data = location.state;
 	let navigate = useNavigate();
 	const userinfos = useSelector((state) => state.user);
 	const [isOpen, setIsOpen] = useState(false);
@@ -61,14 +61,14 @@ function LectureAddPage() {
 	const [Professorlist, setProfessorlist] = useState('');
 	const [Studentlist, setStudentlist] = useState([]);
 	const [Allstudentlist, setAllstudentlist] = useState([]);
-	
+
 	useEffect(() => {
 		Axios.get(`https://edu-trans.ewha.ac.kr:8443/api/lecture/modify?lecture_no=${data.num}`, {
 			withCredentials: true,
 		})
 			.then((response) => {
 				// 요청이 성공한 경우의 처리
-				console.log(response.data.attendlist);
+				console.log(JSON.stringify(response.data.attendlist[0].email));
 				setTitlelist(response.data.modlist.lecture_name);
 				setMajorlist(response.data.modlist.major);
 				setProfessorlist(response.data.modlist.professor);
@@ -76,10 +76,13 @@ function LectureAddPage() {
 				setSeparatedlist(response.data.modlist.separated);
 				setYearlist(response.data.modlist.year);
 				setAllstudentlist(response.data.userlist);
-				//setCheckedList(response.data.attendlist);
+				response.data.attendlist.forEach((item) => {
+					setCheckedList((prevList) => [...prevList, item.email]);
+				});
 				setStudentlist(response.data.attendlist);
 				setListstudent(response.data.attendlist);
-				
+
+				//
 			})
 			.catch((error) => {
 				// 요청이 실패한 경우의 처리
@@ -118,6 +121,7 @@ function LectureAddPage() {
 
 	const onSaveButton = () => {
 		let body = {
+			lecture_no: data.num,
 			lecture_name: Titlelist,
 			lecture_year: Yearlist,
 			lecture_semester: Semesterlist,
@@ -132,7 +136,14 @@ function LectureAddPage() {
 			withCredentials: true,
 		})
 			.then((response) => {
-				console.log(response.data.msg);
+				if(response.data.lecturemodifySuccess){
+					alert("수정 완료했습니다.");
+					navigate("/");
+				}
+				else{
+					alert("수정에 실패했습니다. 다시 시도해주세요.");
+					navigate("/");
+				}
 			})
 			.catch((error) => {
 				// 요청이 실패한 경우의 처리
@@ -153,14 +164,14 @@ function LectureAddPage() {
 		const CheckedStudentList = [];
 		const CheckedStudentsList = [];
 		for (let i = 0; i < checkedList.length; i++) {
+			
 			CheckedStudentList[0] = Allstudentlist.filter((obj) => obj.email === checkedList[i]);
 			CheckedStudentsList.push(CheckedStudentList[0][0]);
 		}
 
 		setListstudent(CheckedStudentsList);
+		
 	}, [checkedList]);
-
-	
 
 	return (
 		<LectureBackgroudDiv>
@@ -311,7 +322,7 @@ function LectureAddPage() {
 				</div>
 			</LectureAddFormDiv>
 			<LectureCreateDiv>
-				<LectureCreateButton onClick={onSaveButton}>생성하기</LectureCreateButton>
+				<LectureCreateButton onClick={onSaveButton}>수정하기</LectureCreateButton>
 			</LectureCreateDiv>
 		</LectureBackgroudDiv>
 	);
@@ -391,6 +402,7 @@ const LectureNameinput = styled.input`
 	&:hover {
 		outline: 2px solid #04653d;
 	}
+	padding-left: 10px;
 `;
 
 const LectureNameinputDiv = styled.div`
