@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import DragNDrop from '../Audio/Sections/DragNDrop';
 import FileRead from '../Audio/Sections/FileRead';
 import Axios from 'axios';
+import {  useLocation } from 'react-router-dom';
 
 
 const Week = [
@@ -42,8 +43,8 @@ const ClassOption = [
 ];
 
 const Startlanguage = [
-	{value: "한국어", label: "한국어"},
-	{value: "일본어", label: "일본어"},
+	{value: "ko", label: "한국어"},
+	{value: "jp", label: "일본어"},
 	{value: "중국어", label: "중국어"},
 	{value: "영어", label: "영어"},
 	{value: "불어", label: "불어"},
@@ -78,6 +79,8 @@ const SpeedOption = [
 
 
 function ProbAddPage() {
+	const location = useLocation();
+	const data = location.state;
 	const [Title, setTitle] = useState('');
 	const [Description, setDescription] = useState('');
 	const [Weeklist, setWeeklist] = useState('');
@@ -124,7 +127,7 @@ function ProbAddPage() {
 	const onSaveButton = () => {
 		
 		let body = {
-			lecture_no : Title,
+			lecture_no : data?.num,
 			prob_week: Weeklist,
 			prob_timeEnd:Limitlist,
 			prob_name:Title,
@@ -167,13 +170,13 @@ function ProbAddPage() {
 							xmlns="http://www.w3.org/2000/svg"
 							fill="none"
 							viewBox="0 -5 24 24"
-							stroke-width="1.5"
+							strokeWidth="1.5"
 							stroke="currentColor"
 							class="w-6 h-6"
 						>
 							<path
-								stroke-linecap="round"
-								stroke-linejoin="round"
+								strokeLinecap="round"
+								strokeLinejoin="round"
 								d="M19.5 12h-15m0 0l6.75 6.75M4.5 12l6.75-6.75"
 							/>
 						</svg>

@@ -58,7 +58,7 @@ function GridCards(props) {
 							)}
 						</h5>
 					</div>
-					<Link to={`/prob?lecture_no=${props.num}`}>
+					<Link to={`/prob?lecture_no=${props.num}`} state={{num:props.num}}>
 						<h3 style={{ margin: '10px', color: 'black' }}>{props.lectureName}</h3>
 						<div style={{ margin: '8px', color: 'gray' }}>
 							{props.major} {props.separated}

@@ -4,7 +4,7 @@ import styled from "styled-components";
 import ModalContainer from "./ModalContainer";
 import ModalContent from "./ModalContent";
 
-function Modal({ onClose, weeklist }) {
+function Modal({ onClose, weeklist, lecture_no }) {
   const modalRef = useRef(null);
   const handleClose = () => {
     onClose?.();
@@ -27,9 +27,9 @@ function Modal({ onClose, weeklist }) {
             <i className="fa-solid fa-xmark"></i>
           </CloseButton>
 
-          <Contents>{weeklist[0].week}주차 과제</Contents>
+          <Contents>{weeklist[0].week}</Contents>
 
-          <ModalContent weeklistcontent={weeklist} />
+          <ModalContent weeklistcontent={weeklist} lecture_no={lecture_no}/>
         </ModalWrap>
       </Overlay>
     </ModalContainer>
