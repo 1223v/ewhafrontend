@@ -128,7 +128,8 @@ function Prob() {
 												</td>
 												<td className="px-6 py-4 text-sm font-medium float-right text-right whitespace-nowrap">
 													<Link
-														to="/prob_add"
+														to={`/prob?lecture_no=${data?.num}`}
+														state={{num:data?.num}}
 														className="text-green-500 hover:text-green-700"
 													>
 														<svg
