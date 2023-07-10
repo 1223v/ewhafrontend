@@ -2,17 +2,32 @@ import { useState } from 'react';
 import { FileUploader } from 'react-drag-drop-files';
 import styled from 'styled-components';
 import Audio from '../Audio';
+import Axios from 'axios';
 
 const fileTypes = ['wav', 'mp3'];
 
 function DragNDrop(props) {
-	
 	const handleChange = (fileURL) => {
-		
-
 		// 파일 경로 출력
 		console.log('업로드된 파일 경로:', fileURL);
-		props.setUrlfile(URL.createObjectURL(fileURL));
+		const formData = new FormData();
+    	formData.append('prob_sound', fileURL);
+		Axios.post('https://edu-trans.ewha.ac.kr:8443/prob_upload', formData, {
+			headers: {
+				'Content-Type': 'multipart/form-data',
+			},
+			withCredentials: true,
+		})
+			.then((response) => {
+				const fileURL = 'https://edu-trans.ewha.ac.kr:8443/' + response.data.file_path;
+				props.setUrlfile(fileURL);
+				console.log(fileURL);
+			})
+			.catch((error) => {
+				console.error('파일 업로드 실패:', error);
+			});
+
+		
 	};
 	return (
 		<div>
@@ -43,7 +58,6 @@ const DragDrop = styled.div`
 	justify-content: center;
 	align-items: center;
 	flex-direction: column;
-	
 
 	& > label {
 		min-width: 450px;

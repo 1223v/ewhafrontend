@@ -1,9 +1,11 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import Axios from 'axios';
 
+
 function ModalContent({ weeklistcontent,lecture_no }) {
+	let navigate = useNavigate();
 	
 	const onDeleteButton = (event) => {
 		
@@ -16,8 +18,11 @@ function ModalContent({ weeklistcontent,lecture_no }) {
 					withCredentials: true,
 				}
 			).then((response) => {
+				
 				// 요청이 성공한 경우의 처리
 				alert(response.data.msg);
+				navigate(`/prob?lecture_no=${lecture_no}`);
+				
 			});
 		}
 	};
