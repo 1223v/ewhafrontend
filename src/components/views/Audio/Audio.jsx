@@ -10,7 +10,7 @@ import styled from "styled-components";
 import { WaveSurfer, WaveForm, Region, Marker } from "wavesurfer-react";
 import RegionsPlugin from "wavesurfer.js/dist/plugin/wavesurfer.regions.min";
 import TimelinePlugin from "wavesurfer.js/dist/plugin/wavesurfer.timeline.min";
-import MarkersPlugin from "wavesurfer.js/src/plugin/markers";
+
 
 //https://velog.io/@seorim0801/react%EB%A1%9C-%EC%9D%8C%EC%84%B1-%EB%85%B9%EC%9D%8C-%EA%B8%B0%EB%8A%A5%EC%9D%84-%EA%B5%AC%ED%98%84%ED%95%B4%EB%B3%B4%EC%9E%90
 
@@ -38,20 +38,7 @@ function generateTwoNumsWithDistance(distance, min, max) {
 function Audio(props) {
   const [timelineVis, setTimelineVis] = useState(true);
 
-  const [markers, setMarkers] = useState([
-    {
-      time: 5.5,
-      label: "V1",
-      color: "#ff990a",
-      draggable: true
-    },
-    {
-      time: 10,
-      label: "V2",
-      color: "#00ffcc",
-      position: "top"
-    }
-  ]);
+  
 
   const plugins = useMemo(() => {
     return [
@@ -64,13 +51,8 @@ function Audio(props) {
         options: {
           container: "#timeline"
         }
-      },
-      {
-        plugin: MarkersPlugin,
-        options: {
-          markers: [{ draggable: true }]
-        }
       }
+      
     ].filter(Boolean);
   }, [timelineVis]);
 
@@ -133,9 +115,7 @@ function Audio(props) {
   const wavesurferRef = useRef();
   const handleWSMount = useCallback(
     (waveSurfer) => {
-      if (waveSurfer.markers) {
-        waveSurfer.clearMarkers();
-      }
+      
 
       wavesurferRef.current = waveSurfer;
 
@@ -207,7 +187,7 @@ function Audio(props) {
   }, []);
 
   const handleRegionUpdate = useCallback((region, smth) => {
-    console.log("region-update-end --> region:", region);
+    console.log("region-update-end --> region:", region.element.title);
     console.log(smth);
   }, []);
 
@@ -220,25 +200,9 @@ function Audio(props) {
               onUpdateEnd={handleRegionUpdate}
               key={regionProps.id}
               {...regionProps}
-            />
+				></Region>
           ))}
-          {markers.map((marker, index) => {
-            return (
-              <Marker
-                key={index}
-                {...marker}
-                onClick={(...args) => {
-                  console.log("onClick", ...args);
-                }}
-                onDrag={(...args) => {
-                  console.log("onDrag", ...args);
-                }}
-                onDrop={(...args) => {
-                  console.log("onDrop", ...args);
-                }}
-              />
-            );
-          })}
+          
         </WaveForm>
         <div id="timeline" />
       </WaveSurfer>
