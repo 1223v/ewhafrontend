@@ -7,6 +7,8 @@ import Axios from 'axios';
 const fileTypes = ['wav', 'mp3'];
 
 function DragNDrop(props) {
+	const [Music, setMusic] = useState('');
+	
 	const handleChange = (fileURL) => {
 		// 파일 경로 출력
 		console.log('업로드된 파일 경로:', fileURL);
@@ -19,9 +21,10 @@ function DragNDrop(props) {
 			withCredentials: true,
 		})
 			.then((response) => {
-				const fileURL = 'https://edu-trans.ewha.ac.kr:8443/' + response.data.file_path;
-				props.setUrlfile(fileURL);
-				console.log(fileURL);
+				const URL = 'https://edu-trans.ewha.ac.kr:8443/' + response.data.file_path;
+				setMusic(URL);
+				props.setUrlfile(response.data.file_path);
+				console.log(URL);
 			})
 			.catch((error) => {
 				console.error('파일 업로드 실패:', error);
@@ -33,8 +36,8 @@ function DragNDrop(props) {
 		<div>
 			<DragDrop>
 				<p>
-					{props.Urlfile ? (
-						<Audio style={{ margin: '10px 10px auto' }} soundtrack={props.Urlfile} />
+					{Music ? (
+						<Audio style={{ margin: '10px 10px auto' }} soundtrack={Music} regions={props.regions} setRegions={props.setRegions}/>
 					) : (
 						<FileUploader
 							multiple={false}
