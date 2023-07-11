@@ -1,221 +1,208 @@
-import React, {
-  useCallback,
-  useEffect,
-  useRef,
-  useState,
-  useMemo
-} from "react";
-import ReactDOM from "react-dom";
-import styled from "styled-components";
-import { WaveSurfer, WaveForm, Region, Marker } from "wavesurfer-react";
-import RegionsPlugin from "wavesurfer.js/dist/plugin/wavesurfer.regions.min";
-import TimelinePlugin from "wavesurfer.js/dist/plugin/wavesurfer.timeline.min";
-
+import React, { useCallback, useEffect, useRef, useState, useMemo } from 'react';
+import ReactDOM from 'react-dom';
+import styled from 'styled-components';
+import { WaveSurfer, WaveForm, Region, Marker } from 'wavesurfer-react';
+import RegionsPlugin from 'wavesurfer.js/dist/plugin/wavesurfer.regions.min';
+import TimelinePlugin from 'wavesurfer.js/dist/plugin/wavesurfer.timeline.min';
+import { FaRegPlayCircle, FaRegPauseCircle } from 'react-icons/fa';
 
 //https://velog.io/@seorim0801/react%EB%A1%9C-%EC%9D%8C%EC%84%B1-%EB%85%B9%EC%9D%8C-%EA%B8%B0%EB%8A%A5%EC%9D%84-%EA%B5%AC%ED%98%84%ED%95%B4%EB%B3%B4%EC%9E%90
 
-const Buttons = styled.div`
-  display: inline-block;
-`;
-
-const Button = styled.button``;
-
-
 function generateNum(min, max) {
-  return Math.random() * (max - min + 1) + min;
+	return Math.random() * (max - min + 1) + min;
 }
 
 function generateTwoNumsWithDistance(distance, min, max) {
-  const num1 = generateNum(min, max);
-  const num2 = generateNum(min, max);
-  // if num2 - num1 < 10
-  if (num2 - num1 >= 10) {
-    return [num1, num2];
-  }
-  return generateTwoNumsWithDistance(distance, min, max);
+	const num1 = generateNum(min, max);
+	const num2 = generateNum(min, max);
+	// if num2 - num1 < 10
+	if (num2 - num1 >= 10) {
+		return [num1, num2];
+	}
+	return generateTwoNumsWithDistance(distance, min, max);
 }
 
 function Audio(props) {
-  const [timelineVis, setTimelineVis] = useState(true);
+	const [timelineVis, setTimelineVis] = useState(true);
+	const [playtime, setplaytime] = useState(false);
 
-  
+	const plugins = useMemo(() => {
+		return [
+			{
+				plugin: RegionsPlugin,
+				options: { dragSelection: false },//드래그로 구간 추가하기
+			},
+			timelineVis && {
+				plugin: TimelinePlugin,
+				options: {
+					container: '#timeline',
+				},
+			},
+		].filter(Boolean);
+	}, [timelineVis]);
 
-  const plugins = useMemo(() => {
-    return [
-      {
-        plugin: RegionsPlugin,
-        options: { dragSelection: true }
-      },
-      timelineVis && {
-        plugin: TimelinePlugin,
-        options: {
-          container: "#timeline"
-        }
-      }
-      
-    ].filter(Boolean);
-  }, [timelineVis]);
+	
 
-  const toggleTimeline = useCallback(() => {
-    setTimelineVis(!timelineVis);
-  }, [timelineVis]);
+	// use regions ref to pass it inside useCallback
+	// so it will use always the most fresh version of regions list
+	const regionsRef = useRef(props.regions);
 
-  const [regions, setRegions] = useState([
-    {
-      id: "region-1",
-      start: 0.5,
-      end: 10,
-      color: "rgba(0, 0, 0, .5)",
-      data: {
-        systemRegionId: 31
-      }
-    },
-    {
-      id: "region-2",
-      start: 5,
-      end: 25,
-      color: "rgba(225, 195, 100, .5)",
-      data: {
-        systemRegionId: 32
-      }
-    },
-    {
-      id: "region-3",
-      start: 15,
-      end: 35,
-      color: "rgba(25, 95, 195, .5)",
-      data: {
-        systemRegionId: 33
-      }
-    }
-  ]);
+	useEffect(() => {
+		regionsRef.current = props.regions;
+	}, [props.regions]);
 
-  // use regions ref to pass it inside useCallback
-  // so it will use always the most fresh version of regions list
-  const regionsRef = useRef(regions);
+	const regionCreatedHandler = useCallback(
+		(region) => {
+			console.log('region-created --> region:', region);
 
-  useEffect(() => {
-    regionsRef.current = regions;
-  }, [regions]);
+			if (region.data.systemRegionId) return;
 
-  const regionCreatedHandler = useCallback(
-    (region) => {
-      console.log("region-created --> region:", region);
+			props.setRegions([
+				...regionsRef.current,
+				{ ...region, data: { ...region.data, systemRegionId: -1 } },
+			]);
+		},
+		[regionsRef]
+	);
 
-      if (region.data.systemRegionId) return;
+	const wavesurferRef = useRef();
+	const handleWSMount = useCallback(
+		(waveSurfer) => {
+			wavesurferRef.current = waveSurfer;
 
-      setRegions([
-        ...regionsRef.current,
-        { ...region, data: { ...region.data, systemRegionId: -1 } }
-      ]);
-    },
-    [regionsRef]
-  );
+			if (wavesurferRef.current) {
+				console.log(props.soundtrack);
+				wavesurferRef.current.load(props.soundtrack);
 
-  const wavesurferRef = useRef();
-  const handleWSMount = useCallback(
-    (waveSurfer) => {
-      
+				wavesurferRef.current.on('region-created', regionCreatedHandler);
 
-      wavesurferRef.current = waveSurfer;
+				wavesurferRef.current.on('ready', () => {
+					console.log('WaveSurfer is ready');
+				});
 
-      if (wavesurferRef.current) {
-		  console.log(props.soundtrack)
-        wavesurferRef.current.load(props.soundtrack);
+				wavesurferRef.current.on('region-removed', (region) => {
+					console.log('region-removed --> ', region);
+				});
 
-        wavesurferRef.current.on("region-created", regionCreatedHandler);
+				wavesurferRef.current.on('loading', (data) => {
+					console.log('loading --> ', data);
+				});
 
-        wavesurferRef.current.on("ready", () => {
-          console.log("WaveSurfer is ready");
-        });
+				if (window) {
+					window.surferidze = wavesurferRef.current;
+				}
+			}
+		},
+		[regionCreatedHandler]
+	);
 
-        wavesurferRef.current.on("region-removed", (region) => {
-          console.log("region-removed --> ", region);
-        });
+	const generateRegion = useCallback(() => {
+		if (!wavesurferRef.current) return;
+		const minTimestampInSeconds = 0;
+		const maxTimestampInSeconds = wavesurferRef.current.getDuration();
+		const distance = generateNum(0, 10);
+		const [min, max] = generateTwoNumsWithDistance(
+			distance,
+			minTimestampInSeconds,
+			maxTimestampInSeconds
+		);
 
-        wavesurferRef.current.on("loading", (data) => {
-          console.log("loading --> ", data);
-        });
+		const r = generateNum(0, 255);
+		const g = generateNum(0, 255);
+		const b = generateNum(0, 255);
 
-        if (window) {
-          window.surferidze = wavesurferRef.current;
-        }
-      }
-    },
-    [regionCreatedHandler]
-  );
+		props.setRegions([
+			...props.regions,
+			{
+				id: `custom-${generateNum(0, 9999)}`,
+				start: min,
+				end: max,
+				color: `rgba(${r}, ${g}, ${b}, 0.5)`,
+			},
+		]);
+	}, [props.regions, wavesurferRef]);
 
-  const generateRegion = useCallback(() => {
-    if (!wavesurferRef.current) return;
-    const minTimestampInSeconds = 0;
-    const maxTimestampInSeconds = wavesurferRef.current.getDuration();
-    const distance = generateNum(0, 10);
-    const [min, max] = generateTwoNumsWithDistance(
-      distance,
-      minTimestampInSeconds,
-      maxTimestampInSeconds
-    );
+	const removeLastRegion = useCallback(() => {
+		let nextRegions = [...props.regions];
 
-    const r = generateNum(0, 255);
-    const g = generateNum(0, 255);
-    const b = generateNum(0, 255);
+		nextRegions.pop();
 
-    setRegions([
-      ...regions,
-      {
-        id: `custom-${generateNum(0, 9999)}`,
-        start: min,
-        end: max,
-        color: `rgba(${r}, ${g}, ${b}, 0.5)`
-      }
-    ]);
-  }, [regions, wavesurferRef]);
+		props.setRegions(nextRegions);
+	}, [props.regions]);
 
+	const play = useCallback(() => {
+		wavesurferRef.current.playPause();
+	}, []);
 
-  const removeLastRegion = useCallback(() => {
-    let nextRegions = [...regions];
+	const handleRegionUpdate = useCallback((region, smth) => {
+		console.log('region-update-end --> region:', region.element.title);
+		console.log(smth);
+	}, []);
 
-    nextRegions.pop();
+	const options = {
+		waveColor: '#bcc4bd',
+		progressColor: '#05422b',
+		cursorColor: 'transparent',
+		barWidth: 3,
+		barGap: 3,
+		barRadius: 3,
+		responsive: true,
+		normalize: true,
+		partialRender: true,
+	};
 
-    setRegions(nextRegions);
-  }, [regions]);
-
-
-
-  const play = useCallback(() => {
-    wavesurferRef.current.playPause();
-  }, []);
-
-  const handleRegionUpdate = useCallback((region, smth) => {
-    console.log("region-update-end --> region:", region.element.title);
-    console.log(smth);
-  }, []);
-
-  return (
-    <div className="App">
-      <WaveSurfer plugins={plugins} onMount={handleWSMount}>
-        <WaveForm id="waveform" cursorColor="transparent">
-          {regions.map((regionProps) => (
-            <Region
-              onUpdateEnd={handleRegionUpdate}
-              key={regionProps.id}
-              {...regionProps}
-				></Region>
-          ))}
-          
-        </WaveForm>
-        <div id="timeline" />
-      </WaveSurfer>
-      <Buttons>
-        <Button onClick={generateRegion}>Generate region</Button>
-        
-        <Button onClick={play}>Play / Pause</Button>
-        <Button onClick={removeLastRegion}>Remove last region</Button>
-        <Button onClick={toggleTimeline}>Toggle timeline</Button>
-      </Buttons>
-    </div>
-  );
+	return (
+		<div className="App">
+			<WaveSurfer plugins={plugins} onMount={handleWSMount}>
+				<WaveForm id="waveform" cursorColor="transparent" {...options}>
+					{props.regions.map((regionProps) => (
+						<Region
+							onUpdateEnd={handleRegionUpdate}
+							key={regionProps.id}
+							{...regionProps}
+						></Region>
+					))}
+				</WaveForm>
+				<div id="timeline" />
+			</WaveSurfer>
+			<Buttons>
+				<Regionbutton onClick={generateRegion}>+ 구간 추가하기</Regionbutton>
+				<Button
+					onClick={() => {
+						setplaytime(!playtime);
+						play();
+					}}
+					style={{}}
+				>
+					{playtime ? <FaRegPauseCircle size="40" /> : <FaRegPlayCircle size="40" />}
+				</Button>
+				<Regionbutton onClick={removeLastRegion}>- 구간 지우기</Regionbutton>
+			</Buttons>
+		</div>
+	);
 }
 
-
 export default Audio;
+
+const Buttons = styled.div`
+	display: inline-block;
+`;
+
+const Button = styled.button`
+	border: 0;
+	background-color: transparent;
+	margin-top: 20px;
+	color: #14532D;
+`;
+
+const Regionbutton = styled.button`
+	height: 2.3rem;
+	width: 120px;
+	font-size: 0.875rem;
+	font-weight: 500;
+	border-radius: 0.5rem;
+	margin: 20px 60px 0px 60px;
+	color: rgb(255, 255, 255);
+	background-color: rgb(46, 70, 47);
+	border-color: transparent;
+`;

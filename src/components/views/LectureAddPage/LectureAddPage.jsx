@@ -316,7 +316,7 @@ const LectureAddFormDiv = styled.div`
 	margin: auto;
 	background-color: #ffffff;
 	width: 800px;
-	height: 80%;
+	height: 100%;
 	@media screen and (max-width: 768px) {
 		width: auto;
 	}

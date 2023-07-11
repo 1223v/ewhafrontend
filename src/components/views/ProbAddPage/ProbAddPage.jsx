@@ -4,167 +4,167 @@ import styled from 'styled-components';
 import DragNDrop from '../Audio/Sections/DragNDrop';
 import FileRead from '../Audio/Sections/FileRead';
 import Axios from 'axios';
-import {  useLocation } from 'react-router-dom';
-
+import { Link, useLocation } from 'react-router-dom';
 
 const Week = [
-	{value: 1, label: "1주차"},
-	{value: 2, label: "2주차"},
-	{value: 3, label: "3주차"},
-	{value: 4, label: "4주차"},
-	{value: 5, label: "5주차"},
-	{value: 6, label: "6주차"},
-	{value: 7, label: "7주차"},
-	{value: 8, label: "8주차"},
-	{value: 9, label: "9주차"},
-	{value: 10, label: "10주차"},
-	{value: 11, label: "11주차"},
-	{value: 12, label: "12주차"},
-	{value: 13, label: "13주차"},
-	{value: 14, label: "14주차"},
-	{value: 15, label: "15주차"},
-	{value: 16, label: "16주차"},
-	
+	{ value: 1, label: '1주차' },
+	{ value: 2, label: '2주차' },
+	{ value: 3, label: '3주차' },
+	{ value: 4, label: '4주차' },
+	{ value: 5, label: '5주차' },
+	{ value: 6, label: '6주차' },
+	{ value: 7, label: '7주차' },
+	{ value: 8, label: '8주차' },
+	{ value: 9, label: '9주차' },
+	{ value: 10, label: '10주차' },
+	{ value: 11, label: '11주차' },
+	{ value: 12, label: '12주차' },
+	{ value: 13, label: '13주차' },
+	{ value: 14, label: '14주차' },
+	{ value: 15, label: '15주차' },
+	{ value: 16, label: '16주차' },
 ];
 
 const ClassOption = [
-	{value: 1, label: "1분반"},
-	{value: 2, label: "2분반"},
-	{value: 3, label: "3분반"},
-	{value: 4, label: "4분반"},
-	{value: 5, label: "5분반"},
-	{value: 6, label: "6분반"},
-	{value: 7, label: "7분반"},
-	{value: 8, label: "8분반"},
-	{value: 9, label: "9분반"},
-	{value: 10, label: "10분반"},
-
-	
+	{ value: 1, label: '1분반' },
+	{ value: 2, label: '2분반' },
+	{ value: 3, label: '3분반' },
+	{ value: 4, label: '4분반' },
+	{ value: 5, label: '5분반' },
+	{ value: 6, label: '6분반' },
+	{ value: 7, label: '7분반' },
+	{ value: 8, label: '8분반' },
+	{ value: 9, label: '9분반' },
+	{ value: 10, label: '10분반' },
 ];
 
 const Startlanguage = [
-	{value: "ko", label: "한국어"},
-	{value: "jp", label: "일본어"},
-	{value: "중국어", label: "중국어"},
-	{value: "영어", label: "영어"},
-	{value: "불어", label: "불어"},
+	{ value: 'ko', label: '한국어' },
+	{ value: 'jp', label: '일본어' },
+	{ value: 'cn', label: '중국어' },
+	{ value: 'en', label: '영어' },
+	{ value: 'fr', label: '불어' },
 ];
 
 const Endlanguage = [
-	{value: "일본어", label: "일본어"},
-	{value: "한국어", label: "한국어"},
-	{value: "중국어", label: "중국어"},
-	{value: "영어", label: "영어"},
-	{value: "불어", label: "불어"},
+	{ value: 'jp', label: '일본어' },
+	{ value: 'ko', label: '한국어' },
+	{ value: 'cn', label: '중국어' },
+	{ value: 'en', label: '영어' },
+	{ value: 'fr', label: '불어' },
 ];
 
 const AssignmentOption = [
-	{value: "순차 통역", label: "순차 통역"},
-	{value: "동시 통역", label: "동시 통역"},
-	{value: "번역", label: "번역"},
-
+	{ value: '순차통역', label: '순차 통역' },
+	{ value: '동시통역', label: '동시 통역' },
+	{ value: '번역', label: '번역' },
 ];
 
 const SpeedOption = [
-	{value: 1, label: "1배속"},
-	{value: 0.5, label: "0.5배속"},
-	{value: 1.25, label: "1.25배속"},
-	{value: 1.5, label: "1.5배속"},
-	{value: 1.75, label: "1.75배속"},
-	{value: 2, label: "2배속"},
-	
-
+	{ value: 1.0, label: '1배속' },
+	{ value: 0.5, label: '0.5배속' },
+	{ value: 1.25, label: '1.25배속' },
+	{ value: 1.5, label: '1.5배속' },
+	{ value: 1.75, label: '1.75배속' },
+	{ value: 2.0, label: '2배속' },
 ];
-
-
 
 function ProbAddPage() {
 	const location = useLocation();
 	const data = location.state;
-	const [Title, setTitle] = useState('');
-	const [Description, setDescription] = useState('');
-	const [Weeklist, setWeeklist] = useState('');
+	const [Title, setTitle] = useState(''); //강의 제목
+	const [Description, setDescription] = useState(''); // 강의 설명
+	const [Weeklist, setWeeklist] = useState('1주차');
 	const [Limitlist, setLimitlist] = useState('');
-	const [Startlanguagelist, setStartlanguagelist] = useState('');
-	const [Endlanguagelist, setEndlanguagelist] = useState('');
-	const [Assignmentlist, setAssignmentlist] = useState('');
-	const [Speedlist, setSpeedlist] = useState('');
+	const [Startlanguagelist, setStartlanguagelist] = useState('ko');
+	const [Endlanguagelist, setEndlanguagelist] = useState('jp');
+	const [Assignmentlist, setAssignmentlist] = useState('순차통역');
+	const [Speedlist, setSpeedlist] = useState('1.0');
 	const [Txtread, setTxtread] = useState('');
 	const [Urlfile, setUrlfile] = useState('');
-	
+	const [regions, setRegions] = useState([]);
+	const [Purposelist, setPurposelist] = useState('off');
+	const [isChecked, setIsChecked] = useState(false);
+
 	const onTitleChange = (e) => {
 		setTitle(e.currentTarget.value);
-	}
-	
+	};
+
 	const onDescriptionChange = (e) => {
 		setDescription(e.currentTarget.value);
-	}
-	
+	};
+
 	const onWeekChange = (e) => {
 		setWeeklist(e.currentTarget.value);
-	}
-	
+	};
+
 	const onLimitChange = (e) => {
 		setLimitlist(e.currentTarget.value);
-	}
-	
+	};
+
 	const onStartlanguageChange = (e) => {
 		setStartlanguagelist(e.currentTarget.value);
-	}
-	
+	};
+
 	const onEndlanguageChange = (e) => {
 		setEndlanguagelist(e.currentTarget.value);
-	}
-	
+	};
+
 	const onAssignmentChange = (e) => {
 		setAssignmentlist(e.currentTarget.value);
-	}
-	
+	};
+
 	const onSpeedChange = (e) => {
 		setSpeedlist(e.currentTarget.value);
-	}
+	};
+
+	const onPurposeChange = (e) => {
+		setIsChecked(!isChecked);
+		setPurposelist(isChecked ? 'off' : 'open');
+	};
 
 	const onSaveButton = () => {
-		
 		let body = {
-			lecture_no : data?.num,
+			lecture_no: data?.num,
+			prob_sound_path: Urlfile,
 			prob_week: Weeklist,
-			prob_timeEnd:Limitlist,
-			prob_name:Title,
-			prob_type:Assignmentlist,
-			prob_keyword:"",
-			prob_translang_source:Startlanguagelist,
-			prob_translang_destination:Endlanguagelist,
-			prob_exp:Txtread,
+			prob_timeEnd: Limitlist,
+			prob_name: Title,
+			prob_type: Assignmentlist,
+			prob_keyword: '',
+			prob_translang_source: Startlanguagelist,
+			prob_translang_destination: Endlanguagelist,
+			prob_exp: Description,
+			prob_replay: '무제한',
 			prob_play_speed: Speedlist,
-			prob_open: Txtread,
-			prob_region: Txtread,
-			prob_replay: Txtread,
-			original_text:Txtread,
-			prob_sound_path:Txtread,
-			file: Urlfile
+			prob_open: Purposelist,
+			original_text: Txtread,
+			prob_region: regions,
 		};
-		
-		const config = {
-			header: {'content-type' : 'multipart/form-data'}
-		}
-		
-		Axios.post('/api',body,config)
-		.then(response => {
-			console.log(response.data);
-		})
+
+		console.log(body);
+		// const config = {
+		// 	header: {'content-type' : 'multipart/form-data'}
+		// }
+
+		// Axios.post('/api',body,config)
+		// .then(response => {
+		// 	console.log(response.data);
+		// })
 	};
 	return (
 		<LectureBackgroudDiv>
 			<NavBar />
 			<div style={{ display: 'flex' }}>
 				<LectureBackDiv>
-					<a
-						href="#"
+					<Link
+						to={`/prob?lecture_no=${data?.num}`}
 						style={{
 							textDecoration: 'none',
+							color: 'inherit',
 							margin: '9px',
 						}}
+						state={{ num: data?.num }}
 					>
 						<svg
 							xmlns="http://www.w3.org/2000/svg"
@@ -180,7 +180,7 @@ function ProbAddPage() {
 								d="M19.5 12h-15m0 0l6.75 6.75M4.5 12l6.75-6.75"
 							/>
 						</svg>
-					</a>
+					</Link>
 				</LectureBackDiv>
 				<LectureTitleDiv>과제 생성하기</LectureTitleDiv>
 			</div>
@@ -195,7 +195,6 @@ function ProbAddPage() {
 							maxlength="8"
 							value={Title}
 							onChange={onTitleChange}
-						
 						/>
 					</LectureNameinputDiv>
 				</LectureNameDiv>
@@ -205,13 +204,14 @@ function ProbAddPage() {
 					<LectureNameinputDiv style={{ marginTop: '10px' }}>
 						<select
 							id="countries"
-							class="bg-white-50 border border-green-800 text-gray-900 text-sm rounded-lg focus:ring-green-500 focus:border-green-500 block w-full p-2.5 dark:bg-white-700 dark:border-white-600 dark:placeholder-white-400 dark:text-black dark:focus:ring-green-500 dark:focus:border-green-500"
+							class="bg-white-50 border border-green-900 text-gray-900 text-sm rounded-lg focus:ring-green-900 focus:border-green-900 block w-full p-2.5"
 							onChange={onWeekChange}
 						>
-							{Week.map((item,index)=>(
-								<option key={index} value={item.value}>{item.label}</option>
+							{Week.map((item, index) => (
+								<option key={index} value={item.value}>
+									{item.label}
+								</option>
 							))}
-					
 						</select>
 					</LectureNameinputDiv>
 				</LectureNameDiv>
@@ -221,11 +221,13 @@ function ProbAddPage() {
 					<LectureNameinputDiv style={{ marginTop: '10px' }}>
 						<select
 							id="countries"
-							class="bg-white-50 border border-green-800 text-gray-900 text-sm rounded-lg focus:ring-green-500 focus:border-green-500 block w-full p-2.5 dark:bg-white-700 dark:border-white-600 dark:placeholder-white-400 dark:text-black dark:focus:ring-green-500 dark:focus:border-green-500"
+							class="bg-white-50 border border-green-900 text-gray-900 text-sm rounded-lg focus:ring-green-900 focus:border-green-900 block w-full p-2.5 "
 							onChange={onAssignmentChange}
 						>
-							{AssignmentOption.map((item,index)=>(
-								<option key={index} value={item.value}>{item.label}</option>
+							{AssignmentOption.map((item, index) => (
+								<option key={index} value={item.value}>
+									{item.label}
+								</option>
 							))}
 						</select>
 					</LectureNameinputDiv>
@@ -236,11 +238,13 @@ function ProbAddPage() {
 					<LectureNameinputDiv style={{ marginTop: '10px' }}>
 						<select
 							id="countries"
-							class="bg-white-50 border border-green-800 text-gray-900 text-sm rounded-lg focus:ring-green-500 focus:border-green-500 block w-full p-2.5 dark:bg-white-700 dark:border-white-600 dark:placeholder-white-400 dark:text-black dark:focus:ring-green-500 dark:focus:border-green-500"
-						onChange={onStartlanguageChange}
+							class="bg-white-50 border border-green-900 text-gray-900 text-sm rounded-lg focus:ring-green-900 focus:border-green-900 block w-full p-2.5"
+							onChange={onStartlanguageChange}
 						>
-							{Startlanguage.map((item,index)=>(
-								<option key={index} value={item.value}>{item.label}</option>
+							{Startlanguage.map((item, index) => (
+								<option key={index} value={item.value}>
+									{item.label}
+								</option>
 							))}
 						</select>
 					</LectureNameinputDiv>
@@ -248,11 +252,13 @@ function ProbAddPage() {
 					<LectureNameinputDiv style={{ marginTop: '10px' }}>
 						<select
 							id="countries"
-							class="bg-white-50 border border-green-800 text-gray-900 text-sm rounded-lg focus:ring-green-500 focus:border-green-500 block w-full p-2.5 dark:bg-white-700 dark:border-white-600 dark:placeholder-white-400 dark:text-black dark:focus:ring-green-500 dark:focus:border-green-500"
-						onChange={onEndlanguageChange}
+							class="bg-white-50 border border-green-900 text-gray-900 text-sm rounded-lg focus:ring-green-900 focus:border-green-900 block w-full p-2.5"
+							onChange={onEndlanguageChange}
 						>
-							{Endlanguage.map((item,index)=>(
-								<option key={index} value={item.value}>{item.label}</option>
+							{Endlanguage.map((item, index) => (
+								<option key={index} value={item.value}>
+									{item.label}
+								</option>
 							))}
 						</select>
 					</LectureNameinputDiv>
@@ -260,8 +266,8 @@ function ProbAddPage() {
 				<hr style={{ background: '#d3d3d3', height: '1px', border: '0' }} />
 				<LectureNameDiv>
 					<LectureName>과제 기한</LectureName>
-					<LectureNameinputDiv style={{ marginTop: '10px' }}>
-						<input type="datetime-local" name="bday" onChange={onLimitChange}/>
+					<LectureNameinputDiv style={{ marginTop: '7px' }}>
+						<Purposeinput type="datetime-local" name="bday" onChange={onLimitChange} />
 					</LectureNameinputDiv>
 				</LectureNameDiv>
 				<hr style={{ background: '#d3d3d3', height: '1px', border: '0' }} />
@@ -270,11 +276,13 @@ function ProbAddPage() {
 					<LectureNameinputDiv style={{ marginTop: '10px' }}>
 						<select
 							id="countries"
-							class="bg-white-50 border border-green-800 text-gray-900 text-sm rounded-lg focus:ring-green-500 focus:border-green-500 block w-full p-2.5 dark:bg-white-700 dark:border-white-600 dark:placeholder-white-400 dark:text-black dark:focus:ring-green-500 dark:focus:border-green-500"
-						onChange={onSpeedChange}
+							class="bg-white-50 border border-green-900 text-gray-900 text-sm rounded-lg focus:ring-green-900 focus:border-green-900 block w-full p-2.5"
+							onChange={onSpeedChange}
 						>
-							{SpeedOption.map((item,index)=>(
-								<option key={index} value={item.value}>{item.label}</option>
+							{SpeedOption.map((item, index) => (
+								<option key={index} value={item.value}>
+									{item.label}
+								</option>
 							))}
 						</select>
 					</LectureNameinputDiv>
@@ -282,8 +290,14 @@ function ProbAddPage() {
 				<hr style={{ background: '#d3d3d3', height: '1px', border: '0' }} />
 				<LectureNameDiv>
 					<LectureName>과제 용도</LectureName>
-					<LectureNameinputDiv style={{ marginTop: '10px' }}>
-						<input type="checkbox" id="remember-check" /> 자습용 과제
+					<LectureNameinputDiv style={{ marginTop: '20px', marginLeft: '20px' }}>
+						<input
+							type="checkbox"
+							id="remember-check"
+							checked={isChecked}
+							onChange={onPurposeChange}
+						/>{' '}
+						자습용 과제
 					</LectureNameinputDiv>
 				</LectureNameDiv>
 				<hr style={{ background: '#d3d3d3', height: '1px', border: '0' }} />
@@ -303,7 +317,12 @@ function ProbAddPage() {
 				<hr style={{ background: '#d3d3d3', height: '1px', border: '0' }} />
 
 				<div>
-					<DragNDrop Urlfile={Urlfile} setUrlfile={setUrlfile} />
+					<DragNDrop
+						Urlfile={Urlfile}
+						setUrlfile={setUrlfile}
+						regions={regions}
+						setRegions={setRegions}
+					/>
 				</div>
 
 				<hr style={{ background: '#d3d3d3', height: '1px', border: '0' }} />
@@ -323,7 +342,7 @@ export default ProbAddPage;
 const LectureBackgroudDiv = styled.div`
 	background-color: #f7f7fa;
 	width: 100%;
-	height: 1500px;
+	height: 100%;
 `;
 
 const LectureAddFormDiv = styled.div`
@@ -332,7 +351,7 @@ const LectureAddFormDiv = styled.div`
 	margin: auto;
 	background-color: #ffffff;
 	width: 800px;
-	height: 80%;
+	height: 100%;
 	@media screen and (max-width: 768px) {
 		width: auto;
 		margin: 10px;
@@ -382,7 +401,8 @@ const LectureName2 = styled.div`
 const LectureNameinput = styled.input`
 	width: 100%;
 	height: 48px;
-
+	padding-left: 20px;
+	padding-right: 20px;
 	margin-top: 10px;
 	margin-right: 10px;
 	box-sizing: border-box;
@@ -390,6 +410,20 @@ const LectureNameinput = styled.input`
 	border: solid 1px #d3d3d3;
 	border-radius: 9px;
 	background-color: #ffffff;
+	&:hover {
+		outline: 2px solid #04653d;
+	}
+`;
+
+const Purposeinput = styled.input`
+	width: 100%;
+	height: 48px;
+	box-sizing: border-box;
+	border: solid 1px #d3d3d3;
+	border-radius: 9px;
+	background-color: #ffffff;
+	padding-left: 20px;
+	padding-right: 20px;
 	&:hover {
 		outline: 2px solid #04653d;
 	}
