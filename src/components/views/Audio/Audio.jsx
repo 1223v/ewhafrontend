@@ -49,6 +49,9 @@ function Audio(props) {
 
 	useEffect(() => {
 		regionsRef.current = props.regions;
+		const newRegionsCopy = props.regions.map(({ start, end }, index) => ({ start, end, index }));
+		props.setRegionsCopy(newRegionsCopy);
+		
 	}, [props.regions]);
 
 	const regionCreatedHandler = useCallback(

@@ -144,7 +144,7 @@ function BottomSheetSection(props) {
 		console.log(props.Graphcontent);
 	}, [props.Graphcontent]);
 	return (
-		<div>
+		<div style={{zIndex:'10'}}>
 			<BottomSheet
 				open={props.open}
 				onDismiss={onClose}

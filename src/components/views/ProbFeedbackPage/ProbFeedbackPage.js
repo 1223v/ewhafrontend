@@ -30,10 +30,7 @@ function ProbFeedbackPage() {
 		<div>
 			<NavBar />
 			<FeedbackDiv>
-				<Translation>
-					<h4>원문</h4>
-					<TranslationBox>test</TranslationBox>
-				</Translation>
+				
 				<Interpretation>
 					<h4>통역 전사문</h4>
 					<InterpretationBox>
@@ -59,15 +56,16 @@ function ProbFeedbackPage() {
 
 			<LectureCreateDiv>
 				<LectureCreateButton onClick={onClickButton}>그래프 보기</LectureCreateButton>
+				<LectureCreateButton onClick={onClickButton}>총평</LectureCreateButton>
 				<LectureCreateButton onClick={onSaveButton}>저장하기</LectureCreateButton>
 			</LectureCreateDiv>
 
 			{userinfos?.userData?.role === 1 ? (
-				<StudentBottomSheet open={open} setOpen={setOpen} Graphcontent={Graphcontent} />
+				<StudentBottomSheet style={{zIndex:'10'}} open={open} setOpen={setOpen} Graphcontent={Graphcontent} />
 			) : userinfos?.userData?.role === 2 ? (
-				<BottomSheetSection open={open} setOpen={setOpen} Graphcontent={Graphcontent} />
+				<BottomSheetSection style={{zIndex:'10'}} open={open} setOpen={setOpen} Graphcontent={Graphcontent} />
 			) : userinfos?.userData?.role === 3 ? (
-				<BottomSheetSection open={open} setOpen={setOpen} Graphcontent={Graphcontent} />
+				<BottomSheetSection style={{zIndex:'10'}} open={open} setOpen={setOpen} Graphcontent={Graphcontent} />
 			) : (
 				''
 			)}
@@ -108,13 +106,13 @@ const Interpretation = styled.div`
 	font-size: 12px;
 	margin-top: 10px;
 	position: absolute;
-	left: 350px;
+	left: 0px;
 `;
 
 const InterpretationBox = styled.div`
 	padding: 10px;
 
-	width: 300px;
+	width: 700px;
 	height: 500px;
 
 	overflow-y: auto;

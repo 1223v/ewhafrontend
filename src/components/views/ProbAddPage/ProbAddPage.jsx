@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import DragNDrop from '../Audio/Sections/DragNDrop';
 import FileRead from '../Audio/Sections/FileRead';
 import Axios from 'axios';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 
 const Week = [
 	{ value: 1, label: '1주차' },
@@ -70,6 +70,7 @@ const SpeedOption = [
 ];
 
 function ProbAddPage() {
+	let navigate = useNavigate();
 	const location = useLocation();
 	const data = location.state;
 	const [Title, setTitle] = useState(''); //강의 제목
@@ -85,6 +86,7 @@ function ProbAddPage() {
 	const [regions, setRegions] = useState([]);
 	const [Purposelist, setPurposelist] = useState('off');
 	const [isChecked, setIsChecked] = useState(false);
+	const [regionsCopy, setRegionsCopy] = useState([]);
 
 	const onTitleChange = (e) => {
 		setTitle(e.currentTarget.value);
@@ -124,6 +126,36 @@ function ProbAddPage() {
 	};
 
 	const onSaveButton = () => {
+		if (Title === '') {
+			
+			return alert('제목을 설정해주세요.');
+		}
+
+		if (Description === '') {
+			
+			return alert('과제 설명을 적어주세요.');
+		}
+
+		if (Txtread === '') {
+			
+			return alert('원본파일이 비어있습니다.');
+		}
+		
+		if (regionsCopy === '') {
+			
+			return alert('최소한 한개 이상의 구간을 설정해주세요.');
+		}
+		
+		if (Urlfile === '') {
+			
+			return alert('음원 파일이 존재하지 않습니다. 음원을 추가해주세요.');
+		}
+
+		if (Limitlist === '') {
+			
+			return alert('과제 기한을 정해주세요.');
+		}
+
 		let body = {
 			lecture_no: data?.num,
 			prob_sound_path: Urlfile,
@@ -139,18 +171,26 @@ function ProbAddPage() {
 			prob_play_speed: Speedlist,
 			prob_open: Purposelist,
 			original_text: Txtread,
-			prob_region: regions,
+			prob_region: regionsCopy,
 		};
 
-		console.log(body);
-		// const config = {
-		// 	header: {'content-type' : 'multipart/form-data'}
-		// }
-
-		// Axios.post('/api',body,config)
-		// .then(response => {
-		// 	console.log(response.data);
-		// })
+		Axios.post('https://edu-trans.ewha.ac.kr:8443/api/prob/create', body, {
+			withCredentials: true,
+		})
+			.then((response) => {
+				if (response.data.probcreateSuccess) {
+					alert('과제를 생성했습니다.');
+					navigate('/');
+				} else {
+					alert('과제 생성에 실패했습니다. 다시 시도해주세요.');
+					navigate('/');
+				}
+			})
+			.catch((error) => {
+				// 요청이 실패한 경우의 처리
+				console.error(error);
+				navigate(-1);
+			});
 	};
 	return (
 		<LectureBackgroudDiv>
@@ -322,6 +362,8 @@ function ProbAddPage() {
 						setUrlfile={setUrlfile}
 						regions={regions}
 						setRegions={setRegions}
+						regionsCopy={regionsCopy}
+						setRegionsCopy={setRegionsCopy}
 					/>
 				</div>
 

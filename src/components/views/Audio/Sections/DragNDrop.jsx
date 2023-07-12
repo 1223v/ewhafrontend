@@ -8,12 +8,12 @@ const fileTypes = ['wav', 'mp3'];
 
 function DragNDrop(props) {
 	const [Music, setMusic] = useState('');
-	
+
 	const handleChange = (fileURL) => {
 		// 파일 경로 출력
 		console.log('업로드된 파일 경로:', fileURL);
 		const formData = new FormData();
-    	formData.append('prob_sound', fileURL);
+		formData.append('prob_sound', fileURL);
 		Axios.post('https://edu-trans.ewha.ac.kr:8443/prob_upload', formData, {
 			headers: {
 				'Content-Type': 'multipart/form-data',
@@ -29,15 +29,20 @@ function DragNDrop(props) {
 			.catch((error) => {
 				console.error('파일 업로드 실패:', error);
 			});
-
-		
 	};
 	return (
 		<div>
 			<DragDrop>
 				<p>
 					{Music ? (
-						<Audio style={{ margin: '10px 10px auto' }} soundtrack={Music} regions={props.regions} setRegions={props.setRegions}/>
+						<Audio
+							style={{ margin: '10px 10px auto' }}
+							soundtrack={Music}
+							regions={props.regions}
+							setRegions={props.setRegions}
+							regionsCopy={props.regionsCopy}
+							setRegionsCopy={props.setRegionsCopy}
+						/>
 					) : (
 						<FileUploader
 							multiple={false}
