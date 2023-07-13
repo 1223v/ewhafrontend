@@ -3,11 +3,19 @@ import { FileUploader } from 'react-drag-drop-files';
 import styled from 'styled-components';
 import Audio from '../Audio';
 import Axios from 'axios';
+import { AiOutlineClose } from 'react-icons/ai';
 
 const fileTypes = ['wav', 'mp3'];
 
 function DragNDrop(props) {
 	const [Music, setMusic] = useState('');
+	
+	const onhandleClose = () => {
+		props.setMusic("");
+		props.setRegions([]);
+		props.setRegionsCopy([]);
+		
+	};
 
 	const handleChange = (fileURL) => {
 		// 파일 경로 출력
@@ -22,7 +30,7 @@ function DragNDrop(props) {
 		})
 			.then((response) => {
 				const URL = 'https://edu-trans.ewha.ac.kr:8443/' + response.data.file_path;
-				setMusic(URL);
+				props.setMusic(URL);
 				props.setUrlfile(response.data.file_path);
 				console.log(URL);
 			})
@@ -34,15 +42,22 @@ function DragNDrop(props) {
 		<div>
 			<DragDrop>
 				<p>
-					{Music ? (
-						<Audio
-							style={{ margin: '10px 10px auto' }}
-							soundtrack={Music}
-							regions={props.regions}
-							setRegions={props.setRegions}
-							regionsCopy={props.regionsCopy}
-							setRegionsCopy={props.setRegionsCopy}
-						/>
+					{props.Music ? (
+						<div>
+							<Container>
+								<Button onClick={onhandleClose}>
+									<AiOutlineClose size="28" />
+								</Button>
+							</Container>
+							<Audio
+								style={{ margin: '10px 10px auto' }}
+								soundtrack={props.Music}
+								regions={props.regions}
+								setRegions={props.setRegions}
+								regionsCopy={props.regionsCopy}
+								setRegionsCopy={props.setRegionsCopy}
+							/>
+						</div>
 					) : (
 						<FileUploader
 							multiple={false}
@@ -79,4 +94,16 @@ const DragDrop = styled.div`
 			box-sizing: border-box;
 		}
 	}
+`;
+
+const Container = styled.div`
+	display: flex;
+	justify-content: flex-end;
+`;
+
+const Button = styled.button`
+	color: rgb(119, 43, 49);
+	border: 0px;
+	outline: 0px;
+	background: none;
 `;

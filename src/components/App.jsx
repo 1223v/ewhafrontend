@@ -12,6 +12,7 @@ import LectureAddPage from './views/LectureAddPage/LectureAddPage';
 import LectureModPage from './views/LectureAddPage/LectureModPage';
 import Test from './views/LandingPage/Section/Test';
 import ProbAddPage from './views/ProbAddPage/ProbAddPage';
+import ProbModPage from './views/ProbAddPage/ProbModPage';
 import ProbFeedbackPage from './views/ProbFeedbackPage/ProbFeedbackPage';
 import TextAEEditor from './views/ProbFeedbackPage/Sections/TextAEEditor';
 import Audio from './views/Audio/Audio';
@@ -25,7 +26,8 @@ function App() {
 	const NewProb = Auth(Prob, true);
 	const NewLectureAddPage = Auth(LectureAddPage, true, 3);
 	const NewLectureModPage = Auth(LectureModPage, true, 3);
-	const NewProbAddPage = Auth(ProbAddPage, true);
+	const NewProbAddPage = Auth(ProbAddPage, true, 3);
+	const NewProbModPage = Auth(ProbModPage, true, 3);
 	const NewProbFeedbackPage = Auth(ProbFeedbackPage, true);
 	const NewAudioRecordPage = Auth(AudioRecordPage, true);
 	const NewTest = Auth(Audio, true);
@@ -42,6 +44,7 @@ function App() {
 				<Route path="/lecture_mod" element={<NewLectureModPage />} />
 				<Route path="/record" element={<NewAudioRecordPage />} />
 				<Route path="/prob_add" element={<NewProbAddPage />} />
+				<Route path="/prob_mod" element={<NewProbModPage />} />
 				<Route path="/prob_feedback" element={<NewProbFeedbackPage />} />
 
 				<Route path="/test" element={<NewTest />} />

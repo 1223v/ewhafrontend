@@ -87,6 +87,7 @@ function ProbAddPage() {
 	const [Purposelist, setPurposelist] = useState('off');
 	const [isChecked, setIsChecked] = useState(false);
 	const [regionsCopy, setRegionsCopy] = useState([]);
+	const [Music, setMusic] = useState('');
 
 	const onTitleChange = (e) => {
 		setTitle(e.currentTarget.value);
@@ -364,6 +365,8 @@ function ProbAddPage() {
 						setRegions={setRegions}
 						regionsCopy={regionsCopy}
 						setRegionsCopy={setRegionsCopy}
+						setMusic={setMusic}
+						Music={Music}
 					/>
 				</div>
 

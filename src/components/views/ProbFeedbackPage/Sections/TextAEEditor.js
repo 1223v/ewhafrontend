@@ -7,19 +7,17 @@ import Axios from 'axios';
 const TextAEEditor = (props) => {
 	const [Textae, setTextae] = useState('');
 	const [Url, setUrl] = useState('');
+	
 
 	const elementRef = useRef(null);
-	
-	const handleMouseUp = () => {
-    	props.setGraphcontent(elementRef.current.textContent);
-  };
 
+	const handleMouseUp = () => {
+		props.setGraphcontent(elementRef.current.textContent);
+	};
 
 	useEffect(() => {
 		props.setContent(elementRef.current.textContent);
 	}, [props.Load]);
-
-	
 
 	useEffect(() => {
 		setTimeout(() => {
@@ -36,11 +34,10 @@ const TextAEEditor = (props) => {
 				// 요청이 성공한 경우의 처리
 				console.log(response.data.url);
 				setUrl(response.data.url);
-				Axios.get(response.data.url,{withCredentials: true})
-				.then((response2) => {
+				Axios.get(response.data.url, { withCredentials: true }).then((response2) => {
 					console.log(response2.data);
 					props.setGraphcontent(response2.data);
-				})
+				});
 			})
 
 			.catch((error) => {
@@ -51,17 +48,19 @@ const TextAEEditor = (props) => {
 	}, []);
 
 	return (
-		<div>
-			<div
-				id="textae"
-				className="textae-editor"
-				mode="edit"
-				target={Url}
-				inspect="annotation"
-				onMouseUp={handleMouseUp}
-			></div>
-			<div id="annotation" ref={elementRef}></div>
-		</div>
+		
+				<div>
+					<div
+						id="textae"
+						className="textae-editor"
+						mode="edit"
+						target={Url}
+						inspect="annotation"
+						onMouseUp={handleMouseUp}
+					></div>
+					<div id="annotation" ref={elementRef} style={{display: 'none'}}></div>
+				</div>
+			
 	);
 };
 
