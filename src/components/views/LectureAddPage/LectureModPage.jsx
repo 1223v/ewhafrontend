@@ -45,7 +45,7 @@ const Separated = [
 	{ value: '8분반', label: '8분반' },
 ];
 
-function LectureAddPage() {
+function LectureModPage() {
 	const location = useLocation();
 	const data = location.state;
 	let navigate = useNavigate();
@@ -328,7 +328,7 @@ function LectureAddPage() {
 	);
 }
 
-export default LectureAddPage;
+export default LectureModPage;
 
 const LectureBackgroudDiv = styled.div`
 	background-color: #f7f7fa;

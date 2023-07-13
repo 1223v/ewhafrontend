@@ -30,7 +30,7 @@ function Audio(props) {
 		return [
 			{
 				plugin: RegionsPlugin,
-				options: { dragSelection: false },//드래그로 구간 추가하기
+				options: { dragSelection: false }, //드래그로 구간 추가하기
 			},
 			timelineVis && {
 				plugin: TimelinePlugin,
@@ -41,17 +41,19 @@ function Audio(props) {
 		].filter(Boolean);
 	}, [timelineVis]);
 
-	
-
 	// use regions ref to pass it inside useCallback
 	// so it will use always the most fresh version of regions list
 	const regionsRef = useRef(props.regions);
 
 	useEffect(() => {
 		regionsRef.current = props.regions;
-		const newRegionsCopy = props.regions.map(({ start, end }, index) => ({ start, end, index }));
+		console.log(props.regions);
+		const newRegionsCopy = props.regions.map(({ start, end }, index) => ({
+			start: parseInt(start, 10).toString(),
+			end: parseInt(end, 10).toString(),
+			index,
+		}));
 		props.setRegionsCopy(newRegionsCopy);
-		
 	}, [props.regions]);
 
 	const regionCreatedHandler = useCallback(
@@ -195,7 +197,7 @@ const Button = styled.button`
 	border: 0;
 	background-color: transparent;
 	margin-top: 20px;
-	color: #14532D;
+	color: #14532d;
 `;
 
 const Regionbutton = styled.button`
