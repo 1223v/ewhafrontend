@@ -56,6 +56,8 @@ function DragNDrop(props) {
 								setRegions={props.setRegions}
 								regionsCopy={props.regionsCopy}
 								setRegionsCopy={props.setRegionsCopy}
+								setModregions={props?.setModregions}
+								Modregions={props?.Modregions}
 							/>
 						</div>
 					) : (

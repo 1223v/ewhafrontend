@@ -25,6 +25,7 @@ function generateTwoNumsWithDistance(distance, min, max) {
 function Audio(props) {
 	const [timelineVis, setTimelineVis] = useState(true);
 	const [playtime, setplaytime] = useState(false);
+	
 
 	const plugins = useMemo(() => {
 		return [
@@ -48,26 +49,33 @@ function Audio(props) {
 	useEffect(() => {
 		regionsRef.current = props.regions;
 		console.log(props.regions);
-		const newRegionsCopy = props.regions.map(({ start, end }, index) => ({
+		const newRegionsCopy = props.regions.map(({ start, end, id }) => ({
 			start: parseInt(start, 10).toString(),
 			end: parseInt(end, 10).toString(),
-			index,
+			index: id,
+			
 		}));
 		props.setRegionsCopy(newRegionsCopy);
 	}, [props.regions]);
 
 	const regionCreatedHandler = useCallback(
+		// 이 함수 문제
 		(region) => {
 			console.log('region-created --> region:', region);
 
 			if (region.data.systemRegionId) return;
+			if (props?.Modregions?.length !== 0) {
+				props?.setModregions([]);
 
+				return;
+			}
+			console.log(props?.Modregions);
 			props.setRegions([
 				...regionsRef.current,
 				{ ...region, data: { ...region.data, systemRegionId: -1 } },
 			]);
 		},
-		[regionsRef]
+		[props?.Modregions, regionsRef]
 	);
 
 	const wavesurferRef = useRef();
@@ -102,6 +110,7 @@ function Audio(props) {
 	);
 
 	const generateRegion = useCallback(() => {
+		//여기 문제. 백에서 값을 받고 다시 값을 넣
 		if (!wavesurferRef.current) return;
 		const minTimestampInSeconds = 0;
 		const maxTimestampInSeconds = wavesurferRef.current.getDuration();
@@ -119,12 +128,13 @@ function Audio(props) {
 		props.setRegions([
 			...props.regions,
 			{
-				id: `custom-${generateNum(0, 9999)}`,
+				id: props.regions.length,
 				start: min,
 				end: max,
 				color: `rgba(${r}, ${g}, ${b}, 0.5)`,
 			},
 		]);
+		console.log('실행됩니다.');
 	}, [props.regions, wavesurferRef]);
 
 	const removeLastRegion = useCallback(() => {
@@ -139,10 +149,26 @@ function Audio(props) {
 		wavesurferRef.current.playPause();
 	}, []);
 
-	const handleRegionUpdate = useCallback((region, smth) => {
-		console.log('region-update-end --> region:', region.element.title);
-		console.log(smth);
-	}, []);
+	const handleRegionUpdate = useCallback(
+		(region, smth) => {
+			console.log('regiogion:',region.id);
+			const updatedRegions = props.regions.map((regionProps) => {
+				console.log('region-update--> region:', regionProps?.id,region.id);
+				if (regionProps?.id === region.id ) {
+					return {
+						...regionProps,
+						start: region.start,
+						end: region.end,
+					};
+					console.log('region-update-end --> region:', region);
+				}
+				return regionProps;
+			});
+
+			props.setRegions(updatedRegions);
+		},
+		[props.regions]
+	);
 
 	const options = {
 		waveColor: '#bcc4bd',

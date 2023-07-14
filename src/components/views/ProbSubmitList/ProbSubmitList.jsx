@@ -1,8 +1,31 @@
 import React, { useEffect, useState, useRef } from 'react';
 import NavBar from '../NavBar/NavBar';
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate,useLocation } from "react-router-dom";
+import Axios from 'axios';
+
 
 function ProbSubmitList() {
+	let navigate = useNavigate();
+	const location = useLocation();
+	const data = location.state;
+	
+	useEffect(()=>{
+		Axios.get(
+			`https://edu-trans.ewha.ac.kr:8443/api/probsubmit/list?lecture_no=${data.num}&as_no=${data.asnum}`,
+			{
+				withCredentials: true,
+			}
+		)
+			.then((response) => {
+				// 요청이 성공한 경우의 처리
+				console.log(response.data);
+			})
+			.catch((error) => {
+				// 요청이 실패한 경우의 처리
+				console.error(error);
+				navigate(-1);
+			});
+	},[]);
 	const people = [
 		{
 			name: '김남형',

@@ -7,22 +7,22 @@ import Axios from 'axios';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 
 const Week = [
-	{ value: 1, label: '1주차' },
-	{ value: 2, label: '2주차' },
-	{ value: 3, label: '3주차' },
-	{ value: 4, label: '4주차' },
-	{ value: 5, label: '5주차' },
-	{ value: 6, label: '6주차' },
-	{ value: 7, label: '7주차' },
-	{ value: 8, label: '8주차' },
-	{ value: 9, label: '9주차' },
-	{ value: 10, label: '10주차' },
-	{ value: 11, label: '11주차' },
-	{ value: 12, label: '12주차' },
-	{ value: 13, label: '13주차' },
-	{ value: 14, label: '14주차' },
-	{ value: 15, label: '15주차' },
-	{ value: 16, label: '16주차' },
+	{ value: '1주차', label: '1주차' },
+	{ value: '2주차', label: '2주차' },
+	{ value: '3주차', label: '3주차' },
+	{ value: '4주차', label: '4주차' },
+	{ value: '5주차', label: '5주차' },
+	{ value: '6주차', label: '6주차' },
+	{ value: '7주차', label: '7주차' },
+	{ value: '8주차', label: '8주차' },
+	{ value: '9주차', label: '9주차' },
+	{ value: '10주차', label: '10주차' },
+	{ value: '11주차', label: '11주차' },
+	{ value: '12주차', label: '12주차' },
+	{ value: '13주차', label: '13주차' },
+	{ value: '14주차', label: '14주차' },
+	{ value: '15주차', label: '15주차' },
+	{ value: '16주차', label: '16주차' },
 ];
 
 const ClassOption = [
@@ -39,19 +39,17 @@ const ClassOption = [
 ];
 
 const Startlanguage = [
-	{ value: 'ko', label: '한국어' },
 	{ value: 'jp', label: '일본어' },
+	{ value: 'ko', label: '한국어' },
 	{ value: 'cn', label: '중국어' },
 	{ value: 'en', label: '영어' },
 	{ value: 'fr', label: '불어' },
 ];
 
 const Endlanguage = [
-	{ value: 'jp', label: '일본어' },
+	
 	{ value: 'ko', label: '한국어' },
-	{ value: 'cn', label: '중국어' },
-	{ value: 'en', label: '영어' },
-	{ value: 'fr', label: '불어' },
+	
 ];
 
 const AssignmentOption = [
@@ -77,8 +75,8 @@ function ProbAddPage() {
 	const [Description, setDescription] = useState(''); // 강의 설명
 	const [Weeklist, setWeeklist] = useState('1주차');
 	const [Limitlist, setLimitlist] = useState('');
-	const [Startlanguagelist, setStartlanguagelist] = useState('ko');
-	const [Endlanguagelist, setEndlanguagelist] = useState('jp');
+	const [Startlanguagelist, setStartlanguagelist] = useState('jp');
+	const [Endlanguagelist, setEndlanguagelist] = useState('ko');
 	const [Assignmentlist, setAssignmentlist] = useState('순차통역');
 	const [Speedlist, setSpeedlist] = useState('1.0');
 	const [Txtread, setTxtread] = useState('');
@@ -88,6 +86,7 @@ function ProbAddPage() {
 	const [isChecked, setIsChecked] = useState(false);
 	const [regionsCopy, setRegionsCopy] = useState([]);
 	const [Music, setMusic] = useState('');
+	const [Modregions, setModregions] = useState([]);
 
 	const onTitleChange = (e) => {
 		setTitle(e.currentTarget.value);
@@ -128,32 +127,26 @@ function ProbAddPage() {
 
 	const onSaveButton = () => {
 		if (Title === '') {
-			
 			return alert('제목을 설정해주세요.');
 		}
 
 		if (Description === '') {
-			
 			return alert('과제 설명을 적어주세요.');
 		}
 
 		if (Txtread === '') {
-			
 			return alert('원본파일이 비어있습니다.');
 		}
-		
+
 		if (regionsCopy === '') {
-			
 			return alert('최소한 한개 이상의 구간을 설정해주세요.');
 		}
-		
+
 		if (Urlfile === '') {
-			
 			return alert('음원 파일이 존재하지 않습니다. 음원을 추가해주세요.');
 		}
 
 		if (Limitlist === '') {
-			
 			return alert('과제 기한을 정해주세요.');
 		}
 
@@ -367,6 +360,8 @@ function ProbAddPage() {
 						setRegionsCopy={setRegionsCopy}
 						setMusic={setMusic}
 						Music={Music}
+						setModregions={setModregions}
+						Modregions={Modregions}
 					/>
 				</div>
 
