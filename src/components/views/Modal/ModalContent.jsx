@@ -15,11 +15,21 @@ function ModalContent({ weeklistcontent, lecture_no }) {
 				{
 					withCredentials: true,
 				}
-			).then((response) => {
-				// 요청이 성공한 경우의 처리
-				alert(response.data.msg);
-				navigate(`/prob?lecture_no=${lecture_no}`);
-			});
+			)
+				.then((response) => {
+					// 요청이 성공한 경우의 처리
+					if (response.data.probdeleteSuccess) {
+						alert('과제가 삭제되었습니다.');
+						navigate('/');
+					} else {
+						alert('과제 삭제에 실패했습니다. 다시 확인해주세요.');
+						navigate('/');
+					}
+				})
+				.catch((error) => {
+					alert('과제 삭제에 실패했습니다. 다시 확인해주세요.');
+					navigate('/');
+				});
 		}
 	};
 
@@ -136,6 +146,10 @@ function ModalContent({ weeklistcontent, lecture_no }) {
 												<Link
 													className="text-green-500 hover:text-green-700"
 													to={`/prob_submit_list?as_no=${week.assignment_no}&lecture_no=${lecture_no}`}
+													state={{
+														num: lecture_no,
+														asnum: week.assignment_no,
+													}}
 												>
 													<div className="text-blue-500 hover:text-blue-700">
 														<svg

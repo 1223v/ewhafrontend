@@ -8,22 +8,22 @@ import Axios from 'axios';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 
 const Week = [
-	{ value: 1, label: '1주차' },
-	{ value: 2, label: '2주차' },
-	{ value: 3, label: '3주차' },
-	{ value: 4, label: '4주차' },
-	{ value: 5, label: '5주차' },
-	{ value: 6, label: '6주차' },
-	{ value: 7, label: '7주차' },
-	{ value: 8, label: '8주차' },
-	{ value: 9, label: '9주차' },
-	{ value: 10, label: '10주차' },
-	{ value: 11, label: '11주차' },
-	{ value: 12, label: '12주차' },
-	{ value: 13, label: '13주차' },
-	{ value: 14, label: '14주차' },
-	{ value: 15, label: '15주차' },
-	{ value: 16, label: '16주차' },
+	{ value: '1주차', label: '1주차' },
+	{ value: '2주차', label: '2주차' },
+	{ value: '3주차', label: '3주차' },
+	{ value: '4주차', label: '4주차' },
+	{ value: '5주차', label: '5주차' },
+	{ value: '6주차', label: '6주차' },
+	{ value: '7주차', label: '7주차' },
+	{ value: '8주차', label: '8주차' },
+	{ value: '9주차', label: '9주차' },
+	{ value: '10주차', label: '10주차' },
+	{ value: '11주차', label: '11주차' },
+	{ value: '12주차', label: '12주차' },
+	{ value: '13주차', label: '13주차' },
+	{ value: '14주차', label: '14주차' },
+	{ value: '15주차', label: '15주차' },
+	{ value: '16주차', label: '16주차' },
 ];
 
 const ClassOption = [
@@ -40,20 +40,14 @@ const ClassOption = [
 ];
 
 const Startlanguage = [
-	{ value: 'ko', label: '한국어' },
 	{ value: 'jp', label: '일본어' },
+	{ value: 'ko', label: '한국어' },
 	{ value: 'cn', label: '중국어' },
 	{ value: 'en', label: '영어' },
 	{ value: 'fr', label: '불어' },
 ];
 
-const Endlanguage = [
-	{ value: 'jp', label: '일본어' },
-	{ value: 'ko', label: '한국어' },
-	{ value: 'cn', label: '중국어' },
-	{ value: 'en', label: '영어' },
-	{ value: 'fr', label: '불어' },
-];
+const Endlanguage = [{ value: 'ko', label: '한국어' }];
 
 const AssignmentOption = [
 	{ value: '순차통역', label: '순차 통역' },
@@ -79,7 +73,7 @@ function ProbModPage() {
 	const [Weeklist, setWeeklist] = useState('');
 	const [Limitlist, setLimitlist] = useState('');
 	const [Startlanguagelist, setStartlanguagelist] = useState('');
-	const [Endlanguagelist, setEndlanguagelist] = useState('');
+	const [Endlanguagelist, setEndlanguagelist] = useState('ko');
 	const [Assignmentlist, setAssignmentlist] = useState('');
 	const [Speedlist, setSpeedlist] = useState('');
 	const [Txtread, setTxtread] = useState('');
@@ -90,6 +84,7 @@ function ProbModPage() {
 	const [regionsCopy, setRegionsCopy] = useState([]);
 	const [Music, setMusic] = useState('');
 	const [loading, setLoading] = useState(true);
+	const [Modregions, setModregions] = useState([]);
 
 	useEffect(() => {
 		Axios.get(
@@ -114,11 +109,15 @@ function ProbModPage() {
 				setUrlfile(response.data.as_list.upload_url);
 				setMusic(URL);
 				setWeeklist(response.data.as_list.week);
-				// response.data.attendlist.forEach((item) => {
-				// 	setCheckedList((prevList) => [...prevList, item.email]);
-				// });
-				setRegions(response.data.audio_list);
-				//setRegionsCopy(response.data.audio_list);
+				setModregions(response.data.audio_list);
+				const objectsArray = response.data.audio_list.map((item) => {
+					return {
+						end: parseInt(item.end),
+						id: parseInt(item.region_index),
+						start: parseInt(item.start),
+					};
+				});
+				setRegions(objectsArray);
 
 				// 원하는 작업 실행
 				setLoading(false);
@@ -194,7 +193,7 @@ function ProbModPage() {
 
 		let body = {
 			lecture_no: `${data?.num}`,
-			as_no:`${data?.asnum}`,
+			as_no: `${data?.asnum}`,
 			prob_sound_path: Urlfile,
 			prob_week: Weeklist,
 			prob_timeEnd: Limitlist,
@@ -211,23 +210,23 @@ function ProbModPage() {
 			prob_region: regionsCopy,
 		};
 
-		let jsonString = JSON.stringify(body);
-		Axios.post('https://edu-trans.ewha.ac.kr:8443/api/prob/modify', jsonString, {
+		//let jsonString = JSON.stringify(body);
+		Axios.post('https://edu-trans.ewha.ac.kr:8443/api/prob/modify', body, {
 			withCredentials: true,
 		})
 			.then((response) => {
-				if (response.data.probcreateSuccess) {
-					alert('과제를 생성했습니다.');
-					navigate('/');
+				if (response.data.assignmentmodifySuccess) {
+					alert('과제를 수정했습니다.');
+					navigate(-1);
 				} else {
-					alert('과제 생성에 실패했습니다. 다시 시도해주세요.');
+					alert('과제 수정에 실패했습니다. 다시 시도해주세요.');
 					navigate('/');
 				}
 			})
 			.catch((error) => {
 				// 요청이 실패한 경우의 처리
-				console.error(error);
-				navigate(-1);
+				alert('과제 수정에 실패했습니다. 다시 시도해주세요.');
+				navigate('/');
 			});
 	};
 	return (
@@ -264,7 +263,7 @@ function ProbModPage() {
 								</svg>
 							</Link>
 						</LectureBackDiv>
-						<LectureTitleDiv>과제 생성하기</LectureTitleDiv>
+						<LectureTitleDiv>과제 수정하기</LectureTitleDiv>
 					</div>
 					<LectureAddFormDiv>
 						<LectureNameDiv>
@@ -418,6 +417,8 @@ function ProbModPage() {
 								setRegionsCopy={setRegionsCopy}
 								setMusic={setMusic}
 								Music={Music}
+								setModregions={setModregions}
+								Modregions={Modregions}
 							/>
 						</div>
 
@@ -427,7 +428,7 @@ function ProbModPage() {
 						</div>
 					</LectureAddFormDiv>
 					<LectureCreateDiv>
-						<LectureCreateButton onClick={onSaveButton}>생성하기</LectureCreateButton>
+						<LectureCreateButton onClick={onSaveButton}>수정하기</LectureCreateButton>
 					</LectureCreateDiv>
 				</LectureBackgroudDiv>
 			)}
