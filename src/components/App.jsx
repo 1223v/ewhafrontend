@@ -22,7 +22,7 @@ function App() {
 	const NewLandingPage = Auth(LandingPage, true);
 	const NewLoginPage = Auth(LoginPage, false);
 	const NewRegisterPage = Auth(RegisterPage, false);
-	const NewProbSubmitList = Auth(ProbSubmitList, true);
+	const NewProbSubmitList = Auth(ProbSubmitList, true, 3);
 	const NewProb = Auth(Prob, true);
 	const NewLectureAddPage = Auth(LectureAddPage, true, 3);
 	const NewLectureModPage = Auth(LectureModPage, true, 3);
@@ -42,7 +42,7 @@ function App() {
 				<Route path="/prob_submit_list" element={<NewProbSubmitList />} />
 				<Route path="/lecture_add" element={<NewLectureAddPage />} />
 				<Route path="/lecture_mod" element={<NewLectureModPage />} />
-				<Route path="/record" element={<NewAudioRecordPage />} />
+				<Route path="/prob_submit" element={<NewAudioRecordPage />} />
 				<Route path="/prob_add" element={<NewProbAddPage />} />
 				<Route path="/prob_mod" element={<NewProbModPage />} />
 				<Route path="/prob_feedback" element={<NewProbFeedbackPage />} />

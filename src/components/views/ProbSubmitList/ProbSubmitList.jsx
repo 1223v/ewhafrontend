@@ -8,6 +8,7 @@ function ProbSubmitList() {
 	let navigate = useNavigate();
 	const location = useLocation();
 	const data = location.state;
+	const [People, setPeople] = useState([]);
 	
 	useEffect(()=>{
 		Axios.get(
@@ -18,7 +19,8 @@ function ProbSubmitList() {
 		)
 			.then((response) => {
 				// 요청이 성공한 경우의 처리
-				console.log(response.data);
+				console.log(response.data.userList);
+				setPeople(response.data.userList);
 			})
 			.catch((error) => {
 				// 요청이 실패한 경우의 처리
@@ -26,35 +28,7 @@ function ProbSubmitList() {
 				navigate(-1);
 			});
 	},[]);
-	const people = [
-		{
-			name: '김남형',
-			title: '한 일 번역',
-			department: '2023-02-10 13:09:38',
-			major: '한일번역',
-			email: 'jane.cooper@example.com',
-			image: 'https://cdn-icons-png.flaticon.com/512/17/17797.png',
-			submit: 'Submitted',
-		},
-		{
-			name: '조현식',
-			title: '한 러 통역',
-			department: '2023-02-10 13:09:38',
-			major: '한일번역',
-			email: 'john.doe@example.com',
-			image: 'https://cdn-icons-png.flaticon.com/512/17/17797.png',
-			submit: 'Not Submitted',
-		},
-		{
-			name: 'test',
-			title: '한 미 통역',
-			department: '2023-02-10 13:09:38',
-			major: ' 한미번역',
-			email: 'veronica.lodge@example.com',
-			image: 'https://cdn-icons-png.flaticon.com/512/17/17797.png',
-			submit: 'Not Submitted',
-		},
-	];
+	
 	return (
 		<div>
 			<NavBar />
@@ -77,7 +51,7 @@ function ProbSubmitList() {
 												scope="col"
 												className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
 											>
-												제목 | 제출시간
+												전공 | 제출시간
 											</th>
 											<th
 												scope="col"
@@ -100,14 +74,14 @@ function ProbSubmitList() {
 										</tr>
 									</thead>
 									<tbody className="bg-white divide-y divide-gray-200">
-										{people.map((person) => (
+										{People.map((person) => (
 											<tr key={person.email}>
 												<td className="px-6 py-4 whitespace-nowrap">
 													<div className="flex items-center">
 														<div className="flex-shrink-0 h-10 w-10">
 															<img
 																className="h-10 w-10 rounded-full"
-																src={person.image}
+																src="https://cdn-icons-png.flaticon.com/512/17/17797.png"
 																alt=""
 															/>
 														</div>
@@ -123,19 +97,19 @@ function ProbSubmitList() {
 												</td>
 												<td className="px-6 py-4 whitespace-nowrap">
 													<div className="text-sm text-gray-900">
-														{person.title}
+														{person.major}
 													</div>
 													<div className="text-sm text-gray-500">
 														{person.department}
 													</div>
 												</td>
 												<td className="px-6 py-4 whitespace-nowrap">
-													{person.submit === 'Submitted' && (
+													{person.check !== 'No' && (
 														<span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
 															Submitted
 														</span>
 													)}
-													{person.submit !== 'Submitted' && (
+													{person.check === 'No' && (
 														<span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800">
 															No Submitted
 														</span>
@@ -146,7 +120,13 @@ function ProbSubmitList() {
 												</td>
 												<td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
 													<Link
-														to="/prob_feedback"
+														
+														to={`/prob_feedback?as_no=${data.asnum}&lecture_no=${data.num}&user_no=${person.user_no}`}
+													state={{
+														num: data.num,
+														asnum:	data.asnum,
+														userNo: person.user_no
+													}}
 														className="text-indigo-600 hover:text-indigo-900"
 													>
 														FeedBack
