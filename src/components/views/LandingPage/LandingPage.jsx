@@ -68,6 +68,7 @@ function LandingPage() {
 						)}
 					</h3>
 
+					
 					<Row>
 						{Lectures?.map((lesson, index) => (
 							<React.Fragment key={index}>

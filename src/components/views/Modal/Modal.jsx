@@ -4,13 +4,14 @@ import styled from "styled-components";
 import ModalContainer from "./ModalContainer";
 import ModalContent from "./ModalContent";
 
-function Modal({ onClose, weeklist, lecture_no }) {
+function Modal({ onClose, weeklist, lecture_no, userNum }) {
   const modalRef = useRef(null);
   const handleClose = () => {
     onClose?.();
   };
 
   useEffect(() => {
+	
     const $body = document.querySelector("body");
     const overflow = $body.style.overflow;
     $body.style.overflow = "hidden";
@@ -29,7 +30,7 @@ function Modal({ onClose, weeklist, lecture_no }) {
 
           <Contents>{weeklist[0].week}</Contents>
 
-          <ModalContent weeklistcontent={weeklist} lecture_no={lecture_no}/>
+          <ModalContent weeklistcontent={weeklist} lecture_no={lecture_no} userNum={userNum}/>
         </ModalWrap>
       </Overlay>
     </ModalContainer>
