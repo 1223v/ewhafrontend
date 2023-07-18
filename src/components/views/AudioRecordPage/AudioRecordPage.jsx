@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect,useState } from 'react';
 import NavBar from '../NavBar/NavBar';
 import Axios from 'axios';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
@@ -11,6 +11,8 @@ function AudioRecordPage() {
 	let navigate = useNavigate();
 	const location = useLocation();
 	const data = location.state;
+	const [Audiolist, setAudiolist] = useState([]);
+	const [Regionmusic, setRegionmusic] = useState('');
 
 	useEffect(() => {
 		Axios.get(
@@ -22,6 +24,8 @@ function AudioRecordPage() {
 			.then((response) => {
 				// 요청이 성공한 경우의 처리
 				console.log(response.data);
+				setAudiolist(response.data.wav_url);
+			
 			})
 			.catch((error) => {
 				// 요청이 실패한 경우의 처리
@@ -54,21 +58,23 @@ function AudioRecordPage() {
 				</LectureBackDiv>
 				<LectureTitleDiv>과제명</LectureTitleDiv>
 			</div>
-			<div style={{    width: '75%',
-    text-align: 'center',
-    margin: '0 auto'}}>
-				<Audioplay /></div>
-			
+			<div style={{ width: '75%', textAlign: 'center', margin: '0 auto' }}>
+				<Audioplay Regionmusic = {Regionmusic}/>
+			</div>
 
-			<div>
+			<div style={{ width: 'auto', margin: '20px auto' }}>
 				<Row>
-					<AudiorecordGridcard key={1} />
-					<AudiorecordGridcard key={2} />
-					<AudiorecordGridcard key={3} />
-					<AudiorecordGridcard key={4} />
-					<AudiorecordGridcard key={5} />
+					{Audiolist?.map((Wavaudio, index) => (
+						<React.Fragment key={index}>
+							<AudiorecordGridcard key={index} Wavaudio={Wavaudio.upload_url} setRegionmusic={setRegionmusic} />
+							
+						</React.Fragment>
+					))}
 				</Row>
 			</div>
+			<LectureCreateDiv>
+				<LectureCreateButton onClick>제출하기</LectureCreateButton>
+			</LectureCreateDiv>
 		</LectureBackgroudDiv>
 	);
 }
@@ -98,4 +104,30 @@ const LectureTitleDiv = styled.div`
 	@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;400&display=swap');
 	font-family: 'Noto Sans KR', sans-serif;
 	margin-top: 17px;
+`;
+
+const LectureCreateDiv = styled.div`
+	position: fixed;
+	bottom: 0px;
+	z-index: 8;
+	display: flex;
+	-webkit-box-align: center;
+	align-items: center;
+	width: 100%;
+	height: 4rem;
+	background: rgb(255, 255, 255);
+	box-shadow: rgb(232, 232, 238) 0px 1px 0px inset;
+`;
+
+const LectureCreateButton = styled.button`
+	height: 3rem;
+	font-size: 0.975rem;
+	font-weight: 800;
+	line-height: 1.375rem;
+	width: 100%;
+	border-radius: 0.5rem;
+	margin: 20px;
+	color: #fff;
+	background-color: #2e462f;
+	border-color: transparent;
 `;

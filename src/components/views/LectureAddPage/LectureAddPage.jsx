@@ -99,7 +99,6 @@ function LectureAddPage() {
 			lecture_attendee: Liststudent,
 		};
 
-		
 		Axios.post('https://edu-trans.ewha.ac.kr:8443/api/lecture/create', body, {
 			withCredentials: true,
 		})

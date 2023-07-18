@@ -50,10 +50,10 @@ export default function AudioRecorderFunc(props) {
     }
   };
   return (
-    <div>
-      <AudioAnalyser {...audioProps} width='200'>
+    <div style={{ margin: '10px'}}>
+      <AudioAnalyser {...audioProps} width='290'>
         <div className="btn-box">
-          <RecordButton id="recordButton" onClick={() => toggleRecording()} />
+          <RecordButton id="recordButton" onClick={() => toggleRecording()}/>
         </div>
       </AudioAnalyser>
     </div>
