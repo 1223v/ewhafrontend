@@ -142,6 +142,7 @@ function BottomSheetSection(props) {
 
 	useEffect(() => {
 		console.log(props.Graphcontent);
+		console.log("열려라",props.open);
 	}, [props.Graphcontent]);
 	return (
 		<div style={{zIndex:'10'}}>

@@ -45,7 +45,7 @@ function App() {
 				<Route path="/prob_submit" element={<NewAudioRecordPage />} />
 				<Route path="/prob_add" element={<NewProbAddPage />} />
 				<Route path="/prob_mod" element={<NewProbModPage />} />
-				<Route path="/prob_feedback" element={<NewProbFeedbackPage />} />
+				<Route path="/prob_feedback" element={<ProbFeedbackPage />} />
 
 				<Route path="/test" element={<NewTest />} />
 			</Routes>

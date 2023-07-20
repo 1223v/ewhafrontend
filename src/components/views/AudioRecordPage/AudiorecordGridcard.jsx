@@ -133,6 +133,7 @@ const AudioGridcard = styled.div`
 	border: 1px solid rgb(211, 211, 211);
 	border-radius: 5px;
 	width: 100%;
+	max-width : 450px;
 	margin: 10px 10px 10px 10px;
 	background-color: rgb(255, 255, 255);
 	position: relative;

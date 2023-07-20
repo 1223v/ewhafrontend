@@ -9,7 +9,7 @@ import AudiorecordGridcard from './AudiorecordGridcard';
 
 function AudioRecordPage() {
 	let navigate = useNavigate();
-	let Endlength = -1;
+	
 	const location = useLocation();
 	const data = location.state;
 	const [Audiolist, setAudiolist] = useState([]);
@@ -20,8 +20,9 @@ function AudioRecordPage() {
 	const [Submitlist, setSubmitlist] = useState('');
 	const [Realsubmit, setRealsubmit] = useState([]);
 	const [Disable, setDisable] = useState(0);
+	const [Endlength, setEndlength] = useState(-1);
 	
-	
+
 	useEffect(() => {
 		Axios.get(
 			`https://edu-trans.ewha.ac.kr:8443/api/prob/submit?lecture_no=${data.num}&as_no=${data.asnum}`,
@@ -35,7 +36,7 @@ function AudioRecordPage() {
 				const Music_URL =
 					'https://edu-trans.ewha.ac.kr:8443/' + response.data.as_info.upload_url;
 				setAudiolist(response.data.wav_url);
-				Endlength = response.data.wav_url.length;
+				setEndlength(response.data.wav_url.length);
 				setOriginmusic(Music_URL);
 				setAssignmentnum(response.data.as_info.as_no);
 			})
@@ -52,6 +53,36 @@ function AudioRecordPage() {
 			alert('과제를 완료했습니다. 제출해주세요.');
 		}
 	}, [Realsubmit]);
+
+	const onSubmitButton = () => {
+		console.log(Realsubmit);
+		console.log(Endlength);
+		if (window.confirm('과제 제출하시겠습니까?')) {
+			if (Realsubmit.length === Endlength) {
+				let body = {
+					submitUUID : Realsubmit,
+					as_no: data.asnum,
+					lecture_no: data.num
+				};
+
+				Axios.post('https://edu-trans.ewha.ac.kr:8443/api/prob/submit', body, {
+					withCredentials: true,
+				})
+					.then((response) => {
+						console.log(response.data);
+						alert('제출을 완료했습니다.');
+					})
+					.catch((error) => {
+						// 요청이 실패한 경우의 처리
+						console.error(error);
+						navigate(-1);
+					});
+				
+			} else {
+				alert('녹음 혹은 업로드부터 진행해주세요.');
+			}
+		}
+	};
 
 	return (
 		<LectureBackgroudDiv>
@@ -108,7 +139,7 @@ function AudioRecordPage() {
 				</Row>
 			</div>
 			<LectureCreateDiv>
-				<LectureCreateButton onClick>제출하기</LectureCreateButton>
+				<LectureCreateButton onClick={onSubmitButton}>제출하기</LectureCreateButton>
 			</LectureCreateDiv>
 		</LectureBackgroudDiv>
 	);
