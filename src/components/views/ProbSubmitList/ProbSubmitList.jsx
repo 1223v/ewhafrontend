@@ -1,16 +1,15 @@
 import React, { useEffect, useState, useRef } from 'react';
 import NavBar from '../NavBar/NavBar';
-import { Link, useNavigate,useLocation } from "react-router-dom";
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import Axios from 'axios';
-
 
 function ProbSubmitList() {
 	let navigate = useNavigate();
 	const location = useLocation();
 	const data = location.state;
 	const [People, setPeople] = useState([]);
-	
-	useEffect(()=>{
+
+	useEffect(() => {
 		Axios.get(
 			`https://edu-trans.ewha.ac.kr:8443/api/probsubmit/list?lecture_no=${data.num}&as_no=${data.asnum}`,
 			{
@@ -27,8 +26,8 @@ function ProbSubmitList() {
 				console.error(error);
 				navigate(-1);
 			});
-	},[]);
-	
+	}, []);
+
 	return (
 		<div>
 			<NavBar />
@@ -119,18 +118,20 @@ function ProbSubmitList() {
 													{person.major}
 												</td>
 												<td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-													<Link
-														
-														to={`/prob_feedback?as_no=${data.asnum}&lecture_no=${data.num}&user_no=${person.user_no}`}
-													state={{
-														num: data.num,
-														asnum:	data.asnum,
-														userNo: person.user_no
-													}}
-														className="text-indigo-600 hover:text-indigo-900"
-													>
-														FeedBack
-													</Link>
+													{person.check !== 'No' && (
+														<Link
+															to={`/prob_feedback?as_no=${data.asnum}&lecture_no=${data.num}&user_no=${person.user_no}`}
+															state={{
+																num: data.num,
+																asnum: data.asnum,
+																userNo: person.user_no,
+															}}
+															className="text-indigo-600 hover:text-indigo-900"
+														>
+															FeedBack
+														</Link>
+													)}
+													{person.check === 'No' && <div>없음</div>}
 												</td>
 											</tr>
 										))}

@@ -6,14 +6,16 @@ import styled from 'styled-components';
 import ReactApexChart from 'react-apexcharts';
 
 function BottomSheetSection(props) {
+	
+
 	const series = [
 		{
 			name: '나',
-			data: [76, 85, 101, 98],
+			data: [76, 85, 101, 98],//props.DeliverIndividualList[0].data
 		},
 		{
 			name: '평균',
-			data: [35, 41, 36, 26],
+			data: [76, 85, 101, 98],//props.DeliverAverage,
 		},
 	];
 
@@ -59,11 +61,11 @@ function BottomSheetSection(props) {
 	const series2 = [
 		{
 			name: '나',
-			data: [76, 85, 101, 98, 28],
+			data: [76, 85, 101, 98, 28],//props.ContentIndividualList[0].data
 		},
 		{
 			name: '평균',
-			data: [35, 41, 36, 26, 54],
+			data: [76, 85, 101, 98, 28],//props.ContentAverage,
 		},
 	];
 
@@ -105,7 +107,7 @@ function BottomSheetSection(props) {
 			},
 		},
 	};
-	
+
 	const series3 = [
 		{
 			name: '1회차',
@@ -119,8 +121,8 @@ function BottomSheetSection(props) {
 			name: '3회차',
 			data: [76, 85, 101, 98],
 		},
-	];
-	
+	];//props.DeliverIndividualList 
+
 	const series4 = [
 		{
 			name: '1회차',
@@ -134,18 +136,21 @@ function BottomSheetSection(props) {
 			name: '3회차',
 			data: [35, 41, 36, 26, 54],
 		},
-	];
+	];//props.ContentIndividualList
 
 	const onClose = () => {
 		props.setOpen(false);
 	};
+	
+	
 
 	useEffect(() => {
-		console.log(props.Graphcontent);
-		console.log("열려라",props.open);
-	}, [props.Graphcontent]);
+		console.log('열려라', props.fillerCount,props.cancelledCount);
+	}, [props.cancelledCount]);
+	
+
 	return (
-		<div style={{zIndex:'10'}}>
+		<div style={{ zIndex: '10' }}>
 			<BottomSheet
 				open={props.open}
 				onDismiss={onClose}
