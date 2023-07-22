@@ -216,9 +216,7 @@ function BottomSheetSection(props) {
 		props.setOpen(false);
 	};
 
-	useEffect(() => {
-		console.log(props.Graphcontent);
-	}, [props.Graphcontent]);
+	
 	return (
 		<div style={{zIndex:'10'}}>
 			<BottomSheet

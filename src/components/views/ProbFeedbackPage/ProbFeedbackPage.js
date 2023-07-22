@@ -15,12 +15,68 @@ function ProbFeedbackPage() {
 	const [open, setOpen] = useState(false);
 	const [Load, setLoad] = useState(false);
 	const [Content, setContent] = useState('');
-	const [Graphcontent, setGraphcontent] = useState([]);
+	const [Sectioncontent, setSectioncontent] = useState('');
+	const [FillerCount, setFillerCount] = useState(0);
+	const [PauseCount, setPauseCount] = useState(0);
+	const [BacktrackingCount, setBacktrackingCount] = useState(0);
+	const [EtcCount, setEtcCount] = useState(0);
+	const [MistranslationCount, setMistranslationCount] = useState(0);
+	const [IntonationCount, setIntonationCount] = useState(0);
+	const [OmissionCount, setOmissionCount] = useState(0);
+	const [PronunciationCount, setPronunciationCount] = useState(0);
+	const [GrammaticalErrorCount, setGrammaticalErrorCount] = useState(0);
+	const [DeliverIndividualList, setDeliverIndividualList] = useState([]);
+	const [DeliverAverage, setDeliverAverage] = useState([]);
+	const [ContentIndividualList, setContentIndividualList] = useState([]);
+	const [ContentAverage, setContentAverage] = useState([]);
+	const [DeliverstudentList, setDeliverstudentList] = useState([]);
+	const [ContentstudentList, setContentstudentList] = useState([]);
+	const [Originaltext, setOriginaltext] = useState("");
 
 	const onClickButton = () => {
-		
+		// 여기가 그래프 API 호출 위치
+		// if (userinfos?.userData?.role === 3) {
+		// 	Axios.get(
+		// 		`https://edu-trans.ewha.ac.kr:8443/api/feedback/professorgraphlist?as_no=${data.asnum}&lecture_no=${data.num}&user_no=${data.userNo}`,
+		// 		{
+		// 			withCredentials: true,
+		// 		}
+		// 	)
+		// 		.then((response) => {
+		// 			// 요청이 성공한 경우의 처리
+		// 			console.log(response.data);
+		// 			setDeliverIndividualList(response.data.DeliverIndividualList);
+		// 			setDeliverstudentList(response.data.DeliverstudentList);
+		// 			setContentIndividualList(response.data.ContentIndividualList);
+		// 			setContentstudentList(response.data.ContentstudentList);
+		// 		})
+
+		// 		.catch((error) => {
+		// 			// 요청이 실패한 경우의 처리
+		// 			console.error(error);
+		// 		});
+		// } else if (userinfos?.userData?.role === 1) {
+		// 	Axios.get(
+		// 		`https://edu-trans.ewha.ac.kr:8443/api/feedback/studentgraphlist?as_no=${data.asnum}&lecture_no=${data.num}&user_no=${data.userNo}`,
+		// 		{
+		// 			withCredentials: true,
+		// 		}
+		// 	)
+		// 		.then((response) => {
+		// 			// 요청이 성공한 경우의 처리
+		// 			console.log(response.data);
+		// 			setDeliverIndividualList(response.data.DeliverIndividualList);
+		// 			setDeliverAverage(response.data.DeliverAverage);
+		// 			setContentIndividualList(response.data.ContentIndividualList);
+		// 			setContentAverage(response.data.ContentAverage);
+		// 		})
+
+		// 		.catch((error) => {
+		// 			// 요청이 실패한 경우의 처리
+		// 			console.error(error);
+		// 		});
+		// }
 		setOpen(!open);
-		console.log(open);
 	};
 
 	const onSaveButton = () => {
@@ -28,7 +84,36 @@ function ProbFeedbackPage() {
 	};
 
 	useEffect(() => {
-		console.log(Content); //API를 위한 콘솔 로그
+		let body = {
+			user_no: data.userNo,
+			content: Content,
+			DeliverIndividualList: [PauseCount, FillerCount, BacktrackingCount, EtcCount],
+			ContentIndividualList: [
+				MistranslationCount,
+				OmissionCount,
+				PronunciationCount,
+				IntonationCount,
+				GrammaticalErrorCount,
+			],
+		};
+		console.log(body); //API를 위한 콘솔 로그
+		// Axios.post('https://edu-trans.ewha.ac.kr:8443/api/feedback/graphFigure', body, {
+		// 	withCredentials: true,
+		// })
+		// 	.then((response) => {
+		// 		if (response.data.probcreateSuccess) {
+		// 			alert('저장 완료했습니다.');
+		//
+		// 		} else {
+		// 			alert('저장 실패했습니다. 다시 시도해주세요.');
+		// 			navigate('/');
+		// 		}
+		// 	})
+		// 	.catch((error) => {
+		// 		// 요청이 실패한 경우의 처리
+		// 		console.error(error);
+		// 		navigate(-1);
+		// 	});
 	}, [Content]);
 	return (
 		<div>
@@ -55,13 +140,31 @@ function ProbFeedbackPage() {
 				<LectureTitleDiv>과제 피드백</LectureTitleDiv>
 			</div>
 			<FeedbackDiv>
+				<Original>
+					<h4>원문</h4>
+					<OriginalBox></OriginalBox>
+				</Original>
+
 				<Interpretation>
 					<h4>통역 전사문</h4>
 					<InterpretationBox>
 						<TextAEEditor
 							Load={Load}
 							setContent={setContent}
-							setGraphcontent={setGraphcontent}
+							setSectioncontent={setSectioncontent}
+							setFillerCount={setFillerCount}
+							setPauseCount={setPauseCount}
+							setBacktrackingCount={setBacktrackingCount}
+							setMistranslationCount={setMistranslationCount}
+							setIntonationCount={setIntonationCount}
+							setOmissionCount={setOmissionCount}
+							setPronunciationCount={setPronunciationCount}
+							setGrammaticalErrorCount={setGrammaticalErrorCount}
+							setEtcCount={setEtcCount}
+							num={data.num}
+							asnum={data.asnum}
+							userNo={data.userNo}
+							setOriginaltext={setOriginaltext}
 						/>
 					</InterpretationBox>
 				</Interpretation>
@@ -74,6 +177,7 @@ function ProbFeedbackPage() {
 						<FeedbackGridCard />
 						<FeedbackGridCard />
 						<FeedbackGridCard />
+						여기 해야함.
 					</EstimationBox>
 				</Estimation>
 			</FeedbackDiv>
@@ -81,7 +185,11 @@ function ProbFeedbackPage() {
 			<LectureCreateDiv>
 				<LectureCreateButton onClick={onClickButton}>그래프 보기</LectureCreateButton>
 				<LectureCreateButton onClick={onClickButton}>총평</LectureCreateButton>
-				<LectureCreateButton onClick={onSaveButton}>저장하기</LectureCreateButton>
+				{userinfos?.userData?.role === 3 ? (
+					<LectureCreateButton onClick={onSaveButton}>저장하기</LectureCreateButton>
+				) : (
+					''
+				)}
 			</LectureCreateDiv>
 
 			{userinfos?.userData?.role === 1 ? (
@@ -89,21 +197,30 @@ function ProbFeedbackPage() {
 					style={{ zIndex: '10' }}
 					open={open}
 					setOpen={setOpen}
-					Graphcontent={Graphcontent}
+					DeliverIndividualList={DeliverIndividualList}
+					DeliverAverage={DeliverAverage}
+					ContentIndividualList={ContentIndividualList}
+					ContentAverage={ContentAverage}
 				/>
 			) : userinfos?.userData?.role === 2 ? (
 				<BottomSheetSection
 					style={{ zIndex: '10' }}
 					open={open}
 					setOpen={setOpen}
-					Graphcontent={Graphcontent}
+					DeliverIndividualList={DeliverIndividualList}
+					DeliverstudentList={DeliverstudentList}
+					ContentIndividualList={ContentIndividualList}
+					ContentstudentList={ContentstudentList}
 				/>
 			) : userinfos?.userData?.role === 3 ? (
 				<BottomSheetSection
 					style={{ zIndex: '10' }}
 					open={open}
 					setOpen={setOpen}
-					Graphcontent={Graphcontent}
+					DeliverIndividualList={DeliverIndividualList}
+					DeliverstudentList={DeliverstudentList}
+					ContentIndividualList={ContentIndividualList}
+					ContentstudentList={ContentstudentList}
 				/>
 			) : (
 				''
@@ -117,7 +234,27 @@ const FeedbackDiv = styled.div`
 	width: auto;
 	margin: 0 auto;
 	position: relative;
-	min-height: 1000px;
+	min-height: 1500px;
+`;
+
+const Original = styled.div`
+	font-size: 12px;
+	margin: 0 auto;
+	max-width: 800px;
+	padding: 15px;
+`;
+
+const OriginalBox = styled.div`
+	width: auto;
+	height: 250px;
+
+	overflow-y: auto;
+
+	word-wrap: break-word;
+	border: 1px solid #d3d3d3;
+	border-radius: 4px;
+
+	background-color: #f9f9f9;
 `;
 
 const Interpretation = styled.div`
@@ -130,7 +267,7 @@ const Interpretation = styled.div`
 const InterpretationBox = styled.div`
 	width: auto;
 	height: auto;
-
+	max-height: 500px;
 	overflow-y: auto;
 
 	word-wrap: break-word;
@@ -149,7 +286,7 @@ const Estimation = styled.div`
 
 const EstimationBox = styled.div`
 	padding: 10px;
-	display :flex;
+	display: flex;
 	width: auto;
 	height: 250px;
 	overflow-x: auto;
