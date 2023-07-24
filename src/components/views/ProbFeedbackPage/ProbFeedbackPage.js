@@ -4,18 +4,22 @@ import styled from 'styled-components';
 import TextAEEditor from './Sections/TextAEEditor';
 import BottomSheetSection from './Sections/BottomSheetSection';
 import StudentBottomSheet from './Sections/StudentBottomSheet';
+import StudentResultSheet from './Sections/StudentResultSheet';
+import ProfessorResultSheet from './Sections/ProfessorResultSheet';
 import { useSelector } from 'react-redux';
 import FeedbackGridCard from '../commons/FeedbackGridCard';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
+import Axios from 'axios';
 
 function ProbFeedbackPage() {
 	const location = useLocation();
 	const data = location.state;
 	const userinfos = useSelector((state) => state.user);
 	const [open, setOpen] = useState(false);
+	const [Result, setResult] = useState(false);
 	const [Load, setLoad] = useState(false);
 	const [Content, setContent] = useState('');
-	const [Sectioncontent, setSectioncontent] = useState('');
+	const [Sectioncontent, setSectioncontent] = useState([]);
 	const [FillerCount, setFillerCount] = useState(0);
 	const [PauseCount, setPauseCount] = useState(0);
 	const [BacktrackingCount, setBacktrackingCount] = useState(0);
@@ -82,21 +86,25 @@ function ProbFeedbackPage() {
 	const onSaveButton = () => {
 		setLoad(!Load);
 	};
+	
+	const onResultButton = () => {
+		setResult(!Result);
+	};
 
 	useEffect(() => {
-		let body = {
-			user_no: data.userNo,
-			content: Content,
-			DeliverIndividualList: [PauseCount, FillerCount, BacktrackingCount, EtcCount],
-			ContentIndividualList: [
-				MistranslationCount,
-				OmissionCount,
-				PronunciationCount,
-				IntonationCount,
-				GrammaticalErrorCount,
-			],
-		};
-		console.log(body); //API를 위한 콘솔 로그
+		// let body = {
+		// 	user_no: data.userNo,
+		// 	content: Content,
+		// 	DeliverIndividualList: [PauseCount, FillerCount, BacktrackingCount, EtcCount],
+		// 	ContentIndividualList: [
+		// 		MistranslationCount,
+		// 		OmissionCount,
+		// 		PronunciationCount,
+		// 		IntonationCount,
+		// 		GrammaticalErrorCount,
+		// 	],
+		// };
+		// console.log(body); //API를 위한 콘솔 로그
 		// Axios.post('https://edu-trans.ewha.ac.kr:8443/api/feedback/graphFigure', body, {
 		// 	withCredentials: true,
 		// })
@@ -115,6 +123,14 @@ function ProbFeedbackPage() {
 		// 		navigate(-1);
 		// 	});
 	}, [Content]);
+	
+	useEffect(()=>{
+		Axios.get('https://edu-trans.ewha.ac.kr:8443/upload/95cb2cec-8c0e-4782-b84f-9335d81ea3d6.json', { withCredentials: true }).then((response2) => {
+					
+					setSectioncontent(response2.data.denotations);
+		
+				});
+	},[]);
 	return (
 		<div>
 			<NavBar />
@@ -161,30 +177,30 @@ function ProbFeedbackPage() {
 							setPronunciationCount={setPronunciationCount}
 							setGrammaticalErrorCount={setGrammaticalErrorCount}
 							setEtcCount={setEtcCount}
-							num={data.num}
-							asnum={data.asnum}
-							userNo={data.userNo}
+							num={data?.num}
+							asnum={data?.asnum}
+							userNo={data?.userNo}
 							setOriginaltext={setOriginaltext}
 						/>
 					</InterpretationBox>
 				</Interpretation>
 
 				<Estimation>
+					
 					<h4>피드백</h4>
 					<EstimationBox>
-						<FeedbackGridCard />
-						<FeedbackGridCard />
-						<FeedbackGridCard />
-						<FeedbackGridCard />
-						<FeedbackGridCard />
-						여기 해야함.
+						{Sectioncontent?.map((lesson, index) => (
+							<React.Fragment key={index}>
+								<FeedbackGridCard id={lesson.id} begin={lesson.span.begin} end={lesson.span.end} obj={lesson.obj}/>
+							</React.Fragment>
+						))}
 					</EstimationBox>
 				</Estimation>
 			</FeedbackDiv>
 
 			<LectureCreateDiv>
 				<LectureCreateButton onClick={onClickButton}>그래프 보기</LectureCreateButton>
-				<LectureCreateButton onClick={onClickButton}>총평</LectureCreateButton>
+				<LectureCreateButton onClick={onResultButton}>총평</LectureCreateButton>
 				{userinfos?.userData?.role === 3 ? (
 					<LectureCreateButton onClick={onSaveButton}>저장하기</LectureCreateButton>
 				) : (
@@ -221,6 +237,31 @@ function ProbFeedbackPage() {
 					DeliverstudentList={DeliverstudentList}
 					ContentIndividualList={ContentIndividualList}
 					ContentstudentList={ContentstudentList}
+				/>
+			) : (
+				''
+			)}
+			
+			{userinfos?.userData?.role === 1 ? (
+				<StudentResultSheet
+					style={{ zIndex: '10' }}
+					Result={Result}
+					setResult={setResult}
+					
+				/>
+			) : userinfos?.userData?.role === 2 ? (
+				<ProfessorResultSheet
+					style={{ zIndex: '10' }}
+					Result={Result}
+					setResult={setResult}
+					
+				/>
+			) : userinfos?.userData?.role === 3 ? (
+				<ProfessorResultSheet
+					style={{ zIndex: '10' }}
+					Result={Result}
+					setResult={setResult}
+					
 				/>
 			) : (
 				''

@@ -5,7 +5,7 @@ import { GrClose } from 'react-icons/gr';
 import styled from 'styled-components';
 import ReactApexChart from 'react-apexcharts';
 
-function BottomSheetSection(props) {
+function StudentBottomSheet(props) {
 	
 
 	const series = [
@@ -211,7 +211,7 @@ function BottomSheetSection(props) {
 	);
 }
 
-export default BottomSheetSection;
+export default StudentBottomSheet;
 
 const ChartInDiv = styled.div`
 	border-bottom: 3px solid #00aaff;
