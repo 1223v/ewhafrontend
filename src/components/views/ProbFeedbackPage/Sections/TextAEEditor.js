@@ -56,7 +56,7 @@ const TextAEEditor = (props) => {
 	const handleMouseUp = () => {
 		const textContent = JSON.parse(elementRef.current.textContent);
 		countOccurrences(textContent);
-		props.setSectioncontent(textContent);
+		props.setSectioncontent(textContent.denotations);
 	};
 
 	useEffect(() => {
@@ -81,8 +81,8 @@ const TextAEEditor = (props) => {
 		//		setOriginaltext(response.data.text)
 		// 		Axios.get(response.data.url, { withCredentials: true }).then((response2) => {
 		// 			console.log(response2.data);
-		// 			const textContent = JSON.parse(response2.data);
-		// 			props.setSectioncontent(textContent);
+		// 			//const textContent = JSON.parse(response2.data);
+		// 			props.setSectioncontent(response2.data);
 		//
 		// 		});
 		// 	})
@@ -91,6 +91,7 @@ const TextAEEditor = (props) => {
 		// 		// 요청이 실패한 경우의 처리
 		// 		console.error(error);
 		// 	});
+		
 		setUrl(
 			'https://edu-trans.ewha.ac.kr:8443/upload/95cb2cec-8c0e-4782-b84f-9335d81ea3d6.json'
 		);

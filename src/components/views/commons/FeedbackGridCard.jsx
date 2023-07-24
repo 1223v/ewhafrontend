@@ -8,6 +8,8 @@ function FeedbackGridCard(props) {
 	const location = useLocation();
 	const data = location.state;
 	
+	
+	
 
 	return (
 		
@@ -15,11 +17,11 @@ function FeedbackGridCard(props) {
 				<SubFeedbackGridcard>
 					<div>
 						<h5 style={{ margin: '13px', color: '#2B2D36' }}>
-							구간
+						 	{props.id} | {props.begin}~{props.end} 구간
 						</h5>
 					</div>
 					<Feedbacktext>
-						test
+						{props.obj}
 					</Feedbacktext>
 					
 				</SubFeedbackGridcard>
