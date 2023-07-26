@@ -150,8 +150,9 @@ function StudentBottomSheet(props) {
 	
 
 	return (
-		<div style={{ zIndex: '10' }}>
+		<div>
 			<BottomSheet
+				zindex={20}
 				open={props.open}
 				onDismiss={onClose}
 				header={

@@ -38,14 +38,14 @@ function Audioplay(props) {
 	}, [props.Playmusic]);
 
 	const options = {
-		waveColor: 'gray',
+		waveColor: 'rgb(5, 66, 43,0.5)',
 		progressColor: '#05422b',
 		cursorColor: 'transparent',
 		barWidth: 3,
 		barGap: 3,
 		barRadius: 3,
 		responsive: true,
-		height: 80,
+		height: 50,
 		normalize: true,
 		partialRender: true,
 	};
@@ -55,24 +55,23 @@ function Audioplay(props) {
 			<WaveSurfer key={waveformKey} onMount={handleWSMount}>
 				<WaveForm id="waveform" {...options}></WaveForm>
 			</WaveSurfer>
-
-			<Button
+			<PlayButton
 				onClick={() => {
 					setplaytime(!playtime);
 					play();
 				}}
 			>
 				{playtime ? <FaRegPauseCircle size="40" /> : <FaRegPlayCircle size="40" />}
-			</Button>
+			</PlayButton>
 		</div>
 	);
 }
 
 export default Audioplay;
 
-const Button = styled.button`
-	border: 0;
+const PlayButton = styled.button`
+	border: 0px;
 	background-color: transparent;
-	margin-top: 20px;
-	color: #14532d;
+	color: rgb(20, 83, 45);
+	margin: 6px;
 `;
