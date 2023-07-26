@@ -10,6 +10,8 @@ import { useSelector } from 'react-redux';
 import FeedbackGridCard from '../commons/FeedbackGridCard';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import Axios from 'axios';
+import Audioplay from '../AudioRecordPage/Sections/Audioplay';
+import AudioPlaySheet from './Sections/AudioPlaySheet';
 
 function ProbFeedbackPage() {
 	const location = useLocation();
@@ -36,6 +38,9 @@ function ProbFeedbackPage() {
 	const [DeliverstudentList, setDeliverstudentList] = useState([]);
 	const [ContentstudentList, setContentstudentList] = useState([]);
 	const [Originaltext, setOriginaltext] = useState("");
+	const [Regionmusic, setRegionmusic] = useState('');
+	const [Originmusic, setOriginmusic] = useState('');
+	const [Playmusic, setPlaymusic] = useState(false);
 
 	const onClickButton = () => {
 		// 여기가 그래프 API 호출 위치
@@ -130,7 +135,10 @@ function ProbFeedbackPage() {
 					setSectioncontent(response2.data.denotations);
 		
 				});
+		setRegionmusic("https://edu-trans.ewha.ac.kr:8443/upload/c51e0eac-5183-4818-8d36-df995b52f520.wav")
 	},[]);
+	
+	
 	return (
 		<div>
 			<NavBar />
@@ -197,6 +205,11 @@ function ProbFeedbackPage() {
 					</EstimationBox>
 				</Estimation>
 			</FeedbackDiv>
+			
+			<AudioPlaySheet Regionmusic={Regionmusic}
+					Originmusic={Originmusic}
+					Playmusic={Playmusic}
+					setPlaymusic={setPlaymusic}/>
 
 			<LectureCreateDiv>
 				<LectureCreateButton onClick={onClickButton}>그래프 보기</LectureCreateButton>
@@ -210,7 +223,7 @@ function ProbFeedbackPage() {
 
 			{userinfos?.userData?.role === 1 ? (
 				<StudentBottomSheet
-					style={{ zIndex: '10' }}
+					
 					open={open}
 					setOpen={setOpen}
 					DeliverIndividualList={DeliverIndividualList}
@@ -220,7 +233,7 @@ function ProbFeedbackPage() {
 				/>
 			) : userinfos?.userData?.role === 2 ? (
 				<BottomSheetSection
-					style={{ zIndex: '10' }}
+					
 					open={open}
 					setOpen={setOpen}
 					DeliverIndividualList={DeliverIndividualList}
@@ -230,7 +243,7 @@ function ProbFeedbackPage() {
 				/>
 			) : userinfos?.userData?.role === 3 ? (
 				<BottomSheetSection
-					style={{ zIndex: '10' }}
+					
 					open={open}
 					setOpen={setOpen}
 					DeliverIndividualList={DeliverIndividualList}
@@ -244,21 +257,21 @@ function ProbFeedbackPage() {
 			
 			{userinfos?.userData?.role === 1 ? (
 				<StudentResultSheet
-					style={{ zIndex: '10' }}
+					
 					Result={Result}
 					setResult={setResult}
 					
 				/>
 			) : userinfos?.userData?.role === 2 ? (
 				<ProfessorResultSheet
-					style={{ zIndex: '10' }}
+					
 					Result={Result}
 					setResult={setResult}
 					
 				/>
 			) : userinfos?.userData?.role === 3 ? (
 				<ProfessorResultSheet
-					style={{ zIndex: '10' }}
+					
 					Result={Result}
 					setResult={setResult}
 					
@@ -266,6 +279,7 @@ function ProbFeedbackPage() {
 			) : (
 				''
 			)}
+			
 		</div>
 	);
 }
@@ -356,6 +370,20 @@ const LectureCreateButton = styled.button`
 const LectureCreateDiv = styled.div`
 	position: fixed;
 	bottom: 0px;
+	z-index: 4;
+	display: flex;
+	-webkit-box-align: center;
+	align-items: center;
+	width: 100%;
+	height: 4rem;
+	background: rgb(255, 255, 255);
+	box-shadow: rgb(232, 232, 238) 0px 1px 0px inset;
+`;
+
+
+const MusicPlayDiv = styled.div`
+	position: fixed;
+	bottom: 64px;
 	z-index: 2;
 	display: flex;
 	-webkit-box-align: center;

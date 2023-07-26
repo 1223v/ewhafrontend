@@ -13,6 +13,7 @@ function StudentResultSheet(props) {
 	return (
 		<div style={{ zIndex: '10' }}>
 			<BottomSheet
+				zIndex={8}
 				open={props.Result}
 				onDismiss={onClose}
 				header={

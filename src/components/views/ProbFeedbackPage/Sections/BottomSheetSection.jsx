@@ -222,6 +222,7 @@ function BottomSheetSection(props) {
 			<BottomSheet
 				open={props.open}
 				onDismiss={onClose}
+				zIndex={8}
 				header={
 					<StyledBottomSheetHeader>
 						<div className="sheetHeader">교수자 평가결과</div>

@@ -25,6 +25,7 @@ function ProfessorResultSheet(props) {
 			<BottomSheet
 				open={props.Result}
 				onDismiss={onClose}
+				zIndex={8}
 				header={
 					<StyledBottomSheetHeader>
 						<div className="sheetHeader">학생 평가결과</div>
