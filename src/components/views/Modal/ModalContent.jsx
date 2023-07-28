@@ -1,4 +1,4 @@
-import React from 'react';
+import React,{useEffect} from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import Axios from 'axios';
@@ -7,6 +7,10 @@ import { useSelector } from 'react-redux';
 function ModalContent({ weeklistcontent, lecture_no,userNum }) {
 	let navigate = useNavigate();
 	const userinfos = useSelector((state) => state.user);
+	
+	useEffect(()=>{
+		console.log(userNum);
+	},[])
 
 	const onDeleteButton = (event) => {
 		if (window.confirm('삭제하시겠습니까?')) {
@@ -186,7 +190,7 @@ function ModalContent({ weeklistcontent, lecture_no,userNum }) {
 														state={{
 															num: lecture_no,
 															asnum: week.assignment_no,
-															user_no: userNum
+															userNo: userNum
 														}}
 													>
 														<svg
@@ -213,6 +217,7 @@ function ModalContent({ weeklistcontent, lecture_no,userNum }) {
 														state={{
 															num: lecture_no,
 															asnum: week.assignment_no,
+															userNo: userNum
 														}}
 													>
 														<div className="text-blue-500 hover:text-blue-700">
@@ -272,7 +277,7 @@ function ModalContent({ weeklistcontent, lecture_no,userNum }) {
 														state={{
 															num: lecture_no,
 															asnum: week.assignment_no,
-															userNum: userNum
+															userNo: userNum
 														}}
 													>
 														<div className="text-blue-500 hover:text-blue-700">
