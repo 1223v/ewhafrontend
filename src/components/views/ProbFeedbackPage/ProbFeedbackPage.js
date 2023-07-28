@@ -12,6 +12,7 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import Axios from 'axios';
 import Audioplay from '../AudioRecordPage/Sections/Audioplay';
 import AudioPlaySheet from './Sections/AudioPlaySheet';
+import { FiMusic } from 'react-icons/fi';
 
 function ProbFeedbackPage() {
 	const location = useLocation();
@@ -37,10 +38,11 @@ function ProbFeedbackPage() {
 	const [ContentAverage, setContentAverage] = useState([]);
 	const [DeliverstudentList, setDeliverstudentList] = useState([]);
 	const [ContentstudentList, setContentstudentList] = useState([]);
-	const [Originaltext, setOriginaltext] = useState("");
+	const [Originaltext, setOriginaltext] = useState('');
 	const [Regionmusic, setRegionmusic] = useState('');
 	const [Originmusic, setOriginmusic] = useState('');
 	const [Playmusic, setPlaymusic] = useState(false);
+	const [Playopen, setPlayopen] = useState(false);
 
 	const onClickButton = () => {
 		// 여기가 그래프 API 호출 위치
@@ -65,25 +67,26 @@ function ProbFeedbackPage() {
 		// 			console.error(error);
 		// 		});
 		// } else if (userinfos?.userData?.role === 1) {
-		// 	Axios.get(
-		// 		`https://edu-trans.ewha.ac.kr:8443/api/feedback/studentgraphlist?as_no=${data.asnum}&lecture_no=${data.num}&user_no=${data.userNo}`,
-		// 		{
-		// 			withCredentials: true,
-		// 		}
-		// 	)
-		// 		.then((response) => {
-		// 			// 요청이 성공한 경우의 처리
-		// 			console.log(response.data);
-		// 			setDeliverIndividualList(response.data.DeliverIndividualList);
-		// 			setDeliverAverage(response.data.DeliverAverage);
-		// 			setContentIndividualList(response.data.ContentIndividualList);
-		// 			setContentAverage(response.data.ContentAverage);
-		// 		})
+		console.log(data);
+			Axios.get(
+				`https://edu-trans.ewha.ac.kr:8443/api/feedback/studentgraphlist?as_no=${data.asnum}&lecture_no=${data.num}&user_no=${data.user_no}`,
+				{
+					withCredentials: true,
+				}
+			)
+				.then((response) => {
+					// 요청이 성공한 경우의 처리
+					console.log(response.data);
+					// setDeliverIndividualList(response.data.DeliverIndividualList);
+					// setDeliverAverage(response.data.DeliverAverage);
+					// setContentIndividualList(response.data.ContentIndividualList);
+					// setContentAverage(response.data.ContentAverage);
+				})
 
-		// 		.catch((error) => {
-		// 			// 요청이 실패한 경우의 처리
-		// 			console.error(error);
-		// 		});
+				.catch((error) => {
+					// 요청이 실패한 경우의 처리
+					console.error(error);
+				});
 		// }
 		setOpen(!open);
 	};
@@ -91,9 +94,13 @@ function ProbFeedbackPage() {
 	const onSaveButton = () => {
 		setLoad(!Load);
 	};
-	
+
 	const onResultButton = () => {
 		setResult(!Result);
+	};
+
+	const onPlayMusicOpenBtn = () => {
+		setPlayopen(!Playopen);
 	};
 
 	useEffect(() => {
@@ -128,17 +135,20 @@ function ProbFeedbackPage() {
 		// 		navigate(-1);
 		// 	});
 	}, [Content]);
-	
-	useEffect(()=>{
-		Axios.get('https://edu-trans.ewha.ac.kr:8443/upload/95cb2cec-8c0e-4782-b84f-9335d81ea3d6.json', { withCredentials: true }).then((response2) => {
-					
-					setSectioncontent(response2.data.denotations);
-		
-				});
-		setRegionmusic("https://edu-trans.ewha.ac.kr:8443/upload/c51e0eac-5183-4818-8d36-df995b52f520.wav")
-	},[]);
-	
-	
+
+	useEffect(() => {
+		console.log(data);
+		Axios.get(
+			'https://edu-trans.ewha.ac.kr:8443/upload/95cb2cec-8c0e-4782-b84f-9335d81ea3d6.json',
+			{ withCredentials: true }
+		).then((response2) => {
+			setSectioncontent(response2.data.denotations);
+		});
+		setRegionmusic(
+			'https://edu-trans.ewha.ac.kr:8443/upload/c51e0eac-5183-4818-8d36-df995b52f520.wav'
+		);
+	}, []);
+
 	return (
 		<div>
 			<NavBar />
@@ -194,23 +204,36 @@ function ProbFeedbackPage() {
 				</Interpretation>
 
 				<Estimation>
-					
 					<h4>피드백</h4>
 					<EstimationBox>
 						{Sectioncontent?.map((lesson, index) => (
 							<React.Fragment key={index}>
-								<FeedbackGridCard id={lesson.id} begin={lesson.span.begin} end={lesson.span.end} obj={lesson.obj}/>
+								<FeedbackGridCard
+									id={lesson.id}
+									begin={lesson.span.begin}
+									end={lesson.span.end}
+									obj={lesson.obj}
+								/>
 							</React.Fragment>
 						))}
 					</EstimationBox>
 				</Estimation>
 			</FeedbackDiv>
-			
-			<AudioPlaySheet Regionmusic={Regionmusic}
-					Originmusic={Originmusic}
-					Playmusic={Playmusic}
-					setPlaymusic={setPlaymusic}/>
 
+			<AudioPlaySheet
+				Playopen={Playopen}
+				setPlayopen={setPlayopen}
+				Regionmusic={Regionmusic}
+				Originmusic={Originmusic}
+				Playmusic={Playmusic}
+				setPlaymusic={setPlaymusic}
+			/>
+
+			<MusicPlayDiv>
+				<PlayBtn onClick={onPlayMusicOpenBtn}>
+					<FiMusic size="25" />
+				</PlayBtn>
+			</MusicPlayDiv>
 			<LectureCreateDiv>
 				<LectureCreateButton onClick={onClickButton}>그래프 보기</LectureCreateButton>
 				<LectureCreateButton onClick={onResultButton}>총평</LectureCreateButton>
@@ -223,7 +246,6 @@ function ProbFeedbackPage() {
 
 			{userinfos?.userData?.role === 1 ? (
 				<StudentBottomSheet
-					
 					open={open}
 					setOpen={setOpen}
 					DeliverIndividualList={DeliverIndividualList}
@@ -233,7 +255,6 @@ function ProbFeedbackPage() {
 				/>
 			) : userinfos?.userData?.role === 2 ? (
 				<BottomSheetSection
-					
 					open={open}
 					setOpen={setOpen}
 					DeliverIndividualList={DeliverIndividualList}
@@ -243,7 +264,6 @@ function ProbFeedbackPage() {
 				/>
 			) : userinfos?.userData?.role === 3 ? (
 				<BottomSheetSection
-					
 					open={open}
 					setOpen={setOpen}
 					DeliverIndividualList={DeliverIndividualList}
@@ -254,32 +274,16 @@ function ProbFeedbackPage() {
 			) : (
 				''
 			)}
-			
+
 			{userinfos?.userData?.role === 1 ? (
-				<StudentResultSheet
-					
-					Result={Result}
-					setResult={setResult}
-					
-				/>
+				<StudentResultSheet Result={Result} setResult={setResult} />
 			) : userinfos?.userData?.role === 2 ? (
-				<ProfessorResultSheet
-					
-					Result={Result}
-					setResult={setResult}
-					
-				/>
+				<ProfessorResultSheet Result={Result} setResult={setResult} />
 			) : userinfos?.userData?.role === 3 ? (
-				<ProfessorResultSheet
-					
-					Result={Result}
-					setResult={setResult}
-					
-				/>
+				<ProfessorResultSheet Result={Result} setResult={setResult} />
 			) : (
 				''
 			)}
-			
 		</div>
 	);
 }
@@ -367,6 +371,18 @@ const LectureCreateButton = styled.button`
 	z-index: 1;
 `;
 
+const PlayBtn = styled.button`
+	background-color: rgb(5, 66, 43);
+	height: 56px;
+	width: 56px;
+	border: none;
+	border-radius: 50%;
+	color: white;
+	cursor: pointer;
+	float: right;
+	margin-right: 20px;
+`;
+
 const LectureCreateDiv = styled.div`
 	position: fixed;
 	bottom: 0px;
@@ -380,18 +396,17 @@ const LectureCreateDiv = styled.div`
 	box-shadow: rgb(232, 232, 238) 0px 1px 0px inset;
 `;
 
-
 const MusicPlayDiv = styled.div`
 	position: fixed;
 	bottom: 64px;
 	z-index: 2;
-	display: flex;
+
 	-webkit-box-align: center;
 	align-items: center;
 	width: 100%;
 	height: 4rem;
-	background: rgb(255, 255, 255);
-	box-shadow: rgb(232, 232, 238) 0px 1px 0px inset;
+	border: none;
+	background: rgb(255, 255, 255, 0);
 `;
 
 const LectureBackDiv = styled.div`
