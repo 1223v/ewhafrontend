@@ -26,7 +26,7 @@ function GridCards(props) {
 	};
 
 	return (
-		<Col lg={12} md={8} xs={24}>
+		<Col lg={8} md={12} xs={24}>
 			<div className="lecture_list">
 				<div className="lecture_list_class">
 					<div>

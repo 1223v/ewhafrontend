@@ -38,7 +38,7 @@ function LandingPage() {
 	}, []);
 
 	return (
-		<div>
+		<div >
 			<NavBar />
 			<div className="lecture_class">
 				<Profile
