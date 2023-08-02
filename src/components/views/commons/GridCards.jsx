@@ -21,6 +21,12 @@ function GridCards(props) {
 			).then((response) => {
 				// 요청이 성공한 경우의 처리
 				alert(response.data.msg);
+				Axios.get('https://edu-trans.ewha.ac.kr:8443/api/lecture/list', {
+					withCredentials: true,
+				}).then((response) => {
+					// 요청이 성공한 경우의 처리
+					props.setLectures(response.data.lecturelist);
+				});
 			});
 		}
 	};
@@ -36,7 +42,7 @@ function GridCards(props) {
 								<div style={{ color: 'black', display: 'flex', float: 'right' }}>
 									<Link
 										to={`/lecture_mod?lecture_no=${props.num}`}
-										state={{num:props.num}}
+										state={{ num: props.num }}
 										style={{ color: '#05422b' }}
 									>
 										<BiSolidPencil size="20" />
@@ -58,7 +64,7 @@ function GridCards(props) {
 							)}
 						</h5>
 					</div>
-					<Link to={`/prob?lecture_no=${props.num}`} state={{num:props.num}}>
+					<Link to={`/prob?lecture_no=${props.num}`} state={{ num: props.num }}>
 						<h3 style={{ margin: '10px', color: 'black' }}>{props.lectureName}</h3>
 						<div style={{ margin: '8px', color: 'gray' }}>
 							{props.major} {props.separated}

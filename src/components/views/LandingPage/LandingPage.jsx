@@ -35,7 +35,7 @@ function LandingPage() {
 				console.error(error);
 				navigate(-1);
 			});
-	}, []);
+	}, [Lectures]);
 
 	return (
 		<div >
@@ -58,6 +58,7 @@ function LandingPage() {
 									<button
 										class="middle none center rounded-lg bg-green-900 py-2 px-6 font-sans text-xs font-bold uppercase text-white  transition-all border-none"
 										data-ripple-light="true"
+										style={{boxShadow: "0px 3px 5px -1px rgba(0, 0, 0, 0.2), 0px 6px 10px 0px rgba(0, 0, 0, 0.14),0px 1px 18px 0px rgba(0, 0, 0, 0.12)"}}
 									>
 										+ 강의 개설
 									</button>
@@ -80,6 +81,7 @@ function LandingPage() {
 									separated={lesson.separated}
 									year={lesson.year}
 									semester={lesson.semester}
+									setLectures={setLectures}
 								/>
 							</React.Fragment>
 						))}

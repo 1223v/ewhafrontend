@@ -115,6 +115,7 @@ function ProbFeedbackPage() {
 				as_no: data.asnum,
 				user_no: data.userNo,
 				result: Datacontent,
+				textAE : "",
 				DeliverIndividualList: [PauseCount, FillerCount, BacktrackingCount, EtcCount],
 				ContentIndividualList: [
 					MistranslationCount,
@@ -125,23 +126,23 @@ function ProbFeedbackPage() {
 				],
 			};
 			console.log(body); //API를 위한 콘솔 로그
-			// Axios.post('https://edu-trans.ewha.ac.kr:8443/r_feedback', body, {
-			// 	withCredentials: true,
-			// })
-			// 	.then((response) => {
-			// 		if (response.data.probcreateSuccess) {
-			// 			alert('저장 완료했습니다.');
+			Axios.post('https://edu-trans.ewha.ac.kr:8443/r_feedback', body, {
+				withCredentials: true,
+			})
+				.then((response) => {
+					if (response.data.probcreateSuccess) {
+						alert('저장 완료했습니다.');
 
-			// 		} else {
-			// 			alert('저장 실패했습니다. 다시 시도해주세요.');
-			// 			navigate('/');
-			// 		}
-			// 	})
-			// 	.catch((error) => {
-			// 		// 요청이 실패한 경우의 처리
-			// 		console.error(error);
-			// 		navigate("/");
-			// 	});
+					} else {
+						alert('저장 실패했습니다. 다시 시도해주세요.');
+						navigate('/');
+					}
+				})
+				.catch((error) => {
+					// 요청이 실패한 경우의 처리
+					console.error(error);
+					navigate("/");
+				});
 		}
 	}, [Datacontent]);
 
@@ -379,6 +380,7 @@ const PlayBtn = styled.button`
 	cursor: pointer;
 	float: right;
 	margin-right: 20px;
+	box-shadow: 0px 3px 5px -1px rgba(0,0,0,0.2), 0px 6px 10px 0px rgba(0,0,0,0.14), 0px 1px 18px 0px rgba(0,0,0,0.12);
 `;
 
 const LectureCreateDiv = styled.div`
