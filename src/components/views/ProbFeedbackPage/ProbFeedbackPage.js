@@ -17,11 +17,12 @@ import { FiMusic } from 'react-icons/fi';
 function ProbFeedbackPage() {
 	const location = useLocation();
 	const data = location.state;
+	let navigate = useNavigate();
 	const userinfos = useSelector((state) => state.user);
 	const [open, setOpen] = useState(false);
 	const [Result, setResult] = useState(false);
 	const [Load, setLoad] = useState(false);
-	const [Content, setContent] = useState('');
+	const [Datacontent, setDatacontent] = useState('');
 	const [Sectioncontent, setSectioncontent] = useState([]);
 	const [FillerCount, setFillerCount] = useState(0);
 	const [PauseCount, setPauseCount] = useState(0);
@@ -68,25 +69,25 @@ function ProbFeedbackPage() {
 		// 		});
 		// } else if (userinfos?.userData?.role === 1) {
 		console.log(data);
-			Axios.get(
-				`https://edu-trans.ewha.ac.kr:8443/api/feedback/studentgraphlist?as_no=${data.asnum}&lecture_no=${data.num}&user_no=${data.user_no}`,
-				{
-					withCredentials: true,
-				}
-			)
-				.then((response) => {
-					// 요청이 성공한 경우의 처리
-					console.log(response.data);
-					// setDeliverIndividualList(response.data.DeliverIndividualList);
-					// setDeliverAverage(response.data.DeliverAverage);
-					// setContentIndividualList(response.data.ContentIndividualList);
-					// setContentAverage(response.data.ContentAverage);
-				})
+		Axios.get(
+			`https://edu-trans.ewha.ac.kr:8443/api/feedback/studentgraphlist?as_no=${data.asnum}&lecture_no=${data.num}&user_no=${data.user_no}`,
+			{
+				withCredentials: true,
+			}
+		)
+			.then((response) => {
+				// 요청이 성공한 경우의 처리
+				console.log(response.data);
+				// setDeliverIndividualList(response.data.DeliverIndividualList);
+				// setDeliverAverage(response.data.DeliverAverage);
+				// setContentIndividualList(response.data.ContentIndividualList);
+				// setContentAverage(response.data.ContentAverage);
+			})
 
-				.catch((error) => {
-					// 요청이 실패한 경우의 처리
-					console.error(error);
-				});
+			.catch((error) => {
+				// 요청이 실패한 경우의 처리
+				console.error(error);
+			});
 		// }
 		setOpen(!open);
 	};
@@ -104,50 +105,47 @@ function ProbFeedbackPage() {
 	};
 
 	useEffect(() => {
-		// let body = {
-		// 	user_no: data.userNo,
-		// 	content: Content,
-		// 	DeliverIndividualList: [PauseCount, FillerCount, BacktrackingCount, EtcCount],
-		// 	ContentIndividualList: [
-		// 		MistranslationCount,
-		// 		OmissionCount,
-		// 		PronunciationCount,
-		// 		IntonationCount,
-		// 		GrammaticalErrorCount,
-		// 	],
-		// };
-		// console.log(body); //API를 위한 콘솔 로그
-		// Axios.post('https://edu-trans.ewha.ac.kr:8443/api/feedback/graphFigure', body, {
-		// 	withCredentials: true,
-		// })
-		// 	.then((response) => {
-		// 		if (response.data.probcreateSuccess) {
-		// 			alert('저장 완료했습니다.');
-		//
-		// 		} else {
-		// 			alert('저장 실패했습니다. 다시 시도해주세요.');
-		// 			navigate('/');
-		// 		}
-		// 	})
-		// 	.catch((error) => {
-		// 		// 요청이 실패한 경우의 처리
-		// 		console.error(error);
-		// 		navigate(-1);
-		// 	});
-	}, [Content]);
-
-	useEffect(() => {
-		console.log(data);
-		Axios.get(
-			'https://edu-trans.ewha.ac.kr:8443/upload/95cb2cec-8c0e-4782-b84f-9335d81ea3d6.json',
-			{ withCredentials: true }
-		).then((response2) => {
-			setSectioncontent(response2.data.denotations);
-		});
+		console.log(data.num);
 		setRegionmusic(
 			'https://edu-trans.ewha.ac.kr:8443/upload/c51e0eac-5183-4818-8d36-df995b52f520.wav'
 		);
-	}, []);
+		if (Datacontent !== '') {
+			let body = {
+				lecture_no: data.num,
+				as_no: data.asnum,
+				user_no: data.userNo,
+				result: Datacontent,
+				textAE : "",
+				DeliverIndividualList: [PauseCount, FillerCount, BacktrackingCount, EtcCount],
+				ContentIndividualList: [
+					MistranslationCount,
+					OmissionCount,
+					PronunciationCount,
+					IntonationCount,
+					GrammaticalErrorCount,
+				],
+			};
+			console.log(body); //API를 위한 콘솔 로그
+			Axios.post('https://edu-trans.ewha.ac.kr:8443/r_feedback', body, {
+				withCredentials: true,
+			})
+				.then((response) => {
+					if (response.data.probcreateSuccess) {
+						alert('저장 완료했습니다.');
+
+					} else {
+						alert('저장 실패했습니다. 다시 시도해주세요.');
+						navigate('/');
+					}
+				})
+				.catch((error) => {
+					// 요청이 실패한 경우의 처리
+					console.error(error);
+					navigate("/");
+				});
+		}
+	}, [Datacontent]);
+
 
 	return (
 		<div>
@@ -184,7 +182,8 @@ function ProbFeedbackPage() {
 					<InterpretationBox>
 						<TextAEEditor
 							Load={Load}
-							setContent={setContent}
+							setDatacontent={setDatacontent}
+							Sectioncontent={Sectioncontent}
 							setSectioncontent={setSectioncontent}
 							setFillerCount={setFillerCount}
 							setPauseCount={setPauseCount}
@@ -381,6 +380,7 @@ const PlayBtn = styled.button`
 	cursor: pointer;
 	float: right;
 	margin-right: 20px;
+	box-shadow: 0px 3px 5px -1px rgba(0,0,0,0.2), 0px 6px 10px 0px rgba(0,0,0,0.14), 0px 1px 18px 0px rgba(0,0,0,0.12);
 `;
 
 const LectureCreateDiv = styled.div`

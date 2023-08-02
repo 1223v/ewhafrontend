@@ -90,7 +90,7 @@ const DragDrop = styled.div`
 		height: 180px;
 	}
 
-	@media screen and (max-width: 768px) {
+	@media screen and (max-width: 830px) {
 		& > label {
 			min-width: auto;
 			box-sizing: border-box;

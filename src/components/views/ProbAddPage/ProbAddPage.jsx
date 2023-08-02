@@ -392,7 +392,7 @@ const LectureAddFormDiv = styled.div`
 	background-color: #ffffff;
 	width: 800px;
 	height: 100%;
-	@media screen and (max-width: 768px) {
+	@media screen and (max-width: 830px) {
 		width: auto;
 		margin: 10px;
 	}
@@ -427,7 +427,7 @@ const LectureNameDiv = styled.div`
 	@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;400&display=swap');
 	font-family: 'Noto Sans KR', sans-serif;
 	margin: 17px;
-	@media screen and (max-width: 768px) {
+	@media screen and (max-width: 830px) {
 		margin: 11px;
 	}
 `;

@@ -6,8 +6,10 @@ import Axios from 'axios';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 
 const TextAEEditor = (props) => {
-	const [Textae, setTextae] = useState('');
+	
 	const [Url, setUrl] = useState('');
+	const [Textae, setTextae] = useState('');
+	let teae = {};
 
 	const elementRef = useRef(null);
 	let navigate = useNavigate();
@@ -62,47 +64,25 @@ const TextAEEditor = (props) => {
 	};
 
 	useEffect(() => {
-		props.setContent(elementRef.current.textContent);
+		if(elementRef.current.textContent){
+			const textContent = JSON.parse(elementRef.current.textContent);
+			const textString = JSON.stringify(textContent);
+			props.setDatacontent(textContent);
+		}	
 	}, [props.Load]);
 
 	useEffect(() => {
+		
 		setTimeout(() => {
 			// var initializeTextAEEditor = window.initializeTextAEEditor;
 			// initializeTextAEEditor('#textae-editor');
-			
-
-			// The initializeTextAEEditor function may initialize multiple TextAE editors.
-			// It returns an array of initialized editors.
-			// It has the ID of the HTML element in the id property.
-			const editor = window.initializeTextAEEditor()
-				
-			
-			//editor.find((editor) => editor.id === 'textae-editor');
-
-			// The TextAE editor displays the annotation set in the annotation property.
-			editor.annotation = {
-				text: 'This is a TextAE editor dynamically created from a JavaScript program.',
-			};
-
-			// When you edit an annotation in the TextAE editor,
-			// the changed annotation is notified to the callback function set in the inspectCallback property
-			// each time you edit it.
-			editor.inspectCallback = (annotation) => {
-				console.log(annotation);
-			};
-
-			// Clean up the TextAE editor when the component is unmounted.
-			return () => {
-				const editorElement = document.getElementById('my_text-ae_editor');
-				if (editorElement) {
-					editorElement.remove();
-				}
-			};
+			const [editor] = window.initializeTextAEEditor();
+			editor.annotation = teae;
 		}, 2000);
-	}, [Url]);
+	}, [Textae]);
 
 	useEffect(() => {
-		console.log(props.num);
+		
 		Axios.get(
 			`https://edu-trans.ewha.ac.kr:8443/r_feedback?as_no=${props.asnum}&lecture_no=${props.num}&user_no=${props.userNo}`,
 			{
@@ -113,10 +93,11 @@ const TextAEEditor = (props) => {
 				// 요청이 성공한 경우의 처리
 				if (response.data.FeedbackStatus === 1) {
 					setUrl(response.data.url);
-					Axios.get(response.data.url, { withCredentials: true }).then((response2) => {
+					Axios.get('https://edu-trans.ewha.ac.kr:8443/upload/95cb2cec-8c0e-4782-b84f-9335d81ea3d6.json', { withCredentials: true }).then((response2) => {
 						console.log(response2.data);
-						//const textContent = JSON.parse(response2.data);
-						props.setSectioncontent(response2.data);
+						props.setSectioncontent(response2.data.denotations);
+						setTextae(response2.data);
+						teae = response2.data;
 					});
 				} else if (response.data.FeedbackStatus === 2) {
 					alert('과제를 제출해주세요.');
@@ -136,9 +117,7 @@ const TextAEEditor = (props) => {
 				navigate("/");
 			});
 
-		// setUrl(
-		// 	'https://edu-trans.ewha.ac.kr:8443/upload/95cb2cec-8c0e-4782-b84f-9335d81ea3d6.json'
-		// );
+		
 	}, []);
 
 	return (
@@ -147,7 +126,6 @@ const TextAEEditor = (props) => {
 				id="my_text-ae_editor"
 				className="textae-editor"
 				mode="edit"
-				target={Url}
 				inspect="annotation"
 				onMouseUp={handleMouseUp}
 			></div>
