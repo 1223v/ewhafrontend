@@ -9,6 +9,7 @@ export default function AudioRecorderFunc(props) {
 	const [status, setStatus] = useState('');
 	const [audioSrc, setAudioSrc] = useState('');
 	const [audioType, setAudioType] = useState('audio/wav');
+	const [shouldHide, setshouldHide] = useState(false);
 
 	const controlAudio = (status) => {
 		setStatus(status);
@@ -68,8 +69,8 @@ export default function AudioRecorderFunc(props) {
 	return (
 		<div style={{ margin: '10px' }}>
 			<AudioAnalyser {...audioProps} width="290">
-				<div className="btn-box">
-					<RecordButton id="recordButton" onClick={() => toggleRecording()}/>
+				<div className="btn-box" style={{ display: shouldHide ? 'none' : 'block' }}>
+					<RecordButton id="recordButton" onClick={() => toggleRecording()} setshouldHide={setshouldHide}/>
 				</div>
 			</AudioAnalyser>
 		</div>

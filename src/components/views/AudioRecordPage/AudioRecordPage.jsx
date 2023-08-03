@@ -9,7 +9,7 @@ import AudiorecordGridcard from './AudiorecordGridcard';
 
 function AudioRecordPage() {
 	let navigate = useNavigate();
-	
+
 	const location = useLocation();
 	const data = location.state;
 	const [Audiolist, setAudiolist] = useState([]);
@@ -21,7 +21,6 @@ function AudioRecordPage() {
 	const [Realsubmit, setRealsubmit] = useState([]);
 	const [Disable, setDisable] = useState(0);
 	const [Endlength, setEndlength] = useState(-1);
-	
 
 	useEffect(() => {
 		Axios.get(
@@ -35,6 +34,7 @@ function AudioRecordPage() {
 
 				const Music_URL =
 					'https://edu-trans.ewha.ac.kr:8443/' + response.data.as_info.upload_url;
+				console.log('submit', response.data);
 				setAudiolist(response.data.wav_url);
 				setEndlength(response.data.wav_url.length);
 				setOriginmusic(Music_URL);
@@ -60,9 +60,9 @@ function AudioRecordPage() {
 		if (window.confirm('과제 제출하시겠습니까?')) {
 			if (Realsubmit.length === Endlength) {
 				let body = {
-					submitUUID : Realsubmit,
+					submitUUID: Realsubmit,
 					as_no: data.asnum,
-					lecture_no: data.num
+					lecture_no: data.num,
 				};
 
 				Axios.post('https://edu-trans.ewha.ac.kr:8443/api/prob/submit', body, {
@@ -77,7 +77,6 @@ function AudioRecordPage() {
 						console.error(error);
 						navigate(-1);
 					});
-				
 			} else {
 				alert('녹음 혹은 업로드부터 진행해주세요.');
 			}
@@ -108,14 +107,13 @@ function AudioRecordPage() {
 				</LectureBackDiv>
 				<LectureTitleDiv>과제명</LectureTitleDiv>
 			</div>
-			<div style={{ width: '75%', textAlign: 'center', margin: '0 auto' }}>
-				<Audioplay
-					Regionmusic={Regionmusic}
-					Originmusic={Originmusic}
-					Playmusic={Playmusic}
-					setPlaymusic={setPlaymusic}
-				/>
-			</div>
+
+			<Audioplay
+				Regionmusic={Regionmusic}
+				Originmusic={Originmusic}
+				Playmusic={Playmusic}
+				setPlaymusic={setPlaymusic}
+			/>
 
 			<div style={{ width: 'auto', margin: '20px auto' }}>
 				<Row>

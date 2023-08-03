@@ -51,6 +51,7 @@ export default function RecordButton(props) {
 						onClick={() => {
 							setIsRecording(false);
 							props?.onClick();
+							props.setshouldHide(true);
 						}}
 						color="secondary"
 						aria-label="record"
