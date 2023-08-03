@@ -13,6 +13,9 @@ function Audioplay(props) {
 			wavesurferRef.current = waveSurfer;
 			if (wavesurferRef.current && props.Regionmusic) {
 				wavesurferRef.current.load(props.Regionmusic);
+				wavesurferRef.current.on('finish', () => {
+					console.log('음원이 끝났습니다.'); // 원하는 메시지 출력 또는 작업 수행
+				});
 			}
 		},
 		[props.Regionmusic]
@@ -51,27 +54,20 @@ function Audioplay(props) {
 	};
 
 	return (
-		<div>
+		<WavesurferDiv>
 			<WaveSurfer key={waveformKey} onMount={handleWSMount}>
 				<WaveForm id="waveform" {...options}></WaveForm>
 			</WaveSurfer>
-			<PlayButton
-				onClick={() => {
-					setplaytime(!playtime);
-					play();
-				}}
-			>
-				{playtime ? <FaRegPauseCircle size="40" /> : <FaRegPlayCircle size="40" />}
-			</PlayButton>
-		</div>
+		</WavesurferDiv>
 	);
 }
 
 export default Audioplay;
 
-const PlayButton = styled.button`
-	border: 0px;
-	background-color: transparent;
-	color: rgb(20, 83, 45);
-	margin: 6px;
+const WavesurferDiv = styled.div`
+	background-color: rgba(5, 66, 43, 0.2);
+    pointer-events: none;
+    width: 100%;
+	text-align: center;
+	margin: 0 auto;
 `;
