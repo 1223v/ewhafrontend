@@ -1,6 +1,4 @@
-/* global kakao */
 import React, { useEffect, useState, useRef } from 'react';
-import useScript from '../../../../hooks/useScript';
 import styled, { keyframes } from 'styled-components';
 import Axios from 'axios';
 import { Link, useLocation, useNavigate } from 'react-router-dom';

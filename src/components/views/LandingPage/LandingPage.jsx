@@ -16,6 +16,7 @@ function LandingPage() {
 	let navigate = useNavigate();
 	const [Lectures, setLectures] = useState([]);
 	const [message, setMessage] = useState('');
+	const [LectureStatus, setLectureStatus] = useState(false);
 
 	const userinfos = useSelector((state) => state.user);
 
@@ -35,7 +36,7 @@ function LandingPage() {
 				console.error(error);
 				navigate(-1);
 			});
-	}, [Lectures]);
+	}, []); // 예외 처리 필요 무한으로 API가 날라감(강의로 판단하는 것이 아닌 삭제 유무에 따라 판별해야할듯함)
 
 	return (
 		<div >
@@ -82,6 +83,8 @@ function LandingPage() {
 									year={lesson.year}
 									semester={lesson.semester}
 									setLectures={setLectures}
+									setLectureStatus={setLectureStatus}
+									LectureStatus={LectureStatus}
 								/>
 							</React.Fragment>
 						))}

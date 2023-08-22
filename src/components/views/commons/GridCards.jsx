@@ -26,6 +26,7 @@ function GridCards(props) {
 				}).then((response) => {
 					// 요청이 성공한 경우의 처리
 					props.setLectures(response.data.lecturelist);
+					props.setLectureStatus(!props.LectureStatus);
 				});
 			});
 		}

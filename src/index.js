@@ -11,10 +11,9 @@ import persistedReducer from './_reducers';
 import { CookiesProvider } from 'react-cookie';
 //import {composeWithDevTools} from 'redux-devtools-extension/developmentOnly';
 import Reducer from './_reducers';
-import loadExternalJS from './util/loadExternalJS';
 import MainContextProvider from './components/views/AudioRecordPage/Sections/contexts/MainContext.js';
 
-//loadExternalJS(); // 새로 만든 함수 추가
+
 const createStoreWithMiddleware = applyMiddleware(promiseMiddleware, ReduxThunk)(createStore);
 
 const root = ReactDOM.createRoot(document.getElementById('root'));

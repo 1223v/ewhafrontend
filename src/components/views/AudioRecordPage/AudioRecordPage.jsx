@@ -21,6 +21,7 @@ function AudioRecordPage() {
 	const [Realsubmit, setRealsubmit] = useState([]);
 	const [Disable, setDisable] = useState(0);
 	const [Endlength, setEndlength] = useState(-1);
+	const [Endmusic, setEndmusic] = useState(false);//음악 종료시점 확인
 
 	useEffect(() => {
 		Axios.get(
@@ -113,6 +114,8 @@ function AudioRecordPage() {
 				Originmusic={Originmusic}
 				Playmusic={Playmusic}
 				setPlaymusic={setPlaymusic}
+				setEndmusic={setEndmusic}
+				Endmusic={Endmusic}
 			/>
 
 			<div style={{ width: 'auto', margin: '20px auto' }}>
@@ -131,6 +134,8 @@ function AudioRecordPage() {
 								Realsubmit={Realsubmit}
 								setDisable={setDisable}
 								Disable={Disable}
+								setEndmusic={setEndmusic}
+								Endmusic={Endmusic}
 							/>
 						</React.Fragment>
 					))}

@@ -104,6 +104,7 @@ function LectureAddPage() {
 		})
 			.then((response) => {
 				console.log(response.data.msg);
+				navigate("/");
 			})
 			.catch((error) => {
 				// 요청이 실패한 경우의 처리
@@ -138,6 +139,7 @@ function LectureAddPage() {
 			.then((response) => {
 				// 요청이 성공한 경우의 처리
 				setAllstudentlist(response.data.userlist);
+				
 			})
 			.catch((error) => {
 				// 요청이 실패한 경우의 처리

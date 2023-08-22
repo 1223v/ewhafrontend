@@ -79,6 +79,8 @@ function AudiorecordGridcard(props) {
 							setSubmitlist={props.setSubmitlist}
 							Submitlist={props.Submitlist}
 							Disable={props.Disable}
+							setEndmusic={props.setEndmusic}
+							Endmusic={props.Endmusic}
 						/>
 					</div>
 					<div style={{ textAlign: 'center', margin: '10px' }}>
