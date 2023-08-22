@@ -15,14 +15,6 @@ export default function AudioRecorderFunc(props) {
 		setStatus(status);
 	};
 
-	useEffect(() => {
-		setAudioExtension(audioType.replace('audio/', ''));
-	}, []);
-
-	useEffect(() => {
-		setAudioExtension(audioType.replace('audio/', ''));
-	}, [setAudioExtension, audioType]);
-
 	const toggleRecording = () => {
 		status === 'recording' ? controlAudio('inactive') : controlAudio('recording');
 	};
@@ -51,7 +43,7 @@ export default function AudioRecorderFunc(props) {
 				withCredentials: true,
 			})
 				.then((response) => {
-					alert("임시저장되었습니다.");
+					alert('임시저장되었습니다.');
 					props.setSubmitlist(response.data.file);
 				})
 				.catch((error) => {
@@ -65,13 +57,37 @@ export default function AudioRecorderFunc(props) {
 			console.log('error', err);
 		},
 	};
+	
+	const onRecordCheck = () => {
+		toggleRecording();
+		setshouldHide(false);
+	};
+
+	useEffect(() => {
+		setAudioExtension(audioType.replace('audio/', ''));
+	}, []);
+
+	useEffect(() => {
+		setAudioExtension(audioType.replace('audio/', ''));
+	}, [setAudioExtension, audioType]);
+
+	useEffect(() => {
+		if (props.Endmusic && props.Disable === props.region_index) {
+			toggleRecording();
+			props.setEndmusic(false);
+			setshouldHide(true);
+			console.log('녹음 시작');
+		}
+	}, [props.Endmusic]);
 
 	return (
 		<div style={{ margin: '10px' }}>
 			<AudioAnalyser {...audioProps} width="290">
-				<div className="btn-box" style={{ display: shouldHide ? 'none' : 'block' }}>
-					<RecordButton id="recordButton" onClick={() => toggleRecording()} setshouldHide={setshouldHide}/>
-				</div>
+				{shouldHide && (
+					<div className="btn-box">
+						<RecordButton id="recordButton" onClick={onRecordCheck} />
+					</div>
+				)}
 			</AudioAnalyser>
 		</div>
 	);

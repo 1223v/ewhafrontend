@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { WaveSurfer, WaveForm } from 'wavesurfer-react';
 import styled from 'styled-components';
-import { FaRegPlayCircle, FaRegPauseCircle } from 'react-icons/fa';
+
 
 function Audioplay(props) {
 	const wavesurferRef = useRef();
@@ -15,6 +15,7 @@ function Audioplay(props) {
 				wavesurferRef.current.load(props.Regionmusic);
 				wavesurferRef.current.on('finish', () => {
 					console.log('음원이 끝났습니다.'); // 원하는 메시지 출력 또는 작업 수행
+					props.setEndmusic(true);
 				});
 			}
 		},
