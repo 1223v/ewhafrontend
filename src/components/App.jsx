@@ -1,5 +1,5 @@
 import './App.css';
-import { Route, Routes } from 'react-router-dom';
+import { Route, Routes, Navigate } from 'react-router-dom';
 import NavBar from './views/NavBar/NavBar';
 //import Footer from './views/Footer/Footer'
 import LandingPage from './views/LandingPage/LandingPage';
@@ -46,7 +46,7 @@ function App() {
 				<Route path="/prob_add" element={<NewProbAddPage />} />
 				<Route path="/prob_mod" element={<NewProbModPage />} />
 				<Route path="/prob_feedback" element={<ProbFeedbackPage />} />
-
+				<Route path="/*" element={<Navigate to="/"></Navigate>}></Route>
 				<Route path="/test" element={<NewTest />} />
 			</Routes>
 		</div>

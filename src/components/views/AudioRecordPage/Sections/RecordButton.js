@@ -45,11 +45,11 @@ export default function RecordButton(props) {
 
 	return (
 		<Fragment>
-			{isRecording ? (
+			
 				<Tooltip title="Stop Recording" aria-label="record" placement="right">
 					<StyledFab
 						onClick={() => {
-							setIsRecording(false);
+							setIsRecording(!isRecording);
 							props?.onClick();
 							
 						}}
@@ -60,21 +60,7 @@ export default function RecordButton(props) {
 						<StopIcon />
 					</StyledFab>
 				</Tooltip>
-			) : (
-				<Tooltip title="Start Recording" aria-label="record" placement="right">
-					<StyledFab
-						recording
-						onClick={() => {
-							setIsRecording(true);
-							props?.onClick();
-						}}
-						color="secondary"
-						aria-label="record"
-					>
-						<MicIcon />
-					</StyledFab>
-				</Tooltip>
-			)}
+			
 		</Fragment>
 	);
 }
