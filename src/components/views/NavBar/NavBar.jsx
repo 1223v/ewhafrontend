@@ -4,6 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import Ewha from "./ewha_logo.png";
 import Axios from "axios";
 import { useCookies } from "react-cookie"; // useCookies import
+import { API_URL } from "../../Config";
 
 function NavBar() {
   let navigate = useNavigate();
@@ -16,10 +17,9 @@ function NavBar() {
   };
 
   const onLogoutHandler = () => {
-    Axios.get("https://edu-trans.ewha.ac.kr:8443/api/user/logout",{ withCredentials: true }).then(
+    Axios.get(`${API_URL}api/user/logout`, { withCredentials: true }).then(
       (response) => {
         if (response.data.logoutSuccess) {
-          
           navigate("/login");
         } else {
           alert("Error");
