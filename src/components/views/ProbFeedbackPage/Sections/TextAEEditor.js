@@ -2,10 +2,9 @@ import React, { useEffect, useState, useRef } from 'react';
 import styled, { keyframes } from 'styled-components';
 import Axios from 'axios';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { API_URL } from "../../../Config";
+import { API_URL } from '../../../Config';
 
 const TextAEEditor = (props) => {
-	
 	const [Url, setUrl] = useState('');
 	const [Textae, setTextae] = useState('');
 	let teae = {};
@@ -24,10 +23,12 @@ const TextAEEditor = (props) => {
 		let PronunciationNumber = 0;
 		let GrammaticalErrorNumber = 0;
 
+		console.log(textContent.denotations);
 		textContent.denotations?.forEach((item) => {
-			if (item.obj === 'Filler') {
+			if (item.obj === 'Filler' || item.obj === 'FILLER') {//변수 명 대,소문자 확인 부탁
 				FillerNumber++;
-			} else if (item.obj === 'Pause') {
+				console.log("filer");
+			} else if (item.obj === 'Pause' || item.obj ==='PAUSE') {
 				PauseNumber++;
 			} else if (item.obj === 'Backtracking') {
 				BacktrackingNumber++;
@@ -46,6 +47,7 @@ const TextAEEditor = (props) => {
 			}
 		});
 
+		console.log(FillerNumber);
 		props.setFillerCount(FillerNumber);
 		props.setPauseCount(PauseNumber);
 		props.setBacktrackingCount(BacktrackingNumber);
@@ -63,16 +65,15 @@ const TextAEEditor = (props) => {
 	};
 
 	useEffect(() => {
-		if(elementRef.current.textContent){
+		if (elementRef.current.textContent) {
 			const textContent = JSON.parse(elementRef.current.textContent);
 			const textString = JSON.stringify(textContent);
 			props.setDatacontent(textContent);
 			console.log(textContent);
-		}	
+		}
 	}, [props.Load]);
 
 	useEffect(() => {
-		
 		setTimeout(() => {
 			// var initializeTextAEEditor = window.initializeTextAEEditor;
 			// initializeTextAEEditor('#textae-editor');
@@ -82,7 +83,6 @@ const TextAEEditor = (props) => {
 	}, [Textae]);
 
 	useEffect(() => {
-		
 		Axios.get(
 			`${API_URL}api/feedback?as_no=${props.asnum}&lecture_no=${props.num}&user_no=${props.userNo}`,
 			{
@@ -94,32 +94,32 @@ const TextAEEditor = (props) => {
 				console.log(response.data);
 				if (response.data.isSuccess) {
 					setUrl(response.data.url);
-					Axios.get(`${response.data.url}`, { withCredentials: true }).then((response2) => {
-						console.log(response2.data);
-						props.setSectioncontent(response2.data.denotations);
-						setTextae(response2.data);
-						teae = response2.data;
-						console.log(teae);
-					});
+					Axios.get(`${response.data.url}`, { withCredentials: true }).then(
+						(response2) => {
+							console.log(response2.data);
+							props.setSectioncontent(response2.data.denotations);
+							setTextae(response2.data);
+							teae = response2.data;
+							console.log(teae);
+						}
+					);
 				} else if (response.data.FeedbackStatus === 2) {
 					alert('과제를 제출해주세요.');
-					navigate("/");
+					navigate('/');
 				} else if (response.data.FeedbackStatus === 3) {
 					alert('STT 작업중입니다...');
-					navigate("/");
+					navigate('/');
 				} else {
 					alert('알 수 없는 에러입니다.');
-					navigate("/");
+					navigate('/');
 				}
 			})
 
 			.catch((error) => {
 				// 요청이 실패한 경우의 처리
 				console.error(error);
-				navigate("/");
+				navigate('/');
 			});
-
-		
 	}, []);
 
 	return (

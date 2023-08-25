@@ -13,7 +13,7 @@ import Axios from 'axios';
 import Audioplay from '../AudioRecordPage/Sections/Audioplay';
 import AudioPlaySheet from './Sections/AudioPlaySheet';
 import { FiMusic } from 'react-icons/fi';
-import { API_URL } from "../../Config";
+import { API_URL } from '../../Config';
 
 function ProbFeedbackPage() {
 	const location = useLocation();
@@ -107,16 +107,15 @@ function ProbFeedbackPage() {
 
 	useEffect(() => {
 		console.log(data.num);
-		setRegionmusic(
-			`${API_URL}upload/c51e0eac-5183-4818-8d36-df995b52f520.wav`
-		);
+		setRegionmusic(`${API_URL}upload/c51e0eac-5183-4818-8d36-df995b52f520.wav`);
 		if (Datacontent !== '') {
 			let body = {
 				lecture_no: data.num,
 				as_no: data.asnum,
 				user_no: data.userNo,
-				result: Datacontent,
-				textAE : "",
+				result: '',
+				ae_attributes: Datacontent.attributes,
+				ae_denotations: Datacontent.denotations,
 				DeliverIndividualList: [PauseCount, FillerCount, BacktrackingCount, EtcCount],
 				ContentIndividualList: [
 					MistranslationCount,
@@ -131,9 +130,8 @@ function ProbFeedbackPage() {
 				withCredentials: true,
 			})
 				.then((response) => {
-					if (response.data.probcreateSuccess) {
+					if (response.data.isSuccess) {
 						alert('저장 완료했습니다.');
-
 					} else {
 						alert('저장 실패했습니다. 다시 시도해주세요.');
 						navigate('/');
@@ -142,11 +140,10 @@ function ProbFeedbackPage() {
 				.catch((error) => {
 					// 요청이 실패한 경우의 처리
 					console.error(error);
-					navigate("/");
+					navigate('/');
 				});
 		}
 	}, [Datacontent]);
-
 
 	return (
 		<div>
@@ -381,7 +378,8 @@ const PlayBtn = styled.button`
 	cursor: pointer;
 	float: right;
 	margin-right: 20px;
-	box-shadow: 0px 3px 5px -1px rgba(0,0,0,0.2), 0px 6px 10px 0px rgba(0,0,0,0.14), 0px 1px 18px 0px rgba(0,0,0,0.12);
+	box-shadow: 0px 3px 5px -1px rgba(0, 0, 0, 0.2), 0px 6px 10px 0px rgba(0, 0, 0, 0.14),
+		0px 1px 18px 0px rgba(0, 0, 0, 0.12);
 `;
 
 const LectureCreateDiv = styled.div`
