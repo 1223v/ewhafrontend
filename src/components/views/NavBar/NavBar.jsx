@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import "./NavBar.css";
 import { Link, useNavigate } from "react-router-dom";
-import Ewha from "./ewha_logo.png";
 import Axios from "axios";
 import { useCookies } from "react-cookie"; // useCookies import
 import { API_URL } from "../../Config";
@@ -34,7 +33,7 @@ function NavBar() {
         <div className="navbar__logo">
           <Link to="/">
             <img
-              src={Ewha}
+              src="https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2FbrdCGZ%2FbtssUHrof3e%2F3xVEEtMcV1EMBqvSWEnNk0%2Fimg.png"
               style={{ height: "55px", marginTop: "5px" }}
               alt="ewha_logo"
             />

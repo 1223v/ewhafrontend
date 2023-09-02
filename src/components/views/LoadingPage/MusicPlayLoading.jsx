@@ -1,5 +1,4 @@
 import React from 'react';
-import musicplay from './musicplay.gif';
 import styled from 'styled-components';
 
 
@@ -9,7 +8,7 @@ function MusicPlayLoading() {
     <Background>
       <LoadingText>음원이 재생중입니다.</LoadingText>
 		  <LoadingSubText>음원 종료후 해당 구간이 녹음이 바로 진행됩니다.</LoadingSubText>
-      <img src={musicplay} alt="로딩중" width="15%" />
+      <img src="https://blog.kakaocdn.net/dn/v1y1X/btssVWIC45r/jXKnj8okjiWI1EyZyAt7y0/img.gif" alt="로딩중" width="15%" />
     </Background>
   );
 }

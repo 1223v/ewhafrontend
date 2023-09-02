@@ -24,6 +24,7 @@ export default function (SpecificComponent, option, adminRoute = null) {
 							navigate('/', { replace: true });
 						} else {
 							if (option === false) {
+								
 								navigate('/', { replace: true });
 							}
 						}
