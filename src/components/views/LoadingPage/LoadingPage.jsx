@@ -1,5 +1,4 @@
 import React from 'react';
-import Spinner from './spinner.gif';
 import styled from 'styled-components';
 
 
@@ -8,7 +7,7 @@ function LoadingPage() {
   return (
     <Background>
       <LoadingText>잠시만 기다려 주세요.</LoadingText>
-      <img src={Spinner} alt="로딩중" width="5%" />
+      <img src="https://blog.kakaocdn.net/dn/UhsH3/btssT9PeQOh/P7djkKSkOl0X6ZOvKl4vok/img.gif" alt="로딩중" width="5%" />
     </Background>
   );
 }
