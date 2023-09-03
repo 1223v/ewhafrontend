@@ -17,6 +17,7 @@ import ProbFeedbackPage from './views/ProbFeedbackPage/ProbFeedbackPage';
 import TextAEEditor from './views/ProbFeedbackPage/Sections/TextAEEditor';
 import Audio from './views/Audio/Audio';
 import AudioRecordPage from './views/AudioRecordPage/AudioRecordPage';
+import ProbDetailPage from '../pages/ProbDetailPage/ProbDetailPage';
 
 function App() {
 	const NewLandingPage = Auth(LandingPage, true);
