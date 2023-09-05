@@ -5,7 +5,7 @@ import Axios from "axios";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { API_URL } from "../../components/Config";
 import { AiOutlineCheck, AiOutlineClose } from "react-icons/ai";
-import FileDownload from "../../components/views/FileDownload/FileDownload";
+import FileDownload from "../../components/views/Fileload/FileDownload";
 import { useSelector } from "react-redux";
 
 function ProbDetailPage() {
@@ -17,28 +17,6 @@ function ProbDetailPage() {
     const [ProbInfo, setProbInfo] = useState([]);
     const [ProbInfoOpenTime, setProbInfoOpenTime] = useState("");
     const [ProbInfoCloseTime, setProbInfoCloseTime] = useState("");
-
-    const onSaveButton = () => {
-        let body = {};
-
-        Axios.post(`${API_URL}api/prob/detail?as_no=${data?.asnum}`, body, {
-            withCredentials: true,
-        })
-            .then((response) => {
-                if (response.data) {
-                    alert("과제를 생성했습니다.");
-                    navigate("/");
-                } else {
-                    alert("과제 생성에 실패했습니다. 다시 시도해주세요.");
-                    navigate("/");
-                }
-            })
-            .catch((error) => {
-                // 요청이 실패한 경우의 처리
-                console.error(error);
-                navigate(-1);
-            });
-    };
 
     function formatDate(dateString) {
         const date = new Date(dateString);
@@ -54,7 +32,8 @@ function ProbDetailPage() {
     }
 
     useEffect(() => {
-        Axios.get(`${API_URL}api/prob/detail?as_no=176`, {
+        console.log(location);
+        Axios.get(`${API_URL}api/prob/detail?as_no=${data?.as_no}`, {
             withCredentials: true,
         })
             .then((response) => {
@@ -79,37 +58,59 @@ function ProbDetailPage() {
             <NavBar />
             <div style={{ display: "flex" }}>
                 <LectureBackDiv>
-                    <Link
-                        to={`/prob?lecture_no=${data?.num}`}
-                        style={{
-                            textDecoration: "none",
-                            color: "inherit",
-                            margin: "9px",
-                        }}
-                        state={{ num: data?.num }}
-                    >
-                        <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            fill="none"
-                            viewBox="0 -5 24 24"
-                            strokeWidth="1.5"
-                            stroke="currentColor"
-                            class="w-6 h-6"
+                    {userinfos?.userData?.role === 3 ? (
+                        <StyledLink
+                            to={`/prob/list/professor?lecture_no=${data?.lecture_no}`}
+                            state={{ lecture_no: data?.lecture_no }}
                         >
-                            <path
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                d="M19.5 12h-15m0 0l6.75 6.75M4.5 12l6.75-6.75"
-                            />
-                        </svg>
-                    </Link>
+                            <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                fill="none"
+                                viewBox="0 -5 24 24"
+                                strokeWidth="1.5"
+                                stroke="currentColor"
+                                class="w-6 h-6"
+                            >
+                                <path
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    d="M19.5 12h-15m0 0l6.75 6.75M4.5 12l6.75-6.75"
+                                />
+                            </svg>
+                        </StyledLink>
+                    ) : (
+                        <Link
+                            to={`/prob/list/student?lecture_no=${data?.lecture_no}`}
+                            style={{
+                                textDecoration: "none",
+                                color: "inherit",
+                                margin: "9px",
+                            }}
+                            state={{ lecture_no: data?.lecture_no }}
+                        >
+                            <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                fill="none"
+                                viewBox="0 -5 24 24"
+                                strokeWidth="1.5"
+                                stroke="currentColor"
+                                class="w-6 h-6"
+                            >
+                                <path
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    d="M19.5 12h-15m0 0l6.75 6.75M4.5 12l6.75-6.75"
+                                />
+                            </svg>
+                        </Link>
+                    )}
                 </LectureBackDiv>
                 <LectureTitleDiv>과제</LectureTitleDiv>
             </div>
             <LectureAddFormDiv>
                 <LectureNameDiv>
                     <LectureName>제 목</LectureName>
-                    <LectureNameinputDiv>test</LectureNameinputDiv>
+                    <LectureNameinputDiv>{ProbInfo.as_name}</LectureNameinputDiv>
                 </LectureNameDiv>
                 <hr style={{ background: "#d3d3d3", height: "1px", border: "0" }} />
                 <LectureNameDiv>
@@ -135,18 +136,24 @@ function ProbDetailPage() {
                         <LectureNameDiv>
                             <LectureName>최종제출 확인</LectureName>
                             <LectureNameinputDiv>
-                                {ProbInfo.end_submission === null ? (
-                                    <AiOutlineClose size="18" style={{ color: "red" }} />
-                                ) : (
+                                {ProbInfo.end_submission ? (
                                     <AiOutlineCheck size="18" style={{ color: "green" }} />
+                                ) : (
+                                    <AiOutlineClose size="18" style={{ color: "red" }} />
                                 )}
                             </LectureNameinputDiv>
                         </LectureNameDiv>
-                        <hr style={{ background: "#d3d3d3", height: "1px", border: "0" }} />
-                        <LectureNameDiv>
-                            <LectureName>평가 완료</LectureName>
-                            <LectureNameinputDiv>{ProbInfo.feedback ? "평가 완료" : "평가 중"}</LectureNameinputDiv>
-                        </LectureNameDiv>
+                        {ProbInfo.end_submission === 1 && (
+                            <div>
+                                <hr style={{ background: "#d3d3d3", height: "1px", border: "0" }} />
+                                <LectureNameDiv>
+                                    <LectureName>평가 완료</LectureName>
+                                    <LectureNameinputDiv>
+                                        {ProbInfo.feedback ? "평가 완료" : "평가 중"}
+                                    </LectureNameinputDiv>
+                                </LectureNameDiv>
+                            </div>
+                        )}
                     </div>
                 )}
                 <hr style={{ background: "#d3d3d3", height: "1px", border: "0" }} />
@@ -187,6 +194,30 @@ function ProbDetailPage() {
                                 피드백 확인
                             </button>
                         )}
+                    </TestBtnDiv>
+                </BtnDiv>
+            )}
+
+            {userinfos?.userData?.role === 3 && (
+                <BtnDiv>
+                    <FeedbackBtnDiv>
+                        {ProbInfo.end_submission === null && (
+                            <button className="bg-transparent hover:bg-gray-100 hover:bg-opacity-50 text-blue-700 font-semibold py-2 px-4 border border-blue-500 rounded m-2">
+                                과제 수정하기
+                            </button>
+                        )}
+                    </FeedbackBtnDiv>
+                    <FeedbackBtnDiv>
+                        {ProbInfo.end_submission === null && (
+                            <button className="bg-transparent hover:bg-gray-100 hover:bg-opacity-50 text-red-700 font-semibold py-2 px-4 border border-red-500 rounded m-2">
+                                과제 삭제하기
+                            </button>
+                        )}
+                    </FeedbackBtnDiv>
+                    <TestBtnDiv>
+                        <button className="bg-transparent hover:bg-gray-100 hover:bg-opacity-50 text-green-700 font-semibold py-2 px-4 border border-green-500 rounded m-2">
+                            피드백 확인
+                        </button>
                     </TestBtnDiv>
                 </BtnDiv>
             )}
@@ -285,4 +316,14 @@ const LectureName = styled.div`
     flexgrow: 1;
     fontweight: 500;
     min-width: 80px;
+`;
+
+const StyledLink = styled(Link)`
+    text-decoration: none; /* 기본 밑줄 제거 */
+    /* 원하는 스타일을 추가하세요 */
+    color: #333; /* 텍스트 색상 */
+    font-weight: bold; /* 글꼴 굵기 */
+    /* 추가 스타일 속성들... */
+    color: inherit;
+    margin: 9px;
 `;

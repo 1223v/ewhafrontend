@@ -10,11 +10,13 @@ import ProbSubmitList from "./views/ProbSubmitList/ProbSubmitList";
 import Prob from "./views/Prob/Prob";
 import LectureAddPage from "./views/LectureAddPage/LectureAddPage";
 import LectureModPage from "./views/LectureAddPage/LectureModPage";
-import ProbAddPage from "./views/ProbAddPage/ProbAddPage";
+import ProbAddPage from "../pages/ProbAddPage/ProbAddPage";
 import ProbModPage from "./views/ProbAddPage/ProbModPage";
 import ProbFeedbackPage from "./views/ProbFeedbackPage/ProbFeedbackPage";
 import AudioRecordPage from "./views/AudioRecordPage/AudioRecordPage";
 import ProbDetailPage from "../pages/ProbDetailPage/ProbDetailPage";
+import ProbListStudentPage from "../pages/ProbListPage/ProbListStudentPage";
+import ProbListProfessorPage from "../pages/ProbListPage/ProbListProfessorPage";
 
 function App() {
     const NewLandingPage = Auth(LandingPage, true);
@@ -30,6 +32,8 @@ function App() {
     const NewAudioRecordPage = Auth(AudioRecordPage, true);
     const NewTest = Auth(ProbDetailPage, true);
     const NewProbDetailPage = Auth(ProbDetailPage, true);
+    const NewProbListStudentPage = Auth(ProbListStudentPage, true, 1);
+    const NewProbListProfessorPage = Auth(ProbListProfessorPage, true, 3);
 
     return (
         <div className="App">
@@ -46,6 +50,8 @@ function App() {
                 <Route path="/prob_mod" element={<NewProbModPage />} />
                 <Route path="/prob_feedback" element={<NewProbFeedbackPage />} />
                 <Route path="/prob/detail" element={<NewProbDetailPage />} />
+                <Route path="/prob/list/student" element={<NewProbListStudentPage />} />
+                <Route path="/prob/list/professor" element={<NewProbListProfessorPage />} />
                 <Route path="/*" element={<Navigate to="/"></Navigate>}></Route>
                 <Route path="/test" element={<NewTest />} />
             </Routes>
