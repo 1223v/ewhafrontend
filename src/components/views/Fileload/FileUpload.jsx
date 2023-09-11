@@ -3,52 +3,53 @@ import { UploadOutlined } from "@ant-design/icons";
 import Axios from "axios";
 import { API_URL } from "../../Config";
 import { useNavigate } from "react-router-dom";
+import { useState } from "react";
 
-function FileUpload() {
+function FileUpload(props) {
     let navigate = useNavigate();
-    const fileList = [];
-
+    const [fileList, setFileList] = useState(null);
     const handleChange = (info) => {
-        if (info.file.status !== "uploading") {
-            console.log(info.file, info.fileList);
-        }
         if (info.file.status === "done") {
-            message.success(`${info.file.name} file uploaded successfully`);
+            message.success("파일이 업로드되었습니다.", 3000);
         } else if (info.file.status === "error") {
-            message.error(`${info.file.name} file upload failed.`);
+            message.error("File upload failed.");
         }
-        let body = {
-            file: info.fileList,
-        };
-
-        Axios.post(`${API_URL}api/prob/create`, body, {
-            withCredentials: true,
-        })
-            .then((response) => {
-                if (response.data.probcreateSuccess) {
-                    alert("과제를 생성했습니다.");
-                    navigate("/");
-                } else {
-                    alert("과제 생성에 실패했습니다. 다시 시도해주세요.");
-                    navigate("/");
-                }
-            })
-            .catch((error) => {
-                // 요청이 실패한 경우의 처리
-                console.error(error);
-                navigate(-1);
-            });
     };
 
-    const customRequest = async (options) => {
-        // 파일 업로드를 서버로 보내는 커스텀 로직을 여기에 작성합니다.
-        // 예를 들어, Axios 또는 Fetch API를 사용할 수 있습니다.
-        // 서버에서 응답을 처리하고 결과를 처리할 수 있습니다.
+    const customRequest = async ({ file, onSuccess, onError }) => {
+        try {
+            // 여기에서 파일을 서버로 업로드합니다.
+            // axios를 사용하여 업로드 요청을 보냅니다.
+            const formData = new FormData();
+            formData.append("prob_file", file);
+            const response = await Axios.post(`${API_URL}prob_upload_file`, formData, {
+                headers: {
+                    "Content-Type": "multipart/form-data",
+                },
+                withCredentials: true,
+            });
+
+            // 성공적으로 업로드되면 onSuccess를 호출합니다.
+            onSuccess(response.data, file);
+            setFileList(file);
+            props.setReferenceFileURL(response.data.file_path);
+            props.setReferenceName(response.data.file_name);
+        } catch (error) {
+            // 업로드에 실패하면 onError를 호출합니다.
+            onError(error);
+            navigate(-1);
+        }
     };
     const fileAccept = ".txt,.doc,.docx,.pdf";
 
     return (
-        <Upload onChange={handleChange} defaultFileList={fileList} accept={fileAccept}>
+        <Upload
+            customRequest={customRequest}
+            onChange={handleChange}
+            fileList={fileList ? [fileList] : []}
+            showUploadList={true}
+            accept={fileAccept}
+        >
             <Button icon={<UploadOutlined />}>파일 업로드</Button>
         </Upload>
     );

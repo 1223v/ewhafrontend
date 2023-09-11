@@ -35,7 +35,7 @@ function LandingPage() {
             .catch((error) => {
                 // 요청이 실패한 경우의 처리
                 console.error(error);
-                navigate(-1);
+                navigate("/login");
             });
     }, []); // 예외 처리 필요 무한으로 API가 날라감(강의로 판단하는 것이 아닌 삭제 유무에 따라 판별해야할듯함)
 

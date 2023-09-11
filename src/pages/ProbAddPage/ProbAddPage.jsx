@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import NavBar from "../../components/views/NavBar/NavBar";
 import styled from "styled-components";
 import DragNDrop from "../../components/views/Audio/Sections/DragNDrop";
@@ -7,6 +7,8 @@ import Axios from "axios";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { API_URL } from "../../components/Config";
 import FileUpload from "../../components/views/Fileload/FileUpload";
+import { Checkbox, message } from "antd";
+import LoadingPage from "../../components/views/LoadingPage/LoadingPage";
 
 const Startlanguage = [
     { value: "jp", label: "일본어" },
@@ -36,135 +38,181 @@ const SpeedOption = [
 function ProbAddPage() {
     let navigate = useNavigate();
     const location = useLocation();
-    const data = location.state;
-    const [Title, setTitle] = useState(""); //강의 제목
-    const [Description, setDescription] = useState(""); // 강의 설명
-    const [Weeklist, setWeeklist] = useState("1주차");
-    const [Limitlist, setLimitlist] = useState("");
-    const [Startlanguagelist, setStartlanguagelist] = useState("jp");
-    const [Endlanguagelist, setEndlanguagelist] = useState("ko");
-    const [Assignmentlist, setAssignmentlist] = useState("순차통역");
-    const [Speedlist, setSpeedlist] = useState("1.0");
-    const [Txtread, setTxtread] = useState("");
-    const [Urlfile, setUrlfile] = useState("");
-    const [regions, setRegions] = useState([]);
-    const [Purposelist, setPurposelist] = useState("off");
-    const [isChecked, setIsChecked] = useState(false);
-    const [regionsCopy, setRegionsCopy] = useState([]);
-    const [Music, setMusic] = useState("");
-    const [Modregions, setModregions] = useState([]);
+    const params = new URLSearchParams(location.search);
+    const lectureNo = params.get("lecture_no");
+    const [Title, setTitle] = useState(""); // 과제 제목
+    const [Description, setDescription] = useState(""); // 과제 설명
+    const [CreateTime, setCreateTime] = useState(""); // 게시일
+    const [LimitTime, setLimitTime] = useState(""); // 마감일
+    const [Startlanguagelist, setStartlanguagelist] = useState("jp"); // 출발언어
+    const [Endlanguagelist, setEndlanguagelist] = useState("ko"); // 도착언어
+    const [Assignmentlist, setAssignmentlist] = useState("순차통역"); // 타입 (번역, 순차, 동시)
+    const [Speedlist, setSpeedlist] = useState(1.0); // 재생 속도
+    const [Txtread, setTxtread] = useState(""); // 원본
+    const [Urlfile, setUrlfile] = useState(""); // 음원 파일 url
+    const [regions, setRegions] = useState([]); // 구간
+    const [regionsCopy, setRegionsCopy] = useState([]); // 서버에 보내지는 구간
+    const [Music, setMusic] = useState(""); // 음원
+    const [Modregions, setModregions] = useState([]); // 수정에 필요한 구간
+    const [ReferenceName, setReferenceName] = useState(""); // 참고자료 이름
+    const [ReferenceFileURL, setReferenceFileURL] = useState(""); // 참고자료 URL
+    const [RecordCount, setRecordCount] = useState(0); // 녹음 횟수
+    const [isChecked, setisChecked] = useState(false); // 무제한 설정 시
+    const [Keyword, setKeyword] = useState(""); // 키워드 설정
+    const [Loading, setLoading] = useState(false); // 로딩
 
+    // 과제 제목 설정
     const onTitleChange = (e) => {
         setTitle(e.currentTarget.value);
     };
 
+    // 과제 설명 설정
     const onDescriptionChange = (e) => {
         setDescription(e.currentTarget.value);
     };
 
-    const onWeekChange = (e) => {
-        setWeeklist(e.currentTarget.value);
-    };
-
+    // 마감일 설정
     const onLimitChange = (e) => {
-        setLimitlist(e.currentTarget.value);
+        setLimitTime(e.currentTarget.value);
     };
 
+    // 게시일 설정
+    const onCreateTimeChange = (e) => {
+        setCreateTime(e.currentTarget.value);
+    };
+
+    // 시작 언어 설정
     const onStartlanguageChange = (e) => {
         setStartlanguagelist(e.currentTarget.value);
     };
 
+    // 도착 언어 설정
     const onEndlanguageChange = (e) => {
         setEndlanguagelist(e.currentTarget.value);
     };
 
+    // 통역 타입 설정 (번역, 순차, 동시)
     const onAssignmentChange = (e) => {
         setAssignmentlist(e.currentTarget.value);
     };
 
+    // 음원 속도 설정
     const onSpeedChange = (e) => {
         setSpeedlist(e.currentTarget.value);
     };
 
-    const onPurposeChange = (e) => {
-        setIsChecked(!isChecked);
-        setPurposelist(isChecked ? "off" : "open");
+    // 녹음 무제한 선택
+    const onRecordCheck = (e) => {
+        if (e.target.checked) {
+            setisChecked(true);
+            setRecordCount(2100000000);
+        } else {
+            setisChecked(false);
+            setRecordCount(0);
+        }
+    };
+
+    // 녹음 횟수 설정
+    const onRecordcountChange = (e) => {
+        setRecordCount(e.target.value);
+    };
+
+    //키워드 설정
+    const onKeywordChange = (e) => {
+        setKeyword(e.target.value);
     };
 
     const onSaveButton = () => {
+        console.log(lectureNo);
         if (Title === "") {
-            return alert("제목을 설정해주세요.");
+            return message.error("제목을 설정해주세요.");
         }
 
         if (Description === "") {
-            return alert("과제 설명을 적어주세요.");
+            return message.error("과제 설명을 적어주세요.");
         }
 
         if (Txtread === "") {
-            return alert("원본파일이 비어있습니다.");
+            return message.error("원본파일이 비어있습니다.");
         }
 
-        if (regionsCopy === "") {
-            return alert("최소한 한개 이상의 구간을 설정해주세요.");
+        if (regionsCopy.length === 0) {
+            return message.error("최소한 한개 이상의 구간을 설정해주세요.");
         }
 
         if (Urlfile === "") {
-            return alert("음원 파일이 존재하지 않습니다. 음원을 추가해주세요.");
+            return message.error("음원 파일이 존재하지 않습니다. 음원을 추가해주세요.");
         }
 
-        if (Limitlist === "") {
-            return alert("과제 기한을 정해주세요.");
+        if (LimitTime === "" || CreateTime === "") {
+            return message.error("과제 기한을 정해주세요.");
+        }
+
+        if (RecordCount <= 0) {
+            return message.error("녹음 횟수를 1회 이상 설정해주세요.");
+        }
+
+        if (Speedlist === 0) {
+            return message.error("음원 속도를 설정해주세요.");
+        }
+
+        if (Keyword === "") {
+            return message.error("키워드를 작성해주세요.");
         }
 
         let body = {
-            lecture_no: data?.num,
-            prob_sound_path: Urlfile,
-            prob_week: Weeklist,
-            prob_timeEnd: Limitlist,
-            prob_name: Title,
-            prob_type: Assignmentlist,
-            prob_keyword: "",
-            prob_translang_source: Startlanguagelist,
-            prob_translang_destination: Endlanguagelist,
-            prob_exp: Description,
-            prob_replay: "무제한",
-            prob_play_speed: Speedlist,
-            prob_open: Purposelist,
-            original_text: Txtread,
-            prob_region: regionsCopy,
+            lecture_no: parseInt(lectureNo), //강의 번호
+            as_name: Title, // 과제 제목
+            as_type: Assignmentlist, // 과제 타입(순차, 동시, 번역)
+            assign_count: parseInt(RecordCount), // 녹음 횟수
+            description: Description, // 과제 설명
+            file_name: ReferenceName, // 참고자료 이름
+            file_path: ReferenceFileURL, // 참고자료 경로
+            keyword: Keyword, // 키워드
+            keyword_open: 1, // 키워드 공개, 비공개
+            limit_time: LimitTime, // 마감일
+            open_time: CreateTime, // 게시일
+            original_text: Txtread, // 원본
+            prob_sound_path: Urlfile, // 음원 경로
+            prob_split_region: regionsCopy, // 음원 구간
+            prob_translang_source: Startlanguagelist, // 출발 언어
+            prob_translang_destination: Endlanguagelist, // 도착 언어
+            speed: Speedlist, // 음원 속도
         };
-
-        Axios.post(`${API_URL}api/prob/create`, body, {
+        setLoading(true);
+        Axios.post(`${API_URL}api/prob/add`, body, {
             withCredentials: true,
         })
             .then((response) => {
-                if (response.data.probcreateSuccess) {
-                    alert("과제를 생성했습니다.");
-                    navigate("/");
+                setLoading(false);
+                if (response.data.isSuccess) {
+                    message.success("과제를 생성했습니다.");
+                    navigate(`/prob/list/professor?lecture_no=${lectureNo}`);
                 } else {
-                    alert("과제 생성에 실패했습니다. 다시 시도해주세요.");
+                    message.error("과제 생성에 실패했습니다. 다시 시도해주세요.");
                     navigate("/");
                 }
             })
             .catch((error) => {
                 // 요청이 실패한 경우의 처리
-                console.error(error);
-                navigate(-1);
+                message.error(error);
+                navigate("/");
             });
     };
     return (
         <LectureBackgroudDiv>
             <NavBar />
             <div style={{ display: "flex" }}>
+                {Loading ? <LoadingPage /> : null}
                 <LectureBackDiv>
                     <Link
-                        to={`/prob/list/professor?lecture_no=${data?.lecture_no}`}
+                        to={`/prob/list/professor?lecture_no=${lectureNo}`}
                         style={{
                             textDecoration: "none",
                             color: "inherit",
                             margin: "9px",
                         }}
-                        state={{ lecture_no: data?.lecture_no }}
+                        state={{ lecture_no: lectureNo }}
                     >
                         <svg
                             xmlns="http://www.w3.org/2000/svg"
@@ -190,7 +238,7 @@ function ProbAddPage() {
                     <LectureNameinputDiv>
                         <LectureNameinput
                             type="text"
-                            placeholder=" 강의명을 적어주세요"
+                            placeholder=" 과제명을 적어주세요"
                             size="10"
                             maxlength="8"
                             value={Title}
@@ -204,7 +252,7 @@ function ProbAddPage() {
                     <LectureNameinputDiv style={{ marginTop: "10px" }}>
                         <select
                             id="countries"
-                            class="bg-white-50 border border-green-900 text-gray-900 text-sm rounded-lg focus:ring-green-900 focus:border-green-900 block w-full p-2.5 "
+                            class="bg-white-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-green-300 focus:border-green-300 block w-full p-2.5 "
                             onChange={onAssignmentChange}
                         >
                             {AssignmentOption.map((item, index) => (
@@ -221,7 +269,7 @@ function ProbAddPage() {
                     <LectureNameinputDiv style={{ marginTop: "10px" }}>
                         <select
                             id="countries"
-                            class="bg-white-50 border border-green-900 text-gray-900 text-sm rounded-lg focus:ring-green-900 focus:border-green-900 block w-full p-2.5"
+                            class="bg-white-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-green-300 focus:border-green-300 block w-full p-2.5"
                             onChange={onStartlanguageChange}
                         >
                             {Startlanguage.map((item, index) => (
@@ -235,7 +283,7 @@ function ProbAddPage() {
                     <LectureNameinputDiv style={{ marginTop: "10px" }}>
                         <select
                             id="countries"
-                            class="bg-white-50 border border-green-900 text-gray-900 text-sm rounded-lg focus:ring-green-900 focus:border-green-900 block w-full p-2.5"
+                            class="bg-white-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-green-300 focus:border-green-300 block w-full p-2.5"
                             onChange={onEndlanguageChange}
                         >
                             {Endlanguage.map((item, index) => (
@@ -250,7 +298,7 @@ function ProbAddPage() {
                 <LectureNameDiv>
                     <LectureName>과제 게시일</LectureName>
                     <LectureNameinputDiv style={{ marginTop: "7px" }}>
-                        <Purposeinput type="datetime-local" name="bday" onChange={onLimitChange} />
+                        <Purposeinput type="datetime-local" name="bday" onChange={onCreateTimeChange} />
                     </LectureNameinputDiv>
                 </LectureNameDiv>
                 <hr style={{ background: "#d3d3d3", height: "1px", border: "0" }} />
@@ -266,7 +314,7 @@ function ProbAddPage() {
                     <LectureNameinputDiv style={{ marginTop: "10px" }}>
                         <select
                             id="countries"
-                            class="bg-white-50 border border-green-900 text-gray-900 text-sm rounded-lg focus:ring-green-900 focus:border-green-900 block w-full p-2.5"
+                            class="bg-white-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-green-300 focus:border-green-300 block w-full p-2.5"
                             onChange={onSpeedChange}
                         >
                             {SpeedOption.map((item, index) => (
@@ -279,9 +327,42 @@ function ProbAddPage() {
                 </LectureNameDiv>
                 <hr style={{ background: "#d3d3d3", height: "1px", border: "0" }} />
                 <LectureNameDiv>
+                    <LectureName>녹음 횟수</LectureName>
+                    <LectureNameinputDiv>
+                        {isChecked === false && (
+                            <RecordCountInput
+                                type="number"
+                                placeholder=" 녹음 횟수를 적어주세요. 예). 1회시 -> 1"
+                                size="6"
+                                maxlength="4"
+                                value={RecordCount}
+                                onChange={onRecordcountChange}
+                            />
+                        )}
+                        <Checkbox style={isChecked ? { marginTop: "20px" } : {}} onChange={onRecordCheck}>
+                            제한 없음
+                        </Checkbox>
+                    </LectureNameinputDiv>
+                </LectureNameDiv>
+                <hr style={{ background: "#d3d3d3", height: "1px", border: "0" }} />
+                <LectureNameDiv>
                     <LectureName>참고 자료</LectureName>
-                    <LectureNameinputDiv style={{ marginTop: "20px", marginLeft: "20px" }}>
-                        <FileUpload />
+                    <LectureNameinputDiv style={{ marginTop: "15px", marginLeft: "20px" }}>
+                        <FileUpload setReferenceName={setReferenceName} setReferenceFileURL={setReferenceFileURL} />
+                    </LectureNameinputDiv>
+                </LectureNameDiv>
+                <hr style={{ background: "#d3d3d3", height: "1px", border: "0" }} />
+                <LectureNameDiv>
+                    <LectureName>키워드</LectureName>
+                    <LectureNameinputDiv>
+                        <ProbDescriptionTextarea
+                            type="text"
+                            placeholder="키워드를 작성해주세요."
+                            rows="2"
+                            cols="50"
+                            value={Keyword}
+                            onChange={onKeywordChange}
+                        />
                     </LectureNameinputDiv>
                 </LectureNameDiv>
                 <hr style={{ background: "#d3d3d3", height: "1px", border: "0" }} />
@@ -300,20 +381,23 @@ function ProbAddPage() {
                 </LectureNameDiv>
                 <hr style={{ background: "#d3d3d3", height: "1px", border: "0" }} />
 
-                <div>
-                    <DragNDrop
-                        Urlfile={Urlfile}
-                        setUrlfile={setUrlfile}
-                        regions={regions}
-                        setRegions={setRegions}
-                        regionsCopy={regionsCopy}
-                        setRegionsCopy={setRegionsCopy}
-                        setMusic={setMusic}
-                        Music={Music}
-                        setModregions={setModregions}
-                        Modregions={Modregions}
-                    />
-                </div>
+                <LectureNameDiv>
+                    <LectureName>과제 음원</LectureName>
+                    <LectureNameinputDiv>
+                        <DragNDrop
+                            Urlfile={Urlfile}
+                            setUrlfile={setUrlfile}
+                            regions={regions}
+                            setRegions={setRegions}
+                            regionsCopy={regionsCopy}
+                            setRegionsCopy={setRegionsCopy}
+                            setMusic={setMusic}
+                            Music={Music}
+                            setModregions={setModregions}
+                            Modregions={Modregions}
+                        />
+                    </LectureNameinputDiv>
+                </LectureNameDiv>
 
                 <hr style={{ background: "#d3d3d3", height: "1px", border: "0" }} />
                 <div>
@@ -382,10 +466,21 @@ const LectureNameDiv = styled.div`
     }
 `;
 
-const LectureName2 = styled.div`
-    display: flex;
-    justify-content: flex-end;
-    flex-grow: 2;
+const RecordCountInput = styled.input`
+    width: 80%;
+    height: 48px;
+    padding-left: 20px;
+    padding-right: 20px;
+    margin-top: 10px;
+    margin-right: 10px;
+    box-sizing: border-box;
+    margin-bottom: 8px;
+    border: solid 1px #d3d3d3;
+    border-radius: 9px;
+    background-color: #ffffff;
+    &:hover {
+        outline: 2px solid #04653d;
+    }
 `;
 
 const LectureNameinput = styled.input`

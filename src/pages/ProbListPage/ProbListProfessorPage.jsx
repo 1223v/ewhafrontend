@@ -5,15 +5,18 @@ import { Link, useNavigate, useLocation } from "react-router-dom";
 import Axios from "axios";
 import { API_URL } from "../../components/Config";
 import { AiOutlineCheck, AiOutlineClose, AiOutlinePlus } from "react-icons/ai";
+import Timeformat from "../../components/views/commons/Timeformat";
 
 function ProbListProfessorPage() {
     const location = useLocation();
     const data = location.state;
+    const params = new URLSearchParams(location.search);
+    const lectureNo = params.get("lecture_no");
     let navigate = useNavigate();
     const [Problist, setProblist] = useState([]);
 
     useEffect(() => {
-        Axios.get(`${API_URL}api/prob/professor?lecture_no=${data?.lecture_no}`, {
+        Axios.get(`${API_URL}api/prob/professor?lecture_no=${lectureNo}`, {
             withCredentials: true,
         })
             .then((response) => {
@@ -24,22 +27,9 @@ function ProbListProfessorPage() {
             .catch((error) => {
                 // 요청이 실패한 경우의 처리
                 console.error(error);
-                navigate(-1);
+                navigate("/");
             });
     }, []);
-
-    function formatDate(dateString) {
-        const date = new Date(dateString);
-        const year = date.getFullYear();
-        const month = (date.getMonth() + 1).toString().padStart(2, "0");
-        const day = date.getDate().toString().padStart(2, "0");
-        const hours = date.getHours().toString().padStart(2, "0");
-        const minutes = date.getMinutes().toString().padStart(2, "0");
-        const amPm = hours >= 12 ? "오후" : "오전";
-        const formattedHours = (hours % 12 || 12).toString().padStart(2, "0");
-
-        return `${year}.${month}.${day} ${amPm} ${formattedHours}:${minutes}`;
-    }
 
     return (
         <div>
@@ -122,9 +112,9 @@ function ProbListProfessorPage() {
                                                 <tr>
                                                     <td className="px-6 py-4 text-sm font-medium text-gray-800 whitespace-nowrap">
                                                         <StyledLink
-                                                            to={`/prob/detail?as_no=${assignment.as_no}&lecture_no=${data?.lecture_no}`}
+                                                            to={`/prob/detail?as_no=${assignment.as_no}&lecture_no=${lectureNo}`}
                                                             state={{
-                                                                lecture_no: data?.lecture_no,
+                                                                lecture_no: lectureNo,
                                                                 as_no: assignment.as_no,
                                                             }}
                                                         >
@@ -134,9 +124,9 @@ function ProbListProfessorPage() {
 
                                                     <td className="px-6 py-4 text-sm text-gray-800 whitespace-nowrap">
                                                         <StyledLink
-                                                            to={`/prob/detail?as_no=${assignment.as_no}`}
+                                                            to={`/prob/detail?as_no=${assignment.as_no}&lecture_no=${lectureNo}`}
                                                             state={{
-                                                                lecture_no: data?.lecture_no,
+                                                                lecture_no: lectureNo,
                                                                 as_no: assignment.as_no,
                                                             }}
                                                         >
@@ -145,9 +135,9 @@ function ProbListProfessorPage() {
                                                     </td>
                                                     <td className="px-6 py-4 text-sm font-medium text-right whitespace-nowrap">
                                                         <StyledLink
-                                                            to={`/prob/detail?as_no=${assignment.as_no}`}
+                                                            to={`/prob/detail?as_no=${assignment.as_no}&lecture_no=${lectureNo}`}
                                                             state={{
-                                                                lecture_no: data?.lecture_no,
+                                                                lecture_no: lectureNo,
                                                                 as_no: assignment.as_no,
                                                             }}
                                                         >
@@ -163,13 +153,13 @@ function ProbListProfessorPage() {
                                                         style={{ fontSize: "13px" }}
                                                     >
                                                         <StyledLink
-                                                            to={`/prob/detail?as_no=${assignment.as_no}`}
+                                                            to={`/prob/detail?as_no=${assignment.as_no}&lecture_no=${lectureNo}`}
                                                             state={{
-                                                                lecture_no: data?.lecture_no,
+                                                                lecture_no: lectureNo,
                                                                 as_no: assignment.as_no,
                                                             }}
                                                         >
-                                                            {formatDate(assignment.open_time)}
+                                                            <Timeformat dateString={assignment.open_time} />
                                                         </StyledLink>
                                                     </td>
                                                     <td
@@ -177,13 +167,13 @@ function ProbListProfessorPage() {
                                                         style={{ fontSize: "13px" }}
                                                     >
                                                         <StyledLink
-                                                            to={`/prob/detail?as_no=${assignment.as_no}`}
+                                                            to={`/prob/detail?as_no=${assignment.as_no}&lecture_no=${lectureNo}`}
                                                             state={{
-                                                                lecture_no: data?.lecture_no,
+                                                                lecture_no: lectureNo,
                                                                 as_no: assignment.as_no,
                                                             }}
                                                         >
-                                                            {formatDate(assignment.limit_time)}
+                                                            <Timeformat dateString={assignment.limit_time} />
                                                         </StyledLink>
                                                     </td>
                                                 </tr>
@@ -237,7 +227,6 @@ const PlayBtn = styled.button`
 `;
 
 const StyledLink = styled(Link)`
-    text-decoration: none; /* 기본 밑줄 제거 */
-
-    color: #333; /* 텍스트 색상 */
+    text-decoration: none;
+    color: #333;
 `;
