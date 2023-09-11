@@ -48,7 +48,7 @@ function NavBar() {
             <Link to="/lecture_add">과제 생성</Link>
           </li>
           <li>
-            <Link to="/prob_feedback">제출확인</Link>
+            <Link to="https://cyber.ewha.ac.kr/">사이버캠퍼스</Link>
           </li>
           <li>
             <Link to="/">Q&A</Link>
