@@ -107,9 +107,7 @@ function ProbModPage() {
         setDescription(e.currentTarget.value);
     };
 
-    const onWeekChange = (e) => {
-        setWeeklist(e.currentTarget.value);
-    };
+   
 
     const onLimitChange = (e) => {
         setLimitlist(e.target.value);
@@ -165,7 +163,7 @@ function ProbModPage() {
             lecture_no: `${data?.num}`,
             as_no: `${data?.asnum}`,
             prob_sound_path: Urlfile,
-            prob_week: Weeklist,
+            
             prob_timeEnd: Limitlist,
             prob_name: Title,
             prob_type: Assignmentlist,
@@ -247,24 +245,6 @@ function ProbModPage() {
                                     value={Title}
                                     onChange={onTitleChange}
                                 />
-                            </LectureNameinputDiv>
-                        </LectureNameDiv>
-                        <hr style={{ background: "#d3d3d3", height: "1px", border: "0" }} />
-                        <LectureNameDiv>
-                            <LectureName>과제 주차</LectureName>
-                            <LectureNameinputDiv style={{ marginTop: "10px" }}>
-                                <select
-                                    id="countries"
-                                    class="bg-white-50 border border-green-900 text-gray-900 text-sm rounded-lg focus:ring-green-900 focus:border-green-900 block w-full p-2.5"
-                                    onChange={onWeekChange}
-                                    value={Weeklist}
-                                >
-                                    {Week.map((item, index) => (
-                                        <option key={index} value={item.value}>
-                                            {item.label}
-                                        </option>
-                                    ))}
-                                </select>
                             </LectureNameinputDiv>
                         </LectureNameDiv>
                         <hr style={{ background: "#d3d3d3", height: "1px", border: "0" }} />
