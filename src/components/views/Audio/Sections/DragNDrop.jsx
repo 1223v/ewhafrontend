@@ -2,7 +2,7 @@ import { FileUploader } from "react-drag-drop-files";
 import styled from "styled-components";
 import Audio from "../Audio";
 import Axios from "axios";
-import { AiOutlineClose } from "react-icons/ai";
+import { GrClose } from "react-icons/gr";
 import { API_URL } from "../../../Config";
 
 const fileTypes = ["wav", "mp3"];
@@ -40,7 +40,7 @@ function DragNDrop(props) {
                     <div>
                         <Container>
                             <Button onClick={onhandleClose}>
-                                <AiOutlineClose size="28" />
+                                <GrClose size="22"/>
                             </Button>
                         </Container>
                         <Audio

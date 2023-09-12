@@ -10,7 +10,7 @@ function FileUpload(props) {
     const [fileList, setFileList] = useState(null);
     const handleChange = (info) => {
         if (info.file.status === "done") {
-            message.success("파일이 업로드되었습니다.", 3000);
+            message.success("파일이 업로드되었습니다.");
         } else if (info.file.status === "error") {
             message.error("File upload failed.");
         }
@@ -40,6 +40,15 @@ function FileUpload(props) {
             navigate(-1);
         }
     };
+
+    const handleRemove = (file) => {
+        setFileList(null);
+        props.setReferenceFileURL("");
+        props.setReferenceName("");
+        // 파일 삭제 API 호출 등을 추가할 수 있습니다.
+        // 예: Axios.delete(`${API_URL}delete_file/${file.name}`);
+    };
+
     const fileAccept = ".txt,.doc,.docx,.pdf";
 
     return (
@@ -49,6 +58,7 @@ function FileUpload(props) {
             fileList={fileList ? [fileList] : []}
             showUploadList={true}
             accept={fileAccept}
+            onRemove={handleRemove}
         >
             <Button icon={<UploadOutlined />}>파일 업로드</Button>
         </Upload>

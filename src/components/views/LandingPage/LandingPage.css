@@ -85,7 +85,7 @@ body {
 
 .class_tag {
     margin: 10px;
-    background-color: #d3d3d3;
+    background: rgba(133, 136, 153, 0.15);
     width: 125px;
     height: auto;
     font-size: 15px;
