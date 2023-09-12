@@ -1,31 +1,14 @@
 import React, { useEffect, useState } from "react";
-import NavBar from "../NavBar/NavBar";
-import LoadingPage from "../LoadingPage/LoadingPage";
+import NavBar from "../../components/views/NavBar/NavBar";
+import LoadingPage from "../../components/views/LoadingPage/LoadingPage";
 import styled from "styled-components";
-import DragNDrop from "../Audio/Sections/DragNDrop";
-import FileRead from "../Audio/Sections/FileRead";
+import DragNDrop from "../../components/views/Audio/Sections/DragNDrop";
+import FileRead from "../../components/views/Audio/Sections/FileRead";
 import Axios from "axios";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { API_URL } from "../../Config";
-
-const Week = [
-    { value: "1주차", label: "1주차" },
-    { value: "2주차", label: "2주차" },
-    { value: "3주차", label: "3주차" },
-    { value: "4주차", label: "4주차" },
-    { value: "5주차", label: "5주차" },
-    { value: "6주차", label: "6주차" },
-    { value: "7주차", label: "7주차" },
-    { value: "8주차", label: "8주차" },
-    { value: "9주차", label: "9주차" },
-    { value: "10주차", label: "10주차" },
-    { value: "11주차", label: "11주차" },
-    { value: "12주차", label: "12주차" },
-    { value: "13주차", label: "13주차" },
-    { value: "14주차", label: "14주차" },
-    { value: "15주차", label: "15주차" },
-    { value: "16주차", label: "16주차" },
-];
+import { API_URL } from "../../components/Config";
+import { Checkbox, message } from "antd";
+import FileUpload from "../../components/views/Fileload/FileUpload";
 
 const Startlanguage = [
     { value: "jp", label: "일본어" },
@@ -56,6 +39,8 @@ function ProbModPage() {
     let navigate = useNavigate();
     const location = useLocation();
     const data = location.state;
+    const params = new URLSearchParams(location.search);
+    const lectureNo = params.get("lecture_no");
     const [Title, setTitle] = useState(""); //강의 제목
     const [Description, setDescription] = useState(""); // 강의 설명
     const [Weeklist, setWeeklist] = useState("");
@@ -75,7 +60,7 @@ function ProbModPage() {
     const [Modregions, setModregions] = useState([]);
 
     useEffect(() => {
-        Axios.get(`${API_URL}api/prob/modify?lecture_no=${data.num}&as_no=${data.asnum}`, {
+        Axios.get(`${API_URL}api/prob/modify?lecture_no=${lectureNo}&as_no=${data.asnum}`, {
             withCredentials: true,
         })
             .then((response) => {
