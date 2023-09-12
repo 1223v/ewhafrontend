@@ -7,7 +7,7 @@ import Auth from "../hoc/auth";
 import LectureAddPage from "./views/LectureAddPage/LectureAddPage";
 import LectureModPage from "./views/LectureAddPage/LectureModPage";
 import ProbAddPage from "../pages/ProbAddPage/ProbAddPage";
-import ProbModPage from "./views/ProbAddPage/ProbModPage";
+import ProbModPage from "../pages/ProbAddPage/ProbModPage";
 import ProbFeedbackPage from "./views/ProbFeedbackPage/ProbFeedbackPage";
 import AudioRecordPage from "./views/AudioRecordPage/AudioRecordPage";
 import ProbDetailPage from "../pages/ProbDetailPage/ProbDetailPage";
