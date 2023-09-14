@@ -46,8 +46,8 @@ function App() {
                 <Route path="/lecture_add" element={<NewLectureAddPage />} />
                 <Route path="/lecture_mod" element={<NewLectureModPage />} />
                 <Route path="/prob_submit" element={<NewAudioRecordPage />} />
-                <Route path="/prob_add" element={<NewProbAddPage />} />
-                <Route path="/prob_mod" element={<NewProbModPage />} />
+                <Route path="/prob/add" element={<NewProbAddPage />} />
+                <Route path="/prob/mod" element={<NewProbModPage />} />
                 <Route path="/prob_feedback" element={<NewProbFeedbackPage />} />
                 <Route path="/prob/detail" element={<NewProbDetailPage />} />
                 <Route path="/prob/list/student" element={<NewProbListStudentPage />} />

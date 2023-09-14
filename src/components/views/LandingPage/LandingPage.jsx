@@ -9,7 +9,6 @@ import { Row } from "antd";
 import { useSelector } from "react-redux";
 import Axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
-import { AiOutlinePlus } from "react-icons/ai";
 import { API_URL } from "../../Config";
 
 function LandingPage() {
@@ -51,7 +50,7 @@ function LandingPage() {
                 <div className="lecture_Area">
                     <h3 style={{ paddingLeft: "20px" }}>
                         강의 목록
-                        {userinfos?.userData?.role === 3 ? (
+                        {userinfos?.userData?.role === 3 && (
                             <nav className="class_menu">
                                 <Link to={"/lecture_add"}>
                                     <button
@@ -66,8 +65,6 @@ function LandingPage() {
                                     </button>
                                 </Link>
                             </nav>
-                        ) : (
-                            ""
                         )}
                     </h3>
 

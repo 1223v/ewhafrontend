@@ -8,11 +8,11 @@ import { AiOutlineCheck, AiOutlineClose } from "react-icons/ai";
 import FileDownload from "../../components/views/Fileload/FileDownload";
 import { useSelector } from "react-redux";
 import Timeformat from "../../components/views/commons/Timeformat";
+import { message } from "antd";
 
 function ProbDetailPage() {
     let navigate = useNavigate();
     const location = useLocation();
-    const data = location.state;
     const params = new URLSearchParams(location.search);
     const lectureNo = params.get("lecture_no");
     const asNo = params.get("as_no");
@@ -31,28 +31,46 @@ function ProbDetailPage() {
                     setProbInfo(response.data);
                     setProbInfoOpenTime(response.data.open_time);
                     setProbInfoCloseTime(response.data.limit_time);
-                    console.log(response.data);
                 } else {
-                    alert("다시 시도해주세요.");
+                    message.error("다시 시도해주세요.");
                     navigate("/");
                 }
             })
             .catch((error) => {
                 // 요청이 실패한 경우의 처리
-                console.error(error);
+                message.error("알 수 없는 에러가 발생했습니다.");
                 navigate("/login");
             });
     }, []);
+
+    const onDeleteButton = () => {
+        if (window.confirm("삭제하시겠습니까?")) {
+            Axios.delete(`${API_URL}api/prob/handle?as_no=${asNo}`, {
+                withCredentials: true,
+            })
+                .then((response) => {
+                    // 요청이 성공한 경우의 처리
+                    if (response.data.probdeleteSuccess) {
+                        message.success("과제가 삭제되었습니다.");
+                        navigate("/");
+                    } else {
+                        message.error("과제 삭제에 실패했습니다. 다시 확인해주세요.");
+                        navigate("/");
+                    }
+                })
+                .catch((error) => {
+                    message.error("과제 삭제에 실패했습니다. 다시 확인해주세요.");
+                    navigate("/");
+                });
+        }
+    };
     return (
         <LectureBackgroudDiv>
             <NavBar />
             <div style={{ display: "flex" }}>
                 <LectureBackDiv>
                     {userinfos?.userData?.role === 3 ? (
-                        <StyledLink
-                            to={`/prob/list/professor?lecture_no=${data?.lecture_no}`}
-                            state={{ lecture_no: data?.lecture_no }}
-                        >
+                        <StyledLink to={`/prob/list/professor?lecture_no=${lectureNo}`}>
                             <svg
                                 xmlns="http://www.w3.org/2000/svg"
                                 fill="none"
@@ -70,13 +88,12 @@ function ProbDetailPage() {
                         </StyledLink>
                     ) : (
                         <Link
-                            to={`/prob/list/student?lecture_no=${data?.lecture_no}`}
+                            to={`/prob/list/student?lecture_no=${lectureNo}`}
                             style={{
                                 textDecoration: "none",
                                 color: "inherit",
                                 margin: "9px",
                             }}
-                            state={{ lecture_no: data?.lecture_no }}
                         >
                             <svg
                                 xmlns="http://www.w3.org/2000/svg"
@@ -195,14 +212,17 @@ function ProbDetailPage() {
             {userinfos?.userData?.role === 3 && (
                 <BtnDiv>
                     <FeedbackBtnDiv>
-                        <FeedbackLink to={`/prob/feedback/manage?as_no=${asNo}&lecture_no=${lectureNo}`}>
+                        <FeedbackLink to={`/prob/mod?as_no=${asNo}&lecture_no=${lectureNo}`}>
                             <button className="bg-transparent hover:bg-gray-100 hover:bg-opacity-50 text-blue-700 font-semibold py-2 px-4 border border-blue-500 rounded m-2">
                                 과제 수정하기
                             </button>
                         </FeedbackLink>
                     </FeedbackBtnDiv>
                     <FeedbackBtnDiv>
-                        <button className="bg-transparent hover:bg-gray-100 hover:bg-opacity-50 text-red-700 font-semibold py-2 px-4 border border-red-500 rounded m-2">
+                        <button
+                            className="bg-transparent hover:bg-gray-100 hover:bg-opacity-50 text-red-700 font-semibold py-2 px-4 border border-red-500 rounded m-2"
+                            onClick={onDeleteButton}
+                        >
                             과제 삭제하기
                         </button>
                     </FeedbackBtnDiv>

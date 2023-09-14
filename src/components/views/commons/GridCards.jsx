@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
 import { Col } from "antd";
 import { PiDotsThreeBold } from "react-icons/pi";
@@ -32,7 +32,7 @@ function GridCards(props) {
         {
             label: (
                 <StyleLink to={`/lecture_mod?lecture_no=${props.num}`} style={{ display: "flex" }}>
-                    <BiSolidPencil size="15" style={{margin: "3px 10px 0px 0px"}}/>
+                    <BiSolidPencil size="15" style={{ margin: "3px 10px 0px 0px" }} />
                     수정하기
                 </StyleLink>
             ),
@@ -41,8 +41,7 @@ function GridCards(props) {
         {
             label: (
                 <DeleteBtn onClick={onDeleteButton}>
-					
-                    <BiSolidTrash size="15" style={{margin: "3px 10px 0px 0px"}} />
+                    <BiSolidTrash size="15" style={{ margin: "3px 10px 0px 0px" }} />
                     삭제하기
                 </DeleteBtn>
             ),
@@ -71,7 +70,7 @@ function GridCards(props) {
                         </h5>
                     </div>
                     {userinfos?.userData?.role === 3 ? (
-                        <Link to={`/prob/list/professor?lecture_no=${props.num}`} state={{ lecture_no: props.num }}>
+                        <Link to={`/prob/list/professor?lecture_no=${props.num}`}>
                             <h3 style={{ margin: "10px", color: "black" }}>{props.lectureName}</h3>
                             <div style={{ margin: "8px", color: "gray" }}>
                                 {props.major} {props.separated}
@@ -81,7 +80,7 @@ function GridCards(props) {
                             </div>
                         </Link>
                     ) : (
-                        <Link to={`/prob/list/student?lecture_no=${props.num}`} state={{ lecture_no: props.num }}>
+                        <Link to={`/prob/list/student?lecture_no=${props.num}`}>
                             <h3 style={{ margin: "10px", color: "black" }}>{props.lectureName}</h3>
                             <div style={{ margin: "8px", color: "gray" }}>
                                 {props.major} {props.separated}
@@ -117,5 +116,5 @@ const DeleteBtn = styled.button`
     border: 0;
     outline: 0;
     background: none;
-	padding: 0px;
+    padding: 0px;
 `;

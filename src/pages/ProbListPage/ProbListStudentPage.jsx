@@ -7,9 +7,8 @@ import { API_URL } from "../../components/Config";
 import { AiOutlineCheck, AiOutlineClose } from "react-icons/ai";
 import Timeformat from "../../components/views/commons/Timeformat";
 
-function ProbListProfessorPage() {
+function ProbListStudentPage() {
     const location = useLocation();
-    const data = location.state;
     const params = new URLSearchParams(location.search);
     const lectureNo = params.get("lecture_no");
     let navigate = useNavigate();
@@ -27,7 +26,7 @@ function ProbListProfessorPage() {
             .catch((error) => {
                 // 요청이 실패한 경우의 처리
                 console.error(error);
-                navigate("/login");
+                navigate("/");
             });
     }, []);
 
@@ -113,10 +112,6 @@ function ProbListProfessorPage() {
                                                     <td className="px-6 py-4 text-sm font-medium text-gray-800 whitespace-nowrap">
                                                         <StyledLink
                                                             to={`/prob/detail?as_no=${assignment.as_no}&lecture_no=${lectureNo}`}
-                                                            state={{
-                                                                lecture_no: lectureNo,
-                                                                as_no: assignment.as_no,
-                                                            }}
                                                         >
                                                             {index}
                                                         </StyledLink>
@@ -125,10 +120,6 @@ function ProbListProfessorPage() {
                                                     <td className="px-6 py-4 text-sm text-gray-800 whitespace-nowrap">
                                                         <StyledLink
                                                             to={`/prob/detail?as_no=${assignment.as_no}&lecture_no=${lectureNo}`}
-                                                            state={{
-                                                                lecture_no: lectureNo,
-                                                                as_no: assignment.as_no,
-                                                            }}
                                                         >
                                                             {assignment.as_name}
                                                         </StyledLink>
@@ -136,10 +127,6 @@ function ProbListProfessorPage() {
                                                     <td className="px-6 py-4 text-sm font-medium text-right whitespace-nowrap">
                                                         <StyledLink
                                                             to={`/prob/detail?as_no=${assignment.as_no}&lecture_no=${lectureNo}`}
-                                                            state={{
-                                                                lecture_no: lectureNo,
-                                                                as_no: assignment.as_no,
-                                                            }}
                                                         >
                                                             {assignment.end_submission ? (
                                                                 <AiOutlineCheck size="18" style={{ color: "green" }} />
@@ -154,10 +141,6 @@ function ProbListProfessorPage() {
                                                     >
                                                         <StyledLink
                                                             to={`/prob/detail?as_no=${assignment.as_no}&lecture_no=${lectureNo}`}
-                                                            state={{
-                                                                lecture_no: lectureNo,
-                                                                as_no: assignment.as_no,
-                                                            }}
                                                         >
                                                             {assignment.professor_review ? (
                                                                 <AiOutlineCheck size="18" style={{ color: "green" }} />
@@ -172,10 +155,6 @@ function ProbListProfessorPage() {
                                                     >
                                                         <StyledLink
                                                             to={`/prob/detail?as_no=${assignment.as_no}&lecture_no=${lectureNo}`}
-                                                            state={{
-                                                                lecture_no: lectureNo,
-                                                                as_no: assignment.as_no,
-                                                            }}
                                                         >
                                                             <Timeformat dateString={assignment.limit_time} />
                                                         </StyledLink>
@@ -194,7 +173,7 @@ function ProbListProfessorPage() {
     );
 }
 
-export default ProbListProfessorPage;
+export default ProbListStudentPage;
 
 const StyledLink = styled(Link)`
     text-decoration: none; /* 기본 밑줄 제거 */
