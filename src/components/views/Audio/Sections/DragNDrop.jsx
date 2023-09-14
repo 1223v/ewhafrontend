@@ -4,10 +4,13 @@ import Audio from "../Audio";
 import Axios from "axios";
 import { GrClose } from "react-icons/gr";
 import { API_URL } from "../../../Config";
+import { message } from "antd";
+import { useNavigate } from "react-router-dom";
 
 const fileTypes = ["wav", "mp3"];
 
 function DragNDrop(props) {
+	let navigate = useNavigate();
     const onhandleClose = () => {
         props.setMusic("");
         props.setRegions([]);
@@ -31,6 +34,8 @@ function DragNDrop(props) {
             })
             .catch((error) => {
                 console.error("파일 업로드 실패:", error);
+				message.error("관리자에게 문의하세요.");
+				navigate("/");
             });
     };
     return (

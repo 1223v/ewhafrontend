@@ -180,7 +180,7 @@ function ProbAddPage() {
 			speed: Speedlist, // 음원 속도
 		};
 		setLoading(true);
-		Axios.post(`${API_URL}api/prob/add`, body, {
+		Axios.post(`${API_URL}api/prob/handle`, body, {
 			withCredentials: true,
 		})
 			.then((response) => {
@@ -212,7 +212,7 @@ function ProbAddPage() {
 							color: 'inherit',
 							margin: '9px',
 						}}
-						state={{ lecture_no: lectureNo }}
+						
 					>
 						<svg
 							xmlns="http://www.w3.org/2000/svg"

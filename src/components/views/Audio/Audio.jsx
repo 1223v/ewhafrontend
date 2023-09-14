@@ -50,8 +50,8 @@ function Audio(props) {
         regionsRef.current = props.regions;
         console.log(props.regions);
         const newRegionsCopy = props.regions.map(({ start, end, id }) => ({
-            start: parseInt(start, 10).toString(),
-            end: parseInt(end, 10).toString(),
+            start: start.toString(),
+            end: end.toString(),
             index: id,
         }));
         props.setRegionsCopy(newRegionsCopy);
