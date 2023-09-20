@@ -8,7 +8,7 @@ import SimAudiorecordGridcard from "../../components/views/commons/SimAudiorecor
 import SimInterpretationAudioplay from "../../components/views/AudioRecord/SimInterpretationAudioplay";
 import { API_URL } from "../../components/Config";
 import LoadingPage from "../../components/views/LoadingPage/LoadingPage";
-import MusicPlayLoading from "../../components/views/LoadingPage/MusicPlayLoading";
+import SimMusicPlayLoading from "../../components/views/LoadingPage/SimMusicPlayLoading";
 import { useSelector } from "react-redux";
 import AudiorecordGridCard from "../../components/views/commons/AudiorecordGridCard";
 
@@ -63,8 +63,7 @@ function SimInterpretationPage() {
 	
 
     const onSubmitButton = () => {
-        console.log(Realsubmit);
-        console.log(Endlength);
+        
         if (window.confirm("과제 제출하시겠습니까?")) {
             if (Realsubmit.length === Endlength) {
                 let body = {
@@ -95,7 +94,7 @@ function SimInterpretationPage() {
     return (
         <LectureBackgroudDiv>
             {loading ? <LoadingPage /> : null}
-			{/*{MusicLoading ? <MusicPlayLoading /> : null}*/}
+			{MusicLoading ? <SimMusicPlayLoading /> : null}
             <NavBar />
             <div style={{ display: "flex" }}>
                 <LectureBackDiv>

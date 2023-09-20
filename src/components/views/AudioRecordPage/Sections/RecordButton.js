@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import { FaStop } from 'react-icons/fa';
 
 const PlayBtn = styled.button`
-	background-color: black;
+	background-color: #ff3466;
 	height: 56px;
 	width: 56px;
 	border: none;

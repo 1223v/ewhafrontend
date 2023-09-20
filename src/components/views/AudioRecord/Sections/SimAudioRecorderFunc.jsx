@@ -4,6 +4,7 @@ import AudioAnalyser from "react-audio-analyser";
 import RecordButton from "./RecordButton";
 import Axios from "axios";
 import { API_URL } from "../../../Config";
+import {message} from "antd";
 
 export default function AudioRecorderFunc(props) {
     const { audioURL, setAudioURL, setAudioExtension } = useContext(MainContext);
@@ -34,6 +35,7 @@ export default function AudioRecorderFunc(props) {
             setAudioSrc(window.URL.createObjectURL(e));
             console.log("succ stop", e);
             setAudioURL(window.URL.createObjectURL(e));
+			
             const formData = new FormData();
             formData.append("assignment", props.Assignmentnum);
             formData.append("mp3", e);
@@ -44,9 +46,11 @@ export default function AudioRecorderFunc(props) {
                 withCredentials: true,
             })
                 .then((response) => {
-                    alert("임시저장되었습니다.");
+					
+                    message.success("임시저장 완료");
                     props.setSubmitlist(response.data.file);
 					props.setTemporarySubmitCheck(true);
+					
                 })
                 .catch((error) => {
                     console.error("파일 업로드 실패:", error);
@@ -65,6 +69,7 @@ export default function AudioRecorderFunc(props) {
     const onRecordCheck = () => {
         toggleRecording();
         setshouldHide(false);
+		props.setLoading(true);
     };
 
     useEffect(() => {

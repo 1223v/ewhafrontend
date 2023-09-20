@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef } from 'react';
 import SimAudioRecorderFunc from '../AudioRecord/Sections/SimAudioRecorderFunc';
 import styled from 'styled-components';
-import { Col } from 'antd';
+import { Col,message } from 'antd';
 import Axios from 'axios';
 import { API_URL } from '../../Config.jsx';
 
@@ -21,7 +21,7 @@ function SimAudiorecordGridcard(props) {
 		const file = e.target.files[0];
 		const formData = new FormData();
 		formData.append('assignment', props.Assignmentnum);
-		formData.append('wav', file);
+		formData.append('mp3', file);
 		Axios.put(`${API_URL}stt`, formData, {
 			headers: {
 				'Content-Type': 'multipart/form-data',
@@ -29,7 +29,7 @@ function SimAudiorecordGridcard(props) {
 			withCredentials: true,
 		})
 			.then((response) => {
-				alert('임시저장되었습니다.');
+				message.success("임시저장 완료");
 				props.setSubmitlist(response.data.file);
 			})
 			.catch((error) => {
@@ -77,11 +77,12 @@ function SimAudiorecordGridcard(props) {
 	useEffect(() => {
 		if (TemporarySubmitCheck) {
 			if (props.Submitlist.length !== 0) {
+				props.setLoading(false);
 				props.setRealsubmit([...props.Realsubmit, props.Submitlist]);
 				props.setDisable(props.Disable + 1);
 				props.setSubmitlist('');
 				setTemporarySubmitCheck(false);
-				alert('저장을 완료했습니다. 다음 구간이 바로 진행됩니다.');
+				message.success('다음 구간이 바로 진행됩니다.');
 			} else {
 				alert('녹음 혹은 업로드부터 진행해주세요.');
 			}
@@ -112,6 +113,7 @@ function SimAudiorecordGridcard(props) {
 							Realsubmit={props.Realsubmit}
 							setRealsubmit={props.setRealsubmit}
 							setTemporarySubmitCheck={setTemporarySubmitCheck}
+							setLoading ={props.setLoading}
 						/>
 					</div>
 					<div style={{ textAlign: 'center', margin: '10px' }}>
