@@ -3,11 +3,11 @@ import { UploadOutlined } from "@ant-design/icons";
 import Axios from "axios";
 import { API_URL } from "../../Config";
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 function FileUpload(props) {
     let navigate = useNavigate();
-    const [fileList, setFileList] = useState(null);
+	
     const handleChange = (info) => {
         if (info.file.status === "done") {
             message.success("파일이 업로드되었습니다.");
@@ -16,12 +16,14 @@ function FileUpload(props) {
         }
     };
 
+	
     const customRequest = async ({ file, onSuccess, onError }) => {
         try {
             // 여기에서 파일을 서버로 업로드합니다.
             // axios를 사용하여 업로드 요청을 보냅니다.
             const formData = new FormData();
             formData.append("prob_file", file);
+			console.log(file);
             const response = await Axios.post(`${API_URL}prob_upload_file`, formData, {
                 headers: {
                     "Content-Type": "multipart/form-data",
@@ -31,18 +33,18 @@ function FileUpload(props) {
 
             // 성공적으로 업로드되면 onSuccess를 호출합니다.
             onSuccess(response.data, file);
-            setFileList(file);
+            props.setFileList(file);
             props.setReferenceFileURL(response.data.file_path);
             props.setReferenceName(response.data.file_name);
         } catch (error) {
             // 업로드에 실패하면 onError를 호출합니다.
             onError(error);
-            navigate(-1);
+            navigate("/");
         }
     };
 
     const handleRemove = (file) => {
-        setFileList(null);
+        props.setFileList(null);
         props.setReferenceFileURL("");
         props.setReferenceName("");
         // 파일 삭제 API 호출 등을 추가할 수 있습니다.
@@ -55,7 +57,7 @@ function FileUpload(props) {
         <Upload
             customRequest={customRequest}
             onChange={handleChange}
-            fileList={fileList ? [fileList] : []}
+            fileList={props.fileList ? [props.fileList] : []}
             showUploadList={true}
             accept={fileAccept}
             onRemove={handleRemove}

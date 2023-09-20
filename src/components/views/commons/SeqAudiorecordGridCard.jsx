@@ -1,17 +1,11 @@
-import React, { useContext, useEffect, useState, useRef } from "react";
-import { MainContext } from "./Sections/contexts/MainContext.js";
-import AudioRecorderFunc from "./Sections/AudioRecorderFunc.js";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import React, { useEffect, useState, useRef } from "react";
+import AudioRecorderFunc from "../AudioRecord/Sections/SimAudioRecorderFunc";
 import styled from "styled-components";
 import { Col } from "antd";
 import Axios from "axios";
-import { API_URL } from "../../Config";
+import { API_URL } from "../../Config.jsx";
 
-function AudiorecordGridcard(props) {
-    let navigate = useNavigate();
-    const location = useLocation();
-    const data = location.state;
-    const { audioURL } = useContext(MainContext) || {};
+function SeqAudiorecordGridCard(props) {
     const [check, setcheck] = useState(false);
     const fileInput = useRef(null);
 
@@ -68,6 +62,15 @@ function AudiorecordGridcard(props) {
         }
     }, [props.WaveSuferLoading]);
 
+    useEffect(() => {
+        if (props.Disable === props.region_index && props.region_index !== 0) {
+            props.setLoading(true);
+            const URL = `${API_URL}` + props.Wavaudio.upload_url;
+            props.setRegionmusic(URL);
+            setcheck(!check);
+        }
+    }, [props.Disable]);
+
     return (
         <Col lg={8} md={12} xs={24}>
             <MainaudioGridcard>
@@ -82,12 +85,15 @@ function AudiorecordGridcard(props) {
                             setSubmitlist={props.setSubmitlist}
                             Submitlist={props.Submitlist}
                             Disable={props.Disable}
-                            setEndmusic={props.setEndmusic}
-                            Endmusic={props.Endmusic}
+                            setDisable={props.setDisable}
+                            Startmusic={props.Startmusic}
+                            setStartmusic={props.setStartmusic}
+                            Realsubmit={props.Realsubmit}
+                            setRealsubmit={props.setRealsubmit}
                         />
                     </div>
                     <div style={{ textAlign: "center", margin: "10px" }}>
-                        {check === false && (
+                        {check === false && props.region_index === 0 && (
                             <button
                                 className="bg-transparent hover:bg-gray-100 hover:bg-opacity-50 text-blue-700 font-semibold py-2 px-4 border border-blue-500 rounded m-2"
                                 onClick={onPlayButton}
@@ -97,7 +103,7 @@ function AudiorecordGridcard(props) {
                             </button>
                         )}
 
-                        <button
+                        {/* <button
                             className="bg-transparent hover:bg-gray-100 hover:bg-opacity-50 text-green-700 font-semibold py-2 px-4 border border-green-500 rounded m-2"
                             onClick={onFileButton}
                             disabled={props.Disable !== props.region_index}
@@ -111,7 +117,7 @@ function AudiorecordGridcard(props) {
                             disabled={props.Disable !== props.region_index}
                         >
                             저장하기
-                        </button>
+                        </button> */}
                     </div>
                 </AudioGridcard>
             </MainaudioGridcard>
@@ -119,7 +125,7 @@ function AudiorecordGridcard(props) {
     );
 }
 
-export default AudiorecordGridcard;
+export default SeqAudiorecordGridCard;
 
 const AudioGridcard = styled.div`
     border: 1px solid rgb(211, 211, 211);

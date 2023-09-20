@@ -9,11 +9,14 @@ import Timeformat from "../../components/views/commons/Timeformat";
 function ProbSubmitList() {
     let navigate = useNavigate();
     const location = useLocation();
-    const data = location.state;
+   
+	const params = new URLSearchParams(location.search);
+    const lectureNo = params.get("lecture_no");
+    const asNo = params.get("as_no");
     const [People, setPeople] = useState([]);
 
     useEffect(() => {
-        Axios.get(`${API_URL}api/probsubmit/list?lecture_no=${data?.lecture_no}&as_no=${data?.as_no}`, {
+        Axios.get(`${API_URL}api/probsubmit/list?lecture_no=${lectureNo}&as_no=${asNo}`, {
             withCredentials: true,
         })
             .then((response) => {
@@ -23,7 +26,7 @@ function ProbSubmitList() {
             })
             .catch((error) => {
                 // 요청이 실패한 경우의 처리
-                console.error(error);
+                
                 navigate("/login");
             });
     }, []);
@@ -127,12 +130,7 @@ function ProbSubmitList() {
                                                 <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                                                     {person.check !== "No" && (
                                                         <Link
-                                                            to={`/prob_feedback?as_no=${data.asnum}&lecture_no=${data.num}&user_no=${person.user_no}`}
-                                                            state={{
-                                                                num: data.num,
-                                                                asnum: data.asnum,
-                                                                userNo: person.user_no,
-                                                            }}
+                                                            to={`/prob_feedback?as_no=${asNo}&lecture_no=${lectureNo}&user_no=${person.user_no}`}
                                                             className="text-indigo-600 hover:text-indigo-900"
                                                         >
                                                             FeedBack
