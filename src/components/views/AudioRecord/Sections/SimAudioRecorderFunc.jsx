@@ -1,7 +1,7 @@
 import React, { useContext, useState, useEffect } from "react";
-import { MainContext } from "../../AudioRecord/Sections/MainContext";
+import { MainContext } from "./MainContext";
 import AudioAnalyser from "react-audio-analyser";
-import RecordButton from "./RecordButton.js";
+import RecordButton from "./RecordButton";
 import Axios from "axios";
 import { API_URL } from "../../../Config";
 
@@ -9,7 +9,7 @@ export default function AudioRecorderFunc(props) {
     const { audioURL, setAudioURL, setAudioExtension } = useContext(MainContext);
     const [status, setStatus] = useState("");
     const [audioSrc, setAudioSrc] = useState("");
-    const [audioType, setAudioType] = useState("audio/wav");
+    const [audioType, setAudioType] = useState("audio/mp3");
     const [shouldHide, setshouldHide] = useState(false);
 
     const controlAudio = (status) => {
@@ -36,7 +36,7 @@ export default function AudioRecorderFunc(props) {
             setAudioURL(window.URL.createObjectURL(e));
             const formData = new FormData();
             formData.append("assignment", props.Assignmentnum);
-            formData.append("wav", e);
+            formData.append("mp3", e);
             Axios.put(`${API_URL}stt`, formData, {
                 headers: {
                     "Content-Type": "multipart/form-data",
@@ -46,10 +46,13 @@ export default function AudioRecorderFunc(props) {
                 .then((response) => {
                     alert("임시저장되었습니다.");
                     props.setSubmitlist(response.data.file);
+					props.setTemporarySubmitCheck(true);
                 })
                 .catch((error) => {
                     console.error("파일 업로드 실패:", error);
                 });
+
+            
         },
         onRecordCallback: (e) => {
             console.log("recording", e);
@@ -73,13 +76,13 @@ export default function AudioRecorderFunc(props) {
     }, [setAudioExtension, audioType]);
 
     useEffect(() => {
-        if (props.Endmusic && props.Disable === props.region_index) {
+        if (props.Startmusic && props.Disable === props.region_index) {
             toggleRecording();
-            props.setEndmusic(false);
+            props.setStartmusic(false);
             setshouldHide(true);
             console.log("녹음 시작");
         }
-    }, [props.Endmusic]);
+    }, [props.Startmusic]);
 
     return (
         <div style={{ margin: "10px" }}>

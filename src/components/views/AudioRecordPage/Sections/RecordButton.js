@@ -1,66 +1,37 @@
 import React, { Fragment, useState } from 'react';
-// import MicIcon from '@material-ui/icons/Mic';
-// import StopIcon from '@material-ui/icons/Stop';
-// import Fab from '@material-ui/core/Fab';
-// import Tooltip from '@material-ui/core/Tooltip';
+import { Tooltip } from 'antd';
 import styled from 'styled-components';
+import { FaStop } from 'react-icons/fa';
 
-// const StyledFab = styled(Fab)`
-// 	position: relative;
-// 	background-color: ${(props) => (props.recording ? '#272727' : '#ff3466')};
-// 	color: white;
-// 	opacity: 1;
-// 	margin: 12px;
-// 	transition: all 0.2s;
-// 	.pulse-bg {
-// 		position: absolute;
-// 		width: 100%;
-// 		height: 100%;
-// 		background-color: #ff3466;
-// 		border-radius: 100%;
-// 		opacity: 0.5;
-// 		z-index: -10;
-// 		animation: pulse 1s ease-out infinite;
-// 	}
-// 	:hover {
-// 		background-color: ${(props) => (props.recording ? '#272727' : '#ff3466')};
-// 		opacity: 0.9;
-// 	}
-// 	@keyframes pulse {
-// 		0% {
-// 			transform: scale(1, 1);
-// 		}
-// 		50% {
-// 			opacity: 0.3;
-// 		}
-// 		100% {
-// 			transform: scale(1.5);
-// 			opacity: 0;
-// 		}
-// 	}
-// `;
+const PlayBtn = styled.button`
+	background-color: black;
+	height: 56px;
+	width: 56px;
+	border: none;
+	border-radius: 50%;
+	color: white;
+	cursor: pointer;
+	float: right;
+	margin-right: 20px;
+	box-shadow: 0px 3px 5px -1px rgba(0, 0, 0, 0.2), 0px 6px 10px 0px rgba(0, 0, 0, 0.14),
+		0px 1px 18px 0px rgba(0, 0, 0, 0.12);
+`;
 
 export default function RecordButton(props) {
-	const [isRecording, setIsRecording] = useState(false);
+	
 
 	return (
 		<Fragment>
-			
-			{/*<!-- <Tooltip title="Stop Recording" aria-label="record" placement="right">
-					<StyledFab
-						onClick={() => {
-							setIsRecording(!isRecording);
-							props?.onClick();
-							
-						}}
-						color="secondary"
-						aria-label="record"
-					>
-						<div className="pulse-bg" />
-						<StopIcon />
-					</StyledFab>
-				</Tooltip> -->*/}
-			
+			<Tooltip title="Stop Recording" placement="right">
+				<PlayBtn
+					onClick={() => {
+						
+						props?.onClick();
+					}}
+				>
+					<FaStop size="25" />
+				</PlayBtn>
+			</Tooltip>
 		</Fragment>
 	);
 }

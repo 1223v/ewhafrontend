@@ -52,7 +52,7 @@ function Audio(props) {
         const newRegionsCopy = props.regions.map(({ start, end, id }) => ({
             start: start.toString(),
             end: end.toString(),
-            index: id,
+            id: id,
         }));
         props.setRegionsCopy(newRegionsCopy);
     }, [props.regions]);

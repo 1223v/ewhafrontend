@@ -119,14 +119,14 @@ function ProbListStudentPage() {
 
                                                     <td className="px-6 py-4 text-sm text-gray-800 whitespace-nowrap">
                                                         <StyledLink
-                                                            to={`/prob/detail?as_no=${assignment.as_no}&lecture_no=${lectureNo}`}
+                                                            to={`/prob/detail/student?as_no=${assignment.as_no}&lecture_no=${lectureNo}`}
                                                         >
                                                             {assignment.as_name}
                                                         </StyledLink>
                                                     </td>
                                                     <td className="px-6 py-4 text-sm font-medium text-right whitespace-nowrap">
                                                         <StyledLink
-                                                            to={`/prob/detail?as_no=${assignment.as_no}&lecture_no=${lectureNo}`}
+                                                            to={`/prob/detail/student?as_no=${assignment.as_no}&lecture_no=${lectureNo}`}
                                                         >
                                                             {assignment.end_submission ? (
                                                                 <AiOutlineCheck size="18" style={{ color: "green" }} />
@@ -140,7 +140,7 @@ function ProbListStudentPage() {
                                                         style={{ fontSize: "13px" }}
                                                     >
                                                         <StyledLink
-                                                            to={`/prob/detail?as_no=${assignment.as_no}&lecture_no=${lectureNo}`}
+                                                            to={`/prob/detail/student?as_no=${assignment.as_no}&lecture_no=${lectureNo}`}
                                                         >
                                                             {assignment.professor_review ? (
                                                                 <AiOutlineCheck size="18" style={{ color: "green" }} />
@@ -154,7 +154,7 @@ function ProbListStudentPage() {
                                                         style={{ fontSize: "13px" }}
                                                     >
                                                         <StyledLink
-                                                            to={`/prob/detail?as_no=${assignment.as_no}&lecture_no=${lectureNo}`}
+                                                            to={`/prob/detail/student?as_no=${assignment.as_no}&lecture_no=${lectureNo}`}
                                                         >
                                                             <Timeformat dateString={assignment.limit_time} />
                                                         </StyledLink>

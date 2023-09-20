@@ -10,12 +10,13 @@ import { useSelector } from "react-redux";
 import Timeformat from "../../components/views/commons/Timeformat";
 import { message } from "antd";
 
-function ProbDetailPage() {
+function ProbStudentDetailPage() {
     let navigate = useNavigate();
     const location = useLocation();
     const params = new URLSearchParams(location.search);
     const lectureNo = params.get("lecture_no");
     const asNo = params.get("as_no");
+
     const userinfos = useSelector((state) => state.user);
 
     const [ProbInfo, setProbInfo] = useState([]);
@@ -31,6 +32,7 @@ function ProbDetailPage() {
                     setProbInfo(response.data);
                     setProbInfoOpenTime(response.data.open_time);
                     setProbInfoCloseTime(response.data.limit_time);
+                    console.log(response.data);
                 } else {
                     message.error("다시 시도해주세요.");
                     navigate("/");
@@ -43,74 +45,34 @@ function ProbDetailPage() {
             });
     }, []);
 
-    const onDeleteButton = () => {
-        if (window.confirm("삭제하시겠습니까?")) {
-            Axios.delete(`${API_URL}api/prob/handle?as_no=${asNo}`, {
-                withCredentials: true,
-            })
-                .then((response) => {
-                    // 요청이 성공한 경우의 처리
-                    if (response.data.probdeleteSuccess) {
-                        message.success("과제가 삭제되었습니다.");
-                        navigate("/");
-                    } else {
-                        message.error("과제 삭제에 실패했습니다. 다시 확인해주세요.");
-                        navigate("/");
-                    }
-                })
-                .catch((error) => {
-                    message.error("과제 삭제에 실패했습니다. 다시 확인해주세요.");
-                    navigate("/");
-                });
-        }
-    };
     return (
         <LectureBackgroudDiv>
             <NavBar />
             <div style={{ display: "flex" }}>
                 <LectureBackDiv>
-                    {userinfos?.userData?.role === 3 ? (
-                        <StyledLink to={`/prob/list/professor?lecture_no=${lectureNo}`}>
-                            <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                fill="none"
-                                viewBox="0 -5 24 24"
-                                strokeWidth="1.5"
-                                stroke="currentColor"
-                                class="w-6 h-6"
-                            >
-                                <path
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                    d="M19.5 12h-15m0 0l6.75 6.75M4.5 12l6.75-6.75"
-                                />
-                            </svg>
-                        </StyledLink>
-                    ) : (
-                        <Link
-                            to={`/prob/list/student?lecture_no=${lectureNo}`}
-                            style={{
-                                textDecoration: "none",
-                                color: "inherit",
-                                margin: "9px",
-                            }}
+                    <Link
+                        to={`/prob/list/student?lecture_no=${lectureNo}`}
+                        style={{
+                            textDecoration: "none",
+                            color: "inherit",
+                            margin: "9px",
+                        }}
+                    >
+                        <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="none"
+                            viewBox="0 -5 24 24"
+                            strokeWidth="1.5"
+                            stroke="currentColor"
+                            class="w-6 h-6"
                         >
-                            <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                fill="none"
-                                viewBox="0 -5 24 24"
-                                strokeWidth="1.5"
-                                stroke="currentColor"
-                                class="w-6 h-6"
-                            >
-                                <path
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                    d="M19.5 12h-15m0 0l6.75 6.75M4.5 12l6.75-6.75"
-                                />
-                            </svg>
-                        </Link>
-                    )}
+                            <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                d="M19.5 12h-15m0 0l6.75 6.75M4.5 12l6.75-6.75"
+                            />
+                        </svg>
+                    </Link>
                 </LectureBackDiv>
                 <LectureTitleDiv>과제</LectureTitleDiv>
             </div>
@@ -118,6 +80,11 @@ function ProbDetailPage() {
                 <LectureNameDiv>
                     <LectureName>제 목</LectureName>
                     <LectureNameinputDiv>{ProbInfo.as_name}</LectureNameinputDiv>
+                </LectureNameDiv>
+                <hr style={{ background: "#d3d3d3", height: "1px", border: "0" }} />
+                <LectureNameDiv>
+                    <LectureName>과제 종류</LectureName>
+                    <LectureNameinputDiv>{ProbInfo.as_type}</LectureNameinputDiv>
                 </LectureNameDiv>
                 <hr style={{ background: "#d3d3d3", height: "1px", border: "0" }} />
                 <LectureNameDiv>
@@ -139,7 +106,7 @@ function ProbDetailPage() {
                         <LectureNameDiv>
                             <LectureName>녹음 횟수</LectureName>
                             <LectureNameinputDiv>
-                                {ProbInfo.my_count === null ? 0 : ProbInfo.my_count} / {ProbInfo.assign_count}
+                                {ProbInfo.my_count === null ? 0 : ProbInfo.my_count} / {ProbInfo.assign_count < 1000000 ? ProbInfo.assign_count + ProbInfo.chance_count : "무제한" }
                             </LectureNameinputDiv>
                         </LectureNameDiv>
 
@@ -186,60 +153,63 @@ function ProbDetailPage() {
                 </LectureNameDiv>
             </LectureAddFormDiv>
 
-            {userinfos?.userData?.role === 1 && (
-                <BtnDiv>
-                    <FeedbackBtnDiv>
-                        {ProbInfo.end_submission === null && (
-                            <button className="bg-transparent hover:bg-gray-100 hover:bg-opacity-50 text-blue-700 font-semibold py-2 px-4 border border-blue-500 rounded m-2">
-                                최종 제출
-                            </button>
-                        )}
-                    </FeedbackBtnDiv>
-                    <TestBtnDiv>
-                        {ProbInfo.feedback === null ? (
-                            <button className="bg-transparent hover:bg-gray-100 hover:bg-opacity-50 text-green-700 font-semibold py-2 px-4 border border-green-500 rounded m-2">
-                                과제하기
-                            </button>
-                        ) : (
+            <BtnDiv>
+                <FeedbackBtnDiv>
+                    {ProbInfo.end_submission === false && (
+                        <button className="bg-transparent hover:bg-gray-100 hover:bg-opacity-50 text-blue-700 font-semibold py-2 px-4 border border-blue-500 rounded m-2">
+                            최종 제출
+                        </button>
+                    )}
+                </FeedbackBtnDiv>
+                <TestBtnDiv>
+                    {ProbInfo.feedback === false || ProbInfo.end_submission === false ? (
+                        <div>
+                            {ProbInfo.as_type === "순차통역" ? (
+                                <StyledLink
+                                    className="text-green-500 hover:text-green-700"
+                                    to={`/prob/submit/seqInterpretation?lecture_no=${lectureNo}&as_no=${asNo}&user_no=${userinfos?.userData?.user_no}`}
+                                >
+                                    <button className="bg-transparent hover:bg-gray-100 hover:bg-opacity-50 text-green-700 font-semibold py-2 px-4 border border-green-500 rounded m-2">
+                                        과제하기
+                                    </button>
+                                </StyledLink>
+                            ) : ProbInfo.as_type === "동시통역" ? (
+                                <StyledLink
+                                    className="text-green-500 hover:text-green-700"
+                                    to={`/prob/submit/simInterpretation?lecture_no=${lectureNo}&as_no=${asNo}&user_no=${userinfos?.userData?.user_no}`}
+                                >
+                                    <button className="bg-transparent hover:bg-gray-100 hover:bg-opacity-50 text-green-700 font-semibold py-2 px-4 border border-green-500 rounded m-2">
+                                        과제하기
+                                    </button>
+                                </StyledLink>
+                            ) : ProbInfo.as_type === "번역" ? (
+                                <StyledLink
+                                    className="text-green-500 hover:text-green-700"
+                                    to={`/prob/submit/translation?lecture_no=${lectureNo}&as_no=${asNo}&user_no=${userinfos?.userData?.user_no}`}
+                                >
+                                    <button className="bg-transparent hover:bg-gray-100 hover:bg-opacity-50 text-green-700 font-semibold py-2 px-4 border border-green-500 rounded m-2">
+                                        과제하기
+                                    </button>
+                                </StyledLink>
+                            ) : null}
+                        </div>
+                    ) : (
+                        <StyledLink
+                            className="text-green-500 hover:text-green-700"
+                            to={`/prob/feedback?as_no=${asNo}&lecture_no=${lectureNo}&user_no=${userinfos?.userData?.user_no}`}
+                        >
                             <button className="bg-transparent hover:bg-gray-100 hover:bg-opacity-50 text-green-700 font-semibold py-2 px-4 border border-green-500 rounded m-2">
                                 피드백 확인
                             </button>
-                        )}
-                    </TestBtnDiv>
-                </BtnDiv>
-            )}
-
-            {userinfos?.userData?.role === 3 && (
-                <BtnDiv>
-                    <FeedbackBtnDiv>
-                        <FeedbackLink to={`/prob/mod?as_no=${asNo}&lecture_no=${lectureNo}`}>
-                            <button className="bg-transparent hover:bg-gray-100 hover:bg-opacity-50 text-blue-700 font-semibold py-2 px-4 border border-blue-500 rounded m-2">
-                                과제 수정하기
-                            </button>
-                        </FeedbackLink>
-                    </FeedbackBtnDiv>
-                    <FeedbackBtnDiv>
-                        <button
-                            className="bg-transparent hover:bg-gray-100 hover:bg-opacity-50 text-red-700 font-semibold py-2 px-4 border border-red-500 rounded m-2"
-                            onClick={onDeleteButton}
-                        >
-                            과제 삭제하기
-                        </button>
-                    </FeedbackBtnDiv>
-                    <TestBtnDiv>
-                        <FeedbackLink to={`/prob/feedback/manage?as_no=${asNo}&lecture_no=${lectureNo}`}>
-                            <button className="bg-transparent hover:bg-gray-100 hover:bg-opacity-50 text-green-700 font-semibold py-2 px-4 border border-green-500 rounded m-2">
-                                제출 확인
-                            </button>
-                        </FeedbackLink>
-                    </TestBtnDiv>
-                </BtnDiv>
-            )}
+                        </StyledLink>
+                    )}
+                </TestBtnDiv>
+            </BtnDiv>
         </LectureBackgroudDiv>
     );
 }
 
-export default ProbDetailPage;
+export default ProbStudentDetailPage;
 
 const LectureBackgroudDiv = styled.div`
     background-color: #f7f7fa;
