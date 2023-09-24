@@ -38,7 +38,9 @@ function SimInterpretationAudioplay(props) {
 
     useEffect(() => {
         if (!props.MusicLoading && props.Regionmusic) {
-            play();
+			setTimeout(()=>{
+				play();
+			},500);
             props.setMusicLoading(true);
             props.setStartmusic(true);
         }

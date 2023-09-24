@@ -8,89 +8,23 @@ import SimAudiorecordGridcard from "../../components/views/commons/SimAudiorecor
 import SimInterpretationAudioplay from "../../components/views/AudioRecord/SimInterpretationAudioplay";
 import { API_URL } from "../../components/Config";
 import LoadingPage from "../../components/views/LoadingPage/LoadingPage";
-import MusicPlayLoading from "../../components/views/LoadingPage/MusicPlayLoading";
+import { useSelector } from 'react-redux';
 
 function TranslationPage() {
-    // let navigate = useNavigate();
+	let navigate = useNavigate();
+    const location = useLocation();
+    const params = new URLSearchParams(location.search);
+    const lectureNo = params.get("lecture_no");
+    const asNo = params.get("as_no");
+    const userinfos = useSelector((state) => state.user);
+	
+	const [loading, setLoading] = useState(false); //로딩페이지 로딩
 
-    // const location = useLocation();
-    // const data = location.state;
-    // const [Audiolist, setAudiolist] = useState([]);
-    // const [Regionmusic, setRegionmusic] = useState("");
-    // const [Originmusic, setOriginmusic] = useState("");
-    // const [Playmusic, setPlaymusic] = useState(false);
-    // const [Assignmentnum, setAssignmentnum] = useState("");
-    // const [Submitlist, setSubmitlist] = useState("");
-    // const [Realsubmit, setRealsubmit] = useState([]);
-    // const [Disable, setDisable] = useState(0);
-    // const [Endlength, setEndlength] = useState(-1);
-    // const [Endmusic, setEndmusic] = useState(false); //음악 종료시점 확인
-    // const [WaveSuferLoading, setWaveSuferLoading] = useState(false); // 재생 전 wavesurfer 로딩
-    // const [loading, setLoading] = useState(false); //로딩페이지 로딩
-    // const [MusicLoading, setMusicLoading] = useState(false); //음악 재생 중
-
-    // useEffect(() => {
-    //     Axios.get(`${API_URL}api/prob/submit?lecture_no=${data.num}&as_no=${data.asnum}`, {
-    //         withCredentials: true,
-    //     })
-    //         .then((response) => {
-    //             // 요청이 성공한 경우의 처리
-
-    //             let Music_URL = `${API_URL}` + response.data.as_info.upload_url;
-    //             console.log("submit", response.data);
-    //             setAudiolist(response.data.wav_url);
-    //             setEndlength(response.data.wav_url.length);
-    //             setOriginmusic(Music_URL);
-    //             setAssignmentnum(response.data.as_info.as_no);
-    //         })
-    //         .catch((error) => {
-    //             // 요청이 실패한 경우의 처리
-    //             console.error(error);
-    //             navigate(-1);
-    //         });
-    // }, []);
-
-    // useEffect(() => {
-    //     console.log(Realsubmit);
-    //     if (Realsubmit.length === Endlength) {
-    //         alert("과제를 완료했습니다. 제출해주세요.");
-    //     }
-    // }, [Realsubmit]);
-
-    // const onSubmitButton = () => {
-    //     console.log(Realsubmit);
-    //     console.log(Endlength);
-    //     if (window.confirm("과제 제출하시겠습니까?")) {
-    //         if (Realsubmit.length === Endlength) {
-    //             let body = {
-    //                 submitUUID: Realsubmit,
-    //                 as_no: data.asnum,
-    //                 lecture_no: data.num,
-    //             };
-
-    //             Axios.post(`${API_URL}api/prob/submit`, body, {
-    //                 withCredentials: true,
-    //             })
-    //                 .then((response) => {
-    //                     console.log(response.data);
-    //                     alert("제출을 완료했습니다.");
-    //                     navigate(-1);
-    //                 })
-    //                 .catch((error) => {
-    //                     // 요청이 실패한 경우의 처리
-    //                     console.error(error);
-    //                     navigate(-1);
-    //                 });
-    //         } else {
-    //             alert("녹음 혹은 업로드부터 진행해주세요.");
-    //         }
-    //     }
-    // };
 
     return (
         <LectureBackgroudDiv>
-            {/*{loading ? <LoadingPage /> : null}
-            {MusicLoading ? <MusicPlayLoading /> : null}
+            {loading ? <LoadingPage /> : null}
+            
             <NavBar />
              <div style={{ display: "flex" }}>
 				<LectureBackDiv>
@@ -114,49 +48,15 @@ function TranslationPage() {
                 <LectureTitleDiv>과제명</LectureTitleDiv>
             </div>
 
-            <Audioplay
-                Regionmusic={Regionmusic}
-                Originmusic={Originmusic}
-                Playmusic={Playmusic}
-                setWaveSuferLoading={setWaveSuferLoading}
-                setPlaymusic={setPlaymusic}
-                setEndmusic={setEndmusic}
-                Endmusic={Endmusic}
-                setMusicLoading={setMusicLoading}
-                MusicLoading={MusicLoading}
-            />
+            
 
             <div style={{ width: "auto", margin: "20px auto" }}>
-                <Row>
-                    {Audiolist?.map((Wavaudio, index) => (
-                        <React.Fragment key={index}>
-                            <AudiorecordGridcard
-                                region_index={parseInt(Wavaudio.region_index)}
-                                Wavaudio={Wavaudio}
-                                setRegionmusic={setRegionmusic}
-                                WaveSuferLoading={WaveSuferLoading}
-                                setWaveSuferLoading={setWaveSuferLoading}
-                                setLoading={setLoading}
-                                Playmusic={Playmusic}
-                                setPlaymusic={setPlaymusic}
-                                Assignmentnum={Assignmentnum}
-                                setSubmitlist={setSubmitlist}
-                                Submitlist={Submitlist}
-                                setRealsubmit={setRealsubmit}
-                                Realsubmit={Realsubmit}
-                                setDisable={setDisable}
-                                Disable={Disable}
-                                setEndmusic={setEndmusic}
-                                Endmusic={Endmusic}
-                            />
-                        </React.Fragment>
-                    ))}
-                </Row>
+                
             </div>
             <LectureCreateDiv>
-                <LectureCreateButton onClick={onSubmitButton}>제출하기</LectureCreateButton>
+                <LectureCreateButton >제출하기</LectureCreateButton>
             </LectureCreateDiv>
-			*/}
+			
         </LectureBackgroudDiv>
     );
 }
