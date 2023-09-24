@@ -2,7 +2,7 @@ import React,{useEffect} from 'react';
 import styled from 'styled-components';
 import ModalContainer from './ModalContainer';
 
-function SimMusicPlayLoading() {
+function SimMusicPlayLoading(props) {
 	useEffect(() => {
 		const $body = document.querySelector('body');
 		const overflow = $body.style.overflow;
@@ -14,7 +14,7 @@ function SimMusicPlayLoading() {
 	return (
 		<ModalContainer>
 			<Background>
-				<LoadingText>음원과 녹음이 진행 중입니다.</LoadingText>
+				<LoadingText>{props.regionIndex} 구간이 음원과 녹음이 진행 중입니다.</LoadingText>
 				<LoadingSubText>음원 진행과 함께 녹음 중입니다. 동시 통역을 진행해주세요.</LoadingSubText>
 				<img
 					src="https://blog.kakaocdn.net/dn/v1y1X/btssVWIC45r/jXKnj8okjiWI1EyZyAt7y0/img.gif"
