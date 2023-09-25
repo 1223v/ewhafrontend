@@ -82,7 +82,7 @@ function ProbSubmitList() {
                                         </tr>
                                     </thead>
                                     <tbody className="bg-white divide-y divide-gray-200">
-                                        {People.map((person) => (
+                                        {People?.map((person) => (
                                             <tr key={person.email}>
                                                 <td className="px-6 py-4 whitespace-nowrap">
                                                     <div className="flex items-center">
@@ -130,7 +130,7 @@ function ProbSubmitList() {
                                                 <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                                                     {person.check !== "No" && (
                                                         <Link
-                                                            to={`/prob_feedback?as_no=${asNo}&lecture_no=${lectureNo}&user_no=${person.user_no}`}
+                                                            to={`/prob/feedback/professor?as_no=${asNo}&lecture_no=${lectureNo}&user_no=${person.user_no}`}
                                                             className="text-indigo-600 hover:text-indigo-900"
                                                         >
                                                             FeedBack

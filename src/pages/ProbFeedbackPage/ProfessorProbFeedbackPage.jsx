@@ -2,17 +2,14 @@ import React, { useState, useEffect } from "react";
 import NavBar from "../../components/views/NavBar/NavBar";
 import styled from "styled-components";
 import TextAEEditor from "../../components/views/Feedback/TextAEEditor";
-import BottomSheetSection from "../../components/views/Feedback/BottomSheetSection";
-import StudentBottomSheet from "../../components/views/Feedback/StudentBottomSheet";
-import StudentResultSheet from "../../components/views/Feedback/StudentResultSheet";
-import ProfessorResultSheet from "../../components/views/Feedback/ProfessorResultSheet";
 import { useSelector } from "react-redux";
 import FeedbackGridCard from "../../components/views/commons/FeedbackGridCard";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import Axios from "axios";
-import AudioPlaySheet from "../../components/views/Feedback/AudioPlaySheet";
-import { FiMusic } from "react-icons/fi";
 import { API_URL } from "../../components/Config";
+import { message, FloatButton } from "antd";
+import { BarChartOutlined, EditOutlined, LineChartOutlined } from "@ant-design/icons";
+import Audioplay from "../../components/views/Audio/Audioplay";
 
 function ProfessorProbFeedbackPage() {
     const location = useLocation();
@@ -103,6 +100,23 @@ function ProfessorProbFeedbackPage() {
     const onPlayMusicOpenBtn = () => {
         setPlayopen(!Playopen);
     };
+
+    useEffect(() => {
+    	Axios.get(`${API_URL}api/feedback/info?as_no=${asNo}&student_no=${userNo}`, {
+    		withCredentials: true,
+    	})
+    		.then((response) => {
+    			// 요청이 성공한 경우의 처리
+    			console.log(response.data);
+    		})
+
+    		.catch((error) => {
+    			// 요청이 실패한 경우의 처리
+    			console.error(error);
+    			message.error('알 수 없는 에러가 발생했습니다.');
+    			navigate('/');
+    		});
+    }, []);
 
     useEffect(() => {
         setRegionmusic(`${API_URL}upload/c51e0eac-5183-4818-8d36-df995b52f520.wav`);
@@ -212,70 +226,19 @@ function ProfessorProbFeedbackPage() {
                 </Estimation>
             </FeedbackDiv>
 
-            <AudioPlaySheet
-                Playopen={Playopen}
-                setPlayopen={setPlayopen}
-                Regionmusic={Regionmusic}
-                Originmusic={Originmusic}
-                Playmusic={Playmusic}
-                setPlaymusic={setPlaymusic}
-            />
-
-            <MusicPlayDiv>
-                <PlayBtn onClick={onPlayMusicOpenBtn}>
-                    <FiMusic size="25" />
-                </PlayBtn>
-            </MusicPlayDiv>
             <LectureCreateDiv>
-                <LectureCreateButton onClick={onClickButton}>그래프 보기</LectureCreateButton>
-                <LectureCreateButton onClick={onResultButton}>총평</LectureCreateButton>
-                {userinfos?.userData?.role === 3 ? (
-                    <LectureCreateButton onClick={onSaveButton}>저장하기</LectureCreateButton>
-                ) : (
-                    ""
-                )}
+                <Audioplay
+                    Regionmusic={Regionmusic}
+                    Originmusic={Originmusic}
+                    Playmusic={Playmusic}
+                    setPlaymusic={setPlaymusic}
+                />
             </LectureCreateDiv>
 
-            {userinfos?.userData?.role === 1 ? (
-                <StudentBottomSheet
-                    open={open}
-                    setOpen={setOpen}
-                    DeliverIndividualList={DeliverIndividualList}
-                    DeliverAverage={DeliverAverage}
-                    ContentIndividualList={ContentIndividualList}
-                    ContentAverage={ContentAverage}
-                />
-            ) : userinfos?.userData?.role === 2 ? (
-                <BottomSheetSection
-                    open={open}
-                    setOpen={setOpen}
-                    DeliverIndividualList={DeliverIndividualList}
-                    DeliverstudentList={DeliverstudentList}
-                    ContentIndividualList={ContentIndividualList}
-                    ContentstudentList={ContentstudentList}
-                />
-            ) : userinfos?.userData?.role === 3 ? (
-                <BottomSheetSection
-                    open={open}
-                    setOpen={setOpen}
-                    DeliverIndividualList={DeliverIndividualList}
-                    DeliverstudentList={DeliverstudentList}
-                    ContentIndividualList={ContentIndividualList}
-                    ContentstudentList={ContentstudentList}
-                />
-            ) : (
-                ""
-            )}
-
-            {userinfos?.userData?.role === 1 ? (
-                <StudentResultSheet Result={Result} setResult={setResult} />
-            ) : userinfos?.userData?.role === 2 ? (
-                <ProfessorResultSheet Result={Result} setResult={setResult} />
-            ) : userinfos?.userData?.role === 3 ? (
-                <ProfessorResultSheet Result={Result} setResult={setResult} />
-            ) : (
-                ""
-            )}
+            <FloatButton.Group trigger="click" style={{ right: 24, bottom: 80 }} icon={<BarChartOutlined />}>
+                <FloatButton icon={<LineChartOutlined />} />
+                <FloatButton icon={<EditOutlined />} />
+            </FloatButton.Group>
         </div>
     );
 }
@@ -286,6 +249,11 @@ const FeedbackDiv = styled.div`
     margin: 0 auto;
     position: relative;
     min-height: 1500px;
+    @media screen and (min-width: 830px) {
+        margin: none;
+		min-height: 800px;
+		
+    }
 `;
 
 const Original = styled.div`
@@ -293,11 +261,27 @@ const Original = styled.div`
     margin: 0 auto;
     max-width: 800px;
     padding: 15px;
+    @media screen and (min-width: 830px) {
+        margin-top: 20px;
+        position: absolute;
+        left: 60px;
+
+        width: 550px;
+        height: 580px;
+
+        border: 1px solid #d3d3d3;
+        border-radius: 4px;
+
+        background-color: #f9f9f9;
+        text-align: center;
+        box-shadow: 0px 3px 5px -1px rgba(0, 0, 0, 0.2), 0px 6px 10px 0px rgba(0, 0, 0, 0.14),
+            0px 1px 18px 0px rgba(0, 0, 0, 0.12);
+    }
 `;
 
 const OriginalBox = styled.div`
     width: auto;
-    height: 250px;
+    height: auto;
 
     overflow-y: auto;
 
@@ -313,6 +297,22 @@ const Interpretation = styled.div`
     margin: 0 auto;
     max-width: 800px;
     padding: 15px;
+	@media screen and (min-width: 830px) {
+        margin-top: 20px;
+        position: absolute;
+        left: 650px;
+
+        width: 550px;
+        height: 580px;
+
+        border: 1px solid #d3d3d3;
+        border-radius: 4px;
+
+        background-color: #f9f9f9;
+        text-align: center;
+        box-shadow: 0px 3px 5px -1px rgba(0, 0, 0, 0.2), 0px 6px 10px 0px rgba(0, 0, 0, 0.14),
+            0px 1px 18px 0px rgba(0, 0, 0, 0.12);
+    }
 `;
 
 const InterpretationBox = styled.div`
@@ -333,13 +333,29 @@ const Estimation = styled.div`
     margin: 0 auto;
     max-width: 800px;
     padding: 15px;
+	@media screen and (min-width: 830px) {
+        margin-top: 20px;
+        position: absolute;
+        left: 1260px;
+
+        width: 350px;
+        height: 580px;
+border: 1px solid #d3d3d3;
+        border-radius: 4px;
+        background-color: #f9f9f9;
+
+        
+        text-align: center;
+        box-shadow: 0px 3px 5px -1px rgba(0, 0, 0, 0.2), 0px 6px 10px 0px rgba(0, 0, 0, 0.14),
+            0px 1px 18px 0px rgba(0, 0, 0, 0.12);
+    }
 `;
 
 const EstimationBox = styled.div`
     padding: 10px;
     display: flex;
     width: auto;
-    height: 250px;
+    height: 272px;
     overflow-x: auto;
 
     word-wrap: break-word;
@@ -347,6 +363,11 @@ const EstimationBox = styled.div`
     border-radius: 4px;
 
     background-color: #f9f9f9;
+	@media screen and (min-width: 830px) {
+       height: 500px;
+       display: block;
+        
+    }
 `;
 
 const LectureCreateButton = styled.button`
@@ -388,19 +409,6 @@ const LectureCreateDiv = styled.div`
     height: 4rem;
     background: rgb(255, 255, 255);
     box-shadow: rgb(232, 232, 238) 0px 1px 0px inset;
-`;
-
-const MusicPlayDiv = styled.div`
-    position: fixed;
-    bottom: 64px;
-    z-index: 2;
-
-    -webkit-box-align: center;
-    align-items: center;
-    width: 100%;
-    height: 4rem;
-    border: none;
-    background: rgb(255, 255, 255, 0);
 `;
 
 const LectureBackDiv = styled.div`
