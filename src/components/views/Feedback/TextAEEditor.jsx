@@ -17,56 +17,10 @@ const TextAEEditor = (props) => {
     let teae = {};
 
     const elementRef = useRef(null);
-    const countOccurrences = (textContent) => {
-        let FillerNumber = 0;
-        let PauseNumber = 0;
-        let BacktrackingNumber = 0;
-        let EtcNumber = 0;
-        let MistranslationNumber = 0;
-        let IntonationNumber = 0;
-        let OmissionNumber = 0;
-        let PronunciationNumber = 0;
-        let GrammaticalErrorNumber = 0;
 
-        console.log(textContent.denotations);
-        textContent.denotations?.forEach((item) => {
-            if (item.obj === "Filler" || item.obj === "FILLER") {
-                //변수 명 대,소문자 확인 부탁
-                FillerNumber++;
-                console.log("filer");
-            } else if (item.obj === "Pause" || item.obj === "PAUSE") {
-                PauseNumber++;
-            } else if (item.obj === "Backtracking") {
-                BacktrackingNumber++;
-            } else if (item.obj === "Etc") {
-                EtcNumber++;
-            } else if (item.obj === "Mistranslation") {
-                MistranslationNumber++;
-            } else if (item.obj === "Intonation") {
-                IntonationNumber++;
-            } else if (item.obj === "Omission") {
-                OmissionNumber++;
-            } else if (item.obj === "Pronunciation") {
-                PronunciationNumber++;
-            } else if (item.obj === "GrammaticalError") {
-                GrammaticalErrorNumber++;
-            }
-        });
-
-        console.log(FillerNumber);
-        props.setFillerCount(FillerNumber);
-        props.setPauseCount(PauseNumber);
-        props.setBacktrackingCount(BacktrackingNumber);
-        props.setEtcCount(EtcNumber);
-        props.setMistranslationCount(MistranslationNumber);
-        props.setIntonationCount(IntonationNumber);
-        props.setOmissionCount(OmissionNumber);
-        props.setPronunciationCount(PronunciationNumber);
-        props.setGrammaticalErrorCount(GrammaticalErrorNumber);
-    };
     const handleMouseUp = () => {
         const textContent = JSON.parse(elementRef.current.textContent);
-        countOccurrences(textContent);
+        
         props.setSectioncontent(textContent.denotations);
     };
 

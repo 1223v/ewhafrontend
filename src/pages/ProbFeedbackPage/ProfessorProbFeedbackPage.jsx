@@ -7,9 +7,11 @@ import FeedbackGridCard from '../../components/views/commons/FeedbackGridCard';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import Axios from 'axios';
 import { API_URL } from '../../components/Config';
-import { message, FloatButton } from 'antd';
+import { message, FloatButton, Switch } from 'antd';
 import { BarChartOutlined, EditOutlined, LineChartOutlined } from '@ant-design/icons';
 import Audioplay from '../../components/views/Audio/Audioplay';
+import OriginAudioplay from '../../components/views/Audio/OriginAudioplay';
+import Timeformat from '../../components/views/commons/Timeformat';
 
 function ProfessorProbFeedbackPage() {
 	const location = useLocation();
@@ -44,6 +46,13 @@ function ProfessorProbFeedbackPage() {
 	const [Originmusic, setOriginmusic] = useState('');
 	const [Playmusic, setPlaymusic] = useState(false);
 	const [Playopen, setPlayopen] = useState(false);
+
+	const [StudentInfo, setStudentInfo] = useState(''); // 학생 정보
+	const [LimitTime, setLimitTime] = useState(''); // 마감 시간
+	const [SubmitTime, setSubmitTime] = useState(''); // 제출 시간
+	const [StudentAudio, setStudentAudio] = useState([]); // 학생 구간 녹음 자료
+	const [OriginAudio, setOriginAudio] = useState([]); // 원본 구간 음원 자료
+	const [OriginText, setOriginText] = useState(''); // 원본 텍스트 자료
 
 	const onClickButton = () => {
 		// 여기가 그래프 API 호출 위치
@@ -111,6 +120,12 @@ function ProfessorProbFeedbackPage() {
 			.then((response) => {
 				// 요청이 성공한 경우의 처리
 				console.log(response.data);
+				setStudentInfo(response.data.student_name);
+				setLimitTime(response.data.limit_time);
+				setSubmitTime(response.data.submit_time);
+				setStudentAudio(response.data.student_audio);
+				setOriginAudio(response.data.assignment_audio);
+				setOriginText(response.data.original_text);
 			})
 
 			.catch((error) => {
@@ -131,14 +146,6 @@ function ProfessorProbFeedbackPage() {
 				result: '',
 				ae_attributes: Datacontent.attributes,
 				ae_denotations: Datacontent.denotations,
-				DeliverIndividualList: [PauseCount, FillerCount, BacktrackingCount, EtcCount],
-				ContentIndividualList: [
-					MistranslationCount,
-					OmissionCount,
-					PronunciationCount,
-					IntonationCount,
-					GrammaticalErrorCount,
-				],
 			};
 			console.log(body); //API를 위한 콘솔 로그
 			Axios.post(`${API_URL}api/feedback`, body, {
@@ -182,12 +189,23 @@ function ProfessorProbFeedbackPage() {
 						</svg>
 					</Link>
 				</LectureBackDiv>
-				<LectureTitleDiv>과제 피드백</LectureTitleDiv>
+				<LectureTitleDiv>
+					과제 피드백 : {StudentInfo}{' '}
+					<LectureSubTitleDiv>
+						(제출 시간 : <Timeformat dateString={SubmitTime} /> , 마감 시간{' '}
+						<Timeformat dateString={LimitTime} />)
+					</LectureSubTitleDiv>
+				</LectureTitleDiv>
 			</div>
 			<FeedbackDiv>
 				<Original>
-					<h4>원문</h4>
-					<OriginalBox></OriginalBox>
+					<h4>
+						원문{' '}
+						<ChangeDiv>
+							<Switch checkedChildren="원문" unCheckedChildren="STT" defaultChecked />
+						</ChangeDiv>
+					</h4>
+					<OriginalBox>{OriginText}</OriginalBox>
 				</Original>
 
 				<Interpretation>
@@ -198,15 +216,6 @@ function ProfessorProbFeedbackPage() {
 							setDatacontent={setDatacontent}
 							Sectioncontent={Sectioncontent}
 							setSectioncontent={setSectioncontent}
-							setFillerCount={setFillerCount}
-							setPauseCount={setPauseCount}
-							setBacktrackingCount={setBacktrackingCount}
-							setMistranslationCount={setMistranslationCount}
-							setIntonationCount={setIntonationCount}
-							setOmissionCount={setOmissionCount}
-							setPronunciationCount={setPronunciationCount}
-							setGrammaticalErrorCount={setGrammaticalErrorCount}
-							setEtcCount={setEtcCount}
 							setOriginaltext={setOriginaltext}
 						/>
 					</InterpretationBox>
@@ -229,7 +238,7 @@ function ProfessorProbFeedbackPage() {
 				</Estimation>
 			</FeedbackDiv>
 
-			
+			<MusicPlayer>
 				<LectureCreateDiv>
 					<Audioplay
 						Regionmusic={Regionmusic}
@@ -238,11 +247,21 @@ function ProfessorProbFeedbackPage() {
 						setPlaymusic={setPlaymusic}
 					/>
 				</LectureCreateDiv>
-				
-			
+
+				<LectureCreateDiv2>
+					<OriginAudioplay
+						Regionmusic={Regionmusic}
+						Originmusic={Originmusic}
+						Playmusic={Playmusic}
+						setPlaymusic={setPlaymusic}
+					/>
+				</LectureCreateDiv2>
+			</MusicPlayer>
+
 			<FloatButton.Group
 				trigger="click"
-				style={{ right: 30, bottom: 120 }}
+				
+				style={{ right: 20, bottom: 200 }}
 				icon={<BarChartOutlined />}
 			>
 				<FloatButton icon={<LineChartOutlined />} />
@@ -252,6 +271,10 @@ function ProfessorProbFeedbackPage() {
 	);
 }
 export default ProfessorProbFeedbackPage;
+
+const ChangeDiv = styled.div`
+	float: right;
+`;
 
 const FeedbackDiv = styled.div`
 	margin: 0 auto;
@@ -289,8 +312,7 @@ const Original = styled.div`
 
 const OriginalBox = styled.div`
 	width: auto;
-	height: auto;
-
+	height: 500px;
 	overflow-y: auto;
 
 	word-wrap: break-word;
@@ -405,17 +427,38 @@ const PlayBtn = styled.button`
 
 const LectureCreateDiv = styled.div`
 	position: fixed;
-	bottom: 0px;
+	bottom: 6rem;
+	width: 100%;
+	left: 0;
 	z-index: 4;
 	-webkit-box-align: center;
 	align-items: center;
-	width: 100%;
+
 	height: 6rem;
 	background: rgb(255, 255, 255);
 	box-shadow: rgb(232, 232, 238) 0px 1px 0px inset;
+	@media screen and (min-width: 1000px) {
+		bottom: 0px;
+		width: 50%;
+	}
 `;
 
-
+const LectureCreateDiv2 = styled.div`
+	position: fixed;
+	bottom: 0px;
+	width: 100%;
+	right: 0;
+	z-index: 4;
+	-webkit-box-align: center;
+	align-items: center;
+	height: 6rem;
+	background: rgb(255, 255, 255);
+	box-shadow: rgb(232, 232, 238) 0px 1px 0px inset;
+	@media screen and (min-width: 1000px) {
+		bottom: 0px;
+		width: 50%;
+	}
+`;
 
 const MusicPlayer = styled.div`
 	display: flex;
@@ -438,4 +481,14 @@ const LectureTitleDiv = styled.div`
 	@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;400&display=swap');
 	font-family: 'Noto Sans KR', sans-serif;
 	margin-top: 17px;
+`;
+
+const LectureSubTitleDiv = styled.div`
+	font-size: 1rem;
+	line-height: 1;
+	color: #2b2d36;
+	font-weight: 500;
+	@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;400&display=swap');
+	font-family: 'Noto Sans KR', sans-serif;
+	margin-top: 10px;
 `;

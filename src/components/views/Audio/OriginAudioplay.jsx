@@ -4,19 +4,19 @@ import styled from 'styled-components';
 import { FaPlay, FaPause, FaFastBackward, FaFastForward } from 'react-icons/fa';
 import { Select , Slider  } from 'antd';
 
-function Audioplay(props) {
+function OriginAudioplay(props) {
 	const Options = [
 							{
 								value: 'HangZhou',
-								label: '원문 구간 1',
+								label: '구간 1',
 							},
 							{
 								value: 'NingBo',
-								label: '원문 구간 2',
+								label: '구간 2',
 							},
 							{
 								value: 'WenZhou',
-								label: '원문 구간 3',
+								label: '구간 3',
 							},
 						];
 	const wavesurferRef = useRef();
@@ -77,7 +77,7 @@ function Audioplay(props) {
 		<div>
 			<WavesurferDiv>
 				<WaveSurfer key={waveformKey} onMount={handleWSMount}>
-					<WaveForm id="waveform1" {...options}></WaveForm>
+					<WaveForm id="waveform2" {...options}></WaveForm>
 				</WaveSurfer>
 				
 			</WavesurferDiv>
@@ -112,7 +112,7 @@ function Audioplay(props) {
 	);
 }
 
-export default Audioplay;
+export default OriginAudioplay;
 
 const WavesurferDiv = styled.div`
 	background-color: rgba(5, 66, 43, 0.2);
