@@ -3,9 +3,8 @@ import styled, { keyframes } from "styled-components";
 import Axios from "axios";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { API_URL } from "../../Config";
-import { message } from "antd";
 
-const TextAEEditor = (props) => {
+const ReadOnlyTextAEEditor = (props) => {
     const location = useLocation();
     let navigate = useNavigate();
     const params = new URLSearchParams(location.search);
@@ -17,10 +16,56 @@ const TextAEEditor = (props) => {
     let teae = {};
 
     const elementRef = useRef(null);
+    const countOccurrences = (textContent) => {
+        let FillerNumber = 0;
+        let PauseNumber = 0;
+        let BacktrackingNumber = 0;
+        let EtcNumber = 0;
+        let MistranslationNumber = 0;
+        let IntonationNumber = 0;
+        let OmissionNumber = 0;
+        let PronunciationNumber = 0;
+        let GrammaticalErrorNumber = 0;
 
+        console.log(textContent.denotations);
+        textContent.denotations?.forEach((item) => {
+            if (item.obj === "Filler" || item.obj === "FILLER") {
+                //변수 명 대,소문자 확인 부탁
+                FillerNumber++;
+                console.log("filer");
+            } else if (item.obj === "Pause" || item.obj === "PAUSE") {
+                PauseNumber++;
+            } else if (item.obj === "Backtracking") {
+                BacktrackingNumber++;
+            } else if (item.obj === "Etc") {
+                EtcNumber++;
+            } else if (item.obj === "Mistranslation") {
+                MistranslationNumber++;
+            } else if (item.obj === "Intonation") {
+                IntonationNumber++;
+            } else if (item.obj === "Omission") {
+                OmissionNumber++;
+            } else if (item.obj === "Pronunciation") {
+                PronunciationNumber++;
+            } else if (item.obj === "GrammaticalError") {
+                GrammaticalErrorNumber++;
+            }
+        });
+
+        console.log(FillerNumber);
+        props.setFillerCount(FillerNumber);
+        props.setPauseCount(PauseNumber);
+        props.setBacktrackingCount(BacktrackingNumber);
+        props.setEtcCount(EtcNumber);
+        props.setMistranslationCount(MistranslationNumber);
+        props.setIntonationCount(IntonationNumber);
+        props.setOmissionCount(OmissionNumber);
+        props.setPronunciationCount(PronunciationNumber);
+        props.setGrammaticalErrorCount(GrammaticalErrorNumber);
+    };
     const handleMouseUp = () => {
         const textContent = JSON.parse(elementRef.current.textContent);
-        
+        countOccurrences(textContent);
         props.setSectioncontent(textContent.denotations);
     };
 
@@ -43,7 +88,7 @@ const TextAEEditor = (props) => {
     }, [Textae]);
 
     useEffect(() => {
-        Axios.get(`${API_URL}api/feedback/textae?as_no=${asNo}&lecture_no=${lectureNo}&user_no=${userNo}`, {
+        Axios.get(`${API_URL}api/feedback?as_no=${asNo}&lecture_no=${lectureNo}&user_no=${userNo}`, {
             withCredentials: true,
         })
             .then((response) => {
@@ -58,9 +103,15 @@ const TextAEEditor = (props) => {
                         teae = response2.data;
                         console.log(teae);
                     });
+                } else if (response.data.FeedbackStatus === 2) {
+                    alert("과제를 제출해주세요.");
+                    navigate("/");
+                } else if (response.data.FeedbackStatus === 3) {
+                    alert("STT 작업중입니다...");
+                    navigate("/");
                 } else {
-                    message.error(response.data.msg);
-                    navigate(`/prob/feedback/manage?lecture_no=${lectureNo}&as_no=${asNo}`);
+                    alert("알 수 없는 에러입니다.");
+                    navigate("/");
                 }
             })
 
@@ -76,7 +127,7 @@ const TextAEEditor = (props) => {
             <div
                 id="my_text-ae_editor"
                 className="textae-editor"
-                mode="edit"
+                mode="view"
                 inspect="annotation"
                 onMouseUp={handleMouseUp}
             ></div>
@@ -85,7 +136,7 @@ const TextAEEditor = (props) => {
     );
 };
 
-export default TextAEEditor;
+export default ReadOnlyTextAEEditor;
 
 const animation = keyframes`
 50% {

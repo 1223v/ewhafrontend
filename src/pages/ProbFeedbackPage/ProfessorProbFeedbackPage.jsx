@@ -2,17 +2,15 @@ import React, { useState, useEffect } from "react";
 import NavBar from "../../components/views/NavBar/NavBar";
 import styled from "styled-components";
 import TextAEEditor from "../../components/views/Feedback/TextAEEditor";
-import BottomSheetSection from "../../components/views/Feedback/BottomSheetSection";
-import StudentBottomSheet from "../../components/views/Feedback/StudentBottomSheet";
-import StudentResultSheet from "../../components/views/Feedback/StudentResultSheet";
-import ProfessorResultSheet from "../../components/views/Feedback/ProfessorResultSheet";
-import { useSelector } from "react-redux";
 import FeedbackGridCard from "../../components/views/commons/FeedbackGridCard";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import Axios from "axios";
-import AudioPlaySheet from "../../components/views/Feedback/AudioPlaySheet";
-import { FiMusic } from "react-icons/fi";
 import { API_URL } from "../../components/Config";
+import { message, FloatButton, Switch } from "antd";
+import { BarChartOutlined, EditOutlined, LineChartOutlined } from "@ant-design/icons";
+import OriginAudioplay from "../../components/views/Audio/OriginAudioplay";
+import StudentAudioplay from "../../components/views/Audio/StudentAudioplay";
+import Timeformat from "../../components/views/commons/Timeformat";
 
 function ProfessorProbFeedbackPage() {
     const location = useLocation();
@@ -21,91 +19,42 @@ function ProfessorProbFeedbackPage() {
     const lectureNo = params.get("lecture_no");
     const asNo = params.get("as_no");
     const userNo = params.get("user_no");
-    const userinfos = useSelector((state) => state.user);
-    const [open, setOpen] = useState(false);
-    const [Result, setResult] = useState(false);
     const [Load, setLoad] = useState(false);
     const [Datacontent, setDatacontent] = useState("");
     const [Sectioncontent, setSectioncontent] = useState([]);
-    const [FillerCount, setFillerCount] = useState(0);
-    const [PauseCount, setPauseCount] = useState(0);
-    const [BacktrackingCount, setBacktrackingCount] = useState(0);
-    const [EtcCount, setEtcCount] = useState(0);
-    const [MistranslationCount, setMistranslationCount] = useState(0);
-    const [IntonationCount, setIntonationCount] = useState(0);
-    const [OmissionCount, setOmissionCount] = useState(0);
-    const [PronunciationCount, setPronunciationCount] = useState(0);
-    const [GrammaticalErrorCount, setGrammaticalErrorCount] = useState(0);
-    const [DeliverIndividualList, setDeliverIndividualList] = useState([]);
-    const [DeliverAverage, setDeliverAverage] = useState([]);
-    const [ContentIndividualList, setContentIndividualList] = useState([]);
-    const [ContentAverage, setContentAverage] = useState([]);
-    const [DeliverstudentList, setDeliverstudentList] = useState([]);
-    const [ContentstudentList, setContentstudentList] = useState([]);
-    const [Originaltext, setOriginaltext] = useState("");
-    const [Regionmusic, setRegionmusic] = useState("");
-    const [Originmusic, setOriginmusic] = useState("");
-    const [Playmusic, setPlaymusic] = useState(false);
-    const [Playopen, setPlayopen] = useState(false);
+    const [StudentInfo, setStudentInfo] = useState(""); // 학생 정보
+    const [LimitTime, setLimitTime] = useState(""); // 마감 시간
+    const [SubmitTime, setSubmitTime] = useState(""); // 제출 시간
+    const [StudentAudio, setStudentAudio] = useState([]); // 학생 구간 녹음 자료
+    const [OriginAudio, setOriginAudio] = useState([]); // 원본 구간 음원 자료
+    const [OriginText, setOriginText] = useState(""); // 원본 텍스트 자료
+    const [OriginSelectAudio, setOriginSelectAudio] = useState(""); // 원본 선택된 음원
+    const [StudentSelectAudio, setStudentSelectAudio] = useState(""); // 학생 선택된 음원
 
-    const onClickButton = () => {
-        // 여기가 그래프 API 호출 위치
-        // if (userinfos?.userData?.role === 3) {
-        // 	Axios.get(
-        // 		`${API_URL}api/feedback/professorgraphlist?as_no=${data.asnum}&lecture_no=${data.num}&user_no=${data.userNo}`,
-        // 		{
-        // 			withCredentials: true,
-        // 		}
-        // 	)
-        // 		.then((response) => {
-        // 			// 요청이 성공한 경우의 처리
-        // 			console.log(response.data);
-        // 			setDeliverIndividualList(response.data.DeliverIndividualList);
-        // 			setDeliverstudentList(response.data.DeliverstudentList);
-        // 			setContentIndividualList(response.data.ContentIndividualList);
-        // 			setContentstudentList(response.data.ContentstudentList);
-        // 		})
-
-        // 		.catch((error) => {
-        // 			// 요청이 실패한 경우의 처리
-        // 			console.error(error);
-        // 		});
-        // } else if (userinfos?.userData?.role === 1) {
-
-        Axios.get(`${API_URL}api/feedback/studentgraphlist?as_no=${asNo}&lecture_no=${lectureNo}&user_no=${userNo}`, {
+    useEffect(() => {
+        Axios.get(`${API_URL}api/feedback/info?as_no=${asNo}&student_no=${userNo}`, {
             withCredentials: true,
         })
             .then((response) => {
                 // 요청이 성공한 경우의 처리
                 console.log(response.data);
-                // setDeliverIndividualList(response.data.DeliverIndividualList);
-                // setDeliverAverage(response.data.DeliverAverage);
-                // setContentIndividualList(response.data.ContentIndividualList);
-                // setContentAverage(response.data.ContentAverage);
+                setStudentInfo(response.data.student_name);
+                setLimitTime(response.data.limit_time);
+                setSubmitTime(response.data.submit_time);
+                setStudentAudio(response.data.student_audio);
+                setOriginAudio(response.data.assignment_audio);
+                setOriginText(response.data.original_text);
             })
 
             .catch((error) => {
                 // 요청이 실패한 경우의 처리
                 console.error(error);
+                message.error("알 수 없는 에러가 발생했습니다.");
+                navigate("/");
             });
-        // }
-        setOpen(!open);
-    };
-
-    const onSaveButton = () => {
-        setLoad(!Load);
-    };
-
-    const onResultButton = () => {
-        setResult(!Result);
-    };
-
-    const onPlayMusicOpenBtn = () => {
-        setPlayopen(!Playopen);
-    };
+    }, []);
 
     useEffect(() => {
-        setRegionmusic(`${API_URL}upload/c51e0eac-5183-4818-8d36-df995b52f520.wav`);
         if (Datacontent !== "") {
             let body = {
                 lecture_no: lectureNo,
@@ -114,14 +63,6 @@ function ProfessorProbFeedbackPage() {
                 result: "",
                 ae_attributes: Datacontent.attributes,
                 ae_denotations: Datacontent.denotations,
-                DeliverIndividualList: [PauseCount, FillerCount, BacktrackingCount, EtcCount],
-                ContentIndividualList: [
-                    MistranslationCount,
-                    OmissionCount,
-                    PronunciationCount,
-                    IntonationCount,
-                    GrammaticalErrorCount,
-                ],
             };
             console.log(body); //API를 위한 콘솔 로그
             Axios.post(`${API_URL}api/feedback`, body, {
@@ -165,12 +106,23 @@ function ProfessorProbFeedbackPage() {
                         </svg>
                     </Link>
                 </LectureBackDiv>
-                <LectureTitleDiv>과제 피드백</LectureTitleDiv>
+                <LectureTitleDiv>
+                    과제 피드백 : {StudentInfo}{" "}
+                    <LectureSubTitleDiv>
+                        (제출 시간 : <Timeformat dateString={SubmitTime} /> , 마감 시간{" "}
+                        <Timeformat dateString={LimitTime} />)
+                    </LectureSubTitleDiv>
+                </LectureTitleDiv>
             </div>
             <FeedbackDiv>
                 <Original>
-                    <h4>원문</h4>
-                    <OriginalBox></OriginalBox>
+                    <h4>
+                        원문{" "}
+                        <ChangeDiv>
+                            <Switch checkedChildren="원문" unCheckedChildren="STT" defaultChecked />
+                        </ChangeDiv>
+                    </h4>
+                    <OriginalBox>{OriginText}</OriginalBox>
                 </Original>
 
                 <Interpretation>
@@ -181,16 +133,6 @@ function ProfessorProbFeedbackPage() {
                             setDatacontent={setDatacontent}
                             Sectioncontent={Sectioncontent}
                             setSectioncontent={setSectioncontent}
-                            setFillerCount={setFillerCount}
-                            setPauseCount={setPauseCount}
-                            setBacktrackingCount={setBacktrackingCount}
-                            setMistranslationCount={setMistranslationCount}
-                            setIntonationCount={setIntonationCount}
-                            setOmissionCount={setOmissionCount}
-                            setPronunciationCount={setPronunciationCount}
-                            setGrammaticalErrorCount={setGrammaticalErrorCount}
-                            setEtcCount={setEtcCount}
-                            setOriginaltext={setOriginaltext}
                         />
                     </InterpretationBox>
                 </Interpretation>
@@ -212,80 +154,46 @@ function ProfessorProbFeedbackPage() {
                 </Estimation>
             </FeedbackDiv>
 
-            <AudioPlaySheet
-                Playopen={Playopen}
-                setPlayopen={setPlayopen}
-                Regionmusic={Regionmusic}
-                Originmusic={Originmusic}
-                Playmusic={Playmusic}
-                setPlaymusic={setPlaymusic}
-            />
+            <MusicPlayer>
+                <LectureCreateDiv>
+                    <OriginAudioplay
+                        OriginAudio={OriginAudio}
+                        SelectAudio={OriginSelectAudio}
+                        setSelectAudio={setOriginSelectAudio}
+                    />
+                </LectureCreateDiv>
 
-            <MusicPlayDiv>
-                <PlayBtn onClick={onPlayMusicOpenBtn}>
-                    <FiMusic size="25" />
-                </PlayBtn>
-            </MusicPlayDiv>
-            <LectureCreateDiv>
-                <LectureCreateButton onClick={onClickButton}>그래프 보기</LectureCreateButton>
-                <LectureCreateButton onClick={onResultButton}>총평</LectureCreateButton>
-                {userinfos?.userData?.role === 3 ? (
-                    <LectureCreateButton onClick={onSaveButton}>저장하기</LectureCreateButton>
-                ) : (
-                    ""
-                )}
-            </LectureCreateDiv>
+                <LectureCreateDiv2>
+                    <StudentAudioplay
+                        StudentAudio={StudentAudio}
+                        SelectAudio={StudentSelectAudio}
+                        setSelectAudio={setStudentSelectAudio}
+                    />
+                </LectureCreateDiv2>
+            </MusicPlayer>
 
-            {userinfos?.userData?.role === 1 ? (
-                <StudentBottomSheet
-                    open={open}
-                    setOpen={setOpen}
-                    DeliverIndividualList={DeliverIndividualList}
-                    DeliverAverage={DeliverAverage}
-                    ContentIndividualList={ContentIndividualList}
-                    ContentAverage={ContentAverage}
-                />
-            ) : userinfos?.userData?.role === 2 ? (
-                <BottomSheetSection
-                    open={open}
-                    setOpen={setOpen}
-                    DeliverIndividualList={DeliverIndividualList}
-                    DeliverstudentList={DeliverstudentList}
-                    ContentIndividualList={ContentIndividualList}
-                    ContentstudentList={ContentstudentList}
-                />
-            ) : userinfos?.userData?.role === 3 ? (
-                <BottomSheetSection
-                    open={open}
-                    setOpen={setOpen}
-                    DeliverIndividualList={DeliverIndividualList}
-                    DeliverstudentList={DeliverstudentList}
-                    ContentIndividualList={ContentIndividualList}
-                    ContentstudentList={ContentstudentList}
-                />
-            ) : (
-                ""
-            )}
-
-            {userinfos?.userData?.role === 1 ? (
-                <StudentResultSheet Result={Result} setResult={setResult} />
-            ) : userinfos?.userData?.role === 2 ? (
-                <ProfessorResultSheet Result={Result} setResult={setResult} />
-            ) : userinfos?.userData?.role === 3 ? (
-                <ProfessorResultSheet Result={Result} setResult={setResult} />
-            ) : (
-                ""
-            )}
+            <FloatButton.Group trigger="click" style={{ right: 20, bottom: 200 }} icon={<BarChartOutlined />}>
+                <FloatButton icon={<LineChartOutlined />} />
+                <FloatButton icon={<EditOutlined />} />
+            </FloatButton.Group>
         </div>
     );
 }
 export default ProfessorProbFeedbackPage;
 
+const ChangeDiv = styled.div`
+    float: right;
+`;
+
 const FeedbackDiv = styled.div`
-    width: auto;
     margin: 0 auto;
     position: relative;
     min-height: 1500px;
+    @media screen and (min-width: 1000px) {
+        width: 1400px;
+        margin: none;
+        min-height: 800px;
+    }
 `;
 
 const Original = styled.div`
@@ -293,12 +201,25 @@ const Original = styled.div`
     margin: 0 auto;
     max-width: 800px;
     padding: 15px;
+    @media screen and (min-width: 1000px) {
+        margin-top: 20px;
+        position: absolute;
+        left: 0px;
+
+        width: 450px;
+        height: 580px;
+
+        border: 1px solid #d3d3d3;
+        border-radius: 4px;
+
+        background-color: #f9f9f9;
+        text-align: center;
+    }
 `;
 
 const OriginalBox = styled.div`
     width: auto;
-    height: 250px;
-
+    height: 500px;
     overflow-y: auto;
 
     word-wrap: break-word;
@@ -313,6 +234,20 @@ const Interpretation = styled.div`
     margin: 0 auto;
     max-width: 800px;
     padding: 15px;
+    @media screen and (min-width: 1000px) {
+        margin-top: 20px;
+        position: absolute;
+        left: 480px;
+
+        width: 450px;
+        height: 580px;
+
+        border: 1px solid #d3d3d3;
+        border-radius: 4px;
+
+        background-color: #f9f9f9;
+        text-align: center;
+    }
 `;
 
 const InterpretationBox = styled.div`
@@ -333,13 +268,27 @@ const Estimation = styled.div`
     margin: 0 auto;
     max-width: 800px;
     padding: 15px;
+    @media screen and (min-width: 1000px) {
+        margin-top: 20px;
+        position: absolute;
+        left: 1010px;
+        width: 300px;
+        height: 580px;
+        border: 1px solid #d3d3d3;
+        border-radius: 4px;
+        background-color: #f9f9f9;
+
+        text-align: center;
+        box-shadow: 0px 3px 5px -1px rgba(0, 0, 0, 0.2), 0px 6px 10px 0px rgba(0, 0, 0, 0.14),
+            0px 1px 18px 0px rgba(0, 0, 0, 0.12);
+    }
 `;
 
 const EstimationBox = styled.div`
     padding: 10px;
     display: flex;
     width: auto;
-    height: 250px;
+    height: 272px;
     overflow-x: auto;
 
     word-wrap: break-word;
@@ -347,60 +296,51 @@ const EstimationBox = styled.div`
     border-radius: 4px;
 
     background-color: #f9f9f9;
-`;
-
-const LectureCreateButton = styled.button`
-    height: 3rem;
-    font-size: 0.975rem;
-    font-weight: 800;
-    line-height: 1.375rem;
-    width: 100%;
-    border-radius: 0.5rem;
-    margin: 6px;
-    color: #fff;
-    background-color: #2e462f;
-    border-color: transparent;
-    z-index: 1;
-`;
-
-const PlayBtn = styled.button`
-    background-color: rgb(5, 66, 43);
-    height: 56px;
-    width: 56px;
-    border: none;
-    border-radius: 50%;
-    color: white;
-    cursor: pointer;
-    float: right;
-    margin-right: 20px;
-    box-shadow: 0px 3px 5px -1px rgba(0, 0, 0, 0.2), 0px 6px 10px 0px rgba(0, 0, 0, 0.14),
-        0px 1px 18px 0px rgba(0, 0, 0, 0.12);
+    @media screen and (min-width: 1000px) {
+        height: 500px;
+        display: block;
+    }
 `;
 
 const LectureCreateDiv = styled.div`
     position: fixed;
-    bottom: 0px;
+    bottom: 6rem;
+    width: 100%;
+    left: 0;
     z-index: 4;
-    display: flex;
     -webkit-box-align: center;
     align-items: center;
-    width: 100%;
-    height: 4rem;
+
+    height: 6rem;
     background: rgb(255, 255, 255);
     box-shadow: rgb(232, 232, 238) 0px 1px 0px inset;
+    @media screen and (min-width: 1000px) {
+        bottom: 0px;
+        width: 50%;
+		border-left: solid 3px;
+    }
 `;
 
-const MusicPlayDiv = styled.div`
+const LectureCreateDiv2 = styled.div`
     position: fixed;
-    bottom: 64px;
-    z-index: 2;
-
+    bottom: 0px;
+    width: 100%;
+    right: 0;
+    z-index: 4;
     -webkit-box-align: center;
     align-items: center;
-    width: 100%;
-    height: 4rem;
-    border: none;
-    background: rgb(255, 255, 255, 0);
+    height: 6rem;
+    background: rgb(255, 255, 255);
+    box-shadow: rgb(232, 232, 238) 0px 1px 0px inset;
+    @media screen and (min-width: 1000px) {
+        bottom: 0px;
+        width: 50%;
+		border-left: solid 3px;
+    }
+`;
+
+const MusicPlayer = styled.div`
+    display: flex;
 `;
 
 const LectureBackDiv = styled.div`
@@ -420,4 +360,14 @@ const LectureTitleDiv = styled.div`
     @import url("https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;400&display=swap");
     font-family: "Noto Sans KR", sans-serif;
     margin-top: 17px;
+`;
+
+const LectureSubTitleDiv = styled.div`
+    font-size: 1rem;
+    line-height: 1;
+    color: #2b2d36;
+    font-weight: 500;
+    @import url("https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;400&display=swap");
+    font-family: "Noto Sans KR", sans-serif;
+    margin-top: 10px;
 `;
