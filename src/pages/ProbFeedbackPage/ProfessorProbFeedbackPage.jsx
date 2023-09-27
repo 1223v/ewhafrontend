@@ -21,7 +21,7 @@ function ProfessorProbFeedbackPage() {
     const userNo = params.get("user_no");
     const [Load, setLoad] = useState(false);
     const [Datacontent, setDatacontent] = useState("");
-    const [Sectioncontent, setSectioncontent] = useState([]);
+    const [Sectioncontent, setSectioncontent] = useState([]); // 피드백 창
     const [StudentInfo, setStudentInfo] = useState(""); // 학생 정보
     const [LimitTime, setLimitTime] = useState(""); // 마감 시간
     const [SubmitTime, setSubmitTime] = useState(""); // 제출 시간
