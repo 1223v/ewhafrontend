@@ -22,7 +22,6 @@ function OriginAudioplay(props) {
     };
     const wavesurferRef = useRef();
     const [waveformKey, setWaveformKey] = useState(0);
-
     const [Loading, setLoading] = useState(false); // 로딩 페이지
     const [PlayStopStatus, setPlayStopStatus] = useState(false); // 시작, 정지버튼 상태
     const [volume, setVolume] = useState(0.5); // 음원의 볼륨
@@ -108,7 +107,6 @@ function OriginAudioplay(props) {
             <WavesurferDiv>
                 <WaveSurfer key={waveformKey} onMount={handleWSMount}>
                     <WaveForm id="waveform1" {...options}></WaveForm>
-                    <div id="timeline" />
                 </WaveSurfer>
             </WavesurferDiv>
             <MusicDiv>

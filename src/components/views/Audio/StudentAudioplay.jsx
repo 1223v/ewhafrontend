@@ -22,19 +22,9 @@ function StudentAudioplay(props) {
 	};
 	const wavesurferRef = useRef();
 	const [waveformKey, setWaveformKey] = useState(0);
-
 	const [Loading, setLoading] = useState(false); // 로딩 페이지
 	const [PlayStopStatus, setPlayStopStatus] = useState(false); // 시작, 정지버튼 상태
 	const [volume, setVolume] = useState(0.5); // 음원의 볼륨
-
-	const plugins = [
-		{
-			plugin: TimelinePlugin,
-			options: {
-				container: '#timeline', // 이 컨테이너 ID는 Timeline이 그려질 div의 ID와 일치해야합니다.
-			},
-		},
-	];
 
 	// 선택된 오디오로 변경
 	const AudioChange = (value) => {
@@ -77,6 +67,20 @@ function StudentAudioplay(props) {
 			console.log('// 약간의 지연 후에 재생 상태를 체크합니다.');
 		}
 	}, [props.SelectAudio]);
+	
+	// 10초 뒤로 건너뛰기
+	const skipBackward = useCallback(() => {
+        if (wavesurferRef.current) {
+            wavesurferRef.current.skipBackward(10); 
+        }
+    }, []);
+	
+	// 10초 앞으로 건너뛰기
+	const skipForward = useCallback(() => {
+        if (wavesurferRef.current) {
+            wavesurferRef.current.skipForward(10); 
+        }
+    }, []);
 
 	// 볼륨 변경 핸들러를 추가
 	const handleVolumeChange = (value) => {
@@ -101,7 +105,6 @@ function StudentAudioplay(props) {
 			<WavesurferDiv>
 				<WaveSurfer key={waveformKey} onMount={handleWSMount}>
 					<WaveForm id="waveform2" {...options}></WaveForm>
-					<div id="timeline" />
 				</WaveSurfer>
 			</WavesurferDiv>
 			<MusicDiv>
@@ -116,15 +119,15 @@ function StudentAudioplay(props) {
 				</MusicSelectDiv>
 
 				<PlayBarDiv>
-					<StartBtn>
-						<FaFastBackward size="20" />
-					</StartBtn>
+					<StartBtn onClick={skipBackward}>
+                        <FaFastBackward size="20" />
+                    </StartBtn>
 					<StartBtn onClick={play}>
 						{PlayStopStatus ? <FaPause size="20" /> : <FaPlay size="20" />}
 					</StartBtn>
-					<StartBtn>
-						<FaFastForward size="20" />
-					</StartBtn>
+					<StartBtn onClick={skipForward}>
+                        <FaFastForward size="20" />
+                    </StartBtn>
 				</PlayBarDiv>
 
 				<VolumnDiv>
