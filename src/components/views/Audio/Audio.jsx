@@ -193,7 +193,7 @@ function Audio(props) {
                         setplaytime(!playtime);
                         play();
                     }}
-                    style={{}}
+                    
                 >
                     {playtime ? <FaRegPauseCircle size="40" /> : <FaRegPlayCircle size="40" />}
                 </Button>
