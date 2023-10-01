@@ -102,7 +102,7 @@ function ProfessorProbFeedbackPage() {
 			<NavBar />
 			<div style={{ display: 'flex' }}>
 				<LectureBackDiv>
-					<Link to={'/'} style={{ color: 'black', padding: '7px' }}>
+					<Link to={`/prob/feedback/manage?as_no=${asNo}&lecture_no=${lectureNo}`} style={{ color: 'black', padding: '7px' }}>
 						<svg
 							xmlns="http://www.w3.org/2000/svg"
 							fill="none"

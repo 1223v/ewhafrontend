@@ -117,6 +117,7 @@ function OriginAudioplay(props) {
                         placement="topLeft"
                         options={props.OriginAudio}
                         onChange={AudioChange}
+						placeholder="원본 선택"
                     />
                 </MusicSelectDiv>
 
