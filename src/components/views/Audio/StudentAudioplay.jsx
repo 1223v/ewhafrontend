@@ -115,6 +115,7 @@ function StudentAudioplay(props) {
 						placement="topLeft"
 						options={props.StudentAudio}
 						onChange={AudioChange}
+						placeholder="녹음 선택"
 					/>
 				</MusicSelectDiv>
 
