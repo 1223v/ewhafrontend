@@ -58,6 +58,12 @@ function StudentAudioplay(props) {
         wavesurferRef.current.on("loading", (data) => {
           console.log("loading --> ", data);
         });
+        // 이벤트 핸들러 추가
+        wavesurferRef.current.on("seek", () => {
+          props.setSynchronizationMove(wavesurferRef.current.getCurrentTime());
+
+          console.log(typeof wavesurferRef.current.getCurrentTime());
+        });
       }
     },
     [props.SelectAudio]

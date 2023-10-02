@@ -42,6 +42,7 @@ function ProfessorProbFeedbackPage() {
     useState(false); // 원본 / 학생 동기화 빨리감기
   const [SynchronizationskipBackward, setSynchronizationskipBackward] =
     useState(false); // 원본 / 학생 동기화 되감기
+  const [SynchronizationMove, setSynchronizationMove] = useState(0); // 원본 / 학생 동기화 특정 시간으로 이동
 
   const onTextChange = (checked) => {
     if (checked) {
@@ -200,6 +201,7 @@ function ProfessorProbFeedbackPage() {
             setSynchronizationskipForward={setSynchronizationskipForward} // 원본 / 학생 동기화 빨리감기 변경
             setSynchronizationskipBackward={setSynchronizationskipBackward} // 원본 / 학생 동기화 되감기 변경
             setSynchronizationPlay={setSynchronizationPlay} // 원본 / 학생 동기화 플레이 변경
+            SynchronizationMove={SynchronizationMove} // 원본 / 학생 동기화 특정 시간으로 이동
           />
         </LectureCreateDiv>
 
@@ -217,6 +219,7 @@ function ProfessorProbFeedbackPage() {
             SynchronizationskipForward={SynchronizationskipForward} // 원본 / 학생 동기화 빨리감기
             setSynchronizationskipForward={setSynchronizationskipForward} // 원본 / 학생 동기화 빨리감기 변경
             Synchronization={Synchronization} // 원본 / 학생 동기화
+            setSynchronizationMove={setSynchronizationMove} // 원본 / 학생 동기화 특정 시간으로 이동
           />
         </LectureCreateDiv2>
       </MusicPlayer>

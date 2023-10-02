@@ -134,10 +134,17 @@ function OriginAudioplay(props) {
     }
   }, [props.SynchronizationskipBackward]);
 
+  useEffect(() => {
+    if (props.SynchronizationMove) {
+      wavesurferRef.current.seekTo(
+        props.SynchronizationMove / wavesurferRef.current.getDuration()
+      );
+    }
+  }, [props.SynchronizationMove]);
   return (
     <div>
       {Loading ? <LoadingPage /> : null}
-      <WavesurferDiv>
+      <WavesurferDiv Synchronization={props.Synchronization}>
         <WaveSurfer key={waveformKey} onMount={handleWSMount}>
           <WaveForm id="waveform1" {...options}></WaveForm>
         </WaveSurfer>
@@ -189,7 +196,6 @@ const WavesurferDiv = styled.div`
   text-align: center;
   margin: 0 auto;
   height: 35px;
-  ${(props) => (props.Synchronization ? "pointer-events: none;" : "")}
   wave {
     overflow: hidden !important;
   }
