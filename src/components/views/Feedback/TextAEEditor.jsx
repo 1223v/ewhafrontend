@@ -42,6 +42,7 @@ const TextAEEditor = (props) => {
           if (response.data.isSuccess) {
             message.success("저장 완료했습니다.");
             props.setSectioncontent(textContent.denotations);
+            props.setsetAttributesContent(textContent.attributes);
             props.setDatacontent(!props.Datacontent);
           } else {
             message.error("저장 실패했습니다. 다시 시도해주세요.");

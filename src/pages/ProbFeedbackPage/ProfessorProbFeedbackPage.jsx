@@ -137,8 +137,8 @@ function ProfessorProbFeedbackPage() {
             <TextAEEditor
               Datacontent={Datacontent}
               setDatacontent={setDatacontent}
-              Sectioncontent={Sectioncontent}
               setSectioncontent={setSectioncontent}
+              setAttributesContent={setAttributesContent}
             />
           </InterpretationBox>
         </Interpretation>
