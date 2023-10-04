@@ -1,5 +1,4 @@
 import React, { useEffect, useState, useRef } from "react";
-import styled, { keyframes } from "styled-components";
 import Axios from "axios";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { API_URL } from "../../Config";
@@ -12,42 +11,73 @@ const TextAEEditor = (props) => {
   const lectureNo = params.get("lecture_no");
   const asNo = params.get("as_no");
   const userNo = params.get("user_no");
-  const [Url, setUrl] = useState("");
-  const [Textae, setTextae] = useState("");
-  let teae = {};
-
+  let editor = {};
+  const [FirstTextAERender, setFirstTextAERender] = useState(true); // TextAEEditor의 첫 렌더링을 감지하는 변수
+  let teae = {}; // TextAEEditor의 데이터를 저장하는 변수
   const elementRef = useRef(null);
 
+  /**
+   * TextAEEditor의 변경을 감지하여 저장하는 함수
+   */
   const handleMouseUp = () => {
     const textContent = JSON.parse(elementRef.current.textContent);
 
-    props.setSectioncontent(textContent.denotations);
-    props.setDatacontent(textContent.denotations);
+    console.log(textContent.denotations); //API를 위한 콘솔 로그
+
+    if (textContent.denotations !== "") {
+      let body = {
+        ae_denotations: textContent.denotations,
+        ae_attributes: textContent.attributes,
+      };
+      console.log(body); //API를 위한 콘솔 로그
+      Axios.put(
+        `${API_URL}api/feedback/textae?as_no=${asNo}&user_no=${userNo}`,
+        body,
+        {
+          withCredentials: true,
+        }
+      )
+
+        .then((response) => {
+          if (response.data.isSuccess) {
+            message.success("저장 완료했습니다.");
+            props.setSectioncontent(textContent.denotations);
+            props.setDatacontent(!props.Datacontent);
+          } else {
+            message.error("저장 실패했습니다. 다시 시도해주세요.");
+          }
+        })
+        .catch((error) => {
+          // 요청이 실패한 경우의 처리
+
+          message.error("알 수 없는 에러가 발생했습니다.");
+          navigate("/");
+        });
+    }
   };
 
+  /**
+   * TextAEEditor의 데이터를 불러오는 함수
+   */
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await Axios.get(
-          `${API_URL}api/feedback/textae?as_no=${asNo}&lecture_no=${lectureNo}&user_no=${userNo}`,
+          `${API_URL}api/feedback/textae?as_no=${asNo}&user_no=${userNo}`,
           {
             withCredentials: true,
           }
         );
 
         if (response.data.isSuccess) {
-          setUrl(response.data.url);
-          const response2 = await Axios.get(`${response.data.url}`, {
-            withCredentials: true,
-          });
-
-          props.setSectioncontent(response2.data.denotations);
-          setTextae(response2.data);
-          teae = response2.data;
+          props.setSectioncontent(response.data.textae.denotations);
+          teae = response.data.textae;
           console.log(teae);
 
-          // 이제 여기서 editor를 초기화하고 teae를 설정할 수 있습니다.
-          const [editor] = window.initializeTextAEEditor();
+          if (FirstTextAERender) {
+            [editor] = window.initializeTextAEEditor(); // TextAEEditor 초기화
+            setFirstTextAERender(false);
+          }
           editor.annotation = teae;
         } else {
           message.error(response.data.msg);
@@ -57,12 +87,13 @@ const TextAEEditor = (props) => {
         }
       } catch (error) {
         message.error("알 수 없는 에러가 발생했습니다.");
+        console.log(error);
         navigate("/");
       }
     };
 
     fetchData();
-  }, []);
+  }, [props.Datacontent]);
 
   return (
     <div>

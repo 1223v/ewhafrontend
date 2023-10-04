@@ -23,9 +23,9 @@ function ProfessorProbFeedbackPage() {
   const lectureNo = params.get("lecture_no");
   const asNo = params.get("as_no");
   const userNo = params.get("user_no");
-  const [Load, setLoad] = useState(false);
-  const [Datacontent, setDatacontent] = useState("");
-  const [Sectioncontent, setSectioncontent] = useState([]); // 피드백 창
+  const [Datacontent, setDatacontent] = useState(false); // textaeeditor 데이터 변경 감지
+  const [Sectioncontent, setSectioncontent] = useState([]); // textaeeditor Denotations 데이터
+  const [AttributesContent, setAttributesContent] = useState([]); // textaeeditor Attributes 데이터
   const [StudentInfo, setStudentInfo] = useState(""); // 학생 정보
   const [LimitTime, setLimitTime] = useState(""); // 마감 시간
   const [SubmitTime, setSubmitTime] = useState(""); // 제출 시간
@@ -52,6 +52,9 @@ function ProfessorProbFeedbackPage() {
     }
   };
 
+  /**
+   * TextAEEditor의 데이터를 불러오는 함수
+   */
   useEffect(() => {
     Axios.get(
       `${API_URL}api/feedback/info?as_no=${asNo}&student_no=${userNo}`,
@@ -78,35 +81,6 @@ function ProfessorProbFeedbackPage() {
         navigate("/");
       });
   }, []);
-
-  useEffect(() => {
-    if (Datacontent !== "") {
-      let body = {
-        ae_denotations: Datacontent,
-      };
-      console.log(body); //API를 위한 콘솔 로그
-      Axios.put(
-        `${API_URL}api/feedback/textae?as_no=${asNo}&user_no=${userNo}`,
-        body,
-        {
-          withCredentials: true,
-        }
-      )
-        .then((response) => {
-          if (response.data.isSuccess) {
-            message.success("저장 완료했습니다.");
-          } else {
-            message.error("저장 실패했습니다. 다시 시도해주세요.");
-          }
-        })
-        .catch((error) => {
-          // 요청이 실패한 경우의 처리
-
-          message.error("알 수 없는 에러가 발생했습니다.");
-          navigate("/");
-        });
-    }
-  }, [Datacontent]);
 
   return (
     <div>
@@ -161,7 +135,7 @@ function ProfessorProbFeedbackPage() {
           <h4>통역 전사문</h4>
           <InterpretationBox>
             <TextAEEditor
-              Load={Load}
+              Datacontent={Datacontent}
               setDatacontent={setDatacontent}
               Sectioncontent={Sectioncontent}
               setSectioncontent={setSectioncontent}
