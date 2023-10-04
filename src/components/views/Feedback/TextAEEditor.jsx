@@ -42,7 +42,7 @@ const TextAEEditor = (props) => {
           if (response.data.isSuccess) {
             message.success("저장 완료했습니다.");
             props.setSectioncontent(textContent.denotations);
-            props.setsetAttributesContent(textContent.attributes);
+            props.setAttributesContent(textContent.attributes);
             props.setDatacontent(!props.Datacontent);
           } else {
             message.error("저장 실패했습니다. 다시 시도해주세요.");
@@ -50,7 +50,7 @@ const TextAEEditor = (props) => {
         })
         .catch((error) => {
           // 요청이 실패한 경우의 처리
-
+          console.log(error);
           message.error("알 수 없는 에러가 발생했습니다.");
           navigate("/");
         });
