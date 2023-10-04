@@ -82,28 +82,27 @@ function ProfessorProbFeedbackPage() {
   useEffect(() => {
     if (Datacontent !== "") {
       let body = {
-        lecture_no: lectureNo,
-        as_no: asNo,
-        user_no: userNo,
-        result: "",
-        ae_attributes: Datacontent.attributes,
-        ae_denotations: Datacontent.denotations,
+        ae_denotations: Datacontent,
       };
       console.log(body); //API를 위한 콘솔 로그
-      Axios.post(`${API_URL}api/feedback`, body, {
-        withCredentials: true,
-      })
+      Axios.put(
+        `${API_URL}api/feedback/textae?as_no=${asNo}&user_no=${userNo}`,
+        body,
+        {
+          withCredentials: true,
+        }
+      )
         .then((response) => {
           if (response.data.isSuccess) {
-            alert("저장 완료했습니다.");
+            message.success("저장 완료했습니다.");
           } else {
-            alert("저장 실패했습니다. 다시 시도해주세요.");
-            navigate("/");
+            message.error("저장 실패했습니다. 다시 시도해주세요.");
           }
         })
         .catch((error) => {
           // 요청이 실패한 경우의 처리
-          console.error(error);
+
+          message.error("알 수 없는 에러가 발생했습니다.");
           navigate("/");
         });
     }
@@ -301,7 +300,6 @@ const Interpretation = styled.div`
     border-radius: 4px;
 
     background-color: #f9f9f9;
-    text-align: center;
   }
 `;
 

@@ -22,16 +22,8 @@ const TextAEEditor = (props) => {
     const textContent = JSON.parse(elementRef.current.textContent);
 
     props.setSectioncontent(textContent.denotations);
+    props.setDatacontent(textContent.denotations);
   };
-
-  useEffect(() => {
-    if (elementRef.current.textContent) {
-      const textContent = JSON.parse(elementRef.current.textContent);
-      const textString = JSON.stringify(textContent);
-      props.setDatacontent(textContent);
-      console.log(textContent);
-    }
-  }, [props.Load]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -64,7 +56,7 @@ const TextAEEditor = (props) => {
           );
         }
       } catch (error) {
-        console.error(error);
+        message.error("알 수 없는 에러가 발생했습니다.");
         navigate("/");
       }
     };
@@ -87,32 +79,3 @@ const TextAEEditor = (props) => {
 };
 
 export default TextAEEditor;
-
-const animation = keyframes`
-50% {
-  transform: scale(0.92);
-}
-`;
-
-const StartBtn = styled.button`
-  display: flex;
-  justify-content: center;
-
-  width: calc(100% - 32px);
-  height: 54px;
-  line-height: 54px;
-  box-sizing: border-box;
-  border: none;
-  border-radius: 5px;
-  background: #5849ff;
-  color: #fff;
-  text-align: center;
-  font-family: "Noto Sans KR", sans-serif;
-  font-size: 17px;
-  font-weight: 400;
-
-  margin: 10px;
-  &:active {
-    animation: ${animation} 0.2s;
-  }
-`;

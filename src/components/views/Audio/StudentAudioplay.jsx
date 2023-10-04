@@ -136,7 +136,6 @@ function StudentAudioplay(props) {
         <MusicSelectDiv>
           <Select
             style={{ width: 120 }}
-            dropdownMatchSelectWidth={false}
             placement="topLeft"
             options={props.StudentAudio}
             onChange={AudioChange}
