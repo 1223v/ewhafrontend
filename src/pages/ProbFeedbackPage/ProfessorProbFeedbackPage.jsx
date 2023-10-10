@@ -26,6 +26,7 @@ function ProfessorProbFeedbackPage() {
   const [Datacontent, setDatacontent] = useState(false); // textaeeditor 데이터 변경 감지
   const [Sectioncontent, setSectioncontent] = useState([]); // textaeeditor Denotations 데이터
   const [AttributesContent, setAttributesContent] = useState([]); // textaeeditor Attributes 데이터
+  const [SubmitAttributesContent, setSubmitAttributesContent] = useState([]); // textaeeditor Attributes 피드백 반영 데이터
   const [StudentInfo, setStudentInfo] = useState(""); // 학생 정보
   const [LimitTime, setLimitTime] = useState(""); // 마감 시간
   const [SubmitTime, setSubmitTime] = useState(""); // 제출 시간
@@ -81,6 +82,10 @@ function ProfessorProbFeedbackPage() {
         navigate("/");
       });
   }, []);
+
+  useEffect(() => {
+    console.log(SubmitAttributesContent);
+  }, [SubmitAttributesContent]);
 
   return (
     <div>
@@ -139,6 +144,7 @@ function ProfessorProbFeedbackPage() {
               setDatacontent={setDatacontent}
               setSectioncontent={setSectioncontent}
               setAttributesContent={setAttributesContent}
+              setSubmitAttributesContent={setSubmitAttributesContent}
             />
           </InterpretationBox>
         </Interpretation>
@@ -154,6 +160,8 @@ function ProfessorProbFeedbackPage() {
                   end={lesson.span.end}
                   obj={lesson.obj}
                   AttributesContent={AttributesContent}
+                  SubmitAttributesContent={SubmitAttributesContent}
+                  setSubmitAttributesContent={setSubmitAttributesContent}
                 />
               </React.Fragment>
             ))}

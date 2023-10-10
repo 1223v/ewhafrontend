@@ -72,6 +72,8 @@ const TextAEEditor = (props) => {
 
         if (response.data.isSuccess) {
           props.setSectioncontent(response.data.textae.denotations);
+          props.setAttributesContent(response.data.textae.attributes);
+          props.setSubmitAttributesContent(response.data.textae.attributes);
           teae = response.data.textae;
           console.log(teae);
 
@@ -79,7 +81,7 @@ const TextAEEditor = (props) => {
             [editor] = window.initializeTextAEEditor(); // TextAEEditor 초기화
             setFirstTextAERender(false);
           }
-          editor.annotation = teae;
+          editor.annotation = response.data.textae;
         } else {
           message.error(response.data.msg);
           navigate(
