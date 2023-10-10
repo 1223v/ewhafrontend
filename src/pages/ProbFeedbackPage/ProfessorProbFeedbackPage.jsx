@@ -72,7 +72,7 @@ function ProfessorProbFeedbackPage() {
         setStudentAudio(response.data.student_audio);
         setOriginAudio(response.data.assignment_audio);
         setOriginText(response.data.original_text);
-        setSTTText(response.data.original_text);
+        setSTTText(response.data.original_tts);
       })
 
       .catch((error) => {
@@ -133,7 +133,7 @@ function ProfessorProbFeedbackPage() {
               />
             </ChangeDiv>
           </h4>
-          <OriginalBox>{Checking ? "STT된 결과 값" : OriginText}</OriginalBox>
+          <OriginalBox>{Checking ? STTText : OriginText}</OriginalBox>
         </Original>
 
         <Interpretation>
