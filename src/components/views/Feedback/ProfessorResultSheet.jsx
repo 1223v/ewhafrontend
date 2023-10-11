@@ -1,20 +1,78 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import { BottomSheet } from "react-spring-bottom-sheet";
 import "react-spring-bottom-sheet/dist/style.css";
 import { GrClose } from "react-icons/gr";
 import styled from "styled-components";
+import Axios from "axios";
+import { useLocation, useNavigate } from "react-router-dom";
+import { message } from "antd";
+import { API_URL } from "../../Config";
 
 function ProfessorResultSheet(props) {
+  const location = useLocation();
+  let navigate = useNavigate();
+  const params = new URLSearchParams(location.search);
+  const asNo = params.get("as_no");
+  const userNo = params.get("user_no");
+  const [FeedbackComment, setFeedbackComment] = useState(""); // 피드백 코멘트
+  const [FeedbackCommentSuccess, setFeedbackCommentSuccess] = useState(false); // 피드백 코멘트 성공 여부
+
   const onClose = () => {
     props.setResult(false);
   };
 
-  const onResultSubmit = () => {
-    console.log("api 호출");
+  const onResultChange = (e) => {
+    setFeedbackComment(e.target.value);
   };
 
+  const onResultSubmit = () => {
+    console.log("api 호출");
+    let body = {
+      as_no: asNo,
+      student_no: userNo,
+      review: FeedbackComment,
+    };
+    Axios.post(`${API_URL}api/feedback/review`, body, {
+      withCredentials: true,
+    })
+      .then((response) => {
+        if (response.data.isSuccess) {
+          message.success("저장 완료했습니다.");
+
+          props.setResult(false);
+          setFeedbackCommentSuccess(!FeedbackCommentSuccess);
+        } else {
+          message.error("저장 실패했습니다. 다시 시도해주세요.");
+        }
+      })
+      .catch((error) => {
+        // 요청이 실패한 경우의 처리
+        message.error("알 수 없는 에러가 발생했습니다.");
+        navigate("/");
+      });
+  };
+
+  useEffect(() => {
+    Axios.get(
+      `${API_URL}api/feedback/review?as_no=${asNo}&student_no=${userNo}`,
+      {
+        withCredentials: true,
+      }
+    )
+      .then((response) => {
+        // 요청이 성공한 경우의 처리
+        setFeedbackComment(response.data.review);
+      })
+
+      .catch((error) => {
+        // 요청이 실패한 경우의 처리
+        console.error(error);
+        message.error("알 수 없는 에러가 발생했습니다.");
+        navigate("/");
+      });
+  }, [FeedbackCommentSuccess]);
   return (
-    <div style={{ zIndex: "10" }}>
+    <div>
       <BottomSheet
         open={props.Result}
         onDismiss={onClose}
@@ -34,7 +92,12 @@ function ProfessorResultSheet(props) {
         >
           <StyledNewWishList>
             <StyledButtonWrapper>
-              <Txtarea cols="130" rows="20"></Txtarea>
+              <Txtarea
+                cols="130"
+                rows="20"
+                onChange={onResultChange}
+                value={FeedbackComment}
+              ></Txtarea>
             </StyledButtonWrapper>
             <StyledButtonWrapper>
               <ResultBtn onClick={onResultSubmit}>총평 저장하기</ResultBtn>
@@ -53,18 +116,6 @@ const Txtarea = styled.textarea`
   margin: 0 auto;
   border: none;
   resize: none;
-`;
-
-const ChartInDiv = styled.div`
-  border-bottom: 3px solid #00aaff;
-  border-top: 3px solid #00aaff;
-  color: black;
-  text-align: center;
-  margin-left: 10px;
-`;
-
-const ParkingInChildDiv = styled.div`
-  margin: 10px;
 `;
 
 const StyledButtonWrapper = styled.div`
