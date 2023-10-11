@@ -15,6 +15,7 @@ import {
 import OriginAudioplay from "../../components/views/Audio/OriginAudioplay";
 import StudentAudioplay from "../../components/views/Audio/StudentAudioplay";
 import Timeformat from "../../components/views/commons/Timeformat";
+import ProfessorResultSheet from "../../components/views/Feedback/ProfessorResultSheet";
 
 function ProfessorProbFeedbackPage() {
   const location = useLocation();
@@ -23,10 +24,13 @@ function ProfessorProbFeedbackPage() {
   const lectureNo = params.get("lecture_no");
   const asNo = params.get("as_no");
   const userNo = params.get("user_no");
+  const [FeedbackResult, setFeedbackResult] = useState(false); // 총평 바텀시트 open 여부
+  const [NewAttributeCount, setNewAttributeCount] = useState(""); // 새로운 속성 개수
   const [Datacontent, setDatacontent] = useState(false); // textaeeditor 데이터 변경 감지
   const [Sectioncontent, setSectioncontent] = useState([]); // textaeeditor Denotations 데이터
   const [AttributesContent, setAttributesContent] = useState([]); // textaeeditor Attributes 데이터
   const [SubmitAttributesContent, setSubmitAttributesContent] = useState([]); // textaeeditor Attributes 피드백 반영 데이터
+  const [SubmitDenotationsContent, setSubmitDenotationsContent] = useState([]); // textaeeditor Denotations 피드백 반영 데이터
   const [StudentInfo, setStudentInfo] = useState(""); // 학생 정보
   const [LimitTime, setLimitTime] = useState(""); // 마감 시간
   const [SubmitTime, setSubmitTime] = useState(""); // 제출 시간
@@ -51,6 +55,10 @@ function ProfessorProbFeedbackPage() {
     } else {
       setChecking(false);
     }
+  };
+
+  const onResultBottomSheetClick = () => {
+    setFeedbackResult(true);
   };
 
   /**
@@ -82,10 +90,6 @@ function ProfessorProbFeedbackPage() {
         navigate("/");
       });
   }, []);
-
-  useEffect(() => {
-    console.log(SubmitAttributesContent);
-  }, [SubmitAttributesContent]);
 
   return (
     <div>
@@ -145,6 +149,7 @@ function ProfessorProbFeedbackPage() {
               setSectioncontent={setSectioncontent}
               setAttributesContent={setAttributesContent}
               setSubmitAttributesContent={setSubmitAttributesContent}
+              setNewAttributeCount={setNewAttributeCount}
             />
           </InterpretationBox>
         </Interpretation>
@@ -159,9 +164,12 @@ function ProfessorProbFeedbackPage() {
                   begin={lesson.span.begin}
                   end={lesson.span.end}
                   obj={lesson.obj}
+                  Datacontent={Datacontent}
+                  setDatacontent={setDatacontent}
                   AttributesContent={AttributesContent}
+                  Sectioncontent={Sectioncontent}
                   SubmitAttributesContent={SubmitAttributesContent}
-                  setSubmitAttributesContent={setSubmitAttributesContent}
+                  NewAttributeCount={NewAttributeCount}
                 />
               </React.Fragment>
             ))}
@@ -201,6 +209,7 @@ function ProfessorProbFeedbackPage() {
             SynchronizationskipForward={SynchronizationskipForward} // 원본 / 학생 동기화 빨리감기
             setSynchronizationskipForward={setSynchronizationskipForward} // 원본 / 학생 동기화 빨리감기 변경
             Synchronization={Synchronization} // 원본 / 학생 동기화
+            setSynchronization={setSynchronization} // 원본 / 학생 동기화 변경
             setSynchronizationMove={setSynchronizationMove} // 원본 / 학생 동기화 특정 시간으로 이동
           />
         </LectureCreateDiv2>
@@ -212,8 +221,14 @@ function ProfessorProbFeedbackPage() {
         icon={<BarChartOutlined />}
       >
         <FloatButton icon={<LineChartOutlined />} />
-        <FloatButton icon={<EditOutlined />} />
+        <FloatButton
+          icon={<EditOutlined onClick={onResultBottomSheetClick} />}
+        />
       </FloatButton.Group>
+      <ProfessorResultSheet
+        Result={FeedbackResult}
+        setResult={setFeedbackResult}
+      />
     </div>
   );
 }

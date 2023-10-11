@@ -74,6 +74,7 @@ const TextAEEditor = (props) => {
           props.setSectioncontent(response.data.textae.denotations);
           props.setAttributesContent(response.data.textae.attributes);
           props.setSubmitAttributesContent(response.data.textae.attributes);
+          props.setNewAttributeCount(response.data.new_attribute);
           teae = response.data.textae;
           console.log(teae);
 
@@ -81,7 +82,7 @@ const TextAEEditor = (props) => {
             [editor] = window.initializeTextAEEditor(); // TextAEEditor 초기화
             setFirstTextAERender(false);
           }
-          editor.annotation = response.data.textae;
+          editor.annotation = response.data.textae; // TextAEEditor에 데이터 삽입이 실시간으로 이루어지지 않음
         } else {
           message.error(response.data.msg);
           navigate(

@@ -135,10 +135,18 @@ function OriginAudioplay(props) {
   }, [props.SynchronizationskipBackward]);
 
   useEffect(() => {
-    if (props.SynchronizationMove) {
-      wavesurferRef.current.seekTo(
-        props.SynchronizationMove / wavesurferRef.current.getDuration()
-      );
+    if (props.SynchronizationMove && props.Synchronization) {
+      const newPosition =
+        props.SynchronizationMove / wavesurferRef.current.getDuration();
+
+      if (newPosition > 1) {
+        // 1보다 큰 경우는 전체 음원의 길이를 넘어서는 경우입니다.
+        wavesurferRef.current.seekTo(0); // 위치를 0으로 변경합니다.
+        message.info("음원이 끝났습니다. 동기화를 해제합니다.");
+        props.setSynchronization(false);
+      } else {
+        wavesurferRef.current.seekTo(newPosition); // 그렇지 않은 경우 계산된 위치로 변경합니다.
+      }
     }
   }, [props.SynchronizationMove]);
   return (
@@ -160,7 +168,10 @@ function OriginAudioplay(props) {
             placeholder="원본 선택"
             value={props.SelectAudio.label}
           /> */}
-          <Checkbox onChange={onSynchronizationChange}>
+          <Checkbox
+            onChange={onSynchronizationChange}
+            checked={props.Synchronization}
+          >
             음원
             <br />
             동기화

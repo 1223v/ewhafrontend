@@ -23,6 +23,28 @@ function ProbStudentDetailPage() {
   const [ProbInfoOpenTime, setProbInfoOpenTime] = useState(""); //게시일 Getter Setter
   const [ProbInfoCloseTime, setProbInfoCloseTime] = useState(""); //마감일 Getter Setter
 
+  const onLastSubmitClick = () => {
+    let body = {
+      as_no: asNo,
+    };
+    Axios.put(`${API_URL}api/prob/end`, body, {
+      withCredentials: true,
+    })
+      .then((response) => {
+        if (response.data.isSuccess) {
+          message.success("최종 제출 완료");
+          navigate(`/prob/list/student?lecture_no=${lectureNo}`);
+        } else {
+          message.error(response.data.message);
+        }
+      })
+      .catch((error) => {
+        // 요청이 실패한 경우의 처리
+        message.error("알 수 없는 에러가 발생했습니다.");
+        navigate("/");
+      });
+  };
+
   useEffect(() => {
     Axios.get(`${API_URL}api/prob/detail?as_no=${asNo}`, {
       withCredentials: true,
@@ -164,7 +186,10 @@ function ProbStudentDetailPage() {
       <BtnDiv>
         <FeedbackBtnDiv>
           {ProbInfo.end_submission === false && (
-            <button className="bg-transparent hover:bg-gray-100 hover:bg-opacity-50 text-blue-700 font-semibold py-2 px-4 border border-blue-500 rounded m-2">
+            <button
+              className="bg-transparent hover:bg-gray-100 hover:bg-opacity-50 text-blue-700 font-semibold py-2 px-4 border border-blue-500 rounded m-2"
+              onClick={onLastSubmitClick}
+            >
               최종 제출
             </button>
           )}
