@@ -11,7 +11,9 @@ function FeedbackGridCard(props) {
   const params = new URLSearchParams(location.search);
   const asNo = params.get("as_no");
   const userNo = params.get("user_no");
-  const [CheckList, setCheckList] = useState([props.obj]); // 체크리스트\
+  const [CheckList, setCheckList] = useState(
+    props.obj.split(",").map((s) => s.trim())
+  ); // 체크리스트\
   const [FeedbackAttributes, setFeedbackAttributes] = useState(""); // 피드백 속성
   const [FeedbackOptions, setFeedbackOptions] = useState([
     { label: "Filler", value: "Filler" },

@@ -83,6 +83,7 @@ const TextAEEditor = (props) => {
             setFirstTextAERender(false);
           }
           editor.annotation = response.data.textae; // TextAEEditor에 데이터 삽입이 실시간으로 이루어지지 않음
+          //editor.focusDenotations('T1');
         } else {
           message.error(response.data.msg);
           navigate(

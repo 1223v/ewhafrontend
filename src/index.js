@@ -13,24 +13,28 @@ import { CookiesProvider } from "react-cookie";
 import Reducer from "./_reducers";
 import MainContextProvider from "../src/components/views/AudioRecord/Sections/MainContext";
 
-const createStoreWithMiddleware = applyMiddleware(promiseMiddleware, ReduxThunk)(createStore);
+const createStoreWithMiddleware = applyMiddleware(
+  promiseMiddleware,
+  ReduxThunk
+)(createStore);
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
-    <CookiesProvider>
-        <BrowserRouter>
-            <Provider
-                store={createStoreWithMiddleware(
-                    Reducer,
-                    window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
-                )}
-            >
-                <MainContextProvider>
-                    <App />
-                </MainContextProvider>
-            </Provider>
-        </BrowserRouter>
-    </CookiesProvider>
+  <CookiesProvider>
+    <BrowserRouter>
+      <Provider
+        store={createStoreWithMiddleware(
+          Reducer,
+          window.__REDUX_DEVTOOLS_EXTENSION__ &&
+            window.__REDUX_DEVTOOLS_EXTENSION__()
+        )}
+      >
+        <MainContextProvider>
+          <App />
+        </MainContextProvider>
+      </Provider>
+    </BrowserRouter>
+  </CookiesProvider>
 );
 
 // If you want to start measuring performance in your app, pass a function

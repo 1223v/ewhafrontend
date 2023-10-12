@@ -71,15 +71,23 @@ function ProfessorProbFeedbackPage() {
       }
     )
       .then((response) => {
-        // 요청이 성공한 경우의 처리
-        console.log(response.data);
-        setStudentInfo(response.data.student_name);
-        setLimitTime(response.data.limit_time);
-        setSubmitTime(response.data.submit_time);
-        setStudentAudio(response.data.student_audio);
-        setOriginAudio(response.data.assignment_audio);
-        setOriginText(response.data.original_text);
-        setSTTText(response.data.original_tts);
+        if (response.data.isSuccess) {
+          // 요청이 성공한 경우의 처리
+          console.log(response.data);
+          setStudentInfo(response.data.student_name);
+          setLimitTime(response.data.limit_time);
+          setSubmitTime(response.data.submit_time);
+          setStudentAudio(response.data.student_audio);
+          setOriginAudio(response.data.assignment_audio);
+          setOriginText(response.data.original_text);
+          setSTTText(response.data.original_tts);
+        } else {
+          message.error(response.data.message);
+
+          navigate(
+            `/prob/feedback/manage?lecture_no=${lectureNo}&as_no=${asNo}`
+          );
+        }
       })
 
       .catch((error) => {
