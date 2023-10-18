@@ -1,59 +1,18 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState } from "react";
 import SimAudioRecorderFunc from "../AudioRecord/Sections/SimAudioRecorderFunc";
 import styled from "styled-components";
 import { Col, message } from "antd";
-import Axios from "axios";
 import { API_URL } from "../../Config.jsx";
 
 function SimAudiorecordGridcard(props) {
   const [check, setcheck] = useState(false);
   const [TemporarySubmitCheck, setTemporarySubmitCheck] = useState(false);
-  const fileInput = useRef(null);
 
   const onPlayButton = () => {
     props.setLoading(true);
     const URL = `${API_URL}` + props.Wavaudio.upload_url;
     props.setRegionmusic(URL);
     setcheck(!check);
-  };
-
-  const handleChange = (e) => {
-    const file = e.target.files[0];
-    const formData = new FormData();
-    formData.append("assignment", props.Assignmentnum);
-    formData.append("mp3", file);
-    Axios.put(`${API_URL}api/stt`, formData, {
-      headers: {
-        "Content-Type": "multipart/form-data",
-      },
-      withCredentials: true,
-    })
-      .then((response) => {
-        message.success("임시저장 완료");
-        props.setSubmitlist(response.data.file);
-      })
-      .catch((error) => {
-        console.error("파일 업로드 실패:", error);
-      });
-  };
-
-  const onFileButton = (e) => {
-    fileInput.current.click();
-  };
-
-  const onSaveButton = () => {
-    if (
-      window.confirm("저장 시 해당 구간은 수정이 불가합니다. 저장하시겠습니까?")
-    ) {
-      if (props.Submitlist.length !== 0) {
-        props.setRealsubmit([...props.Realsubmit, props.Submitlist]);
-        props.setDisable(props.Disable + 1);
-        props.setSubmitlist("");
-        alert("저장을 완료했습니다. 다음 구간을 진행해주세요.");
-      } else {
-        alert("녹음 혹은 업로드부터 진행해주세요.");
-      }
-    }
   };
 
   useEffect(() => {

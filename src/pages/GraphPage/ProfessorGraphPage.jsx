@@ -75,7 +75,7 @@ function ProfessorGraphPage() {
       size: 0,
     },
     xaxis: {
-      categories: ["오역", "누락", "문법 오류", "발음", "억양"],
+      categories: ["오역", "누락", "표현", "억양", "문법오류", "기타"],
     },
   };
 
@@ -142,7 +142,7 @@ function ProfessorGraphPage() {
       colors: ["transparent"],
     },
     xaxis: {
-      categories: ["오역", "누락", "표현", "억양", "기타"],
+      categories: ["오역", "누락", "표현", "억양", "문법오류", "기타"],
     },
     yaxis: {},
     fill: {
@@ -161,12 +161,12 @@ function ProfessorGraphPage() {
     setDeliveryDetail(
       DeliveryDetailList.filter((item) => item.name === value).map(
         (item) => item.data
-      )
+      )[0]
     );
     setAccuracyDetail(
       AccuracyDetailList.filter((item) => item.name === value).map(
         (item) => item.data
-      )
+      )[0]
     );
   };
 

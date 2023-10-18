@@ -9,7 +9,7 @@ import EffectSound from "../../../../util/EffectSound";
 import MP from "../../../../assets/sound/MP.mp3";
 import { useLocation } from "react-router-dom";
 
-export default function AudioRecorderFunc(props) {
+export default function SimAudioRecorderFunc(props) {
   const location = useLocation();
   const params = new URLSearchParams(location.search);
   const lectureNo = params.get("lecture_no");

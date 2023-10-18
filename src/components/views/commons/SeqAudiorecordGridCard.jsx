@@ -1,13 +1,12 @@
-import React, { useEffect, useState, useRef } from "react";
-import AudioRecorderFunc from "../AudioRecord/Sections/SimAudioRecorderFunc";
+import React, { useEffect, useState } from "react";
+import SeqAudioRecorderFunc from "../AudioRecord/Sections/SeqAudioRecorderFunc";
 import styled from "styled-components";
-import { Col } from "antd";
-import Axios from "axios";
+import { Col, message } from "antd";
 import { API_URL } from "../../Config.jsx";
 
-function SeqAudiorecordGridCard(props) {
-  const [check, setcheck] = useState(false);
-  const fileInput = useRef(null);
+function SeqAudiorecordGridcard(props) {
+  const [check, setcheck] = useState(false); // 재생 버튼 눌렀는지 확인
+  const [TemporarySubmitCheck, setTemporarySubmitCheck] = useState(false);
 
   const onPlayButton = () => {
     props.setLoading(true);
@@ -16,50 +15,12 @@ function SeqAudiorecordGridCard(props) {
     setcheck(!check);
   };
 
-  const handleChange = (e) => {
-    const file = e.target.files[0];
-    const formData = new FormData();
-    formData.append("assignment", props.Assignmentnum);
-    formData.append("wav", file);
-    Axios.put(`${API_URL}api/stt`, formData, {
-      headers: {
-        "Content-Type": "multipart/form-data",
-      },
-      withCredentials: true,
-    })
-      .then((response) => {
-        alert("임시저장되었습니다.");
-        props.setSubmitlist(response.data.file);
-      })
-      .catch((error) => {
-        console.error("파일 업로드 실패:", error);
-      });
-  };
-
-  const onFileButton = (e) => {
-    fileInput.current.click();
-  };
-
-  const onSaveButton = () => {
-    if (
-      window.confirm("저장 시 해당 구간은 수정이 불가합니다. 저장하시겠습니까?")
-    ) {
-      if (props.Submitlist.length !== 0) {
-        props.setRealsubmit([...props.Realsubmit, props.Submitlist]);
-        props.setDisable(props.Disable + 1);
-        props.setSubmitlist("");
-        alert("저장을 완료했습니다. 다음 구간을 진행해주세요.");
-      } else {
-        alert("녹음 혹은 업로드부터 진행해주세요.");
-      }
-    }
-  };
-
   useEffect(() => {
     if (props.WaveSuferLoading) {
       props.setLoading(false);
       props.setPlaymusic(!props.Playmusic);
       console.log(props.Wavaudio);
+
       props.setWaveSuferLoading(false);
     }
   }, [props.WaveSuferLoading]);
@@ -69,9 +30,25 @@ function SeqAudiorecordGridCard(props) {
       props.setLoading(true);
       const URL = `${API_URL}` + props.Wavaudio.upload_url;
       props.setRegionmusic(URL);
+      console.log("Disable 확인", props.Disable);
       setcheck(!check);
     }
   }, [props.Disable]);
+
+  useEffect(() => {
+    if (TemporarySubmitCheck) {
+      if (props.Submitlist.length !== 0) {
+        props.setLoading(false);
+        props.setRealsubmit([...props.Realsubmit, props.Submitlist]);
+        props.setDisable(props.Disable + 1);
+        props.setSubmitlist("");
+        setTemporarySubmitCheck(false);
+        message.success("다음 구간이 바로 진행됩니다.");
+      } else {
+        alert("녹음 혹은 업로드부터 진행해주세요.");
+      }
+    }
+  }, [TemporarySubmitCheck]);
 
   return (
     <Col lg={8} md={12} xs={24}>
@@ -93,17 +70,20 @@ function SeqAudiorecordGridCard(props) {
               margin: "10px",
             }}
           >
-            <AudioRecorderFunc
+            <SeqAudioRecorderFunc
               region_index={props.region_index}
               Assignmentnum={props.Assignmentnum}
               setSubmitlist={props.setSubmitlist}
               Submitlist={props.Submitlist}
               Disable={props.Disable}
               setDisable={props.setDisable}
-              Startmusic={props.Startmusic}
-              setStartmusic={props.setStartmusic}
               Realsubmit={props.Realsubmit}
               setRealsubmit={props.setRealsubmit}
+              setTemporarySubmitCheck={setTemporarySubmitCheck}
+              setLoading={props.setLoading}
+              MusicLoading={props.MusicLoading}
+              MusicEnd={props.MusicEnd}
+              setMusicEnd={props.setMusicEnd}
             />
           </div>
           <div style={{ textAlign: "center", margin: "10px" }}>
@@ -139,7 +119,7 @@ function SeqAudiorecordGridCard(props) {
   );
 }
 
-export default SeqAudiorecordGridCard;
+export default SeqAudiorecordGridcard;
 
 const AudioGridcard = styled.div`
   border: 1px solid rgb(211, 211, 211);
