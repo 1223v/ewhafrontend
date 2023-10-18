@@ -4,6 +4,7 @@ import { Select, message } from "antd";
 import Axios from "axios";
 import { API_URL } from "../../Config";
 import { useLocation, useNavigate } from "react-router-dom";
+import { GrClose } from "react-icons/gr";
 
 function FeedbackGridCard(props) {
   const location = useLocation();
@@ -19,6 +20,7 @@ function FeedbackGridCard(props) {
     { label: "Filler", value: "Filler" },
     { label: "BackTracking", value: "BackTracking" },
     { label: "Pause", value: "Pause" },
+    { label: "Etc", value: "Etc" },
   ]); // 피드백 옵션
 
   const onSelectChange = (value) => {
@@ -188,18 +190,12 @@ function FeedbackGridCard(props) {
 
         <Feedbacktext>
           {CheckList.map((item, index) => (
-            <div
-              key={index}
-              style={{ display: "inline-block", marginRight: "10px" }}
-            >
+            <TagDiv key={index}>
               {item}
-              <button
-                style={{ marginLeft: "5px", cursor: "pointer" }}
-                onClick={() => onSelectRemove(item)}
-              >
-                x
-              </button>
-            </div>
+              <DeleteBtn onClick={() => onSelectRemove(item)}>
+                <GrClose size={"12"} />
+              </DeleteBtn>
+            </TagDiv>
           ))}
         </Feedbacktext>
         <FeedbackTextField
@@ -255,4 +251,20 @@ const SubFeedbackGridcard = styled.div`
 const FeedbackGridcard = styled.div`
   position: relative;
   display: flex;
+`;
+
+const DeleteBtn = styled.button`
+  background: none;
+  border: none;
+  cursor: pointer;
+  outline: none;
+`;
+
+const TagDiv = styled.div`
+  background: #e8e8e8;
+  border-radius: 16px;
+  padding: 8px;
+  margin-right: 10px;
+  display: inline-block;
+  margin-bottom: 10px;
 `;

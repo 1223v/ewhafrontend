@@ -2,36 +2,38 @@
 @tailwind components;
 @tailwind utilities;
 body {
-    margin: 0;
-    font-family: "Noto Sans KR", sans-serif;
-    
+  margin: 0;
+  font-family: "Noto Sans KR", sans-serif;
 }
 
 a {
-    text-decoration: none;
+  text-decoration: none;
 }
 
-h3, h4, h5, div {
-	font-family: "Noto Sans KR", sans-serif;
+h3,
+h4,
+h5,
+div,
+button {
+  font-family: "Noto Sans KR", sans-serif;
 }
-
-
 
 code {
-    font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New", monospace;
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
+    monospace;
 }
 
 .textae-control-bar,
 .textae-touch-bar {
-    z-index: 3;
+  z-index: 3;
 }
 
 .react-calendar {
-    @media screen and (max-width: 830px) {
-        width: auto !important;
-    }
+  @media screen and (max-width: 830px) {
+    width: auto !important;
+  }
 }
 
 .react-calendar__tile--active {
-    background: #05422b !important;
+  background: #05422b !important;
 }

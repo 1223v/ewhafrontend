@@ -147,10 +147,14 @@ function ProbProfessorDetailPage() {
         <LectureNameDiv>
           <LectureName>첨부 파일</LectureName>
           <LectureNameinputDiv>
-            <FileDownload
-              DownloadUrl={ProbInfo.file_path}
-              FileName={ProbInfo.file_name}
-            />
+            {ProbInfo.file_path ? (
+              <FileDownload
+                DownloadUrl={ProbInfo.file_path}
+                FileName={ProbInfo.file_name}
+              />
+            ) : (
+              "첨부파일이 없습니다."
+            )}
           </LectureNameinputDiv>
         </LectureNameDiv>
         <hr style={{ background: "#d3d3d3", height: "1px", border: "0" }} />

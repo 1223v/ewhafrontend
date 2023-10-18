@@ -60,6 +60,12 @@ function ProfessorProbFeedbackPage() {
     setFeedbackResult(true);
   };
 
+  const onGraphClick = () => {
+    navigate(
+      `/prob/graph/professor?lecture_no=${lectureNo}&as_no=${asNo}&user_no=${userNo}`
+    );
+  };
+
   /**
    * TextAEEditor의 데이터를 불러오는 함수
    */
@@ -224,12 +230,14 @@ function ProfessorProbFeedbackPage() {
 
       <FloatButton.Group
         trigger="click"
-        style={{ right: 20, bottom: 200 }}
+        style={{ right: 20, bottom: 200, zIndex: 3 }}
         icon={<BarChartOutlined />}
       >
-        <FloatButton icon={<LineChartOutlined />} />
+        <FloatButton icon={<LineChartOutlined />} onClick={onGraphClick} />
+
         <FloatButton
-          icon={<EditOutlined onClick={onResultBottomSheetClick} />}
+          icon={<EditOutlined />}
+          onClick={onResultBottomSheetClick}
         />
       </FloatButton.Group>
       <ProfessorResultSheet
@@ -363,7 +371,7 @@ const LectureCreateDiv = styled.div`
   bottom: 6rem;
   width: 100%;
   left: 0;
-  z-index: 4;
+  z-index: 3;
   -webkit-box-align: center;
   align-items: center;
 
@@ -382,7 +390,7 @@ const LectureCreateDiv2 = styled.div`
   bottom: 0px;
   width: 100%;
   right: 0;
-  z-index: 4;
+  z-index: 3;
   -webkit-box-align: center;
   align-items: center;
   height: 6rem;

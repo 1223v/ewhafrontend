@@ -19,6 +19,7 @@ import ProbStudentDetailPage from "../pages/ProbDetailPage/ProbStudentDetailPage
 import ProfessorProbFeedbackPage from "../pages/ProbFeedbackPage/ProfessorProbFeedbackPage";
 import StudentProbFeedbackPage from "../pages/ProbFeedbackPage/StudentProbFeedbackPage";
 import Highlighter from "../pages/TestPage/Highlighter";
+import ProfessorGraphPage from "../pages/GraphPage/ProfessorGraphPage";
 
 function App() {
   //false : 로그인 안한 유저
@@ -45,6 +46,7 @@ function App() {
   const NewProbSubmitListPage = Auth(ProbSubmitListPage, true, 3); // 과제 제출페이지
   const NewProbListProfessorPage = Auth(ProbListProfessorPage, true, 3); // 교수자 과제 리스트 페이지
   const NewProfessorProbFeedbackPage = Auth(ProfessorProbFeedbackPage, true, 3); // 교수 과제 피드백 페이지
+  const NewProfessorGraphPage = Auth(ProfessorGraphPage, true, 3); // 교수 과제 그래프 페이지
 
   return (
     <div className="App">
@@ -92,6 +94,10 @@ function App() {
         <Route
           path="/prob/feedback/student"
           element={<NewStudentProbFeedbackPage />}
+        />
+        <Route
+          path="/prob/graph/professor"
+          element={<NewProfessorGraphPage />}
         />
         <Route path="/*" element={<Navigate to="/"></Navigate>}></Route>
         <Route path="/test" element={<NewTest />} />

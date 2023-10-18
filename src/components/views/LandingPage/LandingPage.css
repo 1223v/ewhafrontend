@@ -80,13 +80,14 @@ body {
 }
 
 .class_tag {
-  margin: 10px;
+  margin: 25px 0px 20px 10px;
   background: rgba(133, 136, 153, 0.15);
   width: 125px;
   height: auto;
   font-size: 15px;
   text-align: center;
   border-radius: 10px;
+  padding: 4px;
 }
 
 .search_bar {

@@ -7,6 +7,7 @@ import Axios from "axios";
 import { useLocation, useNavigate } from "react-router-dom";
 import { message } from "antd";
 import { API_URL } from "../../Config";
+import NavBar from "../NavBar/NavBar";
 
 function ProfessorResultSheet(props) {
   const location = useLocation();
@@ -26,7 +27,6 @@ function ProfessorResultSheet(props) {
   };
 
   const onResultSubmit = () => {
-    console.log("api 호출");
     let body = {
       as_no: asNo,
       student_no: userNo,
