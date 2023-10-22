@@ -7,7 +7,7 @@ import { API_URL } from "../../../Config";
 import { message } from "antd";
 import { useNavigate } from "react-router-dom";
 
-const fileTypes = ["wav", "mp3"];
+const fileTypes = ["mp3"];
 
 function DragNDrop(props) {
   let navigate = useNavigate();

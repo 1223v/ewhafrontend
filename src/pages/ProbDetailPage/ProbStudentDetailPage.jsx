@@ -9,6 +9,7 @@ import FileDownload from "../../components/views/Fileload/FileDownload";
 import { useSelector } from "react-redux";
 import Timeformat from "../../components/views/commons/Timeformat";
 import { message } from "antd";
+import SubmitFileUpload from "../../components/views/Fileload/SubmitFileUpload";
 
 function ProbStudentDetailPage() {
   let navigate = useNavigate();
@@ -22,27 +23,45 @@ function ProbStudentDetailPage() {
   const [ProbInfo, setProbInfo] = useState([]);
   const [ProbInfoOpenTime, setProbInfoOpenTime] = useState(""); //게시일 Getter Setter
   const [ProbInfoCloseTime, setProbInfoCloseTime] = useState(""); //마감일 Getter Setter
+  const [MusicFile, setMusicFile] = useState([]); //음원 파일
 
-  const onLastSubmitClick = () => {
-    let body = {
-      as_no: asNo,
-    };
-    Axios.put(`${API_URL}api/prob/end`, body, {
-      withCredentials: true,
-    })
-      .then((response) => {
-        if (response.data.isSuccess) {
-          message.success("최종 제출 완료");
-          navigate(`/prob/list/student?lecture_no=${lectureNo}`);
-        } else {
-          message.error(response.data.message);
-        }
-      })
-      .catch((error) => {
-        // 요청이 실패한 경우의 처리
-        message.error("알 수 없는 에러가 발생했습니다.");
-        navigate("/");
+  const onLastSubmitClick = async () => {
+    try {
+      // MusicFile의 길이가 0이 아니면 첫 번째 요청 시작
+      if (MusicFile.length !== 0) {
+        let submitFile = {
+          submitUUID: MusicFile,
+          as_no: asNo,
+          lecture_no: lectureNo,
+        };
+
+        let response = await Axios.post(
+          `${API_URL}api/prob/submit`,
+          submitFile,
+          {
+            withCredentials: true,
+          }
+        );
+
+        // 첫 번째 요청에 대한 응답을 처리할 로직 (예: 상태 업데이트 등)
+        console.log(response.data);
+      }
+
+      // 두 번째 요청 시작 (MusicFile의 길이와 상관없이 항상 실행)
+      let body = {
+        as_no: asNo,
+      };
+      await Axios.put(`${API_URL}api/prob/end`, body, {
+        withCredentials: true,
       });
+
+      // 두 번째 요청에 대한 응답을 처리할 로직
+      message.success("최종 제출 완료");
+      navigate(`/prob/list/student?lecture_no=${lectureNo}`);
+    } catch (error) {
+      message.error(error);
+      //navigate("/");
+    }
   };
 
   useEffect(() => {
@@ -66,6 +85,10 @@ function ProbStudentDetailPage() {
         navigate("/login");
       });
   }, []);
+
+  useEffect(() => {
+    console.log(MusicFile);
+  }, [MusicFile]);
 
   return (
     <LectureBackgroudDiv>
@@ -181,6 +204,18 @@ function ProbStudentDetailPage() {
           <LectureName>과제 설명</LectureName>
           <LectureDescriptionDiv>{ProbInfo.detail}</LectureDescriptionDiv>
         </LectureNameDiv>
+        <hr style={{ background: "#d3d3d3", height: "1px", border: "0" }} />
+        {ProbInfo.end_submission === false && (
+          <ProbMusicDiv>
+            <LectureName>음원 제출</LectureName>
+            <LectureNameinputDiv>
+              <SubmitFileUpload
+                MusicFile={MusicFile}
+                setMusicFile={setMusicFile}
+              />
+            </LectureNameinputDiv>
+          </ProbMusicDiv>
+        )}
       </LectureAddFormDiv>
 
       <BtnDiv>
@@ -267,6 +302,19 @@ const LectureAddFormDiv = styled.div`
   @media screen and (max-width: 830px) {
     width: auto;
     margin: 10px;
+  }
+`;
+
+const ProbMusicDiv = styled.div`
+  font-size: 14px;
+  line-height: 1.5;
+  color: #525364;
+  width: 95%;
+  @import url("https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;400&display=swap");
+  font-family: "Noto Sans KR", sans-serif;
+  margin: 17px;
+  @media screen and (max-width: 830px) {
+    margin: 11px;
   }
 `;
 

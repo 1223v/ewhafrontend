@@ -98,11 +98,7 @@ function SeqInterpretationPage() {
       <NavBar />
       <div style={{ display: "flex" }}>
         <LectureBackDiv>
-          <Link
-            to={"/"}
-            style={{ color: "black", padding: "7px" }}
-            onClick={onExitChange}
-          >
+          <Link to={"/"} style={{ color: "black", padding: "7px" }}>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
