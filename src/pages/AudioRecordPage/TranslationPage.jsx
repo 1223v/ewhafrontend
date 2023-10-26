@@ -4,8 +4,6 @@ import Axios from "axios";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { Row } from "antd";
-import SimAudiorecordGridcard from "../../components/views/commons/SimAudiorecordGridcard";
-import SimInterpretationAudioplay from "../../components/views/AudioRecord/SimInterpretationAudioplay";
 import { API_URL } from "../../components/Config";
 import LoadingPage from "../../components/views/LoadingPage/LoadingPage";
 import { useSelector } from 'react-redux';
@@ -50,9 +48,25 @@ function TranslationPage() {
 
             
 
-            <div style={{ width: "auto", margin: "20px auto" }}>
-                
-            </div>
+            
+            <FeedbackDiv>
+        <Original>
+          <h4>
+            원문{" "}
+          </h4>
+          <OriginalBox>asdfasdf</OriginalBox>
+        </Original>
+
+        <Interpretation>
+          <h4>통역 전사문</h4>
+          <InterpretationBox>
+            
+          </InterpretationBox>
+        </Interpretation>
+
+        
+      </FeedbackDiv>
+            
             <LectureCreateDiv>
                 <LectureCreateButton >제출하기</LectureCreateButton>
             </LectureCreateDiv>
@@ -113,4 +127,78 @@ const LectureCreateButton = styled.button`
     color: #fff;
     background-color: #2e462f;
     border-color: transparent;
+`;
+
+const FeedbackDiv = styled.div`
+  margin: 0 auto;
+  position: relative;
+  min-height: 1800px;
+  @media screen and (min-width: 1000px) {
+    display:flex;
+    
+    margin:40px;
+    min-height: 800px;
+  }
+`;
+
+const Original = styled.div`
+  font-size: 12px;
+  max-width: 800px;
+  padding: 15px;
+  @media screen and (min-width: 1000px) {
+    margin-left: auto;
+
+    width: 50%;
+    height: 580px;
+
+    border: 1px solid #d3d3d3;
+    border-radius: 4px;
+
+    background-color: #f9f9f9;
+    text-align: center;
+  }
+`;
+
+
+const OriginalBox = styled.div`
+  width: auto;
+  height: 500px;
+  overflow-y: auto;
+  word-wrap: break-word;
+  border: 1px solid #d3d3d3;
+  border-radius: 4px;
+
+  background-color: #f9f9f9;
+`;
+
+const Interpretation = styled.div`
+  font-size: 12px;
+  margin-right: auto;
+  max-width: 800px;
+  padding: 15px;
+  @media screen and (min-width: 1000px) {
+    
+    
+
+    width: 50%;
+    height: 580px;
+
+    border: 1px solid #d3d3d3;
+    border-radius: 0px 4px 4px 0px;
+
+    background-color: #f9f9f9;
+  }
+`;
+
+const InterpretationBox = styled.div`
+  width: auto;
+  height: auto;
+  max-height: 500px;
+  overflow-y: auto;
+
+  word-wrap: break-word;
+  border: 1px solid #d3d3d3;
+  border-radius: 4px;
+
+  background-color: #f9f9f9;
 `;
