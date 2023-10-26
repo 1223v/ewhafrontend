@@ -13,12 +13,15 @@ import LoadingPage from "../../components/views/LoadingPage/LoadingPage";
 const Startlanguage = [
   { value: "jp", label: "일본어" },
   { value: "ko", label: "한국어" },
-  { value: "cn", label: "중국어" },
-  { value: "en", label: "영어" },
-  { value: "fr", label: "불어" },
+  // { value: "cn", label: "중국어" },
+  // { value: "en", label: "영어" },
+  // { value: "fr", label: "불어" },
 ];
 
-const Endlanguage = [{ value: "ko", label: "한국어" }];
+const Endlanguage = [
+  { value: "ko", label: "한국어" },
+  { value: "jp", label: "일본어" },
+];
 
 const AssignmentOption = [
   { value: "순차통역", label: "순차 통역" },
@@ -238,7 +241,7 @@ function ProbAddPage() {
             />
           </LectureNameinputDiv>
         </LectureNameDiv>
-        <hr style={{ background: "#d3d3d3", height: "1px", border: "0" }} />
+        <LectureHr />
         <LectureNameDiv>
           <LectureName>과제 종류</LectureName>
           <LectureNameinputDiv style={{ marginTop: "10px" }}>
@@ -255,7 +258,7 @@ function ProbAddPage() {
             </select>
           </LectureNameinputDiv>
         </LectureNameDiv>
-        <hr style={{ background: "#d3d3d3", height: "1px", border: "0" }} />
+        <LectureHr />
         <LectureNameDiv>
           <LectureName>출발 언어</LectureName>
           <LectureNameinputDiv style={{ marginTop: "10px" }}>
@@ -286,7 +289,7 @@ function ProbAddPage() {
             </select>
           </LectureNameinputDiv>
         </LectureNameDiv>
-        <hr style={{ background: "#d3d3d3", height: "1px", border: "0" }} />
+        <LectureHr />
         <LectureNameDiv>
           <LectureName>과제 게시일</LectureName>
           <LectureNameinputDiv style={{ marginTop: "7px" }}>
@@ -297,7 +300,7 @@ function ProbAddPage() {
             />
           </LectureNameinputDiv>
         </LectureNameDiv>
-        <hr style={{ background: "#d3d3d3", height: "1px", border: "0" }} />
+        <LectureHr />
         <LectureNameDiv>
           <LectureName>과제 마감일</LectureName>
           <LectureNameinputDiv style={{ marginTop: "7px" }}>
@@ -308,7 +311,7 @@ function ProbAddPage() {
             />
           </LectureNameinputDiv>
         </LectureNameDiv>
-        <hr style={{ background: "#d3d3d3", height: "1px", border: "0" }} />
+        <LectureHr />
         <LectureNameDiv>
           <LectureName>재생 속도</LectureName>
           <LectureNameinputDiv style={{ marginTop: "10px" }}>
@@ -325,7 +328,7 @@ function ProbAddPage() {
             </select>
           </LectureNameinputDiv>
         </LectureNameDiv>
-        <hr style={{ background: "#d3d3d3", height: "1px", border: "0" }} />
+        <LectureHr />
         <LectureNameDiv>
           <LectureName>녹음 횟수</LectureName>
           <LectureNameinputDiv>
@@ -347,7 +350,7 @@ function ProbAddPage() {
             </Checkbox>
           </LectureNameinputDiv>
         </LectureNameDiv>
-        <hr style={{ background: "#d3d3d3", height: "1px", border: "0" }} />
+        <LectureHr />
         <LectureNameDiv>
           <LectureName>참고 자료</LectureName>
           <LectureNameinputDiv
@@ -361,7 +364,7 @@ function ProbAddPage() {
             />
           </LectureNameinputDiv>
         </LectureNameDiv>
-        <hr style={{ background: "#d3d3d3", height: "1px", border: "0" }} />
+        <LectureHr />
         <LectureNameDiv>
           <LectureName>키워드</LectureName>
           <LectureNameinputDiv>
@@ -375,7 +378,7 @@ function ProbAddPage() {
             />
           </LectureNameinputDiv>
         </LectureNameDiv>
-        <hr style={{ background: "#d3d3d3", height: "1px", border: "0" }} />
+        <LectureHr />
         <LectureNameDiv>
           <LectureName>과제 설명</LectureName>
           <LectureNameinputDiv>
@@ -389,27 +392,31 @@ function ProbAddPage() {
             />
           </LectureNameinputDiv>
         </LectureNameDiv>
-        <hr style={{ background: "#d3d3d3", height: "1px", border: "0" }} />
+        <LectureHr />
 
-        <ProbMusicDiv>
-          <LectureName>과제 음원</LectureName>
-          <LectureNameinputDiv>
-            <DragNDrop
-              Urlfile={Urlfile}
-              setUrlfile={setUrlfile}
-              regions={regions}
-              setRegions={setRegions}
-              regionsCopy={regionsCopy}
-              setRegionsCopy={setRegionsCopy}
-              setMusic={setMusic}
-              Music={Music}
-              setModregions={setModregions}
-              Modregions={Modregions}
-            />
-          </LectureNameinputDiv>
-        </ProbMusicDiv>
+        {Assignmentlist !== "번역" && (
+          <div>
+            <ProbMusicDiv>
+              <LectureName>과제 음원</LectureName>
+              <LectureNameinputDiv>
+                <DragNDrop
+                  Urlfile={Urlfile}
+                  setUrlfile={setUrlfile}
+                  regions={regions}
+                  setRegions={setRegions}
+                  regionsCopy={regionsCopy}
+                  setRegionsCopy={setRegionsCopy}
+                  setMusic={setMusic}
+                  Music={Music}
+                  setModregions={setModregions}
+                  Modregions={Modregions}
+                />
+              </LectureNameinputDiv>
+            </ProbMusicDiv>
+            <LectureHr />
+          </div>
+        )}
 
-        <hr style={{ background: "#d3d3d3", height: "1px", border: "0" }} />
         <div>
           <FileRead setTxtreads={setTxtread} Txtreads={Txtread} />
         </div>
@@ -429,6 +436,12 @@ const LectureBackgroudDiv = styled.div`
   background-color: #f7f7fa;
   width: 100%;
   height: 100%;
+`;
+
+const LectureHr = styled.hr`
+  background: #d3d3d3;
+  height: 1px;
+  border: 0;
 `;
 
 const LectureAddFormDiv = styled.div`
