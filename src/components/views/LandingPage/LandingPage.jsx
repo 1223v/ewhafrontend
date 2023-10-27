@@ -16,7 +16,7 @@ function LandingPage() {
   let navigate = useNavigate();
   const [Lectures, setLectures] = useState([]);
   const [message, setMessage] = useState("");
-  const [LectureStatus, setLectureStatus] = useState(false);
+  //const [LectureStatus, setLectureStatus] = useState(false);
 
   const userinfos = useSelector((state) => state.user);
 
@@ -80,8 +80,8 @@ function LandingPage() {
                   year={lesson.year}
                   semester={lesson.semester}
                   setLectures={setLectures}
-                  setLectureStatus={setLectureStatus}
-                  LectureStatus={LectureStatus}
+                  //setLectureStatus={setLectureStatus}
+                  //LectureStatus={LectureStatus}
                 />
               </React.Fragment>
             ))}
