@@ -1,12 +1,12 @@
-import React, { useEffect } from "react";
-import styled from "styled-components";
-import ModalContainer from "./ModalContainer";
+import React, { useEffect } from 'react';
+import styled from 'styled-components';
+import ModalContainer from './ModalContainer';
 
 function LoadingPage() {
     useEffect(() => {
-        const $body = document.querySelector("body");
+        const $body = document.querySelector('body');
         const overflow = $body.style.overflow;
-        $body.style.overflow = "hidden";
+        $body.style.overflow = 'hidden';
         return () => {
             $body.style.overflow = overflow;
         };
@@ -46,7 +46,7 @@ const Background = styled.div`
 `;
 
 const LoadingText = styled.div`
-    font: 1rem "Noto Sans KR";
+    font: 1rem 'Noto Sans KR';
     text-align: center;
 `;
 const LoadingDiv = styled.div`

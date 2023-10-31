@@ -1,10 +1,16 @@
-import React, { useCallback, useEffect, useRef, useState, useMemo } from "react";
-import styled from "styled-components";
-import { WaveSurfer, WaveForm, Region, Marker } from "wavesurfer-react";
-import RegionsPlugin from "wavesurfer.js/dist/plugin/wavesurfer.regions.min";
-import TimelinePlugin from "wavesurfer.js/dist/plugin/wavesurfer.timeline.min";
-import { FaRegPlayCircle, FaRegPauseCircle } from "react-icons/fa";
-import LoadingPage from "../LoadingPage/LoadingPage";
+import React, {
+    useCallback,
+    useEffect,
+    useMemo,
+    useRef,
+    useState,
+} from 'react';
+import { FaRegPauseCircle, FaRegPlayCircle } from 'react-icons/fa';
+import styled from 'styled-components';
+import { Region, WaveForm, WaveSurfer } from 'wavesurfer-react';
+import RegionsPlugin from 'wavesurfer.js/dist/plugin/wavesurfer.regions.min';
+import TimelinePlugin from 'wavesurfer.js/dist/plugin/wavesurfer.timeline.min';
+import LoadingPage from '../LoadingPage/LoadingPage';
 
 //https://velog.io/@seorim0801/react%EB%A1%9C-%EC%9D%8C%EC%84%B1-%EB%85%B9%EC%9D%8C-%EA%B8%B0%EB%8A%A5%EC%9D%84-%EA%B5%AC%ED%98%84%ED%95%B4%EB%B3%B4%EC%9E%90
 
@@ -36,7 +42,7 @@ function Audio(props) {
             timelineVis && {
                 plugin: TimelinePlugin,
                 options: {
-                    container: "#timeline",
+                    container: '#timeline',
                 },
             },
         ].filter(Boolean);
@@ -60,7 +66,7 @@ function Audio(props) {
     const regionCreatedHandler = useCallback(
         // 이 함수 문제
         (region) => {
-            console.log("region-created --> region:", region);
+            console.log('region-created --> region:', region);
 
             if (region.data.systemRegionId) return;
             if (props?.Modregions?.length !== 0) {
@@ -69,7 +75,10 @@ function Audio(props) {
                 return;
             }
             console.log(props?.Modregions);
-            props.setRegions([...regionsRef.current, { ...region, data: { ...region.data, systemRegionId: -1 } }]);
+            props.setRegions([
+                ...regionsRef.current,
+                { ...region, data: { ...region.data, systemRegionId: -1 } },
+            ]);
         },
         [props?.Modregions, regionsRef]
     );
@@ -84,19 +93,22 @@ function Audio(props) {
                 setMusicLoading(true);
                 wavesurferRef.current.load(props.soundtrack);
 
-                wavesurferRef.current.on("region-created", regionCreatedHandler);
+                wavesurferRef.current.on(
+                    'region-created',
+                    regionCreatedHandler
+                );
 
-                wavesurferRef.current.on("ready", () => {
-                    console.log("WaveSurfer is ready");
+                wavesurferRef.current.on('ready', () => {
+                    console.log('WaveSurfer is ready');
                     setMusicLoading(false);
                 });
 
-                wavesurferRef.current.on("region-removed", (region) => {
-                    console.log("region-removed --> ", region);
+                wavesurferRef.current.on('region-removed', (region) => {
+                    console.log('region-removed --> ', region);
                 });
 
-                wavesurferRef.current.on("loading", (data) => {
-                    console.log("loading --> ", data);
+                wavesurferRef.current.on('loading', (data) => {
+                    console.log('loading --> ', data);
                 });
 
                 if (window) {
@@ -113,7 +125,11 @@ function Audio(props) {
         const minTimestampInSeconds = 0;
         const maxTimestampInSeconds = wavesurferRef.current.getDuration();
         const distance = generateNum(0, 10);
-        const [min, max] = generateTwoNumsWithDistance(distance, minTimestampInSeconds, maxTimestampInSeconds);
+        const [min, max] = generateTwoNumsWithDistance(
+            distance,
+            minTimestampInSeconds,
+            maxTimestampInSeconds
+        );
 
         const r = generateNum(0, 255);
         const g = generateNum(0, 255);
@@ -128,7 +144,7 @@ function Audio(props) {
                 color: `rgba(${r}, ${g}, ${b}, 0.5)`,
             },
         ]);
-        console.log("실행됩니다.");
+        console.log('실행됩니다.');
     }, [props.regions, wavesurferRef]);
 
     const removeLastRegion = useCallback(() => {
@@ -145,9 +161,13 @@ function Audio(props) {
 
     const handleRegionUpdate = useCallback(
         (region, smth) => {
-            console.log("regiogion:", region.id);
+            console.log('regiogion:', region.id);
             const updatedRegions = props.regions.map((regionProps) => {
-                console.log("region-update--> region:", regionProps?.id, region.id);
+                console.log(
+                    'region-update--> region:',
+                    regionProps?.id,
+                    region.id
+                );
                 if (regionProps?.id === region.id) {
                     return {
                         ...regionProps,
@@ -164,9 +184,9 @@ function Audio(props) {
     );
 
     const options = {
-        waveColor: "#bcc4bd",
-        progressColor: "#05422b",
-        cursorColor: "transparent",
+        waveColor: '#bcc4bd',
+        progressColor: '#05422b',
+        cursorColor: 'transparent',
         barWidth: 3,
         barGap: 3,
         barRadius: 3,
@@ -181,23 +201,34 @@ function Audio(props) {
             <WaveSurfer plugins={plugins} onMount={handleWSMount}>
                 <WaveForm id="waveform" cursorColor="transparent" {...options}>
                     {props.regions.map((regionProps) => (
-                        <Region onUpdateEnd={handleRegionUpdate} key={regionProps.id} {...regionProps}></Region>
+                        <Region
+                            onUpdateEnd={handleRegionUpdate}
+                            key={regionProps.id}
+                            {...regionProps}
+                        ></Region>
                     ))}
                 </WaveForm>
                 <div id="timeline" />
             </WaveSurfer>
             <Buttons>
-                <Regionbutton onClick={generateRegion}>+ 구간 추가하기</Regionbutton>
+                <Regionbutton onClick={generateRegion}>
+                    + 구간 추가하기
+                </Regionbutton>
                 <Button
                     onClick={() => {
                         setplaytime(!playtime);
                         play();
                     }}
-                    
                 >
-                    {playtime ? <FaRegPauseCircle size="40" /> : <FaRegPlayCircle size="40" />}
+                    {playtime ? (
+                        <FaRegPauseCircle size="40" />
+                    ) : (
+                        <FaRegPlayCircle size="40" />
+                    )}
                 </Button>
-                <Regionbutton onClick={removeLastRegion}>- 구간 지우기</Regionbutton>
+                <Regionbutton onClick={removeLastRegion}>
+                    - 구간 지우기
+                </Regionbutton>
             </Buttons>
         </div>
     );
