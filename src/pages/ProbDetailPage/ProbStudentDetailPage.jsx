@@ -1,15 +1,15 @@
-import React, { useEffect, useState } from "react";
-import NavBar from "../../components/views/NavBar/NavBar";
-import styled from "styled-components";
-import Axios from "axios";
-import { Link, useLocation, useNavigate } from "react-router-dom";
-import { API_URL } from "../../components/Config";
-import { AiOutlineCheck, AiOutlineClose } from "react-icons/ai";
-import FileDownload from "../../components/views/Fileload/FileDownload";
-import { useSelector } from "react-redux";
-import Timeformat from "../../components/views/commons/Timeformat";
 import { message } from "antd";
+import Axios from "axios";
+import React, { useEffect, useState } from "react";
+import { AiOutlineCheck, AiOutlineClose } from "react-icons/ai";
+import { useSelector } from "react-redux";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import styled from "styled-components";
+import { API_URL } from "../../components/Config";
+import FileDownload from "../../components/views/Fileload/FileDownload";
 import SubmitFileUpload from "../../components/views/Fileload/SubmitFileUpload";
+import NavBar from "../../components/views/NavBar/NavBar";
+import Timeformat from "../../components/views/commons/Timeformat";
 
 function ProbStudentDetailPage() {
   let navigate = useNavigate();
@@ -204,17 +204,19 @@ function ProbStudentDetailPage() {
           <LectureName>과제 설명</LectureName>
           <LectureDescriptionDiv>{ProbInfo.detail}</LectureDescriptionDiv>
         </LectureNameDiv>
-        <hr style={{ background: "#d3d3d3", height: "1px", border: "0" }} />
-        {ProbInfo.end_submission === false && (
-          <ProbMusicDiv>
-            <LectureName>음원 제출</LectureName>
-            <LectureNameinputDiv>
-              <SubmitFileUpload
-                MusicFile={MusicFile}
-                setMusicFile={setMusicFile}
-              />
-            </LectureNameinputDiv>
-          </ProbMusicDiv>
+        {ProbInfo.end_submission === false && ProbInfo.as_type !== "번역" && (
+          <div>
+            <hr style={{ background: "#d3d3d3", height: "1px", border: "0" }} />
+            <ProbMusicDiv>
+              <LectureName>음원 제출</LectureName>
+              <LectureNameinputDiv>
+                <SubmitFileUpload
+                  MusicFile={MusicFile}
+                  setMusicFile={setMusicFile}
+                />
+              </LectureNameinputDiv>
+            </ProbMusicDiv>
+          </div>
         )}
       </LectureAddFormDiv>
 
@@ -261,18 +263,17 @@ function ProbStudentDetailPage() {
                 </StyledLink>
               ) : null}
             </div>
-          ) : (
-            <EvaluationDiv>평가중입니다.</EvaluationDiv>
-          )}
-          {ProbInfo.feedback === true && (
+          ) : ProbInfo.feedback === true ? (
             <StyledLink
               className="text-green-500 hover:text-green-700"
-              to={`/prob/feedback?as_no=${asNo}&lecture_no=${lectureNo}&user_no=${userinfos?.userData?.user_no}`}
+              to={`/prob/feedback/student?as_no=${asNo}&lecture_no=${lectureNo}&user_no=${userinfos?.userData?.user_no}`}
             >
               <button className="bg-transparent hover:bg-gray-100 hover:bg-opacity-50 text-green-700 font-semibold py-2 px-4 border border-green-500 rounded m-2">
                 피드백 확인
               </button>
             </StyledLink>
+          ) : (
+            <EvaluationDiv>평가중입니다.</EvaluationDiv>
           )}
         </TestBtnDiv>
       </BtnDiv>

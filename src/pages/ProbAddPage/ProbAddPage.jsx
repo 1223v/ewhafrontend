@@ -1,14 +1,14 @@
+import { Checkbox, message } from "antd";
+import Axios from "axios";
 import React, { useState } from "react";
-import NavBar from "../../components/views/NavBar/NavBar";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import styled from "styled-components";
+import { API_URL } from "../../components/Config";
 import DragNDrop from "../../components/views/Audio/Sections/DragNDrop";
 import FileRead from "../../components/views/Audio/Sections/FileRead";
-import Axios from "axios";
-import { Link, useLocation, useNavigate } from "react-router-dom";
-import { API_URL } from "../../components/Config";
 import FileUpload from "../../components/views/Fileload/FileUpload";
-import { Checkbox, message } from "antd";
 import LoadingPage from "../../components/views/LoadingPage/LoadingPage";
+import NavBar from "../../components/views/NavBar/NavBar";
 
 const Startlanguage = [
   { value: "jp", label: "일본어" },
@@ -135,11 +135,11 @@ function ProbAddPage() {
       return message.error("과제 설명을 적어주세요.");
     }
 
-    if (regionsCopy.length === 0) {
+    if (regionsCopy.length === 0 && Assignmentlist !== "번역") {
       return message.error("최소한 한개 이상의 구간을 설정해주세요.");
     }
 
-    if (Urlfile.length === 0) {
+    if (Urlfile.length === 0 && Assignmentlist !== "번역") {
       return message.error(
         "음원 파일이 존재하지 않습니다. 음원을 추가해주세요."
       );
@@ -150,12 +150,17 @@ function ProbAddPage() {
     }
 
     if (RecordCount <= 0) {
-      return message.error("녹음 횟수를 1회 이상 설정해주세요.");
+      return message.error("과제 횟수를 1회 이상 설정해주세요.");
     }
 
-    if (Speedlist.length === 0) {
+    if (Speedlist.length === 0 && Assignmentlist !== "번역") {
       return message.error("음원 속도를 설정해주세요.");
     }
+
+    if (Txtread.length === 0 && Assignmentlist === "번역") {
+      return message.error("번역에는 원문이 필수 입니다.");
+    }
+
     let body = {
       lecture_no: parseInt(lectureNo), //강의 번호
       as_name: Title, // 과제 제목
@@ -311,26 +316,30 @@ function ProbAddPage() {
             />
           </LectureNameinputDiv>
         </LectureNameDiv>
+        {Assignmentlist !== "번역" && (
+          <div>
+            <LectureHr />
+            <LectureNameDiv>
+              <LectureName>재생 속도</LectureName>
+              <LectureNameinputDiv style={{ marginTop: "10px" }}>
+                <select
+                  id="countries"
+                  class="bg-white-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-green-300 focus:border-green-300 block w-full p-2.5"
+                  onChange={onSpeedChange}
+                >
+                  {SpeedOption.map((item, index) => (
+                    <option key={index} value={item.value}>
+                      {item.label}
+                    </option>
+                  ))}
+                </select>
+              </LectureNameinputDiv>
+            </LectureNameDiv>
+          </div>
+        )}
         <LectureHr />
         <LectureNameDiv>
-          <LectureName>재생 속도</LectureName>
-          <LectureNameinputDiv style={{ marginTop: "10px" }}>
-            <select
-              id="countries"
-              class="bg-white-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-green-300 focus:border-green-300 block w-full p-2.5"
-              onChange={onSpeedChange}
-            >
-              {SpeedOption.map((item, index) => (
-                <option key={index} value={item.value}>
-                  {item.label}
-                </option>
-              ))}
-            </select>
-          </LectureNameinputDiv>
-        </LectureNameDiv>
-        <LectureHr />
-        <LectureNameDiv>
-          <LectureName>녹음 횟수</LectureName>
+          <LectureName>과제 횟수</LectureName>
           <LectureNameinputDiv>
             {isChecked === false && (
               <RecordCountInput

@@ -1,12 +1,12 @@
-import React, { useEffect, useState } from "react";
-import styled from "styled-components";
-import NavBar from "../NavBar/NavBar";
-import LectureListPage from "./Sections/LectureListPage";
-import StudentAddModal from "../StudentAddModal/StudentAddModal";
-import { Link, useNavigate, useLocation } from "react-router-dom";
 import Axios from "axios";
+import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import styled from "styled-components";
 import { API_URL } from "../../Config";
+import NavBar from "../NavBar/NavBar";
+import StudentAddModal from "../StudentAddModal/StudentAddModal";
+import LectureListPage from "./Sections/LectureListPage";
 
 const Year = [
   { value: "2026", label: "2026년" },
@@ -47,9 +47,10 @@ const Separated = [
 ];
 
 function LectureModPage() {
-  const location = useLocation();
-  const data = location.state;
   let navigate = useNavigate();
+  const location = useLocation();
+  const params = new URLSearchParams(location.search);
+  const lectureNo = params.get("lecture_no");
   const userinfos = useSelector((state) => state.user);
   const [isOpen, setIsOpen] = useState(false);
   const [checkedList, setCheckedList] = useState([]);
@@ -64,7 +65,7 @@ function LectureModPage() {
   const [Allstudentlist, setAllstudentlist] = useState([]);
 
   useEffect(() => {
-    Axios.get(`${API_URL}api/lecture/modify?lecture_no=${data.num}`, {
+    Axios.get(`${API_URL}api/lecture/modify?lecture_no=${lectureNo}`, {
       withCredentials: true,
     })
       .then((response) => {
@@ -122,7 +123,7 @@ function LectureModPage() {
 
   const onSaveButton = () => {
     let body = {
-      lecture_no: data.num,
+      lecture_no: lectureNo,
       lecture_name: Titlelist,
       lecture_year: Yearlist,
       lecture_semester: Semesterlist,

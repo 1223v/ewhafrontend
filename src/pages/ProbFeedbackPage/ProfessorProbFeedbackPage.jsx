@@ -1,21 +1,21 @@
-import React, { useState, useEffect } from "react";
-import NavBar from "../../components/views/NavBar/NavBar";
-import styled from "styled-components";
-import TextAEEditor from "../../components/views/Feedback/TextAEEditor";
-import FeedbackGridCard from "../../components/views/commons/FeedbackGridCard";
-import { Link, useLocation, useNavigate } from "react-router-dom";
-import Axios from "axios";
-import { API_URL } from "../../components/Config";
-import { message, FloatButton, Switch } from "antd";
 import {
   BarChartOutlined,
   EditOutlined,
   LineChartOutlined,
 } from "@ant-design/icons";
+import { FloatButton, Switch, message } from "antd";
+import Axios from "axios";
+import React, { useEffect, useState } from "react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import styled from "styled-components";
+import { API_URL } from "../../components/Config";
 import OriginAudioplay from "../../components/views/Audio/OriginAudioplay";
 import StudentAudioplay from "../../components/views/Audio/StudentAudioplay";
-import Timeformat from "../../components/views/commons/Timeformat";
 import ProfessorResultSheet from "../../components/views/Feedback/ProfessorResultSheet";
+import TextAEEditor from "../../components/views/Feedback/TextAEEditor";
+import NavBar from "../../components/views/NavBar/NavBar";
+import FeedbackGridCard from "../../components/views/commons/FeedbackGridCard";
+import Timeformat from "../../components/views/commons/Timeformat";
 
 function ProfessorProbFeedbackPage() {
   const location = useLocation();
@@ -23,7 +23,7 @@ function ProfessorProbFeedbackPage() {
   const params = new URLSearchParams(location.search);
   const lectureNo = params.get("lecture_no");
   const asNo = params.get("as_no");
-  const userNo = params.get("user_no");
+  const userNo = params.get("user_no"); // 학생 번호
   const [FeedbackResult, setFeedbackResult] = useState(false); // 총평 바텀시트 open 여부
   const [NewAttributeCount, setNewAttributeCount] = useState(""); // 새로운 속성 개수
   const [Datacontent, setDatacontent] = useState(false); // textaeeditor 데이터 변경 감지
@@ -31,6 +31,7 @@ function ProfessorProbFeedbackPage() {
   const [AttributesContent, setAttributesContent] = useState([]); // textaeeditor Attributes 데이터
   const [SubmitAttributesContent, setSubmitAttributesContent] = useState([]); // textaeeditor Attributes 피드백 반영 데이터
   const [StudentInfo, setStudentInfo] = useState(""); // 학생 정보
+  const [AssignType, setAssignType] = useState(""); // 과제 타입
   const [LimitTime, setLimitTime] = useState(""); // 마감 시간
   const [SubmitTime, setSubmitTime] = useState(""); // 제출 시간
   const [StudentAudio, setStudentAudio] = useState([]); // 학생 구간 녹음 자료
@@ -87,6 +88,7 @@ function ProfessorProbFeedbackPage() {
           setOriginAudio(response.data.assignment_audio);
           setOriginText(response.data.original_text);
           setSTTText(response.data.original_tts);
+          setAssignType(response.data.as_type);
         } else {
           message.error(response.data.message);
 
@@ -141,16 +143,18 @@ function ProfessorProbFeedbackPage() {
         <Original>
           <h4>
             원문{" "}
-            <ChangeDiv>
-              <Switch
-                onChange={onTextChange}
-                checkedChildren="STT"
-                unCheckedChildren="원문"
-                defaultChecked
-              />
-            </ChangeDiv>
+            {AssignType !== "번역" && (
+              <ChangeDiv>
+                <Switch
+                  onChange={onTextChange}
+                  checkedChildren="원문"
+                  unCheckedChildren="STT"
+                  defaultChecked
+                />
+              </ChangeDiv>
+            )}
           </h4>
-          <OriginalBox>{Checking ? STTText : OriginText}</OriginalBox>
+          <OriginalBox>{Checking ? OriginText : STTText}</OriginalBox>
         </Original>
 
         <Interpretation>
@@ -190,43 +194,45 @@ function ProfessorProbFeedbackPage() {
         </Estimation>
       </FeedbackDiv>
 
-      <MusicPlayer>
-        <LectureCreateDiv>
-          <OriginAudioplay
-            OriginAudio={OriginAudio}
-            SelectAudio={OriginSelectAudio}
-            setSelectAudio={setOriginSelectAudio}
-            setSynchronization={setSynchronization}
-            Synchronization={Synchronization} // 원본 / 학생 동기화
-            SynchronizationPlay={SynchronizationPlay} // 원본 / 학생 동기화 플레이
-            SynchronizationskipBackward={SynchronizationskipBackward} // 원본 / 학생 동기화 되감기
-            SynchronizationskipForward={SynchronizationskipForward} // 원본 / 학생 동기화 빨리감기
-            setSynchronizationskipForward={setSynchronizationskipForward} // 원본 / 학생 동기화 빨리감기 변경
-            setSynchronizationskipBackward={setSynchronizationskipBackward} // 원본 / 학생 동기화 되감기 변경
-            setSynchronizationPlay={setSynchronizationPlay} // 원본 / 학생 동기화 플레이 변경
-            SynchronizationMove={SynchronizationMove} // 원본 / 학생 동기화 특정 시간으로 이동
-          />
-        </LectureCreateDiv>
+      {AssignType !== "번역" && (
+        <MusicPlayer>
+          <LectureCreateDiv>
+            <OriginAudioplay
+              OriginAudio={OriginAudio}
+              SelectAudio={OriginSelectAudio}
+              setSelectAudio={setOriginSelectAudio}
+              setSynchronization={setSynchronization}
+              Synchronization={Synchronization} // 원본 / 학생 동기화
+              SynchronizationPlay={SynchronizationPlay} // 원본 / 학생 동기화 플레이
+              SynchronizationskipBackward={SynchronizationskipBackward} // 원본 / 학생 동기화 되감기
+              SynchronizationskipForward={SynchronizationskipForward} // 원본 / 학생 동기화 빨리감기
+              setSynchronizationskipForward={setSynchronizationskipForward} // 원본 / 학생 동기화 빨리감기 변경
+              setSynchronizationskipBackward={setSynchronizationskipBackward} // 원본 / 학생 동기화 되감기 변경
+              setSynchronizationPlay={setSynchronizationPlay} // 원본 / 학생 동기화 플레이 변경
+              SynchronizationMove={SynchronizationMove} // 원본 / 학생 동기화 특정 시간으로 이동
+            />
+          </LectureCreateDiv>
 
-        <LectureCreateDiv2>
-          <StudentAudioplay
-            StudentAudio={StudentAudio}
-            SelectAudio={StudentSelectAudio}
-            setSelectAudio={setStudentSelectAudio}
-            OriginAudio={OriginAudio}
-            setOriginSelectAudio={setOriginSelectAudio}
-            SynchronizationPlay={SynchronizationPlay} // 원본 / 학생 동기화 플레이
-            setSynchronizationPlay={setSynchronizationPlay} // 원본 / 학생 동기화 플레이 변경
-            SynchronizationskipBackward={SynchronizationskipBackward} // 원본 / 학생 동기화 되감기
-            setSynchronizationskipBackward={setSynchronizationskipBackward} // 원본 / 학생 동기화 되감기 변경
-            SynchronizationskipForward={SynchronizationskipForward} // 원본 / 학생 동기화 빨리감기
-            setSynchronizationskipForward={setSynchronizationskipForward} // 원본 / 학생 동기화 빨리감기 변경
-            Synchronization={Synchronization} // 원본 / 학생 동기화
-            setSynchronization={setSynchronization} // 원본 / 학생 동기화 변경
-            setSynchronizationMove={setSynchronizationMove} // 원본 / 학생 동기화 특정 시간으로 이동
-          />
-        </LectureCreateDiv2>
-      </MusicPlayer>
+          <LectureCreateDiv2>
+            <StudentAudioplay
+              StudentAudio={StudentAudio}
+              SelectAudio={StudentSelectAudio}
+              setSelectAudio={setStudentSelectAudio}
+              OriginAudio={OriginAudio}
+              setOriginSelectAudio={setOriginSelectAudio}
+              SynchronizationPlay={SynchronizationPlay} // 원본 / 학생 동기화 플레이
+              setSynchronizationPlay={setSynchronizationPlay} // 원본 / 학생 동기화 플레이 변경
+              SynchronizationskipBackward={SynchronizationskipBackward} // 원본 / 학생 동기화 되감기
+              setSynchronizationskipBackward={setSynchronizationskipBackward} // 원본 / 학생 동기화 되감기 변경
+              SynchronizationskipForward={SynchronizationskipForward} // 원본 / 학생 동기화 빨리감기
+              setSynchronizationskipForward={setSynchronizationskipForward} // 원본 / 학생 동기화 빨리감기 변경
+              Synchronization={Synchronization} // 원본 / 학생 동기화
+              setSynchronization={setSynchronization} // 원본 / 학생 동기화 변경
+              setSynchronizationMove={setSynchronizationMove} // 원본 / 학생 동기화 특정 시간으로 이동
+            />
+          </LectureCreateDiv2>
+        </MusicPlayer>
+      )}
 
       <FloatButton.Group
         trigger="click"

@@ -1,126 +1,65 @@
-import React, { useEffect, useState, useRef } from "react";
-import styled, { keyframes } from "styled-components";
-import Axios from "axios";
-import { Link, useLocation, useNavigate } from "react-router-dom";
-import { API_URL } from "../../Config";
+import { message } from 'antd';
+import Axios from 'axios';
+import React, { useEffect, useRef, useState } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { API_URL } from '../../Config';
 
 const ReadOnlyTextAEEditor = (props) => {
     const location = useLocation();
     let navigate = useNavigate();
     const params = new URLSearchParams(location.search);
-    const lectureNo = params.get("lecture_no");
-    const asNo = params.get("as_no");
-    const userNo = params.get("user_no");
-    const [Url, setUrl] = useState("");
-    const [Textae, setTextae] = useState("");
-    let teae = {};
-
+    const lectureNo = params.get('lecture_no');
+    const asNo = params.get('as_no');
+    const userNo = params.get('user_no');
+    let editor = {};
+    const [FirstTextAERender, setFirstTextAERender] = useState(true); // TextAEEditor의 첫 렌더링을 감지하는 변수
+    let teae = {}; // TextAEEditor의 데이터를 저장하는 변수
     const elementRef = useRef(null);
-    const countOccurrences = (textContent) => {
-        let FillerNumber = 0;
-        let PauseNumber = 0;
-        let BacktrackingNumber = 0;
-        let EtcNumber = 0;
-        let MistranslationNumber = 0;
-        let IntonationNumber = 0;
-        let OmissionNumber = 0;
-        let PronunciationNumber = 0;
-        let GrammaticalErrorNumber = 0;
 
-        console.log(textContent.denotations);
-        textContent.denotations?.forEach((item) => {
-            if (item.obj === "Filler" || item.obj === "FILLER") {
-                //변수 명 대,소문자 확인 부탁
-                FillerNumber++;
-                console.log("filer");
-            } else if (item.obj === "Pause" || item.obj === "PAUSE") {
-                PauseNumber++;
-            } else if (item.obj === "Backtracking") {
-                BacktrackingNumber++;
-            } else if (item.obj === "Etc") {
-                EtcNumber++;
-            } else if (item.obj === "Mistranslation") {
-                MistranslationNumber++;
-            } else if (item.obj === "Intonation") {
-                IntonationNumber++;
-            } else if (item.obj === "Omission") {
-                OmissionNumber++;
-            } else if (item.obj === "Pronunciation") {
-                PronunciationNumber++;
-            } else if (item.obj === "GrammaticalError") {
-                GrammaticalErrorNumber++;
-            }
-        });
-
-        console.log(FillerNumber);
-        props.setFillerCount(FillerNumber);
-        props.setPauseCount(PauseNumber);
-        props.setBacktrackingCount(BacktrackingNumber);
-        props.setEtcCount(EtcNumber);
-        props.setMistranslationCount(MistranslationNumber);
-        props.setIntonationCount(IntonationNumber);
-        props.setOmissionCount(OmissionNumber);
-        props.setPronunciationCount(PronunciationNumber);
-        props.setGrammaticalErrorCount(GrammaticalErrorNumber);
-    };
-    const handleMouseUp = () => {
-        const textContent = JSON.parse(elementRef.current.textContent);
-        countOccurrences(textContent);
-        props.setSectioncontent(textContent.denotations);
-    };
-
+    /**
+     * TextAEEditor의 데이터를 불러오는 함수
+     */
     useEffect(() => {
-        if (elementRef.current.textContent) {
-            const textContent = JSON.parse(elementRef.current.textContent);
-            const textString = JSON.stringify(textContent);
-            props.setDatacontent(textContent);
-            console.log(textContent);
-        }
-    }, [props.Load]);
+        const fetchData = async () => {
+            try {
+                const response = await Axios.get(
+                    `${API_URL}api/feedback/textae?as_no=${asNo}&user_no=${userNo}`,
+                    {
+                        withCredentials: true,
+                    }
+                );
 
-    useEffect(() => {
-        setTimeout(() => {
-            // var initializeTextAEEditor = window.initializeTextAEEditor;
-            // initializeTextAEEditor('#textae-editor');
-            const [editor] = window.initializeTextAEEditor();
-            editor.annotation = teae;
-        }, 2000);
-    }, [Textae]);
-
-    useEffect(() => {
-        Axios.get(`${API_URL}api/feedback?as_no=${asNo}&lecture_no=${lectureNo}&user_no=${userNo}`, {
-            withCredentials: true,
-        })
-            .then((response) => {
-                // 요청이 성공한 경우의 처리
-                console.log(response.data);
                 if (response.data.isSuccess) {
-                    setUrl(response.data.url);
-                    Axios.get(`${response.data.url}`, { withCredentials: true }).then((response2) => {
-                        console.log(response2.data);
-                        props.setSectioncontent(response2.data.denotations);
-                        setTextae(response2.data);
-                        teae = response2.data;
-                        console.log(teae);
-                    });
-                } else if (response.data.FeedbackStatus === 2) {
-                    alert("과제를 제출해주세요.");
-                    navigate("/");
-                } else if (response.data.FeedbackStatus === 3) {
-                    alert("STT 작업중입니다...");
-                    navigate("/");
-                } else {
-                    alert("알 수 없는 에러입니다.");
-                    navigate("/");
-                }
-            })
+                    props.setSectioncontent(response.data.textae.denotations);
+                    props.setAttributesContent(response.data.textae.attributes);
+                    props.setSubmitAttributesContent(
+                        response.data.textae.attributes
+                    );
+                    props.setNewAttributeCount(response.data.new_attribute);
+                    teae = response.data.textae;
+                    console.log(teae);
 
-            .catch((error) => {
-                // 요청이 실패한 경우의 처리
-                console.error(error);
-                navigate("/");
-            });
-    }, []);
+                    if (FirstTextAERender) {
+                        [editor] = window.initializeTextAEEditor(); // TextAEEditor 초기화
+                        setFirstTextAERender(false);
+                    }
+                    editor.annotation = response.data.textae; // TextAEEditor에 데이터 삽입이 실시간으로 이루어지지 않음
+                    //editor.focusDenotations('T1');
+                } else {
+                    message.error(response.data.message);
+                    navigate(
+                        `/prob/feedback/manage?lecture_no=${lectureNo}&as_no=${asNo}`
+                    );
+                }
+            } catch (error) {
+                message.error('알 수 없는 에러가 발생했습니다.');
+                console.log(error);
+                navigate('/');
+            }
+        };
+
+        fetchData();
+    }, [props.Datacontent]);
 
     return (
         <div>
@@ -129,40 +68,14 @@ const ReadOnlyTextAEEditor = (props) => {
                 className="textae-editor"
                 mode="view"
                 inspect="annotation"
-                onMouseUp={handleMouseUp}
             ></div>
-            <div id="annotation" ref={elementRef} style={{ display: "none" }}></div>
+            <div
+                id="annotation"
+                ref={elementRef}
+                style={{ display: 'none' }}
+            ></div>
         </div>
     );
 };
 
 export default ReadOnlyTextAEEditor;
-
-const animation = keyframes`
-50% {
-  transform: scale(0.92);
-}
-`;
-
-const StartBtn = styled.button`
-    display: flex;
-    justify-content: center;
-
-    width: calc(100% - 32px);
-    height: 54px;
-    line-height: 54px;
-    box-sizing: border-box;
-    border: none;
-    border-radius: 5px;
-    background: #5849ff;
-    color: #fff;
-    text-align: center;
-    font-family: "Noto Sans KR", sans-serif;
-    font-size: 17px;
-    font-weight: 400;
-
-    margin: 10px;
-    &:active {
-        animation: ${animation} 0.2s;
-    }
-`;

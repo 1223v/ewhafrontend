@@ -1,16 +1,16 @@
-import React, { useState, useEffect, Fragment } from "react";
+import { Empty, Row } from "antd";
+import Axios from "axios";
+import React, { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
+import styled from "styled-components";
+import { API_URL } from "../../Config";
 import NavBar from "../NavBar/NavBar";
+import GridCards from "./../commons/GridCards";
 import "./LandingPage.css";
 import CalenderComponent from "./Section/CalenderComponent";
 import Profile from "./Section/Profile";
 import SearchBar from "./Section/SearchBar";
-import GridCards from "./../commons/GridCards";
-import { Row } from "antd";
-import { useSelector } from "react-redux";
-import Axios from "axios";
-import { Link, useNavigate } from "react-router-dom";
-import { API_URL } from "../../Config";
-import styled from "styled-components";
 
 function LandingPage() {
   let navigate = useNavigate();
@@ -68,24 +68,28 @@ function LandingPage() {
             )}
           </h3>
 
-          <Row>
-            {Lectures?.map((lesson, index) => (
-              <React.Fragment key={index}>
-                <GridCards
-                  lectureName={lesson.lecture_name}
-                  num={lesson.lecture_no}
-                  major={lesson.major}
-                  professor={lesson.professor}
-                  separated={lesson.separated}
-                  year={lesson.year}
-                  semester={lesson.semester}
-                  setLectures={setLectures}
-                  //setLectureStatus={setLectureStatus}
-                  //LectureStatus={LectureStatus}
-                />
-              </React.Fragment>
-            ))}
-          </Row>
+          {Lectures?.length < 0 ? (
+            <Empty />
+          ) : (
+            <Row>
+              {Lectures?.map((lesson, index) => (
+                <React.Fragment key={index}>
+                  <GridCards
+                    lectureName={lesson.lecture_name}
+                    num={lesson.lecture_no}
+                    major={lesson.major}
+                    professor={lesson.professor}
+                    separated={lesson.separated}
+                    year={lesson.year}
+                    semester={lesson.semester}
+                    setLectures={setLectures}
+                    //setLectureStatus={setLectureStatus}
+                    //LectureStatus={LectureStatus}
+                  />
+                </React.Fragment>
+              ))}
+            </Row>
+          )}
         </div>
       </div>
     </div>
