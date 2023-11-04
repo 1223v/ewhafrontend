@@ -1,10 +1,11 @@
-import React, { useState, useEffect } from "react";
-import NavBar from "../../components/views/NavBar/NavBar";
-import styled from "styled-components";
-import { Link, useNavigate, useLocation } from "react-router-dom";
+import { Empty } from "antd";
 import Axios from "axios";
-import { API_URL } from "../../components/Config";
+import React, { useEffect, useState } from "react";
 import { AiOutlineCheck, AiOutlineClose } from "react-icons/ai";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import styled from "styled-components";
+import { API_URL } from "../../components/Config";
+import NavBar from "../../components/views/NavBar/NavBar";
 import Timeformat from "../../components/views/commons/Timeformat";
 
 function ProbListStudentPage() {
@@ -54,47 +55,30 @@ function ProbListStudentPage() {
         </LectureBackDiv>
         <LectureTitleDiv>과제 리스트</LectureTitleDiv>
       </div>
-      <div className="flex flex-col">
-        <div className="overflow-x-hidden">
-          <div className="p-1.5 w-full inline-block align-middle">
-            <div className="overflow-auto border rounded-lg">
-              <table className="min-w-full divide-y divide-gray-200 overflow-x-auto">
-                <thead className="bg-gray-50 overflow-x-auto">
-                  <tr>
-                    <th
-                      scope="col"
-                      className="flex items-center px-6 py-3 text-xs font-bold text-left text-gray-500 uppercase "
-                    >
-                      No
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        className="w-4 h-4"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
-                        strokeWidth={1}
+      {Problist?.length === 0 ? (
+        <NoDataDiv>
+          <Empty />
+        </NoDataDiv>
+      ) : (
+        <div className="flex flex-col">
+          <div className="overflow-x-hidden">
+            <div className="p-1.5 w-full inline-block align-middle">
+              <div className="overflow-auto border rounded-lg">
+                <table className="min-w-full divide-y divide-gray-200 overflow-x-auto">
+                  <thead className="bg-gray-50 overflow-x-auto">
+                    <tr>
+                      <th
+                        scope="col"
+                        className="flex items-center px-6 py-3 text-xs font-bold text-left text-gray-500 uppercase "
                       >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          d="M17 13l-5 5m0 0l-5-5m5 5V6"
-                        />
-                      </svg>
-                    </th>
-
-                    <th
-                      scope="col"
-                      className="px-6 py-3 text-xs font-bold text-left text-gray-500 uppercase "
-                    >
-                      <span className="inline-flex items-center">
-                        제목
+                        No
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
                           className="w-4 h-4"
                           fill="none"
                           viewBox="0 0 24 24"
                           stroke="currentColor"
-                          strokeWidth={2}
+                          strokeWidth={1}
                         >
                           <path
                             strokeLinecap="round"
@@ -102,105 +86,130 @@ function ProbListStudentPage() {
                             d="M17 13l-5 5m0 0l-5-5m5 5V6"
                           />
                         </svg>
-                      </span>
-                    </th>
-                    <th
-                      scope="col"
-                      className="px-6 py-3 text-xs font-bold text-right text-gray-500 uppercase "
-                    >
-                      최종 제출
-                    </th>
-                    <th
-                      scope="col"
-                      className="px-6 py-3 text-xs font-bold text-right text-gray-500 uppercase "
-                    >
-                      교수 평가
-                    </th>
-                    <th
-                      scope="col"
-                      className="px-6 py-3 text-xs font-bold text-center text-gray-500 uppercase "
-                    >
-                      마감일
-                    </th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-gray-200">
-                  {Problist?.map((assignment, index) => {
-                    return (
-                      <React.Fragment key={index}>
-                        <tr>
-                          <td className="px-6 py-4 text-sm font-medium text-gray-800 whitespace-nowrap">
-                            <StyledLink
-                              to={`/prob/detail?as_no=${assignment.as_no}&lecture_no=${lectureNo}`}
-                            >
-                              {index}
-                            </StyledLink>
-                          </td>
+                      </th>
 
-                          <td className="px-6 py-4 text-sm text-gray-800 whitespace-nowrap">
-                            <StyledLink
-                              to={`/prob/detail/student?as_no=${assignment.as_no}&lecture_no=${lectureNo}`}
-                            >
-                              {assignment.as_name}
-                            </StyledLink>
-                          </td>
-                          <td className="px-6 py-4 text-sm font-medium text-right whitespace-nowrap">
-                            <StyledLink
-                              to={`/prob/detail/student?as_no=${assignment.as_no}&lecture_no=${lectureNo}`}
-                            >
-                              {assignment.end_submission ? (
-                                <AiOutlineCheck
-                                  size="18"
-                                  style={{ color: "green" }}
-                                />
-                              ) : (
-                                <AiOutlineClose
-                                  size="18"
-                                  style={{ color: "red" }}
-                                />
-                              )}
-                            </StyledLink>
-                          </td>
-                          <td
-                            className="px-6 py-4 text-sm font-medium float-right text-right whitespace-nowrap"
-                            style={{ fontSize: "13px" }}
+                      <th
+                        scope="col"
+                        className="px-6 py-3 text-xs font-bold text-left text-gray-500 uppercase "
+                      >
+                        <span className="inline-flex items-center">
+                          제목
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            className="w-4 h-4"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke="currentColor"
+                            strokeWidth={2}
                           >
-                            <StyledLink
-                              to={`/prob/detail/student?as_no=${assignment.as_no}&lecture_no=${lectureNo}`}
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              d="M17 13l-5 5m0 0l-5-5m5 5V6"
+                            />
+                          </svg>
+                        </span>
+                      </th>
+                      <th
+                        scope="col"
+                        className="px-6 py-3 text-xs font-bold text-right text-gray-500 uppercase "
+                      >
+                        최종 제출
+                      </th>
+                      <th
+                        scope="col"
+                        className="px-6 py-3 text-xs font-bold text-right text-gray-500 uppercase "
+                      >
+                        교수 평가
+                      </th>
+                      <th
+                        scope="col"
+                        className="px-6 py-3 text-xs font-bold text-center text-gray-500 uppercase "
+                      >
+                        마감일
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-gray-200">
+                    {Problist?.map((assignment, index) => {
+                      return (
+                        <React.Fragment key={index}>
+                          <tr>
+                            <td className="px-6 py-4 text-sm font-medium text-gray-800 whitespace-nowrap">
+                              <StyledLink
+                                to={`/prob/detail?as_no=${assignment.as_no}&lecture_no=${lectureNo}`}
+                              >
+                                {index}
+                              </StyledLink>
+                            </td>
+
+                            <td className="px-6 py-4 text-sm text-gray-800 whitespace-nowrap">
+                              <StyledLink
+                                to={`/prob/detail/student?as_no=${assignment.as_no}&lecture_no=${lectureNo}`}
+                              >
+                                {assignment.as_name}
+                              </StyledLink>
+                            </td>
+                            <td className="px-6 py-4 text-sm font-medium text-right whitespace-nowrap">
+                              <StyledLink
+                                to={`/prob/detail/student?as_no=${assignment.as_no}&lecture_no=${lectureNo}`}
+                              >
+                                {assignment.end_submission ? (
+                                  <AiOutlineCheck
+                                    size="18"
+                                    style={{ color: "green" }}
+                                  />
+                                ) : (
+                                  <AiOutlineClose
+                                    size="18"
+                                    style={{ color: "red" }}
+                                  />
+                                )}
+                              </StyledLink>
+                            </td>
+                            <td
+                              className="px-6 py-4 text-sm font-medium float-right text-right whitespace-nowrap"
+                              style={{ fontSize: "13px" }}
                             >
-                              {assignment.professor_review ? (
-                                <AiOutlineCheck
-                                  size="18"
-                                  style={{ color: "green" }}
-                                />
-                              ) : (
-                                <AiOutlineClose
-                                  size="18"
-                                  style={{ color: "red" }}
-                                />
-                              )}
-                            </StyledLink>
-                          </td>
-                          <td
-                            className="px-6 py-4 text-sm font-medium text-center whitespace-nowrap mx-auto"
-                            style={{ fontSize: "13px" }}
-                          >
-                            <StyledLink
-                              to={`/prob/detail/student?as_no=${assignment.as_no}&lecture_no=${lectureNo}`}
+                              <StyledLink
+                                to={`/prob/detail/student?as_no=${assignment.as_no}&lecture_no=${lectureNo}`}
+                              >
+                                {assignment.professor_review ? (
+                                  <AiOutlineCheck
+                                    size="18"
+                                    style={{ color: "green" }}
+                                  />
+                                ) : (
+                                  <AiOutlineClose
+                                    size="18"
+                                    style={{ color: "red" }}
+                                  />
+                                )}
+                              </StyledLink>
+                            </td>
+                            <td
+                              className="px-6 py-4 text-sm font-medium text-center whitespace-nowrap mx-auto"
+                              style={{ fontSize: "13px" }}
                             >
-                              <Timeformat dateString={assignment.limit_time} />
-                            </StyledLink>
-                          </td>
-                        </tr>
-                      </React.Fragment>
-                    );
-                  })}
-                </tbody>
-              </table>
+                              <StyledLink
+                                to={`/prob/detail/student?as_no=${assignment.as_no}&lecture_no=${lectureNo}`}
+                              >
+                                <Timeformat
+                                  dateString={assignment.limit_time}
+                                />
+                              </StyledLink>
+                            </td>
+                          </tr>
+                        </React.Fragment>
+                      );
+                    })}
+                  </tbody>
+                </table>
+              </div>
             </div>
           </div>
         </div>
-      </div>
+      )}
     </div>
   );
 }
@@ -229,4 +238,7 @@ const LectureTitleDiv = styled.div`
   color: #2b2d36;
   font-weight: 700;
   margin-top: 17px;
+`;
+const NoDataDiv = styled.div`
+  margin-top: 25%;
 `;
