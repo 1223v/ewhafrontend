@@ -11,8 +11,8 @@ import styled from "styled-components";
 import { API_URL } from "../../components/Config";
 import OriginAudioplay from "../../components/views/Audio/OriginAudioplay";
 import StudentAudioplay from "../../components/views/Audio/StudentAudioplay";
-import ProfessorResultSheet from "../../components/views/Feedback/ProfessorResultSheet";
 import ReadOnlyTextAEEditor from "../../components/views/Feedback/ReadOnlyTextAEEditor";
+import StudentResultSheet from "../../components/views/Feedback/StudentResultSheet";
 import NavBar from "../../components/views/NavBar/NavBar";
 import ReadOnlyFeedbackGridCard from "../../components/views/commons/ReadOnlyFeedbackGridCard";
 import Timeformat from "../../components/views/commons/Timeformat";
@@ -243,7 +243,7 @@ function StudentProbFeedbackPage() {
           onClick={onResultBottomSheetClick}
         />
       </FloatButton.Group>
-      <ProfessorResultSheet
+      <StudentResultSheet
         Result={FeedbackResult}
         setResult={setFeedbackResult}
       />

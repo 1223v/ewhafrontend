@@ -159,7 +159,7 @@ function ProfessorProbFeedbackPage() {
 
         <Interpretation>
           <h4>통역 전사문</h4>
-          <InterpretationBox>
+          <InterpretationBox className="textae-container">
             <TextAEEditor
               Datacontent={Datacontent}
               setDatacontent={setDatacontent}
