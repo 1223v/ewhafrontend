@@ -69,7 +69,7 @@ function FeedbackGridCard(props) {
 
   // 피드백 텍스트 변경 이벤트
   const onTextChange = (e) => {
-    setFeedbackAttributes(e.target.value);
+    setFeedbackAttributes(e.target.value.replace(/[\n\\]/g, ""));
   };
 
   // 피드백 텍스트 포커스 아웃 이벤트

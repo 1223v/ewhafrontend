@@ -95,9 +95,9 @@ const TextAEEditor = (props) => {
           );
         }
       } catch (error) {
-        message.error("알 수 없는 에러가 발생했습니다.");
+        //message.error("알 수 없는 에러가 발생했습니다.");
         console.log(error);
-        navigate("/");
+        //navigate("/");
       }
     };
 

@@ -168,7 +168,7 @@ function ProbSubmitList() {
                         scope="col"
                         className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider"
                       >
-                        과제 취소
+                        과제 제출 취소
                       </th>
                       <th
                         scope="col"
@@ -222,7 +222,7 @@ function ProbSubmitList() {
                           )}
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                          {person.submit_count + person.chance_count}{" "}
+                          {person.submit_count}{" "}
                           {"(+" + person.chance_count + ")"}
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-gray-500">
