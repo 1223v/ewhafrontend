@@ -48,6 +48,7 @@ function ProfessorProbFeedbackPage() {
   const [SynchronizationskipBackward, setSynchronizationskipBackward] =
     useState(false); // 원본 / 학생 동기화 되감기
   const [SynchronizationMove, setSynchronizationMove] = useState(0); // 원본 / 학생 동기화 특정 시간으로 이동
+  const [Anchoring, setAnchoring] = useState(""); // textaeeditor Anchoring 데이터
 
   const onTextChange = (checked) => {
     if (checked) {
@@ -161,6 +162,7 @@ function ProfessorProbFeedbackPage() {
           <h4>통역 전사문</h4>
           <InterpretationBox className="textae-container">
             <TextAEEditor
+              Anchoring={Anchoring}
               Datacontent={Datacontent}
               setDatacontent={setDatacontent}
               setSectioncontent={setSectioncontent}
@@ -187,6 +189,7 @@ function ProfessorProbFeedbackPage() {
                   Sectioncontent={Sectioncontent}
                   SubmitAttributesContent={SubmitAttributesContent}
                   NewAttributeCount={NewAttributeCount}
+                  setAnchoring={setAnchoring}
                 />
               </React.Fragment>
             ))}

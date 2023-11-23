@@ -104,6 +104,12 @@ const TextAEEditor = (props) => {
     fetchData();
   }, [props.Datacontent]);
 
+  useEffect(() => {
+    if (props.Anchoring !== "") {
+      editor.focusDenotation(props.Anchoring);
+    }
+  }, [props.Anchoring]);
+
   return (
     <div onKeyDown={handleKeyDown}>
       <div
