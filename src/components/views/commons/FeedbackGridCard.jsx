@@ -13,15 +13,24 @@ function FeedbackGridCard(props) {
   const userNo = params.get("user_no");
   const [CheckList, setCheckList] = useState(props.obj); // 체크리스트\
   const [FeedbackAttributes, setFeedbackAttributes] = useState(""); // 피드백 속성
-  const [FeedbackOptions, setFeedbackOptions] = useState([
+  const [FeedbackOptions] = useState([
     { label: "Filler", value: "Filler" },
-    { label: "Canceled", value: "Canceled" },
+    { label: "Cancellation", value: "Cancellation" },
     { label: "Pause", value: "Pause" },
     { label: "Etc", value: "Etc" },
   ]); // 피드백 옵션
 
   const onAnchoringClick = () => {
     props.setAnchoring(props.id);
+  };
+
+  const escapeHtml = (str) => {
+    return str
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#039;");
   };
 
   const onSelectChange = (value) => {
@@ -69,12 +78,13 @@ function FeedbackGridCard(props) {
 
   // 피드백 텍스트 변경 이벤트
   const onTextChange = (e) => {
-    setFeedbackAttributes(e.target.value.replace(/[\n\\]/g, ""));
+    setFeedbackAttributes(e.target.value);
   };
 
   // 피드백 텍스트 포커스 아웃 이벤트
   const handleFocusOut = () => {
     let updatefilteredItems = [];
+    let encodedFeedbackAttributes = escapeHtml(FeedbackAttributes);
     const filteredItems = props.AttributesContent.filter(
       (item) => item.subj === props.id
     );
@@ -149,7 +159,7 @@ function FeedbackGridCard(props) {
         </div>
 
         <Feedbacktext>
-          <TagDiv>{CheckList}</TagDiv>
+          <TagDiv>{props.obj}</TagDiv>
         </Feedbacktext>
         <FeedbackTextField
           type="text"
