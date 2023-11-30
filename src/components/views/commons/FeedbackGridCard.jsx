@@ -70,13 +70,15 @@ function FeedbackGridCard(props) {
 
   // 피드백 텍스트 변경 이벤트
   const onTextChange = (e) => {
-    setFeedbackAttributes(e.target.value);
+    const filteredValue = e.target.value.replace(/"/g, ""); // " 문자를 제거
+    setFeedbackAttributes(filteredValue);
   };
 
   // 피드백 텍스트 포커스 아웃 이벤트
   const handleFocusOut = () => {
     let updatefilteredItems = [];
     let encodedFeedbackAttributes = encodeIfNotAlready(FeedbackAttributes);
+
     const filteredItems = props.AttributesContent.filter(
       (item) => item.subj === props.id
     );
