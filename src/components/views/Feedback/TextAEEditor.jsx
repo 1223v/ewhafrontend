@@ -3,6 +3,10 @@ import Axios from "axios";
 import React, { useEffect, useRef, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { API_URL } from "../../Config";
+import {
+  fullyDecodeURI,
+  fullyEncodeURI,
+} from "../../views/commons/fullyEncodeURI";
 
 let editor = {};
 
@@ -26,12 +30,32 @@ const TextAEEditor = (props) => {
       event.preventDefault(); // 기본 동작(브라우저에서의 저장 다이얼로그 등) 방지
       const textContent = JSON.parse(elementRef.current.textContent);
 
-      console.log(textContent.denotations); //API를 위한 콘솔 로그
+      const encodedAttributes = textContent.attributes.map((attr) => {
+        try {
+          // 디코딩 시도
+          const decoded = fullyDecodeURI(attr.obj);
+
+          // 디코딩 성공 시, 디코딩된 문자열이 원본 문자열과 같으면 인코딩하지 않고 리턴
+          if (decoded === attr.obj) {
+            return {
+              ...attr,
+              obj: fullyEncodeURI(attr.obj),
+            };
+          }
+          return attr;
+        } catch (e) {
+          // 디코딩 오류 발생 시 (예: 잘못된 인코딩) 원본 문자열 인코딩
+          return {
+            ...attr,
+            obj: fullyEncodeURI(attr.obj),
+          };
+        }
+      });
 
       if (textContent.denotations !== "") {
         let body = {
           ae_denotations: textContent.denotations,
-          ae_attributes: textContent.attributes,
+          ae_attributes: encodedAttributes,
         };
         console.log(body); //API를 위한 콘솔 로그
         Axios.put(

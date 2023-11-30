@@ -4,6 +4,7 @@ import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { API_URL } from "../../Config";
+import { encodeIfNotAlready } from "../../views/commons/fullyEncodeURI";
 
 function FeedbackGridCard(props) {
   const location = useLocation();
@@ -22,15 +23,6 @@ function FeedbackGridCard(props) {
 
   const onAnchoringClick = () => {
     props.setAnchoring(props.id);
-  };
-
-  const escapeHtml = (str) => {
-    return str
-      .replace(/&/g, "&amp;")
-      .replace(/</g, "&lt;")
-      .replace(/>/g, "&gt;")
-      .replace(/"/g, "&quot;")
-      .replace(/'/g, "&#039;");
   };
 
   const onSelectChange = (value) => {
@@ -84,12 +76,12 @@ function FeedbackGridCard(props) {
   // 피드백 텍스트 포커스 아웃 이벤트
   const handleFocusOut = () => {
     let updatefilteredItems = [];
-    let encodedFeedbackAttributes = escapeHtml(FeedbackAttributes);
+    let encodedFeedbackAttributes = encodeIfNotAlready(FeedbackAttributes);
     const filteredItems = props.AttributesContent.filter(
       (item) => item.subj === props.id
     );
     if (filteredItems.length > 0) {
-      filteredItems[0].obj = FeedbackAttributes;
+      filteredItems[0].obj = encodedFeedbackAttributes;
       updatefilteredItems = props.SubmitAttributesContent.filter(
         (item) => item.subj !== props.id
       );
@@ -102,7 +94,7 @@ function FeedbackGridCard(props) {
         id: props.NewAttributeCount, // 이곳 수정
         subj: props.id,
         pred: "Note",
-        obj: FeedbackAttributes,
+        obj: encodedFeedbackAttributes,
       });
     }
     let body = {
