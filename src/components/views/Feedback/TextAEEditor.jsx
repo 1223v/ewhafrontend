@@ -23,6 +23,18 @@ const TextAEEditor = (props) => {
   const elementRef = useRef(null);
 
   /**
+   * TextAEEditor의 위치를 불러오는 함수
+   */
+  const getAnchoring = () => {
+    if (props.Sectioncontent?.length !== 0) {
+      editor.lastSelectedDenotationIDCallback = (denotationID) => {
+        console.log(denotationID);
+        props.setChoiceAnchor(denotationID);
+      };
+    }
+  };
+
+  /**
    * TextAEEditor의 변경을 감지하여 저장하는 함수
    */
   const handleKeyDown = (event) => {
@@ -109,8 +121,7 @@ const TextAEEditor = (props) => {
             [editor] = window.initializeTextAEEditor(); // TextAEEditor 초기화
             setFirstTextAERender(false);
           }
-          console.log(response.data.textae);
-          console.log(editor);
+
           editor.annotation = response.data.textae; // TextAEEditor에 데이터 삽입이 실시간으로 이루어지지 않음
         } else {
           message.error(response.data.message);
@@ -130,7 +141,7 @@ const TextAEEditor = (props) => {
 
   useEffect(() => {
     if (props.Anchoring !== "") {
-      editor.focusDenotation(props.Anchoring);
+      editor.selectDenotation(props.Anchoring);
     }
   }, [props.Anchoring]);
 
@@ -141,6 +152,7 @@ const TextAEEditor = (props) => {
         className="textae-editor"
         mode="edit"
         inspect="annotation"
+        onClick={getAnchoring}
       ></div>
 
       <div id="annotation" ref={elementRef} style={{ display: "none" }}></div>

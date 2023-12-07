@@ -1,12 +1,13 @@
 import { Select, message } from "antd";
 import Axios from "axios";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { API_URL } from "../../Config";
 import { encodeIfNotAlready } from "../../views/commons/fullyEncodeURI";
 
 function FeedbackGridCard(props) {
+  const myRef = useRef(null);
   const location = useLocation();
   let navigate = useNavigate();
   const params = new URLSearchParams(location.search);
@@ -124,6 +125,14 @@ function FeedbackGridCard(props) {
       });
   };
 
+  // props.ChoiceAnchor 값이 변경될 때 실행
+  useEffect(() => {
+    if (props.ChoiceAnchor === props.id) {
+      // 해당 요소로 스크롤
+      myRef.current.scrollIntoView({ behavior: "smooth" });
+    }
+  }, [props.ChoiceAnchor, props.id]);
+
   useEffect(() => {
     const filteredItems = props.AttributesContent.filter(
       (item) => item.subj === props.id
@@ -135,8 +144,16 @@ function FeedbackGridCard(props) {
   }, [props.AttributesContent]);
 
   return (
-    <FeedbackGridcard>
-      <SubFeedbackGridcard onClick={onAnchoringClick}>
+    <FeedbackGridcard ref={myRef}>
+      <SubFeedbackGridcard
+        onClick={onAnchoringClick}
+        style={{
+          border:
+            props.ChoiceAnchor === props.id
+              ? "2px solid black"
+              : "1px solid rgb(211, 211, 211)",
+        }}
+      >
         <div>
           <MainTitle>
             {props.id} | {props.begin}~{props.end} 구간

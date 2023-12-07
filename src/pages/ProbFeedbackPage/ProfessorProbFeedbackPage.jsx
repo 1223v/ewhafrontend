@@ -49,6 +49,7 @@ function ProfessorProbFeedbackPage() {
     useState(false); // 원본 / 학생 동기화 되감기
   const [SynchronizationMove, setSynchronizationMove] = useState(0); // 원본 / 학생 동기화 특정 시간으로 이동
   const [Anchoring, setAnchoring] = useState(""); // textaeeditor Anchoring 데이터
+  const [ChoiceAnchor, setChoiceAnchor] = useState(""); // textaeeditor Anchoring 데이터
 
   const onTextChange = (checked) => {
     if (checked) {
@@ -165,10 +166,12 @@ function ProfessorProbFeedbackPage() {
               Anchoring={Anchoring}
               Datacontent={Datacontent}
               setDatacontent={setDatacontent}
+              Sectioncontent={Sectioncontent}
               setSectioncontent={setSectioncontent}
               setAttributesContent={setAttributesContent}
               setSubmitAttributesContent={setSubmitAttributesContent}
               setNewAttributeCount={setNewAttributeCount}
+              setChoiceAnchor={setChoiceAnchor}
             />
           </InterpretationBox>
         </Interpretation>
@@ -190,6 +193,7 @@ function ProfessorProbFeedbackPage() {
                   SubmitAttributesContent={SubmitAttributesContent}
                   NewAttributeCount={NewAttributeCount}
                   setAnchoring={setAnchoring}
+                  ChoiceAnchor={ChoiceAnchor}
                 />
               </React.Fragment>
             ))}
