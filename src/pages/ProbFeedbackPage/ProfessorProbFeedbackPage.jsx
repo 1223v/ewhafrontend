@@ -305,6 +305,7 @@ const OriginalBox = styled.div`
   word-wrap: break-word;
   border: 1px solid #d3d3d3;
   border-radius: 4px;
+  text-align: start;
 
   background-color: #f9f9f9;
 `;

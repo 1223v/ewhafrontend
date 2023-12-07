@@ -78,7 +78,7 @@ function FeedbackGridCard(props) {
   // 피드백 텍스트 포커스 아웃 이벤트
   const handleFocusOut = () => {
     let updatefilteredItems = [];
-
+    let encodedAttributes = [];
     const filteredItems = props.AttributesContent.filter(
       (item) => item.subj === props.id
     );
@@ -88,6 +88,27 @@ function FeedbackGridCard(props) {
         (item) => item.subj !== props.id
       );
       updatefilteredItems.push(filteredItems[0]);
+      encodedAttributes = updatefilteredItems.map((attr) => {
+        try {
+          // 디코딩 시도
+          const decoded = fullyDecodeURI(attr.obj);
+
+          // 디코딩 성공 시, 디코딩된 문자열이 원본 문자열과 같으면 인코딩하지 않고 리턴
+          if (decoded === attr.obj) {
+            return {
+              ...attr,
+              obj: fullyEncodeURI(attr.obj),
+            };
+          }
+          return attr;
+        } catch (e) {
+          // 디코딩 오류 발생 시 (예: 잘못된 인코딩) 원본 문자열 인코딩
+          return {
+            ...attr,
+            obj: fullyEncodeURI(attr.obj),
+          };
+        }
+      });
     } else {
       updatefilteredItems = props.SubmitAttributesContent.filter(
         (item) => item.subj !== props.id
@@ -98,29 +119,28 @@ function FeedbackGridCard(props) {
         pred: "Note",
         obj: FeedbackAttributes,
       });
-    }
+      encodedAttributes = updatefilteredItems.map((attr) => {
+        try {
+          // 디코딩 시도
+          const decoded = fullyDecodeURI(attr.obj);
 
-    const encodedAttributes = updatefilteredItems.map((attr) => {
-      try {
-        // 디코딩 시도
-        const decoded = fullyDecodeURI(attr.obj);
-
-        // 디코딩 성공 시, 디코딩된 문자열이 원본 문자열과 같으면 인코딩하지 않고 리턴
-        if (decoded === attr.obj) {
+          // 디코딩 성공 시, 디코딩된 문자열이 원본 문자열과 같으면 인코딩하지 않고 리턴
+          if (decoded === attr.obj) {
+            return {
+              ...attr,
+              obj: fullyEncodeURI(attr.obj),
+            };
+          }
+          return attr;
+        } catch (e) {
+          // 디코딩 오류 발생 시 (예: 잘못된 인코딩) 원본 문자열 인코딩
           return {
             ...attr,
             obj: fullyEncodeURI(attr.obj),
           };
         }
-        return attr;
-      } catch (e) {
-        // 디코딩 오류 발생 시 (예: 잘못된 인코딩) 원본 문자열 인코딩
-        return {
-          ...attr,
-          obj: fullyEncodeURI(attr.obj),
-        };
-      }
-    });
+      });
+    }
 
     let body = {
       ae_attributes: encodedAttributes,
