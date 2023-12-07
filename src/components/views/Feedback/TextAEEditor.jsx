@@ -26,9 +26,9 @@ const TextAEEditor = (props) => {
    * TextAEEditor의 위치를 불러오는 함수
    */
   const getAnchoring = () => {
+    console.log("getAnchoring");
     if (props.Sectioncontent?.length !== 0) {
       editor.lastSelectedDenotationIDCallback = (denotationID) => {
-        console.log(denotationID);
         props.setChoiceAnchor(denotationID);
       };
     }
@@ -116,6 +116,7 @@ const TextAEEditor = (props) => {
           props.setAttributesContent(response.data.textae.attributes);
           props.setSubmitAttributesContent(response.data.textae.attributes);
           props.setNewAttributeCount(response.data.new_attribute);
+          console.log(response.data.textae);
 
           if (FirstTextAERender) {
             [editor] = window.initializeTextAEEditor(); // TextAEEditor 초기화
@@ -141,7 +142,7 @@ const TextAEEditor = (props) => {
 
   useEffect(() => {
     if (props.Anchoring !== "") {
-      editor.selectDenotation(props.Anchoring);
+      editor?.selectDenotation(props.Anchoring);
     }
   }, [props.Anchoring]);
 
