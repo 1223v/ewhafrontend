@@ -71,7 +71,7 @@ function FeedbackGridCard(props) {
 
   // 피드백 텍스트 변경 이벤트
   const onTextChange = (e) => {
-    const filteredValue = e.target.value.replace(/\n/g, "").replace(/"/g, "");
+    const filteredValue = e.target.value.replace(/\n/g, "");
     setFeedbackAttributes(filteredValue);
   };
 

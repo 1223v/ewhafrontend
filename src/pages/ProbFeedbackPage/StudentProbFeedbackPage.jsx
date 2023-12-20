@@ -93,7 +93,7 @@ function StudentProbFeedbackPage() {
           message.error(response.data.message);
 
           navigate(
-            `/prob/feedback/manage?lecture_no=${lectureNo}&as_no=${asNo}`
+            `/prob/detail/student?lecture_no=${lectureNo}&as_no=${asNo}`
           );
         }
       })
@@ -112,7 +112,7 @@ function StudentProbFeedbackPage() {
       <div style={{ display: "flex" }}>
         <LectureBackDiv>
           <Link
-            to={`/prob/feedback/manage?as_no=${asNo}&lecture_no=${lectureNo}`}
+            to={`/prob/detail/student?as_no=${asNo}&lecture_no=${lectureNo}`}
             style={{ color: "black", padding: "7px" }}
           >
             <svg

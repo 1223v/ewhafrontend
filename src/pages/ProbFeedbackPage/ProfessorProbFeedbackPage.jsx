@@ -31,6 +31,7 @@ function ProfessorProbFeedbackPage() {
   const [AttributesContent, setAttributesContent] = useState([]); // textaeeditor Attributes 데이터
   const [SubmitAttributesContent, setSubmitAttributesContent] = useState([]); // textaeeditor Attributes 피드백 반영 데이터
   const [StudentInfo, setStudentInfo] = useState(""); // 학생 정보
+  const [AssignmentName, setAssignmentName] = useState(""); // 과제 이름
   const [AssignType, setAssignType] = useState(""); // 과제 타입
   const [LimitTime, setLimitTime] = useState(""); // 마감 시간
   const [SubmitTime, setSubmitTime] = useState(""); // 제출 시간
@@ -91,11 +92,12 @@ function ProfessorProbFeedbackPage() {
           setOriginText(response.data.original_text);
           setSTTText(response.data.original_tts);
           setAssignType(response.data.as_type);
+          setAssignmentName(response.data.assignment_name);
         } else {
           message.error(response.data.message);
 
           navigate(
-            `/prob/feedback/manage?lecture_no=${lectureNo}&as_no=${asNo}`
+            `/prob/detail/professor?lecture_no=${lectureNo}&as_no=${asNo}`
           );
         }
       })
@@ -114,7 +116,7 @@ function ProfessorProbFeedbackPage() {
       <div style={{ display: "flex" }}>
         <LectureBackDiv>
           <Link
-            to={`/prob/feedback/manage?as_no=${asNo}&lecture_no=${lectureNo}`}
+            to={`/prob/detail/professor?as_no=${asNo}&lecture_no=${lectureNo}`}
             style={{ color: "black", padding: "7px" }}
           >
             <svg
@@ -134,7 +136,7 @@ function ProfessorProbFeedbackPage() {
           </Link>
         </LectureBackDiv>
         <LectureTitleDiv>
-          과제 피드백 : {StudentInfo}{" "}
+          {AssignmentName} 과제 피드백 : {StudentInfo}{" "}
           <LectureSubTitleDiv>
             (제출 시간 : <Timeformat dateString={SubmitTime} /> , 마감 시간{" "}
             <Timeformat dateString={LimitTime} />)
@@ -431,7 +433,7 @@ const LectureBackDiv = styled.div`
 `;
 
 const LectureTitleDiv = styled.div`
-  font-size: 1.4rem;
+  font-size: 1.2rem;
   line-height: 1.5;
   color: #2b2d36;
   font-weight: 700;

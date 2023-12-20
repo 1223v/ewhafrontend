@@ -127,7 +127,7 @@ const TextAEEditor = (props) => {
         } else {
           message.error(response.data.message);
           navigate(
-            `/prob/feedback/manage?lecture_no=${lectureNo}&as_no=${asNo}`
+            `/prob/detail/professor?lecture_no=${lectureNo}&as_no=${asNo}`
           );
         }
       } catch (error) {

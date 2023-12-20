@@ -1,13 +1,16 @@
-import React, { useEffect, useState } from "react";
-import NavBar from "../../components/views/NavBar/NavBar";
-import styled from "styled-components";
+import { message } from "antd";
 import Axios from "axios";
+import React, { useEffect, useState } from "react";
+import { FaRegEdit } from "react-icons/fa";
+import { MdDeleteOutline } from "react-icons/md";
+import { useSelector } from "react-redux";
 import { Link, useLocation, useNavigate } from "react-router-dom";
+import styled from "styled-components";
 import { API_URL } from "../../components/Config";
 import FileDownload from "../../components/views/Fileload/FileDownload";
-import { useSelector } from "react-redux";
+import NavBar from "../../components/views/NavBar/NavBar";
 import Timeformat from "../../components/views/commons/Timeformat";
-import { message } from "antd";
+import ProbSubmitTable from "../ProbSubmitListPage/ProbSubmitTable";
 
 function ProbProfessorDetailPage() {
   let navigate = useNavigate();
@@ -111,7 +114,20 @@ function ProbProfessorDetailPage() {
             </Link>
           )}
         </LectureBackDiv>
-        <LectureTitleDiv>과제</LectureTitleDiv>
+
+        <LectureTitleDiv>강의명: {ProbInfo.lecture_name}</LectureTitleDiv>
+        <LectureGroupDiv>
+          <FeedbackBtnDiv>
+            <FeedbackLink
+              to={`/prob/mod?as_no=${asNo}&lecture_no=${lectureNo}`}
+            >
+              <FaRegEdit size={28} />
+            </FeedbackLink>
+          </FeedbackBtnDiv>
+          <FeedbackBtnDiv onClick={onDeleteButton}>
+            <MdDeleteOutline size={30} />
+          </FeedbackBtnDiv>
+        </LectureGroupDiv>
       </div>
       <LectureAddFormDiv>
         <LectureNameDiv>
@@ -164,32 +180,9 @@ function ProbProfessorDetailPage() {
         </LectureNameDiv>
       </LectureAddFormDiv>
 
-      <BtnDiv>
-        <FeedbackBtnDiv>
-          <FeedbackLink to={`/prob/mod?as_no=${asNo}&lecture_no=${lectureNo}`}>
-            <button className="bg-transparent hover:bg-gray-100 hover:bg-opacity-50 text-blue-700 font-semibold py-2 px-4 border border-blue-500 rounded m-2">
-              과제 수정하기
-            </button>
-          </FeedbackLink>
-        </FeedbackBtnDiv>
-        <FeedbackBtnDiv>
-          <button
-            className="bg-transparent hover:bg-gray-100 hover:bg-opacity-50 text-red-700 font-semibold py-2 px-4 border border-red-500 rounded m-2"
-            onClick={onDeleteButton}
-          >
-            과제 삭제하기
-          </button>
-        </FeedbackBtnDiv>
-        <TestBtnDiv>
-          <FeedbackLink
-            to={`/prob/feedback/manage?as_no=${asNo}&lecture_no=${lectureNo}`}
-          >
-            <button className="bg-transparent hover:bg-gray-100 hover:bg-opacity-50 text-green-700 font-semibold py-2 px-4 border border-green-500 rounded m-2">
-              제출 확인
-            </button>
-          </FeedbackLink>
-        </TestBtnDiv>
-      </BtnDiv>
+      <SubmitTableDiv>
+        <ProbSubmitTable />
+      </SubmitTableDiv>
     </LectureBackgroudDiv>
   );
 }
@@ -200,6 +193,11 @@ const LectureBackgroudDiv = styled.div`
   background-color: #f7f7fa;
   width: 100%;
   height: 100%;
+`;
+
+const LectureGroupDiv = styled.div`
+  display: flex;
+  margin-left: 30px;
 `;
 
 const LectureAddFormDiv = styled.div`
@@ -215,15 +213,13 @@ const LectureAddFormDiv = styled.div`
   }
 `;
 
-const FeedbackBtnDiv = styled.div``;
+const FeedbackBtnDiv = styled.div`
+  margin-top: 20px;
+`;
 
-const TestBtnDiv = styled.div``;
-
-const BtnDiv = styled.div`
-  display: flex;
-  justify-content: space-between;
+const SubmitTableDiv = styled.div`
   margin: auto;
-  padding: 30px;
+  background-color: #ffffff;
   width: 800px;
   height: 100%;
   @media screen and (max-width: 830px) {
@@ -233,8 +229,8 @@ const BtnDiv = styled.div`
 `;
 
 const LectureTitleDiv = styled.div`
-  font-size: 1.5rem;
-  line-height: 1.5;
+  font-size: 1.2rem;
+  line-height: 2;
   color: #2b2d36;
   font-weight: 700;
   @import url("https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;400&display=swap");
