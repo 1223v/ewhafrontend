@@ -19,6 +19,7 @@ const TextAEEditor = (props) => {
   const userNo = params.get("user_no");
 
   const [FirstTextAERender, setFirstTextAERender] = useState(true); // TextAEEditor의 첫 렌더링을 감지하는 변수
+  const [DuplicateCheck, setDuplicateCheck] = useState(true); // TextAEEditor의 첫 렌더링을 감지하는 변수
 
   const elementRef = useRef(null);
 
@@ -26,9 +27,6 @@ const TextAEEditor = (props) => {
    * TextAEEditor의 위치를 불러오는 함수
    */
   const getAnchoring = () => {
-    editor.inspectCallback = (annotation) => {
-      console.log(annotation);
-    };
     if (props.Sectioncontent?.length !== 0) {
       editor.lastSelectedDenotationIDCallback = (denotationID) => {
         props.setChoiceAnchor(denotationID);
@@ -36,12 +34,9 @@ const TextAEEditor = (props) => {
     }
   };
 
-  /**
-   * TextAEEditor의 변경을 감지하여 저장하는 함수
-   */
-  const handleKeyDown = (event) => {
-    if (event.ctrlKey && event.key === "s") {
-      event.preventDefault(); // 기본 동작(브라우저에서의 저장 다이얼로그 등) 방지
+  editor.inspectCallback = (annotation) => {
+    if (annotation && DuplicateCheck) {
+      setDuplicateCheck(!DuplicateCheck);
       const textContent = JSON.parse(elementRef.current.textContent);
 
       const encodedAttributes = textContent.attributes.map((attr) => {
@@ -149,7 +144,7 @@ const TextAEEditor = (props) => {
   }, [props.Anchoring]);
 
   return (
-    <div onKeyDown={handleKeyDown}>
+    <div>
       <div
         id="my_text-ae_editor"
         className="textae-editor"
