@@ -19,6 +19,7 @@ function FeedbackGridCard(props) {
     { label: "Filler", value: "Filler" },
     { label: "Cancellation", value: "Cancellation" },
     { label: "Pause", value: "Pause" },
+    { label: "Bad", value: "Bad" },
     { label: "Etc", value: "Etc" },
   ]); // 피드백 옵션
 

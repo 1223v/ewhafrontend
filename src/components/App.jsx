@@ -4,6 +4,7 @@ import SeqInterpretationPage from "../pages/AudioRecordPage/SeqInterpretationPag
 import SimInterpretationPage from "../pages/AudioRecordPage/SimInterpretationPage";
 import TranslationPage from "../pages/AudioRecordPage/TranslationPage";
 import ProfessorGraphPage from "../pages/GraphPage/ProfessorGraphPage";
+import StudentGraphPage from "../pages/GraphPage/StudentGraphPage";
 import LoginPage from "../pages/LoginPage/LoginPage";
 import ProbAddPage from "../pages/ProbAddPage/ProbAddPage";
 import ProbModPage from "../pages/ProbAddPage/ProbModPage";
@@ -13,7 +14,6 @@ import ProfessorProbFeedbackPage from "../pages/ProbFeedbackPage/ProfessorProbFe
 import StudentProbFeedbackPage from "../pages/ProbFeedbackPage/StudentProbFeedbackPage";
 import ProbListProfessorPage from "../pages/ProbListPage/ProbListProfessorPage";
 import ProbListStudentPage from "../pages/ProbListPage/ProbListStudentPage";
-
 import RegisterPage from "../pages/RegisterPage/RegisterPage";
 import Highlighter from "../pages/TestPage/Highlighter";
 import "./App.css";
@@ -38,6 +38,7 @@ function App() {
   // 1: 학생, 2: 조교, 3: 교수
   const NewProbListStudentPage = Auth(ProbListStudentPage, true, 1); // 학생 과제 리스트 페이지
   const NewStudentProbFeedbackPage = Auth(StudentProbFeedbackPage, true, 1); // 학생 과제 피드백 페이지
+  const NewStudentGraphPage = Auth(StudentGraphPage, true, 1); // 학생 과제 그래프 페이지
   const NewProbProfessorDetailPage = Auth(ProbProfessorDetailPage, true, 3); // 교수 과제 디테일 페이지
   const NewLectureAddPage = Auth(LectureAddPage, true, 3); // 강의 생성페이지
   const NewLectureModPage = Auth(LectureModPage, true, 3); // 강의 수정페이지
@@ -96,6 +97,7 @@ function App() {
           path="/prob/graph/professor"
           element={<NewProfessorGraphPage />}
         />
+        <Route path="/prob/graph/student" element={<NewStudentGraphPage />} />
         <Route path="/*" element={<Navigate to="/"></Navigate>}></Route>
         <Route path="/test" element={<NewTest />} />
       </Routes>

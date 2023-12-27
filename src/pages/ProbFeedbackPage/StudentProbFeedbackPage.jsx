@@ -63,7 +63,7 @@ function StudentProbFeedbackPage() {
 
   const onGraphClick = () => {
     navigate(
-      `/prob/graph/professor?lecture_no=${lectureNo}&as_no=${asNo}&user_no=${userNo}`
+      `/prob/graph/student?lecture_no=${lectureNo}&as_no=${asNo}&user_no=${userNo}`
     );
   };
 
@@ -112,7 +112,7 @@ function StudentProbFeedbackPage() {
       <div style={{ display: "flex" }}>
         <LectureBackDiv>
           <Link
-            to={`/prob/detail/student?as_no=${asNo}&lecture_no=${lectureNo}`}
+            to={`/prob/detail/student?as_no=${asNo}&lecture_no=${lectureNo}&user_no=${userNo}`}
             style={{ color: "black", padding: "7px" }}
           >
             <svg

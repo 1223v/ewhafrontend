@@ -26,7 +26,9 @@ const TextAEEditor = (props) => {
    * TextAEEditor의 위치를 불러오는 함수
    */
   const getAnchoring = () => {
-    console.log("getAnchoring");
+    editor.inspectCallback = (annotation) => {
+      console.log(annotation);
+    };
     if (props.Sectioncontent?.length !== 0) {
       editor.lastSelectedDenotationIDCallback = (denotationID) => {
         props.setChoiceAnchor(denotationID);
@@ -142,7 +144,7 @@ const TextAEEditor = (props) => {
 
   useEffect(() => {
     if (props.Anchoring !== "") {
-      editor?.selectDenotation(props.Anchoring);
+      editor.selectDenotation(props.Anchoring);
     }
   }, [props.Anchoring]);
 

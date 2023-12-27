@@ -53,7 +53,7 @@ function ProbListProfessorPage() {
             </svg>
           </Link>
         </LectureBackDiv>
-        <LectureTitleDiv>과제 리스트</LectureTitleDiv>
+        <LectureTitleDiv>과제 리스트 : </LectureTitleDiv>
         <CreateDiv>
           <Link to={`/prob/add?lecture_no=${lectureNo}`}>
             <CreateBtn
