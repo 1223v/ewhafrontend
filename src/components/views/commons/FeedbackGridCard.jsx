@@ -175,7 +175,7 @@ function FeedbackGridCard(props) {
   useEffect(() => {
     if (props.ChoiceAnchor === props.id) {
       // 해당 요소로 스크롤
-      myRef.current.scrollIntoView({ behavior: "smooth" });
+      myRef.current.scrollIntoView();
     }
   }, [props.ChoiceAnchor, props.id]);
 
