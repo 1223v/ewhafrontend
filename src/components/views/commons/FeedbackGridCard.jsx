@@ -77,95 +77,98 @@ function FeedbackGridCard(props) {
   };
 
   // 피드백 텍스트 포커스 아웃 이벤트
-  const handleFocusOut = () => {
-    let updatefilteredItems = [];
-    let encodedAttributes = [];
-    const filteredItems = props.AttributesContent.filter(
-      (item) => item.subj === props.id
-    );
-    if (filteredItems.length > 0) {
-      filteredItems[0].obj = FeedbackAttributes;
-      updatefilteredItems = props.SubmitAttributesContent.filter(
-        (item) => item.subj !== props.id
+  const handleFocusOut = (e) => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      let updatefilteredItems = [];
+      let encodedAttributes = [];
+      const filteredItems = props.AttributesContent.filter(
+        (item) => item.subj === props.id
       );
-      updatefilteredItems.push(filteredItems[0]);
-      encodedAttributes = updatefilteredItems.map((attr) => {
-        try {
-          // 디코딩 시도
-          const decoded = fullyDecodeURI(attr.obj);
+      if (filteredItems.length > 0) {
+        filteredItems[0].obj = FeedbackAttributes;
+        updatefilteredItems = props.SubmitAttributesContent.filter(
+          (item) => item.subj !== props.id
+        );
+        updatefilteredItems.push(filteredItems[0]);
+        encodedAttributes = updatefilteredItems.map((attr) => {
+          try {
+            // 디코딩 시도
+            const decoded = fullyDecodeURI(attr.obj);
 
-          // 디코딩 성공 시, 디코딩된 문자열이 원본 문자열과 같으면 인코딩하지 않고 리턴
-          if (decoded === attr.obj) {
+            // 디코딩 성공 시, 디코딩된 문자열이 원본 문자열과 같으면 인코딩하지 않고 리턴
+            if (decoded === attr.obj) {
+              return {
+                ...attr,
+                obj: fullyEncodeURI(attr.obj),
+              };
+            }
+            return attr;
+          } catch (e) {
+            // 디코딩 오류 발생 시 (예: 잘못된 인코딩) 원본 문자열 인코딩
             return {
               ...attr,
               obj: fullyEncodeURI(attr.obj),
             };
           }
-          return attr;
-        } catch (e) {
-          // 디코딩 오류 발생 시 (예: 잘못된 인코딩) 원본 문자열 인코딩
-          return {
-            ...attr,
-            obj: fullyEncodeURI(attr.obj),
-          };
-        }
-      });
-    } else {
-      updatefilteredItems = props.SubmitAttributesContent.filter(
-        (item) => item.subj !== props.id
-      );
-      updatefilteredItems.push({
-        id: props.NewAttributeCount, // 이곳 수정
-        subj: props.id,
-        pred: "Note",
-        obj: FeedbackAttributes,
-      });
-      encodedAttributes = updatefilteredItems.map((attr) => {
-        try {
-          // 디코딩 시도
-          const decoded = fullyDecodeURI(attr.obj);
+        });
+      } else {
+        updatefilteredItems = props.SubmitAttributesContent.filter(
+          (item) => item.subj !== props.id
+        );
+        updatefilteredItems.push({
+          id: props.NewAttributeCount, // 이곳 수정
+          subj: props.id,
+          pred: "Note",
+          obj: FeedbackAttributes,
+        });
+        encodedAttributes = updatefilteredItems.map((attr) => {
+          try {
+            // 디코딩 시도
+            const decoded = fullyDecodeURI(attr.obj);
 
-          // 디코딩 성공 시, 디코딩된 문자열이 원본 문자열과 같으면 인코딩하지 않고 리턴
-          if (decoded === attr.obj) {
+            // 디코딩 성공 시, 디코딩된 문자열이 원본 문자열과 같으면 인코딩하지 않고 리턴
+            if (decoded === attr.obj) {
+              return {
+                ...attr,
+                obj: fullyEncodeURI(attr.obj),
+              };
+            }
+            return attr;
+          } catch (e) {
+            // 디코딩 오류 발생 시 (예: 잘못된 인코딩) 원본 문자열 인코딩
             return {
               ...attr,
               obj: fullyEncodeURI(attr.obj),
             };
           }
-          return attr;
-        } catch (e) {
-          // 디코딩 오류 발생 시 (예: 잘못된 인코딩) 원본 문자열 인코딩
-          return {
-            ...attr,
-            obj: fullyEncodeURI(attr.obj),
-          };
-        }
-      });
-    }
-
-    let body = {
-      ae_attributes: encodedAttributes,
-    };
-    Axios.put(
-      `${API_URL}api/feedback/textae?as_no=${asNo}&user_no=${userNo}`,
-      body,
-      {
-        withCredentials: true,
+        });
       }
-    )
-      .then((response) => {
-        if (response.data.isSuccess) {
-          message.success("저장 완료했습니다.");
-          props.setDatacontent(!props.Datacontent);
-        } else {
-          message.error(response.data.msg);
+
+      let body = {
+        ae_attributes: encodedAttributes,
+      };
+      Axios.put(
+        `${API_URL}api/feedback/textae?as_no=${asNo}&user_no=${userNo}`,
+        body,
+        {
+          withCredentials: true,
         }
-      })
-      .catch((error) => {
-        // 요청이 실패한 경우의 처리
-        message.error("알 수 없는 에러가 발생했습니다.");
-        navigate("/");
-      });
+      )
+        .then((response) => {
+          if (response.data.isSuccess) {
+            message.success("저장 완료했습니다.");
+            props.setDatacontent(!props.Datacontent);
+          } else {
+            message.error(response.data.msg);
+          }
+        })
+        .catch((error) => {
+          // 요청이 실패한 경우의 처리
+          message.error("알 수 없는 에러가 발생했습니다.");
+          navigate("/");
+        });
+    }
   };
 
   // props.ChoiceAnchor 값이 변경될 때 실행
@@ -222,7 +225,7 @@ function FeedbackGridCard(props) {
           cols="30"
           value={FeedbackAttributes}
           onChange={onTextChange}
-          onBlur={handleFocusOut}
+          onKeyDown={handleFocusOut}
         />
       </SubFeedbackGridcard>
     </FeedbackGridcard>
