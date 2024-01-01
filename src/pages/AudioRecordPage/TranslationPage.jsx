@@ -4,7 +4,6 @@ import React, { useEffect, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { API_URL } from "../../components/Config";
-import LoadingPage from "../../components/views/LoadingPage/LoadingPage";
 import NavBar from "../../components/views/NavBar/NavBar";
 
 function TranslationPage() {
@@ -14,7 +13,7 @@ function TranslationPage() {
   const lectureNo = params.get("lecture_no");
   const asNo = params.get("as_no");
 
-  const [loading, setLoading] = useState(false); //로딩페이지 로딩
+  const [loading] = useState(false); //로딩페이지 로딩
   const [OriginalText, setOriginalText] = useState(""); //원문
   const [AssignName, setAssignName] = useState(""); // 과제 이름
   const [AssignType, setAssignType] = useState(""); // 과제 타입
@@ -82,8 +81,6 @@ function TranslationPage() {
 
   return (
     <LectureBackgroudDiv>
-      {loading ? <LoadingPage /> : null}
-
       <NavBar />
       <div style={{ display: "flex" }}>
         <LectureBackDiv>
@@ -116,7 +113,7 @@ function TranslationPage() {
         </Original>
 
         <Interpretation>
-          <h4>통역 전사문</h4>
+          <h4>번역</h4>
           <InterpretationBox
             placeholder="여기에 입력하세요"
             onChange={onTextChange}
@@ -127,7 +124,7 @@ function TranslationPage() {
 
       <LectureCreateDiv>
         <LectureCreateButton onClick={onSubmitButton}>
-          제출하기
+          저장하기
         </LectureCreateButton>
       </LectureCreateDiv>
     </LectureBackgroudDiv>
@@ -214,7 +211,6 @@ const Original = styled.div`
     border-radius: 4px 0px 0px 4px;
 
     background-color: #f9f9f9;
-    text-align: center;
   }
 `;
 
