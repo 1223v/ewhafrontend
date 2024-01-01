@@ -78,7 +78,7 @@ function FeedbackGridCard(props) {
 
   // 피드백 텍스트 포커스 아웃 이벤트
   const handleFocusOut = (e) => {
-    if (e.key === 'Enter') {
+    if (e.key === "Enter") {
       e.preventDefault();
       let updatefilteredItems = [];
       let encodedAttributes = [];
@@ -186,6 +186,8 @@ function FeedbackGridCard(props) {
 
     if (filteredItems.length > 0) {
       setFeedbackAttributes(filteredItems[0].obj); // [{ id: 2, value: 5 }, { id: 4, value: 5 }]
+    } else {
+      setFeedbackAttributes("");
     }
   }, [props.AttributesContent]);
 
