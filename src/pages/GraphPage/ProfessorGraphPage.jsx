@@ -1,4 +1,5 @@
-import { Select, message } from "antd";
+import { RedoOutlined } from "@ant-design/icons";
+import { FloatButton, Select, message } from "antd";
 import Axios from "axios";
 import React, { useEffect, useState } from "react";
 import ReactApexChart from "react-apexcharts";
@@ -23,6 +24,7 @@ function ProfessorGraphPage() {
   const [DeliveryDetail, setDeliveryDetail] = useState([]); // 전달력 디테일
   const [AccuracyDetail, setAccuracyDetail] = useState([]); // 내용 정확도 디테일
   const [AssignType, setAssignType] = useState(""); // 과제 타입
+  const [ReloadCheck, setReloadCheck] = useState(false); // 그래프 갱신 체크
 
   const options = {
     chart: {
@@ -48,7 +50,12 @@ function ProfessorGraphPage() {
       size: 0,
     },
     xaxis: {
-      categories: ["침묵(silence)", "필러(filler)", "백트레킹(backtracking)", "기타"],
+      categories: [
+        "침묵(silence)",
+        "필러(filler)",
+        "백트레킹(backtracking)",
+        "기타",
+      ],
     },
   };
 
@@ -76,7 +83,14 @@ function ProfessorGraphPage() {
       size: 0,
     },
     xaxis: {
-      categories: ["오역(translation_error)", "누락(omission)", "표현(expression)", "억양(intonation)", "문법오류(grammar_error)", "기타"],
+      categories: [
+        "오역(translation_error)",
+        "누락(omission)",
+        "표현(expression)",
+        "억양(intonation)",
+        "문법오류(grammar_error)",
+        "기타",
+      ],
     },
   };
 
@@ -171,6 +185,35 @@ function ProfessorGraphPage() {
     );
   };
 
+  const onGraphReloadClick = () => {
+    Axios.get(
+      `${API_URL}api/feedback/graph/update?as_no=${asNo}&student_no=${userNo}`,
+      {
+        withCredentials: true,
+      }
+    )
+      .then((response) => {
+        if (response.data.isSuccess) {
+          // 요청이 성공한 경우의 처리
+          setReloadCheck(!ReloadCheck);
+          message.success("그래프가 갱신되었습니다.");
+        } else {
+          message.error(response.data.message);
+
+          navigate(
+            `/prob/feedback/professor?lecture_no=${lectureNo}&as_no=${asNo}`
+          );
+        }
+      })
+
+      .catch((error) => {
+        // 요청이 실패한 경우의 처리
+        console.error(error);
+        message.error("알 수 없는 에러가 발생했습니다.");
+        navigate("/");
+      });
+  };
+
   useEffect(() => {
     Axios.get(`${API_URL}api/feedback/professor/graph?as_no=${asNo}`, {
       withCredentials: true,
@@ -199,11 +242,20 @@ function ProfessorGraphPage() {
         message.error("알 수 없는 에러가 발생했습니다.");
         navigate("/");
       });
-  }, []);
+  }, [ReloadCheck]);
 
   return (
     <div>
       <NavBar />
+      <FloatButton
+        icon={<RedoOutlined />}
+        type="default"
+        style={{
+          right: 24,
+          top: 84,
+        }}
+        onClick={onGraphReloadClick}
+      />
       <div style={{ display: "flex" }}>
         <LectureBackDiv>
           <Link

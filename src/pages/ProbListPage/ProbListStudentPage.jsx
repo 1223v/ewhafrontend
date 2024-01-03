@@ -139,7 +139,7 @@ function ProbListStudentPage() {
                               <StyledLink
                                 to={`/prob/detail?as_no=${assignment.as_no}&lecture_no=${lectureNo}`}
                               >
-                                {index}
+                                {index + 1}
                               </StyledLink>
                             </td>
 

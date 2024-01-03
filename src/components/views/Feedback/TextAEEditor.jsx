@@ -65,6 +65,9 @@ const TextAEEditor = (props) => {
       });
 
       if (textContent.denotations !== "") {
+        if (encodedAttributes.length === 0) {
+          encodedAttributes.push("Flag");
+        }
         let body = {
           ae_denotations: textContent.denotations,
           ae_attributes: encodedAttributes,

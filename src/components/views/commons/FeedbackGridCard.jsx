@@ -51,6 +51,7 @@ function FeedbackGridCard(props) {
 
     let body = {
       ae_denotations: updatefilteredItems,
+      ae_attributes: ["Flag"],
     };
     Axios.put(
       `${API_URL}api/feedback/textae?as_no=${asNo}&user_no=${userNo}`,
