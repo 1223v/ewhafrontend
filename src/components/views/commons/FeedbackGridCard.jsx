@@ -21,7 +21,7 @@ function FeedbackGridCard(props) {
     { label: "expression", value: "expression" },
     { label: "intonation", value: "intonation" },
     { label: "grammar_error", value: "grammar_error" },
-    { label: "silence", value: "silence" },
+    { label: "pause", value: "pause" },
     { label: "filler", value: "filler" },
     { label: "backtracking", value: "backtracking" },
     { label: "others", value: "others" },

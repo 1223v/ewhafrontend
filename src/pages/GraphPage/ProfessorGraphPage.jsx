@@ -51,7 +51,7 @@ function ProfessorGraphPage() {
     },
     xaxis: {
       categories: [
-        "침묵(silence)",
+        "침묵(pause)",
         "필러(filler)",
         "백트레킹(backtracking)",
         "기타",
