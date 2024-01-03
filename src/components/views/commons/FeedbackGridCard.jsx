@@ -146,6 +146,7 @@ function FeedbackGridCard(props) {
       }
 
       let body = {
+        ae_denotations: ["Flag"],
         ae_attributes: encodedAttributes,
       };
       Axios.put(
