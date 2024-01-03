@@ -16,11 +16,15 @@ function FeedbackGridCard(props) {
   const [CheckList, setCheckList] = useState(props.obj); // 체크리스트\
   const [FeedbackAttributes, setFeedbackAttributes] = useState(""); // 피드백 속성
   const [FeedbackOptions] = useState([
-    { label: "Filler", value: "Filler" },
-    { label: "Silence", value: "silence" },
-    { label: "Backtracking", value: "backtracking" },
-    // { label: "Bad", value: "Bad" },
-    { label: "Etc", value: "Etc" },
+    { label: "translation_error", value: "translation_error" },
+    { label: "omission", value: "omission" },
+    { label: "expression", value: "expression" },
+    { label: "intonation", value: "intonation" },
+    { label: "grammar_error", value: "grammar_error" },
+    { label: "silence", value: "silence" },
+    { label: "filler", value: "filler" },
+    { label: "backtracking", value: "backtracking" },
+    { label: "others", value: "others" },
   ]); // 피드백 옵션
 
   const onAnchoringClick = () => {
@@ -209,7 +213,7 @@ function FeedbackGridCard(props) {
           </MainTitle>
           <MainTitle>
             <Select
-              style={{ width: 80 }}
+              style={{ width: 150 }}
               placement="topLeft"
               options={FeedbackOptions}
               placeholder="변경"
