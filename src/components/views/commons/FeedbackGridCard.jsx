@@ -17,9 +17,9 @@ function FeedbackGridCard(props) {
   const [FeedbackAttributes, setFeedbackAttributes] = useState(""); // 피드백 속성
   const [FeedbackOptions] = useState([
     { label: "Filler", value: "Filler" },
-    { label: "Cancellation", value: "Cancellation" },
-    { label: "Pause", value: "Pause" },
-    { label: "Bad", value: "Bad" },
+    { label: "Silence", value: "silence" },
+    { label: "Backtracking", value: "backtracking" },
+    // { label: "Bad", value: "Bad" },
     { label: "Etc", value: "Etc" },
   ]); // 피드백 옵션
 
@@ -78,7 +78,7 @@ function FeedbackGridCard(props) {
 
   // 피드백 텍스트 포커스 아웃 이벤트
   const handleFocusOut = (e) => {
-    if (e.key === "Enter") {
+    if (e.key === "Enter" || ((e.ctrlKey || e.metaKey) && e.key === "s")) {
       e.preventDefault();
       let updatefilteredItems = [];
       let encodedAttributes = [];

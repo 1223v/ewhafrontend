@@ -48,7 +48,7 @@ function ProfessorGraphPage() {
       size: 0,
     },
     xaxis: {
-      categories: ["침묵", "필러", "백트레킹", "기타"],
+      categories: ["침묵(silence)", "필러(filler)", "백트레킹(backtracking)", "기타"],
     },
   };
 
@@ -76,7 +76,7 @@ function ProfessorGraphPage() {
       size: 0,
     },
     xaxis: {
-      categories: ["오역", "누락", "표현", "억양", "문법오류", "기타"],
+      categories: ["오역(translation_error)", "누락(omission)", "표현(expression)", "억양(intonation)", "문법오류(grammar_error)", "기타"],
     },
   };
 

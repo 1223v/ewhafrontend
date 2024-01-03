@@ -38,7 +38,7 @@ const TextAEEditor = (props) => {
    * TextAEEditor의 변경을 감지하여 저장하는 함수
    */
   const handleKeyDown = (event) => {
-    if (event.ctrlKey && event.key === "s") {
+    if ((event.ctrlKey || event.metaKey) && event.key === "s") {
       event.preventDefault(); // 기본 동작(브라우저에서의 저장 다이얼로그 등) 방지
       const textContent = JSON.parse(elementRef.current.textContent);
 
