@@ -19,12 +19,13 @@ const TextAEEditor = (props) => {
   const userNo = params.get("user_no");
 
   const [FirstTextAERender, setFirstTextAERender] = useState(true); // TextAEEditor의 첫 렌더링을 감지하는 변수
-  const [DuplicateCheck, setDuplicateCheck] = useState(true); // TextAEEditor의 첫 렌더링을 감지하는 변수
+  //const [DuplicateCheck, setDuplicateCheck] = useState(true); // TextAEEditor의 첫 렌더링을 감지하는 변수
 
   const elementRef = useRef(null);
 
   /**
    * TextAEEditor의 위치를 불러오는 함수
+   * TextAE -> FeedbackGridCard
    */
   const getAnchoring = () => {
     if (props.Sectioncontent?.length !== 0) {
@@ -209,6 +210,7 @@ const TextAEEditor = (props) => {
 
   /**
    * memoryLeak 원인
+   * FeedbackGridCard -> TextAE
    */
   useEffect(() => {
     if (props.Anchoring !== "") {

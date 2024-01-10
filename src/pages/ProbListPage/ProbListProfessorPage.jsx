@@ -14,6 +14,7 @@ function ProbListProfessorPage() {
   const lectureNo = params.get("lecture_no");
   let navigate = useNavigate();
   const [Problist, setProblist] = useState([]);
+  const [lectureName, setLectureName] = useState("");
 
   useEffect(() => {
     Axios.get(`${API_URL}api/prob/professor?lecture_no=${lectureNo}`, {
@@ -22,6 +23,7 @@ function ProbListProfessorPage() {
       .then((response) => {
         // 요청이 성공한 경우의 처리
         console.log(response.data);
+        setLectureName(response.data.lecture_name);
         setProblist(response.data.prob_list);
       })
       .catch((error) => {
@@ -53,7 +55,7 @@ function ProbListProfessorPage() {
             </svg>
           </Link>
         </LectureBackDiv>
-        <LectureTitleDiv>과제 리스트 : </LectureTitleDiv>
+        <LectureTitleDiv>과제 리스트 : {lectureName}</LectureTitleDiv>
         <CreateDiv>
           <Link to={`/prob/add?lecture_no=${lectureNo}`}>
             <CreateBtn
@@ -272,8 +274,8 @@ const LectureBackDiv = styled.div`
   color: black;
 `;
 const LectureTitleDiv = styled.div`
-  font-size: 1.4rem;
-  line-height: 1.5;
+  font-size: 1.2rem;
+  line-height: 1.9;
   color: #2b2d36;
   font-weight: 700;
   margin-top: 17px;

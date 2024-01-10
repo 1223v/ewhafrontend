@@ -238,7 +238,7 @@ function ProbSubmitList() {
                               to={`/prob/feedback/professor?as_no=${asNo}&lecture_no=${lectureNo}&user_no=${person.user_no}`}
                               className="text-indigo-600 hover:text-indigo-900"
                             >
-                              FeedBack
+                              피드백 완료
                             </Link>
                           )}
                           {person.check === false && <div>제출 안함</div>}

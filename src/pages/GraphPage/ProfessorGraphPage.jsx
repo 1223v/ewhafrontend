@@ -18,11 +18,11 @@ function ProfessorGraphPage() {
   const userNo = params.get("user_no");
 
   const [DeliveryList, setDeliveryList] = useState([]); // 전달력 리스트
-  const [AccuracyList, setAccuracyList] = useState([]); // 내용 정확도 리스트
+  const [AccuracyList, setAccuracyList] = useState([]); // 내용 피드백 결과 리스트
   const [DeliveryDetailList, setDeliveryDetailList] = useState([]); // 전달력 디테일 리스트
-  const [AccuracyDetailList, setAccuracyDetailList] = useState([]); // 내용 정확도 디테일 리스트
+  const [AccuracyDetailList, setAccuracyDetailList] = useState([]); // 내용 피드백 결과 디테일 리스트
   const [DeliveryDetail, setDeliveryDetail] = useState([]); // 전달력 디테일
-  const [AccuracyDetail, setAccuracyDetail] = useState([]); // 내용 정확도 디테일
+  const [AccuracyDetail, setAccuracyDetail] = useState([]); // 내용 피드백 결과 디테일
   const [AssignType, setAssignType] = useState(""); // 과제 타입
   const [ReloadCheck, setReloadCheck] = useState(false); // 그래프 갱신 체크
 
@@ -71,7 +71,7 @@ function ProfessorGraphPage() {
       },
     },
     title: {
-      text: "내용 정확도 결과",
+      text: "내용 피드백 결과",
     },
     stroke: {
       width: 2,
@@ -139,7 +139,7 @@ function ProfessorGraphPage() {
       height: 350,
     },
     title: {
-      text: "내용 정확도 결과",
+      text: "내용 피드백 결과 결과",
     },
     plotOptions: {
       bar: {
@@ -249,6 +249,7 @@ function ProfessorGraphPage() {
       <NavBar />
       <FloatButton
         icon={<RedoOutlined />}
+        tooltip={<div>그래프 재갱신</div>}
         type="default"
         style={{
           right: 24,

@@ -183,7 +183,7 @@ function FeedbackGridCard(props) {
       // 해당 요소로 스크롤
       myRef.current.scrollIntoView();
     }
-  }, [props.ChoiceAnchor, props.id]);
+  }, [props.ChoiceAnchor]);
 
   useEffect(() => {
     const filteredItems = props.AttributesContent.filter(

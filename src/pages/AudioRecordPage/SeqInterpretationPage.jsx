@@ -1,226 +1,224 @@
-import { Row } from 'antd';
-import Axios from 'axios';
-import React, { useEffect, useState } from 'react';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
-import styled from 'styled-components';
-import { API_URL } from '../../components/Config';
-import SeqInterpretationAudioplay from '../../components/views/AudioRecord/SeqInterpretationAudioplay';
-import LoadingPage from '../../components/views/LoadingPage/LoadingPage';
-import SimMusicPlayLoading from '../../components/views/LoadingPage/SimMusicPlayLoading';
-import NavBar from '../../components/views/NavBar/NavBar';
-import AudiorecordGridCard from '../../components/views/commons/AudiorecordGridCard';
-import SeqAudiorecordGridcard from '../../components/views/commons/SeqAudiorecordGridCard';
+import { Row } from "antd";
+import Axios from "axios";
+import React, { useEffect, useState } from "react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import styled from "styled-components";
+import { API_URL } from "../../components/Config";
+import SeqInterpretationAudioplay from "../../components/views/AudioRecord/SeqInterpretationAudioplay";
+import LoadingPage from "../../components/views/LoadingPage/LoadingPage";
+import SimMusicPlayLoading from "../../components/views/LoadingPage/SimMusicPlayLoading";
+import NavBar from "../../components/views/NavBar/NavBar";
+import AudiorecordGridCard from "../../components/views/commons/AudiorecordGridCard";
+import SeqAudiorecordGridcard from "../../components/views/commons/SeqAudiorecordGridCard";
 
 function SeqInterpretationPage() {
-    let navigate = useNavigate();
-    const location = useLocation();
-    const params = new URLSearchParams(location.search);
-    const lectureNo = params.get('lecture_no');
-    const asNo = params.get('as_no');
-    const [Audiolist, setAudiolist] = useState([]); // 영역별 음원 리스트
-    const [Regionmusic, setRegionmusic] = useState(''); // 현재 재생되고 있는 음원
-    const [Playmusic, setPlaymusic] = useState(false); // 음악 실행 -> 누르면 play() 실행
-    const [Submitlist, setSubmitlist] = useState(''); // 임시저장되어 들어간 과제
-    const [Realsubmit, setRealsubmit] = useState([]); // 현재 제출한 과제의 양
-    const [Disable, setDisable] = useState(0); // 현재 위치한 구간 => 저장 버튼 누르면 1씩 증가
-    const [Endlength, setEndlength] = useState(-1); // 총 제출해야할 과제의 양
-    const [WaveSuferLoading, setWaveSuferLoading] = useState(false); // 재생 전 wavesurfer 로딩
-    const [loading, setLoading] = useState(false); //로딩페이지 로딩
-    const [MusicLoading, setMusicLoading] = useState(false); //음악 재생 중 로딩
-    const [Keyword, setKeyword] = useState(''); // 키워드
-    const [AssignName, setAssignName] = useState(''); // 과제 이름
-    const [AssignType, setAssignType] = useState(''); // 과제 타입
-    const [MusicEnd, setMusicEnd] = useState(false); // 음악이 끝났는지 확인
+  let navigate = useNavigate();
+  const location = useLocation();
+  const params = new URLSearchParams(location.search);
+  const lectureNo = params.get("lecture_no");
+  const asNo = params.get("as_no");
+  const [Audiolist, setAudiolist] = useState([]); // 영역별 음원 리스트
+  const [Regionmusic, setRegionmusic] = useState(""); // 현재 재생되고 있는 음원
+  const [Playmusic, setPlaymusic] = useState(false); // 음악 실행 -> 누르면 play() 실행
+  const [Submitlist, setSubmitlist] = useState(""); // 임시저장되어 들어간 과제
+  const [Realsubmit, setRealsubmit] = useState([]); // 현재 제출한 과제의 양
+  const [Disable, setDisable] = useState(0); // 현재 위치한 구간 => 저장 버튼 누르면 1씩 증가
+  const [Endlength, setEndlength] = useState(-1); // 총 제출해야할 과제의 양
+  const [WaveSuferLoading, setWaveSuferLoading] = useState(false); // 재생 전 wavesurfer 로딩
+  const [loading, setLoading] = useState(false); //로딩페이지 로딩
+  const [MusicLoading, setMusicLoading] = useState(false); //음악 재생 중 로딩
+  const [Keyword, setKeyword] = useState(""); // 키워드
+  const [AssignName, setAssignName] = useState(""); // 과제 이름
+  const [AssignType, setAssignType] = useState(""); // 과제 타입
+  const [MusicEnd, setMusicEnd] = useState(false); // 음악이 끝났는지 확인
 
-    const onSubmitButton = () => {
-        if (window.confirm('과제 제출하시겠습니까?')) {
-            if (Realsubmit.length === Endlength) {
-                let body = {
-                    submitUUID: Realsubmit,
-                    as_no: asNo,
-                    lecture_no: lectureNo,
-                };
+  const onSubmitButton = () => {
+    if (window.confirm("과제 제출하시겠습니까?")) {
+      if (Realsubmit.length === Endlength) {
+        let body = {
+          submitUUID: Realsubmit,
+          as_no: asNo,
+          lecture_no: lectureNo,
+        };
 
-                Axios.post(`${API_URL}api/prob/submit`, body, {
-                    withCredentials: true,
-                })
-                    .then((response) => {
-                        console.log(response.data);
-                        alert('제출을 완료했습니다.');
-                        navigate(-1);
-                    })
-                    .catch((error) => {
-                        // 요청이 실패한 경우의 처리
-                        console.error(error);
-                        navigate(-1);
-                    });
-            } else {
-                alert('녹음 혹은 업로드부터 진행해주세요.');
-            }
-        }
-    };
+        Axios.post(`${API_URL}api/prob/submit`, body, {
+          withCredentials: true,
+        })
+          .then((response) => {
+            console.log(response.data);
+            alert("제출을 완료했습니다.");
+            navigate(-1);
+          })
+          .catch((error) => {
+            // 요청이 실패한 경우의 처리
+            console.error(error);
+            navigate(-1);
+          });
+      } else {
+        alert("녹음 혹은 업로드부터 진행해주세요.");
+      }
+    }
+  };
 
-    useEffect(() => {
-        Axios.get(
-            `${API_URL}api/prob/record?lecture_no=${lectureNo}&as_no=${asNo}`,
-            {
-                withCredentials: true,
-            }
-        )
-            .then((response) => {
-                // 요청이 성공한 경우의 처리
+  useEffect(() => {
+    Axios.get(
+      `${API_URL}api/prob/record?lecture_no=${lectureNo}&as_no=${asNo}`,
+      {
+        withCredentials: true,
+      }
+    )
+      .then((response) => {
+        // 요청이 성공한 경우의 처리
 
-                console.log('submit', response.data.keyword);
-                setAudiolist(response.data.audio_regions_url);
-                setEndlength(response.data.audio_regions_url.length);
-                setAssignName(response.data.as_name);
-                setKeyword(response.data.keyword);
-                setAssignType(response.data.as_type);
-            })
-            .catch((error) => {
-                // 요청이 실패한 경우의 처리
-                console.error(error);
-                //navigate("/");
-            });
-    }, []);
+        console.log("submit", response.data.keyword);
+        setAudiolist(response.data.audio_regions_url);
+        setEndlength(response.data.audio_regions_url.length);
+        setAssignName(response.data.as_name);
+        setKeyword(response.data.keyword);
+        setAssignType(response.data.as_type);
+      })
+      .catch((error) => {
+        // 요청이 실패한 경우의 처리
+        console.error(error);
+        //navigate("/");
+      });
+  }, []);
 
-    useEffect(() => {
-        console.log(Realsubmit);
-        if (Realsubmit.length === Endlength) {
-            alert('과제를 완료했습니다. 제출해주세요.');
-        }
-    }, [Realsubmit]);
+  useEffect(() => {
+    console.log(Realsubmit);
+    if (Realsubmit.length === Endlength) {
+      alert("과제를 완료했습니다. 제출해주세요.");
+    }
+  }, [Realsubmit]);
 
-    return (
-        <LectureBackgroudDiv>
-            {loading ? <LoadingPage /> : null}
-            {MusicLoading ? (
-                <SimMusicPlayLoading regionIndex={Disable} />
-            ) : null}
-            <NavBar />
-            <div style={{ display: 'flex' }}>
-                <LectureBackDiv>
-                    <Link to={'/'} style={{ color: 'black', padding: '7px' }}>
-                        <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            fill="none"
-                            viewBox="0 -5 24 24"
-                            strokeWidth="1.5"
-                            stroke="currentColor"
-                            className="w-6 h-6"
-                        >
-                            <path
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                d="M19.5 12h-15m0 0l6.75 6.75M4.5 12l6.75-6.75"
-                            />
-                        </svg>
-                    </Link>
-                </LectureBackDiv>
-                <LectureTitleDiv>
-                    {AssignName} ({AssignType})
-                </LectureTitleDiv>
-            </div>
+  return (
+    <LectureBackgroudDiv>
+      {loading ? <LoadingPage /> : null}
+      {MusicLoading ? <SimMusicPlayLoading regionIndex={Disable} /> : null}
+      <NavBar />
+      <div style={{ display: "flex" }}>
+        <LectureBackDiv>
+          <Link to={"/"} style={{ color: "black", padding: "7px" }}>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 -5 24 24"
+              strokeWidth="1.5"
+              stroke="currentColor"
+              className="w-6 h-6"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M19.5 12h-15m0 0l6.75 6.75M4.5 12l6.75-6.75"
+              />
+            </svg>
+          </Link>
+        </LectureBackDiv>
+        <LectureTitleDiv>
+          {AssignName} ({AssignType})
+        </LectureTitleDiv>
+      </div>
 
-            <SeqInterpretationAudioplay
-                Regionmusic={Regionmusic}
-                Playmusic={Playmusic}
+      <SeqInterpretationAudioplay
+        Regionmusic={Regionmusic}
+        Playmusic={Playmusic}
+        setWaveSuferLoading={setWaveSuferLoading}
+        setPlaymusic={setPlaymusic}
+        setMusicLoading={setMusicLoading}
+        MusicLoading={MusicLoading}
+        setMusicEnd={setMusicEnd}
+      />
+
+      <div style={{ width: "auto", margin: "20px auto" }}>
+        <Row>
+          <AudiorecordGridCard Keyword={Keyword} />
+          {Audiolist?.map((Wavaudio, index) => (
+            <React.Fragment key={index}>
+              <SeqAudiorecordGridcard
+                region_index={parseInt(Wavaudio.region_index)}
+                Wavaudio={Wavaudio}
+                setRegionmusic={setRegionmusic}
+                WaveSuferLoading={WaveSuferLoading}
                 setWaveSuferLoading={setWaveSuferLoading}
+                setLoading={setLoading}
+                Playmusic={Playmusic}
                 setPlaymusic={setPlaymusic}
-                setMusicLoading={setMusicLoading}
+                setSubmitlist={setSubmitlist}
+                Submitlist={Submitlist}
+                setRealsubmit={setRealsubmit}
+                Realsubmit={Realsubmit}
+                setDisable={setDisable}
+                Disable={Disable}
                 MusicLoading={MusicLoading}
+                MusicEnd={MusicEnd}
                 setMusicEnd={setMusicEnd}
-            />
-
-            <div style={{ width: 'auto', margin: '20px auto' }}>
-                <Row>
-                    <AudiorecordGridCard Keyword={Keyword} />
-                    {Audiolist?.map((Wavaudio, index) => (
-                        <React.Fragment key={index}>
-                            <SeqAudiorecordGridcard
-                                region_index={parseInt(Wavaudio.region_index)}
-                                Wavaudio={Wavaudio}
-                                setRegionmusic={setRegionmusic}
-                                WaveSuferLoading={WaveSuferLoading}
-                                setWaveSuferLoading={setWaveSuferLoading}
-                                setLoading={setLoading}
-                                Playmusic={Playmusic}
-                                setPlaymusic={setPlaymusic}
-                                setSubmitlist={setSubmitlist}
-                                Submitlist={Submitlist}
-                                setRealsubmit={setRealsubmit}
-                                Realsubmit={Realsubmit}
-                                setDisable={setDisable}
-                                Disable={Disable}
-                                MusicLoading={MusicLoading}
-                                MusicEnd={MusicEnd}
-                                setMusicEnd={setMusicEnd}
-                            />
-                        </React.Fragment>
-                    ))}
-                </Row>
-            </div>
-            {Realsubmit.length === Endlength && (
-                <LectureCreateDiv>
-                    <LectureCreateButton onClick={onSubmitButton}>
-                        제출하기
-                    </LectureCreateButton>
-                </LectureCreateDiv>
-            )}
-        </LectureBackgroudDiv>
-    );
+              />
+            </React.Fragment>
+          ))}
+        </Row>
+      </div>
+      {Realsubmit.length === Endlength && (
+        <LectureCreateDiv>
+          <LectureCreateButton onClick={onSubmitButton}>
+            저장하기
+          </LectureCreateButton>
+        </LectureCreateDiv>
+      )}
+    </LectureBackgroudDiv>
+  );
 }
 
 export default SeqInterpretationPage;
 
 const LectureBackgroudDiv = styled.div`
-    background-color: #f7f7fa;
-    width: 100%;
-    height: 100%;
-    min-height: 1500px;
+  background-color: #f7f7fa;
+  width: 100%;
+  height: 100%;
+  min-height: 1500px;
 `;
 
 const LectureBackDiv = styled.div`
-    background-color: #85889914;
-    border-radius: 7px;
-    margin: 20px;
-    height: 34px;
-    width: 40px;
-    color: black;
+  background-color: #85889914;
+  border-radius: 7px;
+  margin: 20px;
+  height: 34px;
+  width: 40px;
+  color: black;
 `;
 
 const LectureTitleDiv = styled.div`
-    font-size: 1.4rem;
-    line-height: 1.5;
-    color: #2b2d36;
-    font-weight: 700;
-    @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;400&display=swap');
-    font-family: 'Noto Sans KR', sans-serif;
-    margin-top: 17px;
+  font-size: 1.4rem;
+  line-height: 1.5;
+  color: #2b2d36;
+  font-weight: 700;
+  @import url("https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;400&display=swap");
+  font-family: "Noto Sans KR", sans-serif;
+  margin-top: 17px;
 `;
 
 const LectureCreateDiv = styled.div`
-    position: fixed;
-    bottom: 0px;
-    z-index: 8;
-    display: flex;
-    -webkit-box-align: center;
-    align-items: center;
-    width: 100%;
-    height: 4rem;
-    background: rgb(255, 255, 255);
-    box-shadow: rgb(232, 232, 238) 0px 1px 0px inset;
+  position: fixed;
+  bottom: 0px;
+  z-index: 8;
+  display: flex;
+  -webkit-box-align: center;
+  align-items: center;
+  width: 100%;
+  height: 4rem;
+  background: rgb(255, 255, 255);
+  box-shadow: rgb(232, 232, 238) 0px 1px 0px inset;
 `;
 
 const LectureCreateButton = styled.button`
-    height: 3rem;
-    font-size: 0.975rem;
-    font-weight: 800;
-    line-height: 1.375rem;
-    width: 100%;
-    border-radius: 0.5rem;
-    margin: 20px;
-    color: #fff;
-    background-color: #2e462f;
-    border-color: transparent;
+  height: 3rem;
+  font-size: 0.975rem;
+  font-weight: 800;
+  line-height: 1.375rem;
+  width: 100%;
+  border-radius: 0.5rem;
+  margin: 20px;
+  color: #fff;
+  background-color: #2e462f;
+  border-color: transparent;
 `;

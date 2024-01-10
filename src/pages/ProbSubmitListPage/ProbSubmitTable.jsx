@@ -1,8 +1,7 @@
 import { message, Table } from "antd";
 import Axios from "axios";
 import React, { useEffect, useState } from "react";
-import { LuRefreshCw } from "react-icons/lu";
-import { MdOutlineDeleteOutline } from "react-icons/md";
+import { MdExposurePlus1, MdOutlineDeleteOutline } from "react-icons/md";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { API_URL } from "../../components/Config";
@@ -19,7 +18,11 @@ function ProbSubmitTable() {
   const [People, setPeople] = useState([]);
   const [ProbStatus, setProbStatus] = useState(false); // 이벤트 발생시 상태를 저장하는 변수
   const onProbCancelClick = (PersonNum) => {
-    if (window.confirm("과제를 취소하시겠습니까?")) {
+    if (
+      window.confirm(
+        "과제 제출을 취소하시겠습니까? 학생의 과제 결과가 모두 사라집니다. 학생이 처음부터 다시 녹음해야 합니다."
+      )
+    ) {
       let body = {
         as_no: asNo,
         user_no: PersonNum,
@@ -116,7 +119,7 @@ function ProbSubmitTable() {
       align: "center",
       render: (userNo) => (
         <SubmitBtn onClick={() => onProbChanceClick(userNo)}>
-          <LuRefreshCw size="18" />
+          <MdExposurePlus1 size="22" />
         </SubmitBtn>
       ),
     },
@@ -140,7 +143,7 @@ function ProbSubmitTable() {
               to={`/prob/feedback/professor?as_no=${asNo}&lecture_no=${lectureNo}&user_no=${record.user_no}`}
               className="text-indigo-600 hover:text-indigo-900 mr-8"
             >
-              FeedBack
+              피드백 완료
             </Link>
             <ZipFileDownload UserNo={record.user_no} />
           </div>

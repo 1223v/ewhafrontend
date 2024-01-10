@@ -1,9 +1,9 @@
-import React, { useState } from "react";
-import "./NavBar.css";
-import { Link, useNavigate } from "react-router-dom";
 import Axios from "axios";
+import React, { useState } from "react";
 import { useCookies } from "react-cookie"; // useCookies import
+import { Link, useNavigate } from "react-router-dom";
 import { API_URL } from "../../Config";
+import "./NavBar.css";
 
 function NavBar() {
   let navigate = useNavigate();
@@ -43,9 +43,6 @@ function NavBar() {
         <ul className={"navbar__menu" + (isActive ? "" : " active")}>
           <li>
             <Link to="/">Home</Link>
-          </li>
-          <li>
-            <Link to="/lecture_add">과제 생성</Link>
           </li>
           <li>
             <Link to="https://cyber.ewha.ac.kr/">사이버캠퍼스</Link>

@@ -17,9 +17,9 @@ function StudentGraphPage() {
   const userNo = params.get("user_no");
 
   const [DeliveryList, setDeliveryList] = useState([]); // 전달력 리스트
-  const [AccuracyList, setAccuracyList] = useState([]); // 내용 정확도 리스트
+  const [AccuracyList, setAccuracyList] = useState([]); // 내용 피드백 결과 리스트
   const [DeliveryDetailList, setDeliveryDetailList] = useState([]); // 전달력 디테일 리스트
-  const [AccuracyDetailList, setAccuracyDetailList] = useState([]); // 내용 정확도 디테일 리스트
+  const [AccuracyDetailList, setAccuracyDetailList] = useState([]); // 내용 피드백 결과 디테일 리스트
   const [AssignType, setAssignType] = useState(""); // 과제 타입
 
   const options = {
@@ -46,7 +46,12 @@ function StudentGraphPage() {
       colors: ["transparent"],
     },
     xaxis: {
-      categories: ["침묵(pause)", "필러(filler)", "백트레킹(backtracking)", "기타"],
+      categories: [
+        "침묵(pause)",
+        "필러(filler)",
+        "백트레킹(backtracking)",
+        "기타",
+      ],
     },
     yaxis: {},
     fill: {
@@ -67,7 +72,7 @@ function StudentGraphPage() {
       height: 350,
     },
     title: {
-      text: "내용 정확도 결과",
+      text: "내용 피드백 결과",
     },
     plotOptions: {
       bar: {
@@ -85,7 +90,14 @@ function StudentGraphPage() {
       colors: ["transparent"],
     },
     xaxis: {
-      categories: ["오역(translation_error)", "누락(omission)", "표현(expression)", "억양(intonation)", "문법오류(grammar_error)", "기타"],
+      categories: [
+        "오역(translation_error)",
+        "누락(omission)",
+        "표현(expression)",
+        "억양(intonation)",
+        "문법오류(grammar_error)",
+        "기타",
+      ],
     },
     yaxis: {},
     fill: {
@@ -145,7 +157,7 @@ function StudentGraphPage() {
       height: 350,
     },
     title: {
-      text: "내용 정확도 결과",
+      text: "내용 피드백 결과",
     },
     plotOptions: {
       bar: {
