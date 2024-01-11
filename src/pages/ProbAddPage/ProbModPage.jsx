@@ -13,7 +13,7 @@ import NavBar from "../../components/views/NavBar/NavBar";
 const Startlanguage = [
   { value: "jp", label: "일본어" },
   { value: "ko", label: "한국어" },
-  // { value: "cn", label: "중국어" },
+  { value: "cn", label: "중국어" },
   // { value: "en", label: "영어" },
   // { value: "fr", label: "불어" },
 ];
@@ -21,6 +21,7 @@ const Startlanguage = [
 const Endlanguage = [
   { value: "ko", label: "한국어" },
   { value: "jp", label: "일본어" },
+  { value: "cn", label: "중국어" },
 ];
 
 const AssignmentOption = [
