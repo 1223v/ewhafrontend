@@ -15,14 +15,18 @@ import SearchBar from "./Section/SearchBar";
 function LandingPage() {
   let navigate = useNavigate();
   const [Lectures, setLectures] = useState([]);
-  const [message, setMessage] = useState("");
-  //const [LectureStatus, setLectureStatus] = useState(false);
+
+  const [searchTerm, setSearchTerm] = useState("");
 
   const userinfos = useSelector((state) => state.user);
 
-  const handleSearchClick = (value) => {
-    setMessage(value);
+  const handleSearch = (value) => {
+    setSearchTerm(value.toLowerCase());
   };
+
+  const filteredLectures = Lectures.filter((lecture) =>
+    lecture.lecture_name.toLowerCase().includes(searchTerm)
+  );
 
   useEffect(() => {
     Axios.get(`${API_URL}api/lecture/list`, {
@@ -30,6 +34,7 @@ function LandingPage() {
     })
       .then((response) => {
         // 요청이 성공한 경우의 처리
+        console.log(response.data.lecturelist);
         setLectures(response.data.lecturelist);
       })
       .catch((error) => {
@@ -47,7 +52,7 @@ function LandingPage() {
           userName={userinfos?.userData?.name}
           userRole={userinfos?.userData?.role}
         />
-        <SearchBar onSearchClick={handleSearchClick} />
+        <SearchBar onChange={handleSearch} />
         <div className="calender_Area">
           <CalenderComponent />
         </div>
@@ -68,11 +73,9 @@ function LandingPage() {
             )}
           </h3>
 
-          {Lectures?.length < 0 ? (
-            <Empty />
-          ) : (
-            <Row>
-              {Lectures?.map((lesson, index) => (
+          <Row>
+            {filteredLectures.length > 0 ? (
+              filteredLectures.map((lesson, index) => (
                 <React.Fragment key={index}>
                   <GridCards
                     lectureName={lesson.lecture_name}
@@ -87,9 +90,11 @@ function LandingPage() {
                     //LectureStatus={LectureStatus}
                   />
                 </React.Fragment>
-              ))}
-            </Row>
-          )}
+              ))
+            ) : (
+              <Empty />
+            )}
+          </Row>
         </div>
       </div>
     </div>

@@ -1,24 +1,29 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 
-function SearchBar(props) {
-  const [searchTerm, setSearchTerm] = useState("");
-  const [searchResults, setSearchResults] = useState([]);
+function useDebounce(value, delay) {
+  const [debouncedValue, setDebouncedValue] = useState(value);
 
-  const data = [
-    { id: 1, title: "React" },
-    { id: 2, title: "Vue.js" },
-    { id: 3, title: "Angular" },
-    { id: 4, title: "Ember.js" },
-    { id: 5, title: "Backbone.js" },
-  ];
-  const handleChange = (event) => {
-    setSearchTerm(event.target.value);
-    const results = data.filter((item) =>
-      item.title.toLowerCase().includes(event.target.value.toLowerCase())
-    );
-    props.handleSearchClick(results);
-  };
+  useEffect(() => {
+    const handler = setTimeout(() => {
+      setDebouncedValue(value);
+    }, delay);
+
+    return () => {
+      clearTimeout(handler);
+    };
+  }, [value, delay]);
+
+  return debouncedValue;
+}
+
+function SearchBar({ onChange }) {
+  const [inputValue, setInputValue] = useState("");
+  const debouncedSearchTerm = useDebounce(inputValue, 500); // 500ms 지연
+
+  useEffect(() => {
+    onChange(debouncedSearchTerm);
+  }, [debouncedSearchTerm, onChange]);
 
   return (
     <div>
@@ -28,15 +33,10 @@ function SearchBar(props) {
         </Button>
         <input
           type="text"
-          value={searchTerm}
-          onChange={handleChange}
+          value={inputValue}
+          onChange={(e) => setInputValue(e.target.value)}
           placeholder="강의를 검색하세요."
         />
-        <ul>
-          {searchResults.map((result) => (
-            <li key={result.id}>{result.title}</li>
-          ))}
-        </ul>
       </div>
     </div>
   );
@@ -45,7 +45,7 @@ function SearchBar(props) {
 export default SearchBar;
 
 const Button = styled.button`
-  margin-top: 12px;
+  margin-top: 8px;
   margin-left: 30px;
   font-size: 20px;
   border: none;
