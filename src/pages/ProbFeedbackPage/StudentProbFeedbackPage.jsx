@@ -3,7 +3,7 @@ import {
   EditOutlined,
   LineChartOutlined,
 } from "@ant-design/icons";
-import { FloatButton, Switch, message } from "antd";
+import { Button, FloatButton, Switch, message } from "antd";
 import Axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
@@ -150,6 +150,7 @@ function StudentProbFeedbackPage() {
                 unCheckedChildren="원문"
                 defaultChecked
               />
+              <Button type="primary">Primary Button</Button>
             </ChangeDiv>
           </h4>
           <OriginalBox>{Checking ? STTText : OriginText}</OriginalBox>

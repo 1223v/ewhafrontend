@@ -109,7 +109,7 @@ function ProbStudentDetailPage() {
               viewBox="0 -5 24 24"
               strokeWidth="1.5"
               stroke="currentColor"
-              class="w-6 h-6"
+              className="w-6 h-6"
             >
               <path
                 strokeLinecap="round"
@@ -392,13 +392,6 @@ const LectureName = styled.div`
 `;
 
 const StyledLink = styled(Link)`
-  text-decoration: none;
-  color: #333;
-  color: inherit;
-  margin: 9px;
-`;
-
-const FeedbackLink = styled(Link)`
   text-decoration: none;
   color: #333;
   color: inherit;

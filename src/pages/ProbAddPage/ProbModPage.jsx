@@ -273,7 +273,7 @@ function ProbModPage() {
               viewBox="0 -5 24 24"
               strokeWidth="1.5"
               stroke="currentColor"
-              class="w-6 h-6"
+              className="w-6 h-6"
             >
               <path
                 strokeLinecap="round"
@@ -305,7 +305,7 @@ function ProbModPage() {
           <LectureNameinputDiv style={{ marginTop: "10px" }}>
             <select
               id="countries"
-              class="bg-white-50 border border-green-900 text-gray-900 text-sm rounded-lg focus:ring-green-900 focus:border-green-900 block w-full p-2.5 "
+              className="bg-white-50 border border-green-900 text-gray-900 text-sm rounded-lg focus:ring-green-900 focus:border-green-900 block w-full p-2.5 "
               onChange={onAssignmentChange}
               value={Assignmentlist}
             >
@@ -323,7 +323,7 @@ function ProbModPage() {
           <LectureNameinputDiv style={{ marginTop: "10px" }}>
             <select
               id="countries"
-              class="bg-white-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-green-300 focus:border-green-300 block w-full p-2.5"
+              className="bg-white-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-green-300 focus:border-green-300 block w-full p-2.5"
               onChange={onStartlanguageChange}
               value={Startlanguagelist}
             >
@@ -338,7 +338,7 @@ function ProbModPage() {
           <LectureNameinputDiv style={{ marginTop: "10px" }}>
             <select
               id="countries"
-              class="bg-white-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-green-300 focus:border-green-300 block w-full p-2.5"
+              className="bg-white-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-green-300 focus:border-green-300 block w-full p-2.5"
               onChange={onEndlanguageChange}
               value={Endlanguagelist}
             >
@@ -383,7 +383,7 @@ function ProbModPage() {
               <LectureNameinputDiv style={{ marginTop: "10px" }}>
                 <select
                   id="countries"
-                  class="bg-white-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-green-300 focus:border-green-300 block w-full p-2.5"
+                  className="bg-white-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-green-300 focus:border-green-300 block w-full p-2.5"
                   onChange={onSpeedChange}
                 >
                   {SpeedOption.map((item, index) => (

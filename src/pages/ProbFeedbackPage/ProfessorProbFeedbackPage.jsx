@@ -3,7 +3,7 @@ import {
   EditOutlined,
   LineChartOutlined,
 } from "@ant-design/icons";
-import { FloatButton, Switch, message } from "antd";
+import { Button, FloatButton, message } from "antd";
 import Axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
@@ -52,12 +52,12 @@ function ProfessorProbFeedbackPage() {
   const [Anchoring, setAnchoring] = useState(""); // textaeeditor Anchoring 데이터
   const [ChoiceAnchor, setChoiceAnchor] = useState(""); // textaeeditor Anchoring 데이터
 
-  const onTextChange = (checked) => {
-    if (checked) {
-      setChecking(true);
-    } else {
-      setChecking(false);
-    }
+  const onSttTextChange = () => {
+    setChecking(false);
+  };
+
+  const onOriginTextChange = () => {
+    setChecking(true);
   };
 
   const onResultBottomSheetClick = () => {
@@ -149,12 +149,26 @@ function ProfessorProbFeedbackPage() {
             원문{" "}
             {AssignType !== "번역" && (
               <ChangeDiv>
-                <Switch
-                  onChange={onTextChange}
-                  checkedChildren="원문"
-                  unCheckedChildren="STT"
-                  defaultChecked
-                />
+                <Button
+                  onClick={onOriginTextChange}
+                  style={{
+                    backgroundColor: Checking ? "#05422b" : "#d9d9d9",
+                    color: Checking ? "white" : "black",
+                  }}
+                  disabled={Checking}
+                >
+                  원문
+                </Button>
+                <Button
+                  onClick={onSttTextChange}
+                  style={{
+                    backgroundColor: !Checking ? "#05422b" : "#d9d9d9",
+                    color: !Checking ? "white" : "black",
+                  }}
+                  disabled={!Checking}
+                >
+                  STT
+                </Button>
               </ChangeDiv>
             )}
           </h4>

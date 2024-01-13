@@ -221,7 +221,7 @@ function ProbAddPage() {
               viewBox="0 -5 24 24"
               strokeWidth="1.5"
               stroke="currentColor"
-              class="w-6 h-6"
+              className="w-6 h-6"
             >
               <path
                 strokeLinecap="round"
@@ -253,7 +253,7 @@ function ProbAddPage() {
           <LectureNameinputDiv style={{ marginTop: "10px" }}>
             <select
               id="countries"
-              class="bg-white-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-green-300 focus:border-green-300 block w-full p-2.5 "
+              className="bg-white-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-green-300 focus:border-green-300 block w-full p-2.5 "
               onChange={onAssignmentChange}
             >
               {AssignmentOption.map((item, index) => (
@@ -270,7 +270,7 @@ function ProbAddPage() {
           <LectureNameinputDiv style={{ marginTop: "10px" }}>
             <select
               id="countries"
-              class="bg-white-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-green-300 focus:border-green-300 block w-full p-2.5"
+              className="bg-white-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-green-300 focus:border-green-300 block w-full p-2.5"
               onChange={onStartlanguageChange}
             >
               {Startlanguage.map((item, index) => (
@@ -284,7 +284,7 @@ function ProbAddPage() {
           <LectureNameinputDiv style={{ marginTop: "10px" }}>
             <select
               id="countries"
-              class="bg-white-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-green-300 focus:border-green-300 block w-full p-2.5"
+              className="bg-white-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-green-300 focus:border-green-300 block w-full p-2.5"
               onChange={onEndlanguageChange}
             >
               {Endlanguage.map((item, index) => (
@@ -325,7 +325,7 @@ function ProbAddPage() {
               <LectureNameinputDiv style={{ marginTop: "10px" }}>
                 <select
                   id="countries"
-                  class="bg-white-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-green-300 focus:border-green-300 block w-full p-2.5"
+                  className="bg-white-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-green-300 focus:border-green-300 block w-full p-2.5"
                   onChange={onSpeedChange}
                 >
                   {SpeedOption.map((item, index) => (
