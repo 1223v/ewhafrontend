@@ -126,7 +126,7 @@ function ProbListProfessorPage() {
                         scope="col"
                         className="px-6 py-3 text-xs font-bold text-right text-gray-500 uppercase "
                       >
-                        공개
+                        과제 게시
                       </th>
                       <th
                         scope="col"
