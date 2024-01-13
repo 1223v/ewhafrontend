@@ -245,7 +245,7 @@ function StudentGraphPage() {
             </svg>
           </Link>
         </LectureBackDiv>
-        <LectureTitleDiv>학생 비교 그래프</LectureTitleDiv>
+        <LectureTitleDiv>학생 평가 그래프</LectureTitleDiv>
       </div>
       <StyledNewWishList>
         <StyledButtonWrapper>

@@ -4,7 +4,6 @@ import { FaPause, FaPlay } from "react-icons/fa";
 import { TbRewindBackward5, TbRewindForward5 } from "react-icons/tb";
 import styled from "styled-components";
 import { WaveForm, WaveSurfer } from "wavesurfer-react";
-import { API_URL } from "../../Config";
 import LoadingPage from "../LoadingPage/LoadingPage";
 
 function OriginAudioplay(props) {
@@ -26,10 +25,10 @@ function OriginAudioplay(props) {
   const [PlayStopStatus, setPlayStopStatus] = useState(false); // 시작, 정지버튼 상태
   const [volume, setVolume] = useState(0.5); // 음원의 볼륨
 
-  // 선택된 오디오로 변경
-  const AudioChange = (value) => {
-    props.setSelectAudio(`${API_URL}${value}`);
-  };
+  // // 선택된 오디오로 변경
+  // const AudioChange = (value) => {
+  //   props.setSelectAudio(`${API_URL}${value}`);
+  // };
 
   const handleWSMount = useCallback(
     (waveSurfer) => {
