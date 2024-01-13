@@ -1,6 +1,5 @@
 import Axios from "axios";
 import React, { useState } from "react";
-import { useCookies } from "react-cookie"; // useCookies import
 import { Link, useNavigate } from "react-router-dom";
 import { API_URL } from "../../Config";
 import "./NavBar.css";
@@ -8,7 +7,6 @@ import "./NavBar.css";
 function NavBar() {
   let navigate = useNavigate();
   const [isActive, setActive] = useState("false");
-  const [cookies, setCookie, removeCookie] = useCookies([]);
 
   const onNavtoggleHandler = (event) => {
     event.preventDefault();
@@ -45,20 +43,20 @@ function NavBar() {
             <Link to="/">Home</Link>
           </li>
           <li>
+            <Link to="/lecture_add">강의 생성</Link>
+          </li>
+          <li>
             <Link to="https://cyber.ewha.ac.kr/">사이버캠퍼스</Link>
           </li>
           <li>
             <Link to="/">Q&A</Link>
-          </li>
-          <li>
-            <Link to="/">FAQ</Link>
           </li>
         </ul>
 
         <ul className={"navbar__icons" + (isActive ? "" : " active")}>
           <li>
             <Link to="/login" onClick={onLogoutHandler}>
-              <i className="fa-solid fa-arrow-right-from-bracket"></i>
+              로그아웃
             </Link>
           </li>
         </ul>
