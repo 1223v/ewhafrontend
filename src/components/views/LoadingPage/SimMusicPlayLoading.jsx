@@ -17,7 +17,9 @@ function SimMusicPlayLoading(props) {
         <LoadingText>
           {props.regionIndex + 1} 구간 원문음성이 재생중입니다.
         </LoadingText>
-        <LoadingSubText> 삐 소리 후 통역을 진행해 주세요</LoadingSubText>
+        <LoadingSubText>
+          원문이 재생중입니다. 동시통역을 진행해 주세요.
+        </LoadingSubText>
         <img
           src="https://blog.kakaocdn.net/dn/v1y1X/btssVWIC45r/jXKnj8okjiWI1EyZyAt7y0/img.gif"
           alt="로딩중"

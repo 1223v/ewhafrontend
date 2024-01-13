@@ -1,4 +1,4 @@
-import { Col, message } from "antd";
+import { Col } from "antd";
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { API_URL } from "../../Config.jsx";
@@ -43,7 +43,7 @@ function SeqAudiorecordGridcard(props) {
         props.setDisable(props.Disable + 1);
         props.setSubmitlist("");
         setTemporarySubmitCheck(false);
-        message.success("다음 구간이 바로 진행됩니다.");
+        //message.success("다음 구간이 바로 진행됩니다.");
       } else {
         alert("녹음 혹은 업로드부터 진행해주세요.");
       }
