@@ -26,41 +26,47 @@ function ProbStudentDetailPage() {
   const [MusicFile, setMusicFile] = useState([]); //음원 파일
 
   const onLastSubmitClick = async () => {
-    try {
-      // MusicFile의 길이가 0이 아니면 첫 번째 요청 시작
-      if (MusicFile.length !== 0) {
-        let submitFile = {
-          submitUUID: MusicFile,
+    if (
+      window.confirm(
+        "최종제출 하시겠습니까? 제출 후에는 과제하기를 다시 할 수 없습니다."
+      )
+    ) {
+      try {
+        // MusicFile의 길이가 0이 아니면 첫 번째 요청 시작
+        if (MusicFile.length !== 0) {
+          let submitFile = {
+            submitUUID: MusicFile,
+            as_no: asNo,
+            lecture_no: lectureNo,
+          };
+
+          let response = await Axios.post(
+            `${API_URL}api/prob/submit`,
+            submitFile,
+            {
+              withCredentials: true,
+            }
+          );
+
+          // 첫 번째 요청에 대한 응답을 처리할 로직 (예: 상태 업데이트 등)
+          console.log(response.data);
+        }
+
+        // 두 번째 요청 시작 (MusicFile의 길이와 상관없이 항상 실행)
+        let body = {
           as_no: asNo,
-          lecture_no: lectureNo,
         };
+        await Axios.put(`${API_URL}api/prob/end`, body, {
+          withCredentials: true,
+        });
 
-        let response = await Axios.post(
-          `${API_URL}api/prob/submit`,
-          submitFile,
-          {
-            withCredentials: true,
-          }
-        );
-
-        // 첫 번째 요청에 대한 응답을 처리할 로직 (예: 상태 업데이트 등)
-        console.log(response.data);
+        // 두 번째 요청에 대한 응답을 처리할 로직
+        message.success("최종 제출 완료");
+        navigate(`/prob/list/student?lecture_no=${lectureNo}`);
+      } catch (error) {
+        message.error(error);
+        //navigate("/");
       }
-
-      // 두 번째 요청 시작 (MusicFile의 길이와 상관없이 항상 실행)
-      let body = {
-        as_no: asNo,
-      };
-      await Axios.put(`${API_URL}api/prob/end`, body, {
-        withCredentials: true,
-      });
-
-      // 두 번째 요청에 대한 응답을 처리할 로직
-      message.success("최종 제출 완료");
-      navigate(`/prob/list/student?lecture_no=${lectureNo}`);
-    } catch (error) {
-      message.error(error);
-      //navigate("/");
     }
   };
 
@@ -273,7 +279,14 @@ function ProbStudentDetailPage() {
               </button>
             </StyledLink>
           ) : (
-            <EvaluationDiv>평가중입니다.</EvaluationDiv>
+            <StyledLink
+              className="text-green-500 hover:text-green-700"
+              to={`/prob/check/student?as_no=${asNo}&lecture_no=${lectureNo}&user_no=${userinfos?.userData?.user_no}`}
+            >
+              <button className="bg-transparent hover:bg-gray-100 hover:bg-opacity-50 text-green-700 font-semibold py-2 px-4 border border-green-500 rounded m-2">
+                과제 확인하기
+              </button>
+            </StyledLink>
           )}
         </TestBtnDiv>
       </BtnDiv>
@@ -282,10 +295,6 @@ function ProbStudentDetailPage() {
 }
 
 export default ProbStudentDetailPage;
-
-const EvaluationDiv = styled.div`
-  text-align: center;
-`;
 
 const LectureBackgroudDiv = styled.div`
   background-color: #f7f7fa;
