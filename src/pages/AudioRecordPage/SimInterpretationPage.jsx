@@ -64,7 +64,7 @@ function SimInterpretationPage() {
   }, [Realsubmit]);
 
   const onSubmitButton = () => {
-    if (window.confirm("과제 제출하시겠습니까?")) {
+    if (window.confirm("과제 저장하시겠습니까?")) {
       if (Realsubmit.length === Endlength) {
         let body = {
           submitUUID: Realsubmit,

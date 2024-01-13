@@ -33,7 +33,7 @@ function SeqInterpretationPage() {
   const [MusicEnd, setMusicEnd] = useState(false); // 음악이 끝났는지 확인
 
   const onSubmitButton = () => {
-    if (window.confirm("과제 제출하시겠습니까?")) {
+    if (window.confirm("과제 저장하시겠습니까?")) {
       if (Realsubmit.length === Endlength) {
         let body = {
           submitUUID: Realsubmit,
