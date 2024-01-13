@@ -52,10 +52,16 @@ function ProfessorProbFeedbackPage() {
   const [Anchoring, setAnchoring] = useState(""); // textaeeditor Anchoring 데이터
   const [ChoiceAnchor, setChoiceAnchor] = useState(""); // textaeeditor Anchoring 데이터
 
+  /**
+   * 원문, stt 토글
+   */
   const onSttTextChange = () => {
     setChecking(false);
   };
 
+  /**
+   * 원문, stt 토글
+   */
   const onOriginTextChange = () => {
     setChecking(true);
   };

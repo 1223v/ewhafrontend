@@ -3,7 +3,7 @@ import {
   EditOutlined,
   LineChartOutlined,
 } from "@ant-design/icons";
-import { Button, FloatButton, Switch, message } from "antd";
+import { Button, FloatButton, message } from "antd";
 import Axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
@@ -49,12 +49,18 @@ function StudentProbFeedbackPage() {
     useState(false); // 원본 / 학생 동기화 되감기
   const [SynchronizationMove, setSynchronizationMove] = useState(0); // 원본 / 학생 동기화 특정 시간으로 이동
 
-  const onTextChange = (checked) => {
-    if (checked) {
-      setChecking(true);
-    } else {
-      setChecking(false);
-    }
+  /**
+   * 원문, stt 토글
+   */
+  const onSttTextChange = () => {
+    setChecking(false);
+  };
+
+  /**
+   * 원문, stt 토글
+   */
+  const onOriginTextChange = () => {
+    setChecking(true);
   };
 
   const onResultBottomSheetClick = () => {
@@ -144,13 +150,26 @@ function StudentProbFeedbackPage() {
           <h4>
             원문{" "}
             <ChangeDiv>
-              <Switch
-                onChange={onTextChange}
-                checkedChildren="STT"
-                unCheckedChildren="원문"
-                defaultChecked
-              />
-              <Button type="primary">Primary Button</Button>
+              <Button
+                onClick={onOriginTextChange}
+                style={{
+                  backgroundColor: Checking ? "#05422b" : "#d9d9d9",
+                  color: Checking ? "white" : "black",
+                }}
+                disabled={Checking}
+              >
+                원문
+              </Button>
+              <Button
+                onClick={onSttTextChange}
+                style={{
+                  backgroundColor: !Checking ? "#05422b" : "#d9d9d9",
+                  color: !Checking ? "white" : "black",
+                }}
+                disabled={!Checking}
+              >
+                STT
+              </Button>
             </ChangeDiv>
           </h4>
           <OriginalBox>{Checking ? STTText : OriginText}</OriginalBox>
