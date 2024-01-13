@@ -1,7 +1,7 @@
 import { Select, Slider, message } from "antd";
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { FaPause, FaPlay } from "react-icons/fa";
-import { TbRewindBackward10, TbRewindForward10 } from "react-icons/tb";
+import { TbRewindBackward5, TbRewindForward5 } from "react-icons/tb";
 import styled from "styled-components";
 import { WaveForm, WaveSurfer } from "wavesurfer-react";
 import { API_URL } from "../../Config";
@@ -93,7 +93,7 @@ function StudentAudioplay(props) {
       if (props.Synchronization) {
         props.setSynchronizationskipBackward(true);
       }
-      wavesurferRef.current.skipBackward(10);
+      wavesurferRef.current.skipBackward(5);
     }
   }, [props.Synchronization]);
 
@@ -103,7 +103,7 @@ function StudentAudioplay(props) {
       if (props.Synchronization) {
         props.setSynchronizationskipForward(true);
       }
-      wavesurferRef.current.skipForward(10);
+      wavesurferRef.current.skipForward(5);
     }
   }, [props.Synchronization]);
 
@@ -146,13 +146,13 @@ function StudentAudioplay(props) {
 
         <PlayBarDiv>
           <StartBtn onClick={skipBackward}>
-            <TbRewindBackward10 size="23" />
+            <TbRewindBackward5 size="23" />
           </StartBtn>
           <StartBtn onClick={play}>
             {PlayStopStatus ? <FaPause size="20" /> : <FaPlay size="20" />}
           </StartBtn>
           <StartBtn onClick={skipForward}>
-            <TbRewindForward10 size="23" />
+            <TbRewindForward5 size="23" />
           </StartBtn>
         </PlayBarDiv>
 

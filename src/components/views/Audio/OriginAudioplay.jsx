@@ -1,7 +1,7 @@
 import { Checkbox, Slider, message } from "antd";
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { FaPause, FaPlay } from "react-icons/fa";
-import { TbRewindBackward10, TbRewindForward10 } from "react-icons/tb";
+import { TbRewindBackward5, TbRewindForward5 } from "react-icons/tb";
 import styled from "styled-components";
 import { WaveForm, WaveSurfer } from "wavesurfer-react";
 import { API_URL } from "../../Config";
@@ -123,14 +123,14 @@ function OriginAudioplay(props) {
 
   useEffect(() => {
     if (props.SynchronizationskipForward && wavesurferRef.current) {
-      wavesurferRef.current.skipForward(10);
+      wavesurferRef.current.skipForward(5);
       props.setSynchronizationskipForward(false);
     }
   }, [props.SynchronizationskipForward]);
 
   useEffect(() => {
     if (props.SynchronizationskipBackward) {
-      wavesurferRef.current.skipBackward(10);
+      wavesurferRef.current.skipBackward(5);
       props.setSynchronizationskipBackward(false);
     }
   }, [props.SynchronizationskipBackward]);
@@ -182,13 +182,13 @@ function OriginAudioplay(props) {
         {!props.Synchronization && (
           <PlayBarDiv>
             <StartBtn onClick={skipBackward}>
-              <TbRewindBackward10 size="23" />
+              <TbRewindBackward5 size="23" />
             </StartBtn>
             <StartBtn onClick={play}>
               {PlayStopStatus ? <FaPause size="20" /> : <FaPlay size="20" />}
             </StartBtn>
             <StartBtn onClick={skipForward}>
-              <TbRewindForward10 size="23" />
+              <TbRewindForward5 size="23" />
             </StartBtn>
           </PlayBarDiv>
         )}
