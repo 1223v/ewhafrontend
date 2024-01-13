@@ -59,7 +59,7 @@ function SimInterpretationPage() {
   useEffect(() => {
     console.log(Realsubmit);
     if (Realsubmit.length === Endlength) {
-      alert("과제를 완료했습니다. 제출해주세요.");
+      alert("과제를 완료했습니다. 저장해주세요.");
     }
   }, [Realsubmit]);
 
