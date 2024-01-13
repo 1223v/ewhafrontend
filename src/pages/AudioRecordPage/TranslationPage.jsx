@@ -13,7 +13,6 @@ function TranslationPage() {
   const lectureNo = params.get("lecture_no");
   const asNo = params.get("as_no");
 
-  const [loading] = useState(false); //로딩페이지 로딩
   const [OriginalText, setOriginalText] = useState(""); //원문
   const [AssignName, setAssignName] = useState(""); // 과제 이름
   const [AssignType, setAssignType] = useState(""); // 과제 타입
@@ -24,7 +23,7 @@ function TranslationPage() {
   };
 
   const onSubmitButton = () => {
-    if (window.confirm("과제 제출하시겠습니까?")) {
+    if (window.confirm("과제 저장하시겠습니까?")) {
       let body = {
         translate_text: InterpretationText,
         as_no: asNo,
@@ -35,12 +34,12 @@ function TranslationPage() {
       })
         .then((response) => {
           if (response.data) {
-            message.success("제출을 완료했습니다.");
+            message.success("최종제출을 눌러주세요.");
             navigate(
               `/prob/detail/student?lecture_no=${lectureNo}&as_no=${asNo}`
             );
           } else {
-            message.error("제출을 실패했습니다. 다시 시도해주세요.");
+            message.error("저장을 실패했습니다. 다시 시도해주세요.");
           }
         })
         .catch((error) => {
