@@ -19,6 +19,10 @@ function ProfessorGraphPage() {
 
   const [DeliveryList, setDeliveryList] = useState([]); // 전달력 리스트
   const [AccuracyList, setAccuracyList] = useState([]); // 내용 피드백 결과 리스트
+  const [DeliveryAvgs, setDeliveryAvgs] = useState([]); // 전달력 평균 리스트
+  const [AccuracyAvgs, setAccuracyAvgs] = useState([]); // 내용 피드백 결과 평균 리스트
+  const [DeliveryAvgsDetail, setDeliveryAvgsDetail] = useState([]); // 전달력 평균 디테일 리스트
+  const [AccuracyAvgsDetail, setAccuracyAvgsDetail] = useState([]); // 내용 피드백 결과 평균 디테일 리스트
   const [DeliveryDetailList, setDeliveryDetailList] = useState([]); // 전달력 디테일 리스트
   const [AccuracyDetailList, setAccuracyDetailList] = useState([]); // 내용 피드백 결과 디테일 리스트
   const [DeliveryDetail, setDeliveryDetail] = useState([]); // 전달력 디테일
@@ -183,6 +187,16 @@ function ProfessorGraphPage() {
         (item) => item.data
       )[0]
     );
+    setDeliveryAvgsDetail(
+      DeliveryAvgs.filter((item) => item.name === value).map(
+        (item) => item.data
+      )[0]
+    );
+    setAccuracyAvgsDetail(
+      AccuracyAvgs.filter((item) => item.name === value).map(
+        (item) => item.data
+      )[0]
+    );
   };
 
   const onGraphReloadClick = () => {
@@ -227,6 +241,8 @@ function ProfessorGraphPage() {
           setDeliveryDetailList(response.data.DeliveryDetail);
           setAccuracyDetailList(response.data.AccuracyDetail);
           setAssignType(response.data.as_type);
+          setDeliveryAvgs(response.data.DeliveryAvg);
+          setAccuracyAvgs(response.data.AccuracyAvg);
         } else {
           message.error(response.data.message);
 
@@ -316,6 +332,24 @@ function ProfessorGraphPage() {
             />
           </NameinputDiv>
         </SelectUserDiv>
+        <StyledButtonWrapper>
+          {AssignType !== "번역" && (
+            <ChartInDiv>
+              <ReactApexChart
+                options={options3}
+                series={DeliveryAvgsDetail}
+                type="bar"
+              />
+            </ChartInDiv>
+          )}
+          <ChartInDiv>
+            <ReactApexChart
+              options={options4}
+              series={AccuracyAvgsDetail}
+              type="bar"
+            />
+          </ChartInDiv>
+        </StyledButtonWrapper>
         <StyledButtonWrapper>
           {AssignType !== "번역" && (
             <ChartInDiv>

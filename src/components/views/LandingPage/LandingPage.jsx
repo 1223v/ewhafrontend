@@ -15,7 +15,6 @@ import SearchBar from "./Section/SearchBar";
 function LandingPage() {
   let navigate = useNavigate();
   const [Lectures, setLectures] = useState([]);
-
   const [searchTerm, setSearchTerm] = useState("");
 
   const userinfos = useSelector((state) => state.user);
@@ -34,7 +33,6 @@ function LandingPage() {
     })
       .then((response) => {
         // 요청이 성공한 경우의 처리
-        console.log(response.data.lecturelist);
         setLectures(response.data.lecturelist);
       })
       .catch((error) => {
@@ -86,8 +84,6 @@ function LandingPage() {
                     year={lesson.year}
                     semester={lesson.semester}
                     setLectures={setLectures}
-                    //setLectureStatus={setLectureStatus}
-                    //LectureStatus={LectureStatus}
                   />
                 </React.Fragment>
               ))
