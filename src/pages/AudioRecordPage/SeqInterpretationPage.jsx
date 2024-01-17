@@ -1,4 +1,4 @@
-import { Row } from "antd";
+import { Row, message } from "antd";
 import Axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
@@ -45,14 +45,15 @@ function SeqInterpretationPage() {
           withCredentials: true,
         })
           .then((response) => {
-            console.log(response.data);
-            alert("제출을 완료했습니다.");
-            navigate(-1);
+            message.success("저장을 완료했습니다.");
+            navigate(
+              `/prob/detail/student?lecture_no=${lectureNo}&as_no=${asNo}`
+            );
           })
           .catch((error) => {
             // 요청이 실패한 경우의 처리
             console.error(error);
-            navigate(-1);
+            alert("저장을 실패했습니다. 다시 시도해주세요.");
           });
       } else {
         alert("녹음 혹은 업로드부터 진행해주세요.");
@@ -69,8 +70,6 @@ function SeqInterpretationPage() {
     )
       .then((response) => {
         // 요청이 성공한 경우의 처리
-
-        console.log("submit", response.data.keyword);
         setAudiolist(response.data.audio_regions_url);
         setEndlength(response.data.audio_regions_url.length);
         setAssignName(response.data.as_name);
@@ -80,7 +79,8 @@ function SeqInterpretationPage() {
       .catch((error) => {
         // 요청이 실패한 경우의 처리
         console.error(error);
-        //navigate("/");
+        message.error("네트워크 에러입니다. 다시 시도해주세요.");
+        navigate("/");
       });
   }, []);
 
