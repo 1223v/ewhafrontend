@@ -30,6 +30,7 @@ const ReadOnlyTextAEEditor = (props) => {
         );
 
         if (response.data.isSuccess) {
+          props.setTextContent(response.data.textae.text);
           props.setSectioncontent(response.data.textae.denotations);
           props.setAttributesContent(response.data.textae.attributes);
           props.setSubmitAttributesContent(response.data.textae.attributes);

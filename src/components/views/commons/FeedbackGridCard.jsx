@@ -13,6 +13,11 @@ function FeedbackGridCard(props) {
   const params = new URLSearchParams(location.search);
   const asNo = params.get("as_no");
   const userNo = params.get("user_no");
+  const textSnippet = props.TextContent.substring(
+    props.begin,
+    props.end
+  ).trim();
+  const displayText = textSnippet.length > 0 ? textSnippet : "공백";
   const [CheckList, setCheckList] = useState(props.obj); // 체크리스트\
   const [FeedbackAttributes, setFeedbackAttributes] = useState(""); // 피드백 속성
   const [FeedbackOptions] = useState([
@@ -210,7 +215,7 @@ function FeedbackGridCard(props) {
       >
         <div>
           <MainTitle>
-            {props.id} | {props.begin}~{props.end} 구간
+            {props.id} | {props.begin}~{props.end} 구간 : {displayText}
           </MainTitle>
           <MainTitle>
             <Select

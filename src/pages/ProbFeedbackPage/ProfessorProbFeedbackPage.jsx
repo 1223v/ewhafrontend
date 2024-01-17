@@ -27,6 +27,7 @@ function ProfessorProbFeedbackPage() {
   const [FeedbackResult, setFeedbackResult] = useState(false); // 총평 바텀시트 open 여부
   const [NewAttributeCount, setNewAttributeCount] = useState(""); // 새로운 속성 개수
   const [Datacontent, setDatacontent] = useState(false); // textaeeditor 데이터 변경 감지
+  const [TextContent, setTextContent] = useState(""); // textaeeditor text 데이터
   const [Sectioncontent, setSectioncontent] = useState([]); // textaeeditor Denotations 데이터
   const [AttributesContent, setAttributesContent] = useState([]); // textaeeditor Attributes 데이터
   const [SubmitAttributesContent, setSubmitAttributesContent] = useState([]); // textaeeditor Attributes 피드백 반영 데이터
@@ -188,6 +189,7 @@ function ProfessorProbFeedbackPage() {
               Anchoring={Anchoring}
               Datacontent={Datacontent}
               setDatacontent={setDatacontent}
+              setTextContent={setTextContent}
               Sectioncontent={Sectioncontent}
               setSectioncontent={setSectioncontent}
               setAttributesContent={setAttributesContent}
@@ -210,6 +212,7 @@ function ProfessorProbFeedbackPage() {
                   obj={lesson.obj}
                   Datacontent={Datacontent}
                   setDatacontent={setDatacontent}
+                  TextContent={TextContent}
                   AttributesContent={AttributesContent}
                   Sectioncontent={Sectioncontent}
                   SubmitAttributesContent={SubmitAttributesContent}
