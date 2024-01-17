@@ -394,32 +394,34 @@ function ProbModPage() {
                 </select>
               </LectureNameinputDiv>
             </LectureNameDiv>
+
+            <hr style={{ background: "#d3d3d3", height: "1px", border: "0" }} />
+            <LectureNameDiv>
+              <LectureName>과제 횟수</LectureName>
+              <LectureNameinputDiv>
+                {isChecked === false && (
+                  <RecordCountInput
+                    type="number"
+                    placeholder=" 녹음 횟수를 적어주세요. 예). 1회시 -> 1"
+                    size="6"
+                    maxlength="4"
+                    value={RecordCount}
+                    onChange={onRecordcountChange}
+                  />
+                )}
+                <Checkbox
+                  style={isChecked ? { marginTop: "20px" } : {}}
+                  onChange={onRecordCheck}
+                  checked={isChecked}
+                >
+                  제한 없음
+                </Checkbox>
+              </LectureNameinputDiv>
+            </LectureNameDiv>
           </div>
         )}
         <hr style={{ background: "#d3d3d3", height: "1px", border: "0" }} />
-        <LectureNameDiv>
-          <LectureName>과제 횟수</LectureName>
-          <LectureNameinputDiv>
-            {isChecked === false && (
-              <RecordCountInput
-                type="number"
-                placeholder=" 녹음 횟수를 적어주세요. 예). 1회시 -> 1"
-                size="6"
-                maxlength="4"
-                value={RecordCount}
-                onChange={onRecordcountChange}
-              />
-            )}
-            <Checkbox
-              style={isChecked ? { marginTop: "20px" } : {}}
-              onChange={onRecordCheck}
-              checked={isChecked}
-            >
-              제한 없음
-            </Checkbox>
-          </LectureNameinputDiv>
-        </LectureNameDiv>
-        <hr style={{ background: "#d3d3d3", height: "1px", border: "0" }} />
+
         <LectureNameDiv>
           <LectureName>참고 자료</LectureName>
           <LectureNameinputDiv
@@ -433,20 +435,25 @@ function ProbModPage() {
             />
           </LectureNameinputDiv>
         </LectureNameDiv>
-        <hr style={{ background: "#d3d3d3", height: "1px", border: "0" }} />
-        <LectureNameDiv>
-          <LectureName>키워드</LectureName>
-          <LectureNameinputDiv>
-            <ProbDescriptionTextarea
-              type="text"
-              placeholder="키워드를 작성해주세요."
-              rows="2"
-              cols="50"
-              value={Keyword}
-              onChange={onKeywordChange}
-            />
-          </LectureNameinputDiv>
-        </LectureNameDiv>
+
+        {Assignmentlist !== "번역" && (
+          <div>
+            <hr style={{ background: "#d3d3d3", height: "1px", border: "0" }} />
+            <LectureNameDiv>
+              <LectureName>키워드</LectureName>
+              <LectureNameinputDiv>
+                <ProbDescriptionTextarea
+                  type="text"
+                  placeholder="키워드를 작성해주세요."
+                  rows="2"
+                  cols="50"
+                  value={Keyword}
+                  onChange={onKeywordChange}
+                />
+              </LectureNameinputDiv>
+            </LectureNameDiv>
+          </div>
+        )}
         <hr style={{ background: "#d3d3d3", height: "1px", border: "0" }} />
         <LectureNameDiv>
           <LectureName>과제 설명</LectureName>
