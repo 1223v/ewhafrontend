@@ -264,37 +264,41 @@ function ProbAddPage() {
             </select>
           </LectureNameinputDiv>
         </LectureNameDiv>
-        <LectureHr />
-        <LectureNameDiv>
-          <LectureName>출발 언어</LectureName>
-          <LectureNameinputDiv style={{ marginTop: "10px" }}>
-            <select
-              id="countries"
-              className="bg-white-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-green-300 focus:border-green-300 block w-full p-2.5"
-              onChange={onStartlanguageChange}
-            >
-              {Startlanguage.map((item, index) => (
-                <option key={index} value={item.value}>
-                  {item.label}
-                </option>
-              ))}
-            </select>
-          </LectureNameinputDiv>
-          <LectureName>도착 언어</LectureName>
-          <LectureNameinputDiv style={{ marginTop: "10px" }}>
-            <select
-              id="countries"
-              className="bg-white-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-green-300 focus:border-green-300 block w-full p-2.5"
-              onChange={onEndlanguageChange}
-            >
-              {Endlanguage.map((item, index) => (
-                <option key={index} value={item.value}>
-                  {item.label}
-                </option>
-              ))}
-            </select>
-          </LectureNameinputDiv>
-        </LectureNameDiv>
+        {Assignmentlist !== "번역" && (
+          <div>
+            <LectureHr />
+            <LectureNameDiv>
+              <LectureName>출발 언어</LectureName>
+              <LectureNameinputDiv style={{ marginTop: "10px" }}>
+                <select
+                  id="countries"
+                  className="bg-white-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-green-300 focus:border-green-300 block w-full p-2.5"
+                  onChange={onStartlanguageChange}
+                >
+                  {Startlanguage.map((item, index) => (
+                    <option key={index} value={item.value}>
+                      {item.label}
+                    </option>
+                  ))}
+                </select>
+              </LectureNameinputDiv>
+              <LectureName>도착 언어</LectureName>
+              <LectureNameinputDiv style={{ marginTop: "10px" }}>
+                <select
+                  id="countries"
+                  className="bg-white-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-green-300 focus:border-green-300 block w-full p-2.5"
+                  onChange={onEndlanguageChange}
+                >
+                  {Endlanguage.map((item, index) => (
+                    <option key={index} value={item.value}>
+                      {item.label}
+                    </option>
+                  ))}
+                </select>
+              </LectureNameinputDiv>
+            </LectureNameDiv>
+          </div>
+        )}
         <LectureHr />
         <LectureNameDiv>
           <LectureName>과제 게시일</LectureName>
