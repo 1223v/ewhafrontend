@@ -279,7 +279,7 @@ function ProbStudentDetailPage() {
               </button>
             </StyledLink>
           ) : (
-            <StyledLink
+            /*<StyledLink
               className="text-green-500 hover:text-green-700"
               to={`/prob/check/student?as_no=${asNo}&lecture_no=${lectureNo}&user_no=${userinfos?.userData?.user_no}`}
             >
@@ -287,6 +287,8 @@ function ProbStudentDetailPage() {
                 과제 확인하기
               </button>
             </StyledLink>
+            */
+            <div>평가중입니다.</div>
           )}
         </TestBtnDiv>
       </BtnDiv>

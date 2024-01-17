@@ -23,9 +23,11 @@ function LandingPage() {
     setSearchTerm(value.toLowerCase());
   };
 
-  const filteredLectures = Lectures.filter((lecture) =>
-    lecture.lecture_name.toLowerCase().includes(searchTerm)
-  );
+  const filteredLectures = Array.isArray(Lectures)
+    ? Lectures.filter((lecture) =>
+        lecture.lecture_name.toLowerCase().includes(searchTerm)
+      )
+    : [];
 
   useEffect(() => {
     Axios.get(`${API_URL}api/lecture/list`, {
@@ -33,7 +35,11 @@ function LandingPage() {
     })
       .then((response) => {
         // 요청이 성공한 경우의 처리
-        setLectures(response.data.lecturelist);
+        if (Array.isArray(response.data.lecturelist)) {
+          setLectures(response.data.lecturelist);
+        } else {
+          setLectures([]);
+        }
       })
       .catch((error) => {
         // 요청이 실패한 경우의 처리

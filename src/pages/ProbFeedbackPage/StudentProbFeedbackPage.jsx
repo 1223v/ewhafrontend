@@ -256,11 +256,16 @@ function StudentProbFeedbackPage() {
         style={{ right: 20, bottom: 200, zIndex: 3 }}
         icon={<BarChartOutlined />}
       >
-        <FloatButton icon={<LineChartOutlined />} onClick={onGraphClick} />
+        <FloatButton
+          icon={<LineChartOutlined />}
+          onClick={onGraphClick}
+          tooltip={<div>그래프 보기</div>}
+        />
 
         <FloatButton
           icon={<EditOutlined />}
           onClick={onResultBottomSheetClick}
+          tooltip={<div>총평 보기</div>}
         />
       </FloatButton.Group>
       <StudentResultSheet
