@@ -175,7 +175,7 @@ const LectureBackgroudDiv = styled.div`
   background-color: #f7f7fa;
   width: 100%;
   height: 100%;
-  min-height: 1500px;
+  min-height: 100%;
 `;
 
 const LectureBackDiv = styled.div`
