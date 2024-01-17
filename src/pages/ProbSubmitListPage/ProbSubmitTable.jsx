@@ -20,7 +20,7 @@ function ProbSubmitTable() {
   const onProbCancelClick = (PersonNum) => {
     if (
       window.confirm(
-        "과제 제출을 취소하시겠습니까? 학생의 과제 결과가 모두 사라집니다. 학생이 처음부터 다시 녹음해야 합니다."
+        "과제 제출을 취소하시겠습니까? 학생의 과제 결과가 모두 사라집니다. 학생이 처음부터 다시 과제를 해야 합니다."
       )
     ) {
       let body = {

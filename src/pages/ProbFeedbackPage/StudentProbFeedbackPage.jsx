@@ -176,7 +176,7 @@ function StudentProbFeedbackPage() {
         </Original>
 
         <Interpretation>
-          <h4>통역 전사문</h4>
+          <h4>{AssignType !== "번역" ? "통역 전사문" : "번역"}</h4>
           <InterpretationBox>
             <ReadOnlyTextAEEditor
               Datacontent={Datacontent}
