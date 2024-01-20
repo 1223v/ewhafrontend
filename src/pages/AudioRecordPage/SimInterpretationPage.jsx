@@ -63,7 +63,7 @@ function SimInterpretationPage() {
   }, [Realsubmit]);
 
   const onSubmitButton = () => {
-    if (window.confirm("과제 저장하시겠습니까?")) {
+    if (window.confirm("과제를 저장하고 제출하시겠습니까? \n제출 전에 녹음된 파일을 들어보고 다운로드하기를 권장합니다. \n제출 후에는 다시 들어볼 수 없습니다.")) {
       if (Realsubmit.length === Endlength) {
         let body = {
           submitUUID: Realsubmit,
@@ -161,7 +161,7 @@ function SimInterpretationPage() {
       {Realsubmit.length === Endlength && (
         <LectureCreateDiv>
           <LectureCreateButton onClick={onSubmitButton}>
-            저장하기
+            저장하고 제출하기
           </LectureCreateButton>
         </LectureCreateDiv>
       )}

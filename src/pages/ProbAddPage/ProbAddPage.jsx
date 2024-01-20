@@ -150,7 +150,7 @@ function ProbAddPage() {
       return message.error("과제 기한을 정해주세요.");
     }
 
-    if (RecordCount <= 0) {
+    if (RecordCount <= 0 && Assignmentlist !== "번역") {
       return message.error("과제 횟수를 1회 이상 설정해주세요.");
     }
 

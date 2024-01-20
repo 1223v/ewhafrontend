@@ -23,7 +23,7 @@ function TranslationPage() {
   };
 
   const onSubmitButton = () => {
-    if (window.confirm("과제 저장하시겠습니까?")) {
+    if (window.confirm("과제를 저장하고 제출하시겠습니까? \n번역 파일을 다운로드하기를 권장합니다. \n제출 후에는 과제를 다시 확인할 수 없습니다.")) {
       let body = {
         translate_text: InterpretationText,
         as_no: asNo,
@@ -123,7 +123,7 @@ function TranslationPage() {
 
       <LectureCreateDiv>
         <LectureCreateButton onClick={onSubmitButton}>
-          저장하기
+          저장하고 제출하기
         </LectureCreateButton>
       </LectureCreateDiv>
     </LectureBackgroudDiv>
