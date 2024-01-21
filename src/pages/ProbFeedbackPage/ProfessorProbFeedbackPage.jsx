@@ -280,7 +280,7 @@ function ProfessorProbFeedbackPage() {
         <FloatButton
           icon={<EditOutlined />}
           onClick={onResultBottomSheetClick}
-          tooltip={<div>총평 보기</div>}
+          tooltip={<div>총평 작성</div>}
         />
       </FloatButton.Group>
       <ProfessorResultSheet
