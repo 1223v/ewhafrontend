@@ -109,7 +109,8 @@ function ProbSubmitTable() {
       },
       render: (text, record) => (
         <div>
-          {text} {"(+" + record.chance_count + ")"}
+          {text < 1000000 ? text : "무제한"}
+          {"(+" + record.chance_count + ")"}
         </div>
       ),
     },

@@ -163,12 +163,12 @@ function ProbAddPage() {
     }
 
     let finalRecordCount =
-      Assignmentlist === "번역" ? 20000 : parseInt(RecordCount);
+      Assignmentlist === "번역" ? 1000000 : parseInt(RecordCount);
     let body = {
-      lecture_no: finalRecordCount, //강의 번호
+      lecture_no: parseInt(lectureNo), //강의 번호
       as_name: Title, // 과제 제목
       as_type: Assignmentlist, // 과제 타입(순차, 동시, 번역)
-      assign_count: parseInt(RecordCount), // 녹음 횟수
+      assign_count: finalRecordCount, // 녹음 횟수
       description: Description, // 과제 설명
       file_name: ReferenceName, // 참고자료 이름
       file_path: ReferenceFileURL, // 참고자료 경로

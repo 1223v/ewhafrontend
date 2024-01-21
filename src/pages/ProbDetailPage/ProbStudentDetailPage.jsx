@@ -153,17 +153,22 @@ function ProbStudentDetailPage() {
         </LectureNameDiv>
         {userinfos?.userData?.role === 1 && (
           <div>
-            <hr style={{ background: "#d3d3d3", height: "1px", border: "0" }} />
-            <LectureNameDiv>
-              <LectureName>녹음 횟수</LectureName>
-              <LectureNameinputDiv>
-                {ProbInfo.my_count === null ? 0 : ProbInfo.my_count} /{" "}
-                {ProbInfo.assign_count < 1000000
-                  ? ProbInfo.assign_count + ProbInfo.chance_count
-                  : "무제한"}
-              </LectureNameinputDiv>
-            </LectureNameDiv>
-
+            {ProbInfo.as_type !== "번역" && (
+              <div>
+                <hr
+                  style={{ background: "#d3d3d3", height: "1px", border: "0" }}
+                />
+                <LectureNameDiv>
+                  <LectureName>녹음 횟수</LectureName>
+                  <LectureNameinputDiv>
+                    {ProbInfo.my_count === null ? 0 : ProbInfo.my_count} /{" "}
+                    {ProbInfo.assign_count < 1000000
+                      ? ProbInfo.assign_count + ProbInfo.chance_count
+                      : "무제한"}
+                  </LectureNameinputDiv>
+                </LectureNameDiv>
+              </div>
+            )}
             <hr style={{ background: "#d3d3d3", height: "1px", border: "0" }} />
             <LectureNameDiv>
               <LectureName>최종제출 확인</LectureName>
@@ -199,10 +204,14 @@ function ProbStudentDetailPage() {
         <LectureNameDiv>
           <LectureName>첨부 파일</LectureName>
           <LectureNameinputDiv>
-            <FileDownload
-              DownloadUrl={ProbInfo.file_path}
-              FileName={ProbInfo.file_name}
-            />
+            {ProbInfo.file_path ? (
+              <FileDownload
+                DownloadUrl={ProbInfo.file_path}
+                FileName={ProbInfo.file_name}
+              />
+            ) : (
+              "첨부파일이 없습니다."
+            )}
           </LectureNameinputDiv>
         </LectureNameDiv>
         <hr style={{ background: "#d3d3d3", height: "1px", border: "0" }} />

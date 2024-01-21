@@ -214,7 +214,7 @@ function ProbModPage() {
     }
 
     let finalRecordCount =
-      Assignmentlist === "번역" ? 20000 : parseInt(RecordCount);
+      Assignmentlist === "번역" ? 1000000 : parseInt(RecordCount);
 
     let body = {
       lecture_no: parseInt(lectureNo), //강의 번호

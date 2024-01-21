@@ -110,7 +110,10 @@ function SimInterpretationPage() {
       <NavBar />
       <div style={{ display: "flex" }}>
         <LectureBackDiv>
-          <Link to={"/"} style={{ color: "black", padding: "7px" }}>
+          <Link
+            to={`/prob/detail/student?lecture_no=${lectureNo}&as_no=${asNo}`}
+            style={{ color: "black", padding: "7px" }}
+          >
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
