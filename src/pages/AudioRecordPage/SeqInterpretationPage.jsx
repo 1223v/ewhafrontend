@@ -33,7 +33,11 @@ function SeqInterpretationPage() {
   const [MusicEnd, setMusicEnd] = useState(false); // 음악이 끝났는지 확인
 
   const onSubmitButton = () => {
-    if (window.confirm("과제를 저장하고 제출하시겠습니까? \n제출 전에 녹음된 파일을 들어보고 다운로드하기를 권장합니다. \n제출 후에는 다시 들어볼 수 없습니다.")) {
+    if (
+      window.confirm(
+        "과제를 저장하고 제출하시겠습니까? \n제출 전에 녹음된 파일을 들어보고 다운로드하기를 권장합니다. \n제출 후에는 다시 들어볼 수 없습니다."
+      )
+    ) {
       if (Realsubmit.length === Endlength) {
         let body = {
           submitUUID: Realsubmit,
@@ -70,16 +74,24 @@ function SeqInterpretationPage() {
     )
       .then((response) => {
         // 요청이 성공한 경우의 처리
-        setAudiolist(response.data.audio_regions_url);
-        setEndlength(response.data.audio_regions_url.length);
-        setAssignName(response.data.as_name);
-        setKeyword(response.data.keyword);
-        setAssignType(response.data.as_type);
+        if (response.data.isSuccess) {
+          console.log(response.data);
+          setAudiolist(response.data.audio_regions_url);
+          setEndlength(response.data.audio_regions_url.length);
+          setAssignName(response.data.as_name);
+          setKeyword(response.data.keyword);
+          setAssignType(response.data.as_type);
+        } else {
+          message.error(response.data.message);
+          navigate(
+            `/prob/detail/student?lecture_no=${lectureNo}&as_no=${asNo}`
+          );
+        }
       })
       .catch((error) => {
         // 요청이 실패한 경우의 처리
         console.error(error);
-        message.error("네트워크 에러입니다. 다시 시도해주세요.");
+        message.error("녹음 관련 에러입니다. 관리자에게 문의해주세요.");
         navigate("/");
       });
   }, []);
