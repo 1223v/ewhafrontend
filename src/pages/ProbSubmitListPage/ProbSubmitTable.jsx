@@ -143,7 +143,11 @@ function ProbSubmitTable() {
               to={`/prob/feedback/professor?as_no=${asNo}&lecture_no=${lectureNo}&user_no=${record.user_no}`}
               className="text-indigo-600 hover:text-indigo-900 mr-8"
             >
-              피드백 완료
+              {record.status === "미작성"
+                ? "미작성"
+                : record.status === "작성중"
+                ? "작성중"
+                : "작성완료"}
             </Link>
             <ZipFileDownload UserNo={record.user_no} />
           </div>
@@ -168,6 +172,9 @@ function ProbSubmitTable() {
       })
       .catch((error) => {
         // 요청이 실패한 경우의 처리
+        message.error(
+          "과제 제출 확인 에러가 발생했습니다. 관리자에게 문의해주세요."
+        );
 
         navigate("/login");
       });
@@ -186,24 +193,6 @@ function ProbSubmitTable() {
 }
 
 export default ProbSubmitTable;
-
-const LectureBackDiv = styled.div`
-  background-color: #85889914;
-  border-radius: 7px;
-  margin: 20px;
-  height: 34px;
-  width: 40px;
-  color: black;
-`;
-const LectureTitleDiv = styled.div`
-  font-size: 1.5rem;
-  line-height: 1.5;
-  color: #2b2d36;
-  font-weight: 700;
-  @import url("https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;400&display=swap");
-  font-family: "Noto Sans KR", sans-serif;
-  margin-top: 17px;
-`;
 
 const SubmitBtn = styled.button`
   background: none;
