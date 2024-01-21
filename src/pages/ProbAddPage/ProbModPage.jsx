@@ -179,45 +179,49 @@ function ProbModPage() {
   };
 
   const onSaveButton = () => {
+    // 입력 검증
     if (Title.length === 0) {
       return message.error("제목을 설정해주세요.");
     }
-
     if (Description.length === 0) {
       return message.error("과제 설명을 적어주세요.");
     }
-
-    if (regionsCopy.length === 0 && Assignmentlist !== "번역") {
-      return message.error("최소한 한개 이상의 구간을 설정해주세요.");
-    }
-
-    if (Urlfile.length === 0 && Assignmentlist !== "번역") {
-      return message.error(
-        "음원 파일이 존재하지 않습니다. 음원을 추가해주세요."
-      );
-    }
-
     if (LimitTime.length === 0 || CreateTime.length === 0) {
       return message.error("과제 기한을 정해주세요.");
     }
 
-    if (RecordCount <= 0 && Assignmentlist !== "번역") {
-      return message.error("과제 횟수를 1회 이상 설정해주세요.");
+    // 번역 과제가 아닐 때 추가적인 검증
+    if (Assignmentlist !== "번역") {
+      if (regionsCopy.length === 0) {
+        return message.error("최소한 한 개 이상의 구간을 설정해주세요.");
+      }
+      if (Urlfile.length === 0) {
+        return message.error(
+          "음원 파일이 존재하지 않습니다. 음원을 추가해주세요."
+        );
+      }
+      if (RecordCount <= 0) {
+        return message.error("과제 횟수를 1회 이상 설정해주세요.");
+      }
+      if (Speedlist.length === 0) {
+        return message.error("음원 속도를 설정해주세요.");
+      }
+    } else {
+      // 번역 과제일 때 검증
+      if (Txtread.length === 0) {
+        return message.error("번역에는 원문이 필수입니다.");
+      }
     }
 
-    if (Speedlist.length === 0 && Assignmentlist !== "번역") {
-      return message.error("음원 속도를 설정해주세요.");
-    }
-    if (Txtread.length === 0 && Assignmentlist === "번역") {
-      return message.error("번역에는 원문이 필수 입니다.");
-    }
+    let finalRecordCount =
+      Assignmentlist === "번역" ? 20000 : parseInt(RecordCount);
 
     let body = {
       lecture_no: parseInt(lectureNo), //강의 번호
       as_no: parseInt(asNo), // 과제 번호
       as_name: Title, // 과제 제목
       as_type: Assignmentlist, // 과제 타입(순차, 동시, 번역)
-      assign_count: parseInt(RecordCount), // 녹음 횟수
+      assign_count: finalRecordCount, // 녹음 횟수
       description: Description, // 과제 설명
       file_name: ReferenceName, // 참고자료 이름
       file_path: ReferenceFileURL, // 참고자료 경로
