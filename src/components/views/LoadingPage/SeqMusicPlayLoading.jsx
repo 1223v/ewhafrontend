@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import styled from "styled-components";
 import ModalContainer from "./ModalContainer";
 
-function SimMusicPlayLoading() {
+function SeqMusicPlayLoading() {
   useEffect(() => {
     const $body = document.querySelector("body");
     const overflow = $body.style.overflow;
@@ -14,9 +14,10 @@ function SimMusicPlayLoading() {
   return (
     <ModalContainer>
       <Background>
-        <LoadingText>원문 음성이 재생 중입니다.</LoadingText>
+        <LoadingText>음원이 재생중입니다.</LoadingText>
         <LoadingSubText>
-          원문이 재생중입니다. 동시통역을 진행해 주세요.
+          삐 소리 후 통역을 시작하고, 통역이 끝나면 정지버튼을 눌러주세요. 다음
+          구간 원문이 재생됩니다.
         </LoadingSubText>
         <img
           src="https://blog.kakaocdn.net/dn/v1y1X/btssVWIC45r/jXKnj8okjiWI1EyZyAt7y0/img.gif"
@@ -28,7 +29,7 @@ function SimMusicPlayLoading() {
   );
 }
 
-export default SimMusicPlayLoading;
+export default SeqMusicPlayLoading;
 
 const Background = styled.div`
   position: absolute;

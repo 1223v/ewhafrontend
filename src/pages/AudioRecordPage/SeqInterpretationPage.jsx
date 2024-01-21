@@ -6,7 +6,7 @@ import styled from "styled-components";
 import { API_URL } from "../../components/Config";
 import SeqInterpretationAudioplay from "../../components/views/AudioRecord/SeqInterpretationAudioplay";
 import LoadingPage from "../../components/views/LoadingPage/LoadingPage";
-import SimMusicPlayLoading from "../../components/views/LoadingPage/SimMusicPlayLoading";
+import SeqMusicPlayLoading from "../../components/views/LoadingPage/SeqMusicPlayLoading";
 import NavBar from "../../components/views/NavBar/NavBar";
 import AudiorecordGridCard from "../../components/views/commons/AudiorecordGridCard";
 import SeqAudiorecordGridcard from "../../components/views/commons/SeqAudiorecordGridCard";
@@ -106,7 +106,7 @@ function SeqInterpretationPage() {
   return (
     <LectureBackgroudDiv>
       {loading ? <LoadingPage /> : null}
-      {MusicLoading ? <SimMusicPlayLoading regionIndex={Disable} /> : null}
+      {MusicLoading ? <SeqMusicPlayLoading regionIndex={Disable} /> : null}
       <NavBar />
       <div style={{ display: "flex" }}>
         <LectureBackDiv>
