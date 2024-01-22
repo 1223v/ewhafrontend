@@ -71,11 +71,7 @@ function SimInterpretationPage() {
   }, [Realsubmit]);
 
   const onSubmitButton = () => {
-    if (
-      window.confirm(
-        "과제를 저장하고 제출하시겠습니까? \n제출 전에 녹음된 파일을 들어보고 다운로드하기를 권장합니다. \n제출 후에는 다시 들어볼 수 없습니다."
-      )
-    ) {
+    if (window.confirm("과제를 저장하고 제출하시겠습니까?")) {
       if (Realsubmit.length === Endlength) {
         let body = {
           submitUUID: Realsubmit,

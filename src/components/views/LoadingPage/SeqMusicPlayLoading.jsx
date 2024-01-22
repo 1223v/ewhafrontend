@@ -14,7 +14,7 @@ function SeqMusicPlayLoading() {
   return (
     <ModalContainer>
       <Background>
-        <LoadingText>음원이 재생중입니다.</LoadingText>
+        <LoadingText>원문 음성이 재생 중입니다. </LoadingText>
         <LoadingSubText>
           삐 소리 후 통역을 시작하고, 통역이 끝나면 정지버튼을 눌러주세요. 다음
           구간 원문이 재생됩니다.
