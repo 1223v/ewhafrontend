@@ -142,6 +142,11 @@ function SimInterpretationPage() {
         setStartmusic={setStartmusic}
       />
 
+      <ExplanationDiv>
+        “원문재생을 누르면 원문재생과 녹음이 동시에 시작됩니다. 원문 재생 완료
+        후 ‘삐’소리가 납니다. 통역을 마치고 정지버튼을 눌러 저장하세요.”
+      </ExplanationDiv>
+
       <div style={{ width: "auto", margin: "20px auto" }}>
         <Row>
           <AudiorecordGridCard Keyword={Keyword} />
@@ -187,6 +192,12 @@ const LectureBackgroudDiv = styled.div`
   width: 100%;
   height: 100%;
   min-height: 100%;
+`;
+
+const ExplanationDiv = styled.div`
+  width: auto;
+  margin: 20px;
+  text-align: center;
 `;
 
 const LectureBackDiv = styled.div`
