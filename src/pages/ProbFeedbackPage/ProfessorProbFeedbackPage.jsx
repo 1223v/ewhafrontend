@@ -186,7 +186,6 @@ function ProfessorProbFeedbackPage() {
           <h4>{AssignType !== "번역" ? "통역 전사문" : "번역"}</h4>
           <InterpretationBox className="textae-container">
             <TextAEEditor
-              Anchoring={Anchoring}
               Datacontent={Datacontent}
               setDatacontent={setDatacontent}
               setTextContent={setTextContent}
@@ -195,6 +194,7 @@ function ProfessorProbFeedbackPage() {
               setAttributesContent={setAttributesContent}
               setSubmitAttributesContent={setSubmitAttributesContent}
               setNewAttributeCount={setNewAttributeCount}
+              Anchoring={Anchoring}
               setChoiceAnchor={setChoiceAnchor}
             />
           </InterpretationBox>

@@ -182,7 +182,10 @@ function FeedbackGridCard(props) {
     }
   };
 
-  // props.ChoiceAnchor 값이 변경될 때 실행
+  /**
+   * 앵커링 관련 함수
+   * props.ChoiceAnchor 값이 변경될 때 실행
+   */
   useEffect(() => {
     if (props.ChoiceAnchor === props.id) {
       // 해당 요소로 스크롤
@@ -284,13 +287,6 @@ const SubFeedbackGridcard = styled.div`
 const FeedbackGridcard = styled.div`
   position: relative;
   display: flex;
-`;
-
-const DeleteBtn = styled.button`
-  background: none;
-  border: none;
-  cursor: pointer;
-  outline: none;
 `;
 
 const TagDiv = styled.div`

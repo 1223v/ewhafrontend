@@ -229,6 +229,35 @@ function ProfessorGraphPage() {
   };
 
   useEffect(() => {
+    Axios.get(
+      `${API_URL}api/feedback/graph/update?as_no=${asNo}&student_no=${userNo}`,
+      {
+        withCredentials: true,
+      }
+    )
+      .then((response) => {
+        if (response.data.isSuccess) {
+          // 요청이 성공한 경우의 처리
+          setReloadCheck(!ReloadCheck);
+          message.success("그래프가 갱신되었습니다.");
+        } else {
+          message.error(response.data.message);
+
+          navigate(
+            `/prob/feedback/professor?lecture_no=${lectureNo}&as_no=${asNo}`
+          );
+        }
+      })
+
+      .catch((error) => {
+        // 요청이 실패한 경우의 처리
+        console.error(error);
+        message.error("알 수 없는 에러가 발생했습니다.");
+        navigate("/");
+      });
+  }, []);
+
+  useEffect(() => {
     Axios.get(`${API_URL}api/feedback/professor/graph?as_no=${asNo}`, {
       withCredentials: true,
     })

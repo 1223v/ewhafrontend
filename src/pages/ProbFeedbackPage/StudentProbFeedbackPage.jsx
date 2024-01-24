@@ -49,6 +49,8 @@ function StudentProbFeedbackPage() {
   const [SynchronizationskipBackward, setSynchronizationskipBackward] =
     useState(false); // 원본 / 학생 동기화 되감기
   const [SynchronizationMove, setSynchronizationMove] = useState(0); // 원본 / 학생 동기화 특정 시간으로 이동
+  const [Anchoring, setAnchoring] = useState(""); // textaeeditor Anchoring 데이터
+  const [ChoiceAnchor, setChoiceAnchor] = useState(""); // textaeeditor Anchoring 데이터
 
   /**
    * 원문, stt 토글
@@ -183,10 +185,13 @@ function StudentProbFeedbackPage() {
               Datacontent={Datacontent}
               setDatacontent={setDatacontent}
               setTextContent={setTextContent}
+              Sectioncontent={Sectioncontent}
               setSectioncontent={setSectioncontent}
               setAttributesContent={setAttributesContent}
               setSubmitAttributesContent={setSubmitAttributesContent}
               setNewAttributeCount={setNewAttributeCount}
+              Anchoring={Anchoring} // 앵커링
+              setChoiceAnchor={setChoiceAnchor} // 앵커링
             />
           </InterpretationBox>
         </Interpretation>
@@ -208,6 +213,8 @@ function StudentProbFeedbackPage() {
                   Sectioncontent={Sectioncontent}
                   SubmitAttributesContent={SubmitAttributesContent}
                   NewAttributeCount={NewAttributeCount}
+                  setAnchoring={setAnchoring} // 앵커링
+                  ChoiceAnchor={ChoiceAnchor} // 앵커링
                 />
               </React.Fragment>
             ))}

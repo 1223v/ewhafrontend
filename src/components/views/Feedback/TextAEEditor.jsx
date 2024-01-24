@@ -24,6 +24,7 @@ const TextAEEditor = (props) => {
   const elementRef = useRef(null);
 
   /**
+   * 앵커링 관련 함수
    * TextAEEditor의 위치를 불러오는 함수
    * TextAE -> FeedbackGridCard
    */
@@ -210,6 +211,7 @@ const TextAEEditor = (props) => {
   }, [props.Datacontent]);
 
   /**
+   * 앵커링 관련 함수
    * memoryLeak 원인
    * FeedbackGridCard -> TextAE
    */

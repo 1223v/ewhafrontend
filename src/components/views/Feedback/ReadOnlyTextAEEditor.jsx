@@ -4,6 +4,8 @@ import React, { useEffect, useRef, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { API_URL } from "../../Config";
 
+let editor = {}; // TextAEEditor 객체
+
 const ReadOnlyTextAEEditor = (props) => {
   const location = useLocation();
   let navigate = useNavigate();
@@ -11,10 +13,21 @@ const ReadOnlyTextAEEditor = (props) => {
   const lectureNo = params.get("lecture_no");
   const asNo = params.get("as_no");
   const userNo = params.get("user_no");
-  let editor = {};
   const [FirstTextAERender, setFirstTextAERender] = useState(true); // TextAEEditor의 첫 렌더링을 감지하는 변수
-  let teae = {}; // TextAEEditor의 데이터를 저장하는 변수
   const elementRef = useRef(null);
+
+  /**
+   * 앵커링 관련 함수
+   * TextAEEditor의 위치를 불러오는 함수
+   * TextAE -> FeedbackGridCard
+   */
+  const getAnchoring = () => {
+    if (props.Sectioncontent?.length !== 0) {
+      editor.lastSelectedDenotationIDCallback = (denotationID) => {
+        props.setChoiceAnchor(denotationID);
+      };
+    }
+  };
 
   /**
    * TextAEEditor의 데이터를 불러오는 함수
@@ -35,8 +48,6 @@ const ReadOnlyTextAEEditor = (props) => {
           props.setAttributesContent(response.data.textae.attributes);
           props.setSubmitAttributesContent(response.data.textae.attributes);
           props.setNewAttributeCount(response.data.new_attribute);
-          teae = response.data.textae;
-          console.log(teae);
 
           if (FirstTextAERender) {
             [editor] = window.initializeTextAEEditor(); // TextAEEditor 초기화
@@ -60,13 +71,25 @@ const ReadOnlyTextAEEditor = (props) => {
     fetchData();
   }, [props.Datacontent]);
 
+  /**
+   * 앵커링 관련 함수
+   * memoryLeak 원인
+   * FeedbackGridCard -> TextAE
+   */
+  useEffect(() => {
+    if (props.Anchoring !== "") {
+      editor.selectDenotation(props.Anchoring);
+    }
+  }, [props.Anchoring]);
+
   return (
     <div>
       <div
         id="my_text-ae_editor"
         className="textae-editor"
-        mode="view"
+        mode="edit"
         inspect="annotation"
+        onClick={getAnchoring}
       ></div>
       <div id="annotation" ref={elementRef} style={{ display: "none" }}></div>
     </div>

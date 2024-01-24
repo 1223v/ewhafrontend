@@ -195,11 +195,15 @@ function ProbStudentDetailPage() {
             )}
           </div>
         )}
-        <hr style={{ background: "#d3d3d3", height: "1px", border: "0" }} />
-        <LectureNameDiv>
-          <LectureName>키워드</LectureName>
-          <LectureDescriptionDiv>{ProbInfo.keyword}</LectureDescriptionDiv>
-        </LectureNameDiv>
+        {ProbInfo.as_type !== "번역" && (
+          <div>
+            <hr style={{ background: "#d3d3d3", height: "1px", border: "0" }} />
+            <LectureNameDiv>
+              <LectureName>키워드</LectureName>
+              <LectureDescriptionDiv>{ProbInfo.keyword}</LectureDescriptionDiv>
+            </LectureNameDiv>
+          </div>
+        )}
         <hr style={{ background: "#d3d3d3", height: "1px", border: "0" }} />
         <LectureNameDiv>
           <LectureName>첨부 파일</LectureName>
