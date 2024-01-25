@@ -141,8 +141,9 @@ function SeqInterpretationPage() {
         setMusicEnd={setMusicEnd}
       />
       <ExplanationDiv>
-        “원문재생을 누르면 원문재생과 녹음이 동시에 시작됩니다. 원문 재생 완료
-        후 ‘삐’소리가 납니다. 통역을 마치고 정지버튼을 눌러 저장하세요.”
+        원문재생을 누르면 원문이 재생되고 삐소리가 나면 녹음이 시작됩니다. 삐
+        소리 후 통역하고, 완료하면 정지버튼을 눌러 저장합니다. 정지버튼을 누르면
+        바로 다음 구간 원문이 재생됩니다
       </ExplanationDiv>
 
       <div style={{ width: "auto", margin: "20px" }}>
