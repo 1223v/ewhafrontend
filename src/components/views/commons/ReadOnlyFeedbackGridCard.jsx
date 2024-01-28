@@ -11,8 +11,16 @@ function ReadOnlyFeedbackGridCard(props) {
   const displayText = textSnippet.length > 0 ? textSnippet : "공백";
   const [FeedbackAttributes, setFeedbackAttributes] = useState(""); // 피드백 note 내용
 
+  /**
+   * 앵커링 관련 함수
+   * memoryLeak 원인
+   * FeedbackGridCard -> TextAE
+   */
   const onAnchoringClick = () => {
-    props.setAnchoring(props.id);
+    if (props.Anchoring !== props.id) {
+      props.setAnchoring(props.id);
+      props.setChangeDetection(!props.ChangeDetection);
+    }
   };
 
   useEffect(() => {
@@ -27,14 +35,14 @@ function ReadOnlyFeedbackGridCard(props) {
 
   /**
    * 앵커링 관련 함수
-   * props.ChoiceAnchor 값이 변경될 때 실행
+   * props.TextAeToFeedbackDetection 값이 변경될 때 실행
    */
   useEffect(() => {
-    if (props.ChoiceAnchor === props.id) {
+    if (props.Anchoring === props.id) {
       // 해당 요소로 스크롤
       myRef.current.scrollIntoView();
     }
-  }, [props.ChoiceAnchor]);
+  }, [props.TextAeToFeedbackDetection]);
 
   return (
     <FeedbackGridcard ref={myRef}>
@@ -42,7 +50,7 @@ function ReadOnlyFeedbackGridCard(props) {
         onClick={onAnchoringClick}
         style={{
           border:
-            props.ChoiceAnchor === props.id
+            props.Anchoring === props.id
               ? "2px solid black"
               : "1px solid rgb(211, 211, 211)",
         }}

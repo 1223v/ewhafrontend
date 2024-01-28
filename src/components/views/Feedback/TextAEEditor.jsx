@@ -19,7 +19,6 @@ const TextAEEditor = (props) => {
   const userNo = params.get("user_no");
 
   const [FirstTextAERender, setFirstTextAERender] = useState(true); // TextAEEditor의 첫 렌더링을 감지하는 변수
-  //const [DuplicateCheck, setDuplicateCheck] = useState(true); // TextAEEditor의 첫 렌더링을 감지하는 변수
 
   const elementRef = useRef(null);
 
@@ -28,14 +27,16 @@ const TextAEEditor = (props) => {
    * TextAEEditor의 위치를 불러오는 함수
    * TextAE -> FeedbackGridCard
    */
-  const onAnchoringClick = (event) => {
-    console.log(event.target);
+  const onAnchoringClick = () => {
+    let DuplicateCheckAnchoring = true;
     if (props.Sectioncontent?.length !== 0) {
       console.log("test");
       editor.lastSelectedDenotationIDCallback = (denotationID) => {
-        if (event.target !== null) {
-          props.setChoiceAnchor(denotationID);
+        if (DuplicateCheckAnchoring) {
+          props.setAnchoring(denotationID);
           console.log("TextAE -> FeedbackGridCard" + denotationID);
+          props.setTextAeToFeedbackDetection(!props.TextAeToFeedbackDetection);
+          DuplicateCheckAnchoring = false;
         }
       };
     }
@@ -223,9 +224,10 @@ const TextAEEditor = (props) => {
   useEffect(() => {
     if (props.Anchoring !== "") {
       editor.selectDenotation(props.Anchoring);
+
       console.log("FeedbackGridCard -> TextAE");
     }
-  }, [props.Anchoring]);
+  }, [props.ChangeDetection]);
 
   return (
     <div onKeyDown={handleKeyDown}>

@@ -21,10 +21,17 @@ const ReadOnlyTextAEEditor = (props) => {
    * TextAEEditor의 위치를 불러오는 함수
    * TextAE -> FeedbackGridCard
    */
-  const getAnchoring = () => {
+  const onAnchoringClick = () => {
+    let DuplicateCheckAnchoring = true;
     if (props.Sectioncontent?.length !== 0) {
+      console.log("test");
       editor.lastSelectedDenotationIDCallback = (denotationID) => {
-        props.setChoiceAnchor(denotationID);
+        if (DuplicateCheckAnchoring) {
+          props.setAnchoring(denotationID);
+          console.log("TextAE -> FeedbackGridCard" + denotationID);
+          props.setTextAeToFeedbackDetection(!props.TextAeToFeedbackDetection);
+          DuplicateCheckAnchoring = false;
+        }
       };
     }
   };
@@ -79,8 +86,10 @@ const ReadOnlyTextAEEditor = (props) => {
   useEffect(() => {
     if (props.Anchoring !== "") {
       editor.selectDenotation(props.Anchoring);
+
+      console.log("FeedbackGridCard -> TextAE");
     }
-  }, [props.Anchoring]);
+  }, [props.ChangeDetection]);
 
   return (
     <div>
@@ -89,7 +98,7 @@ const ReadOnlyTextAEEditor = (props) => {
         className="textae-editor"
         mode="edit"
         inspect="annotation"
-        onClick={getAnchoring}
+        onClick={onAnchoringClick}
       ></div>
       <div id="annotation" ref={elementRef} style={{ display: "none" }}></div>
     </div>

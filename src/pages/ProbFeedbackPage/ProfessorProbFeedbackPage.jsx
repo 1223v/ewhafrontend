@@ -51,7 +51,9 @@ function ProfessorProbFeedbackPage() {
     useState(false); // 원본 / 학생 동기화 되감기
   const [SynchronizationMove, setSynchronizationMove] = useState(0); // 원본 / 학생 동기화 특정 시간으로 이동
   const [Anchoring, setAnchoring] = useState(""); // textaeeditor Anchoring 데이터
-  const [ChoiceAnchor, setChoiceAnchor] = useState(""); // textaeeditor Anchoring 데이터
+  const [ChangeDetection, setChangeDetection] = useState(false); // FeedbackGridCard -> TextAE 변경 감지
+  const [TextAeToFeedbackDetection, setTextAeToFeedbackDetection] =
+    useState(false); // TextAE -> FeedbackGridCard 변경 감지
 
   /**
    * 원문, stt 토글
@@ -195,7 +197,10 @@ function ProfessorProbFeedbackPage() {
               setSubmitAttributesContent={setSubmitAttributesContent}
               setNewAttributeCount={setNewAttributeCount}
               Anchoring={Anchoring}
-              setChoiceAnchor={setChoiceAnchor}
+              setAnchoring={setAnchoring}
+              ChangeDetection={ChangeDetection}
+              TextAeToFeedbackDetection={TextAeToFeedbackDetection}
+              setTextAeToFeedbackDetection={setTextAeToFeedbackDetection}
             />
           </InterpretationBox>
         </Interpretation>
@@ -219,7 +224,9 @@ function ProfessorProbFeedbackPage() {
                   NewAttributeCount={NewAttributeCount}
                   Anchoring={Anchoring}
                   setAnchoring={setAnchoring}
-                  ChoiceAnchor={ChoiceAnchor}
+                  ChangeDetection={ChangeDetection}
+                  setChangeDetection={setChangeDetection}
+                  TextAeToFeedbackDetection={TextAeToFeedbackDetection}
                 />
               </React.Fragment>
             ))}

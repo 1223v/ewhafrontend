@@ -20,6 +20,7 @@ function FeedbackGridCard(props) {
   const displayText = textSnippet.length > 0 ? textSnippet : "공백";
   const [CheckList, setCheckList] = useState(props.obj); // 체크리스트\
   const [FeedbackAttributes, setFeedbackAttributes] = useState(""); // 피드백 속성
+  const [isSelectOpen, setIsSelectOpen] = useState(false);
   const [FeedbackOptions] = useState([
     { label: "translation_error", value: "translation_error" },
     { label: "omission", value: "omission" },
@@ -32,12 +33,28 @@ function FeedbackGridCard(props) {
     { label: "others", value: "others" },
   ]); // 피드백 옵션
 
+  /**
+   * 앵커링 관련 함수
+   * memoryLeak 원인
+   * FeedbackGridCard -> TextAE
+   */
   const onAnchoringClick = () => {
-    props.setAnchoring(props.id);
+    if (props.Anchoring !== props.id) {
+      props.setAnchoring(props.id);
+      props.setChangeDetection(!props.ChangeDetection);
+    }
   };
+
+  // const handleBlur = (e) => {
+  //   if (props.Anchoring === props.id) {
+  //     e.preventDefault();
+  //     e.target.focus(); // 포커스를 잃었을 때 다시 포커스를 설정
+  //   }
+  // };
 
   const onSelectChange = (value) => {
     // 선택한 값이 CheckList에 이미 있으면 아무 것도 하지 않고 리턴
+
     if (CheckList.includes(value)) return;
 
     // 그렇지 않으면, 현재의 CheckList 배열에 선택한 값을 추가
@@ -69,6 +86,8 @@ function FeedbackGridCard(props) {
         if (response.data.isSuccess) {
           message.success("저장 완료했습니다.");
           props.setDatacontent(!props.Datacontent);
+
+          console.log(isSelectOpen);
         } else {
           message.error("저장 실패했습니다. 다시 시도해주세요.");
         }
@@ -184,14 +203,14 @@ function FeedbackGridCard(props) {
 
   /**
    * 앵커링 관련 함수
-   * props.ChoiceAnchor 값이 변경될 때 실행
+   * props.TextAeToFeedbackDetection 값이 변경될 때 실행
    */
   useEffect(() => {
-    if (props.ChoiceAnchor === props.id) {
+    if (props.Anchoring === props.id) {
       // 해당 요소로 스크롤
       myRef.current.scrollIntoView();
     }
-  }, [props.ChoiceAnchor]);
+  }, [props.TextAeToFeedbackDetection]);
 
   useEffect(() => {
     const filteredItems = props.AttributesContent.filter(
@@ -211,7 +230,7 @@ function FeedbackGridCard(props) {
         onClick={onAnchoringClick}
         style={{
           border:
-            props.ChoiceAnchor === props.id || props.Anchoring === props.id
+            props.Anchoring === props.id
               ? "2px solid black"
               : "1px solid rgb(211, 211, 211)",
         }}
@@ -227,6 +246,8 @@ function FeedbackGridCard(props) {
               options={FeedbackOptions}
               placeholder="변경"
               onChange={onSelectChange}
+              open={isSelectOpen}
+              onClick={() => setIsSelectOpen(!isSelectOpen)}
             />
           </MainTitle>
         </div>
@@ -242,6 +263,7 @@ function FeedbackGridCard(props) {
           value={FeedbackAttributes}
           onChange={onTextChange}
           onKeyDown={handleFocusOut}
+          //onBlur={handleBlur} // onBlur 이벤트 핸들러 추가
         />
       </SubFeedbackGridcard>
     </FeedbackGridcard>
