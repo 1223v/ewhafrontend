@@ -218,6 +218,7 @@ function ProbStudentDetailPage() {
             )}
           </LectureNameinputDiv>
         </LectureNameDiv>
+
         <hr style={{ background: "#d3d3d3", height: "1px", border: "0" }} />
         <LectureNameDiv>
           <LectureName>과제 설명</LectureName>
@@ -237,6 +238,20 @@ function ProbStudentDetailPage() {
             </ProbMusicDiv>
           </div>
         )}
+        <hr style={{ background: "#d3d3d3", height: "1px", border: "0" }} />
+        <LectureNameDiv>
+          <LectureName>내 과제 확인</LectureName>
+          <LectureNameinputDiv>
+            {ProbInfo.file ? (
+              <FileDownload
+                DownloadUrl={ProbInfo.file}
+                FileName={ProbInfo.file}
+              />
+            ) : (
+              "첨부파일이 없습니다."
+            )}
+          </LectureNameinputDiv>
+        </LectureNameDiv>
       </LectureAddFormDiv>
 
       <BtnDiv>

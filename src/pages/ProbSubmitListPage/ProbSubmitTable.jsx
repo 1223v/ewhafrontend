@@ -150,7 +150,10 @@ function ProbSubmitTable() {
                 ? "작성중"
                 : "작성완료"}
             </Link>
-            <ZipFileDownload UserNo={record.user_no} />
+            <ZipFileDownload
+              //UserNo={record.user_no}
+              fileUrl={record.file}
+            />
           </div>
         ) : (
           "미제출"
