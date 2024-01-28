@@ -211,7 +211,7 @@ function FeedbackGridCard(props) {
         onClick={onAnchoringClick}
         style={{
           border:
-            props.ChoiceAnchor === props.id
+            props.ChoiceAnchor === props.id || props.Anchoring === props.id
               ? "2px solid black"
               : "1px solid rgb(211, 211, 211)",
         }}

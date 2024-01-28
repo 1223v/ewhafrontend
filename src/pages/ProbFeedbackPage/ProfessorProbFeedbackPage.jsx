@@ -217,6 +217,7 @@ function ProfessorProbFeedbackPage() {
                   Sectioncontent={Sectioncontent}
                   SubmitAttributesContent={SubmitAttributesContent}
                   NewAttributeCount={NewAttributeCount}
+                  Anchoring={Anchoring}
                   setAnchoring={setAnchoring}
                   ChoiceAnchor={ChoiceAnchor}
                 />
