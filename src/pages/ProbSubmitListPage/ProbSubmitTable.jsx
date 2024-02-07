@@ -162,10 +162,7 @@ function ProbSubmitTable() {
       render: (text, record) =>
         text ? (
           <div style={{ display: "flex" }}>
-            <ZipFileDownload
-              //UserNo={record.user_no}
-              fileUrl={record.file}
-            />
+            <ZipFileDownload UserNo={record.user_no} fileUrl={record?.file} />
           </div>
         ) : (
           "미제출"
