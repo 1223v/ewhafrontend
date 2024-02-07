@@ -30,7 +30,6 @@ const TextAEEditor = (props) => {
   const onAnchoringClick = () => {
     let DuplicateCheckAnchoring = true;
     if (props.Sectioncontent?.length !== 0) {
-      console.log("test");
       editor.lastSelectedDenotationIDCallback = (denotationID) => {
         if (DuplicateCheckAnchoring) {
           props.setAnchoring(denotationID);
@@ -196,6 +195,21 @@ const TextAEEditor = (props) => {
 
           if (FirstTextAERender) {
             [editor] = window.initializeTextAEEditor(); // TextAEEditor 초기화
+            let DuplicateCheckAnchoring = true;
+
+            editor.lastSelectedDenotationIDCallback = (denotationID) => {
+              if (DuplicateCheckAnchoring) {
+                props.setAnchoring(denotationID);
+                console.log(
+                  "TextAE -> FeedbackGridCard 초기 선언" + denotationID
+                );
+                props.setTextAeToFeedbackDetection(
+                  !props.TextAeToFeedbackDetection
+                );
+                DuplicateCheckAnchoring = false;
+              }
+            };
+
             setFirstTextAERender(false);
           }
 
