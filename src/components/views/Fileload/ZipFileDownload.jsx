@@ -55,6 +55,7 @@ function ZipFileDownload(props) {
       });
   };
 
+  // 학생용 파일 다운로드
   const onResultDownload = () => {
     axios({
       url: `${DOWNLOAD_URL}${props.fileUrl}`, // 서버의 파일 다운로드 엔드포인트
@@ -89,7 +90,7 @@ function ZipFileDownload(props) {
         shape="circle"
         icon={<DownloadOutlined />}
         size={size}
-        onClick={onResultDownload}
+        onClick={fetchDownloadUrlAndDownload}
       />
     </div>
   );

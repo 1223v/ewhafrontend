@@ -150,6 +150,18 @@ function ProbSubmitTable() {
                 ? "작성중"
                 : "작성완료"}
             </Link>
+          </div>
+        ) : (
+          "미제출"
+        ),
+    },
+
+    {
+      title: "과제 확인",
+      dataIndex: "check",
+      render: (text, record) =>
+        text ? (
+          <div style={{ display: "flex" }}>
             <ZipFileDownload
               //UserNo={record.user_no}
               fileUrl={record.file}
