@@ -19,8 +19,6 @@ const TextAEEditor = (props) => {
   const userNo = params.get("user_no");
 
   const [FirstTextAERender, setFirstTextAERender] = useState(true); // TextAEEditor의 첫 렌더링을 감지하는 변수
-  const [DuplicateCheck, setDuplicateCheck] = useState(true); // TextAEEditor의 중복 실행을 방지하는 변수
-
   const elementRef = useRef(null);
   const timeoutRef = useRef(null);
 
@@ -46,87 +44,86 @@ const TextAEEditor = (props) => {
   /**
    * TextAEEditor의 변경을 감지하여 저장하는 함수
    */
-  // const handleKeyDown = (event) => {
-  //   if ((event.ctrlKey || event.metaKey) && event.key === "s") {
-  //     event.preventDefault(); // 기본 동작(브라우저에서의 저장 다이얼로그 등) 방지
-  //     const textContent = JSON.parse(elementRef.current.textContent);
+  const handleKeyDown = (event) => {
+    if ((event.ctrlKey || event.metaKey) && event.key === "s") {
+      event.preventDefault(); // 기본 동작(브라우저에서의 저장 다이얼로그 등) 방지
+      const textContent = JSON.parse(elementRef.current.textContent);
 
-  //     const encodedAttributes = textContent.attributes.map((attr) => {
-  //       try {
-  //         // 디코딩 시도
-  //         const decoded = fullyDecodeURI(attr.obj);
+      const encodedAttributes = textContent.attributes.map((attr) => {
+        try {
+          // 디코딩 시도
+          const decoded = fullyDecodeURI(attr.obj);
 
-  //         // 디코딩 성공 시, 디코딩된 문자열이 원본 문자열과 같으면 인코딩하지 않고 리턴
-  //         if (decoded === attr.obj) {
-  //           return {
-  //             ...attr,
-  //             obj: fullyEncodeURI(attr.obj),
-  //           };
-  //         }
-  //         return attr;
-  //       } catch (e) {
-  //         // 디코딩 오류 발생 시 (예: 잘못된 인코딩) 원본 문자열 인코딩
-  //         return {
-  //           ...attr,
-  //           obj: fullyEncodeURI(attr.obj),
-  //         };
-  //       }
-  //     });
-
-  //     if (textContent.denotations !== "") {
-  //       if (encodedAttributes.length === 0) {
-  //         encodedAttributes.push("Flag");
-  //       }
-  //       let body = {
-  //         ae_denotations: textContent.denotations,
-  //         ae_attributes: encodedAttributes,
-  //       };
-  //       console.log(body); //API를 위한 콘솔 로그
-  //       Axios.put(
-  //         `${API_URL}api/feedback/textae?as_no=${asNo}&user_no=${userNo}`,
-  //         body,
-  //         {
-  //           withCredentials: true,
-  //         }
-  //       )
-
-  //         .then((response) => {
-  //           if (response.data.isSuccess) {
-  //             message.success("저장 완료했습니다.");
-  //             props.setDatacontent(!props.Datacontent);
-  //           } else {
-  //             message.error("저장 실패했습니다. 다시 시도해주세요.");
-  //           }
-  //         })
-  //         .catch((error) => {
-  //           // 요청이 실패한 경우의 처리
-  //           console.log(error);
-  //           message.error("알 수 없는 에러가 발생했습니다.");
-  //           navigate("/");
-  //         });
-  //     }
-  //   }
-  // };
-
-  const handleMouseOver = (event) => {
-    // 핸들러 실행을 대기하는 시간(ms)
-    const debounceTime = 1000;
-
-    if (timeoutRef.current) {
-      clearTimeout(timeoutRef.current); // 이전에 등록된 타이머를 취소
-    }
-
-    // debounceTime 이후에 실행되도록 타이머 등록
-    timeoutRef.current = setTimeout(() => {
-      editor.inspectCallback = (annotation) => {
-        console.log("TextAE inspectCallback 함수 호출", annotation);
-        if (!DuplicateCheck) {
-          return; // 이미 실행 중이면 함수 실행을 중단
+          // 디코딩 성공 시, 디코딩된 문자열이 원본 문자열과 같으면 인코딩하지 않고 리턴
+          if (decoded === attr.obj) {
+            return {
+              ...attr,
+              obj: fullyEncodeURI(attr.obj),
+            };
+          }
+          return attr;
+        } catch (e) {
+          // 디코딩 오류 발생 시 (예: 잘못된 인코딩) 원본 문자열 인코딩
+          return {
+            ...attr,
+            obj: fullyEncodeURI(attr.obj),
+          };
         }
-        if (annotation && DuplicateCheck) {
-          setDuplicateCheck(false);
-          const textContent = JSON.parse(elementRef.current.textContent);
+      });
 
+      if (textContent.denotations !== "") {
+        if (encodedAttributes.length === 0) {
+          encodedAttributes.push("Flag");
+        }
+        let body = {
+          ae_denotations: textContent.denotations,
+          ae_attributes: encodedAttributes,
+        };
+        console.log(body); //API를 위한 콘솔 로그
+        Axios.put(
+          `${API_URL}api/feedback/textae?as_no=${asNo}&user_no=${userNo}`,
+          body,
+          {
+            withCredentials: true,
+          }
+        )
+
+          .then((response) => {
+            if (response.data.isSuccess) {
+              message.success("저장 완료했습니다.");
+              props.setDatacontent(!props.Datacontent);
+            } else {
+              message.error("저장 실패했습니다. 다시 시도해주세요.");
+            }
+          })
+          .catch((error) => {
+            // 요청이 실패한 경우의 처리
+            console.log(error);
+            message.error("알 수 없는 에러가 발생했습니다.");
+            navigate("/");
+          });
+      }
+    }
+  };
+
+  const onInspectCallbackSave = (event) => {
+    let DuplicateCheck = true;
+    console.log("TextAEEditor 마우스 오버");
+    // 핸들러 실행을 대기하는 시간(ms)
+    // const debounceTime = 500;
+
+    // if (timeoutRef.current) {
+    //   clearTimeout(timeoutRef.current); // 이전에 등록된 타이머를 취소
+    // }
+
+    // // debounceTime 이후에 실행되도록 타이머 등록
+    // timeoutRef.current = setTimeout(() => {
+    editor.inspectCallback = (annotation) => {
+      if (DuplicateCheck) {
+        console.log("TextAE inspectCallback 함수 호출", annotation);
+
+        if (annotation) {
+          const textContent = JSON.parse(elementRef.current.textContent);
           const encodedAttributes = textContent.attributes.map((attr) => {
             try {
               // 디코딩 시도
@@ -169,7 +166,6 @@ const TextAEEditor = (props) => {
                   props.setSectioncontent(textContent.denotations);
                   props.setAttributesContent(textContent.attributes);
                   props.setDatacontent(!props.Datacontent);
-                  setDuplicateCheck(true);
                 } else {
                   message.error("저장 실패했습니다. 다시 시도해주세요.");
                 }
@@ -182,8 +178,9 @@ const TextAEEditor = (props) => {
               });
           }
         }
-      };
-    }, debounceTime);
+      }
+    };
+    //}, debounceTime);
   };
 
   /**
@@ -261,7 +258,10 @@ const TextAEEditor = (props) => {
   }, [props.ChangeDetection]);
 
   return (
-    <div onMouseOver={handleMouseOver}>
+    <div
+      onBlur={onInspectCallbackSave}
+      //onKeyDown={handleKeyDown}
+    >
       <div
         id="my_text-ae_editor"
         className="textae-editor"
