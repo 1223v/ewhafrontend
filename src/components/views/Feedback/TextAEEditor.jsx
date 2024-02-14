@@ -223,6 +223,9 @@ const TextAEEditor = (props) => {
                 DuplicateCheckAnchoring = false;
               }
             };
+            editor.inspectCallback = (annotation) => {
+              console.log("TextAE inspectCallback 초기 선언", annotation);
+            };
 
             setFirstTextAERender(false);
           }
