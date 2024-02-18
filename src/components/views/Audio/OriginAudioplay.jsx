@@ -24,7 +24,6 @@ function OriginAudioplay(props) {
   const [Loading, setLoading] = useState(false); // 로딩 페이지
   const [PlayStopStatus, setPlayStopStatus] = useState(false); // 시작, 정지버튼 상태
   const [volume, setVolume] = useState(0.5); // 음원의 볼륨
-  const [playbackRate, setPlaybackRate] = useState(1);//재생속도
   // // 선택된 오디오로 변경
   // const AudioChange = (value) => {
   //   props.setSelectAudio(`${API_URL}${value}`);
@@ -46,7 +45,6 @@ function OriginAudioplay(props) {
         });
         wavesurferRef.current.on("loading", (data) => {
           console.log("loading --> ", data);
-          //wavesurferRef.current.setPlaybackRate(0.5); 속도조절
         });
       }
     },

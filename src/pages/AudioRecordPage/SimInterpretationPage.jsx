@@ -31,6 +31,7 @@ function SimInterpretationPage() {
   const [Keyword, setKeyword] = useState(""); // 키워드
   const [AssignName, setAssignName] = useState(""); // 과제 이름
   const [AssignType, setAssignType] = useState(""); // 과제 타입
+  const [AssignSpeed, setAssignSpeed] = useState(1); // 과제 속도
 
   useEffect(() => {
     Axios.get(
@@ -48,6 +49,7 @@ function SimInterpretationPage() {
           setAssignName(response.data.as_name);
           setKeyword(response.data.keyword);
           setAssignType(response.data.as_type);
+          setAssignSpeed(response.data.as_speed);
         } else {
           message.error(response.data.message);
           navigate(
@@ -140,6 +142,7 @@ function SimInterpretationPage() {
         MusicLoading={MusicLoading}
         Startmusic={Startmusic}
         setStartmusic={setStartmusic}
+        Speedmusic={AssignSpeed}
       />
 
       <ExplanationDiv>

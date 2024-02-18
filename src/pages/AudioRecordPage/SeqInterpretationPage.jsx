@@ -31,6 +31,7 @@ function SeqInterpretationPage() {
   const [AssignName, setAssignName] = useState(""); // 과제 이름
   const [AssignType, setAssignType] = useState(""); // 과제 타입
   const [MusicEnd, setMusicEnd] = useState(false); // 음악이 끝났는지 확인
+  const [AssignSpeed, setAssignSpeed] = useState(1); // 과제 속도
 
   const onSubmitButton = () => {
     if (window.confirm("과제를 저장하고 제출하시겠습니까? ")) {
@@ -77,6 +78,7 @@ function SeqInterpretationPage() {
           setAssignName(response.data.as_name);
           setKeyword(response.data.keyword);
           setAssignType(response.data.as_type);
+          setAssignSpeed(response.data.as_speed);
         } else {
           message.error(response.data.message);
           navigate(
@@ -139,6 +141,7 @@ function SeqInterpretationPage() {
         setMusicLoading={setMusicLoading}
         MusicLoading={MusicLoading}
         setMusicEnd={setMusicEnd}
+        Speedmusic={AssignSpeed}
       />
       <ExplanationDiv>
         원문재생을 누르면 원문이 재생되고 삐소리가 나면 녹음이 시작됩니다. 삐

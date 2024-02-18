@@ -14,6 +14,7 @@ function SeqInterpretationAudioplay(props) {
             wavesurferRef.current = waveSurfer;
             if (wavesurferRef.current && props.Regionmusic) {
                 wavesurferRef.current.load(props.Regionmusic);
+                wavesurferRef.current.setPlaybackRate(props.Speedmusic);
                 wavesurferRef.current.on('ready', () => {
                     console.log('WaveSurfer is ready');
                     props.setWaveSuferLoading(true);

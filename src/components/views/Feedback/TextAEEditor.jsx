@@ -19,6 +19,7 @@ const TextAEEditor = (props) => {
   const userNo = params.get("user_no");
 
   const [FirstTextAERender, setFirstTextAERender] = useState(true); // TextAEEditor의 첫 렌더링을 감지하는 변수
+  let DuplicateCheck = false;
   const elementRef = useRef(null);
   const timeoutRef = useRef(null);
 
@@ -107,7 +108,7 @@ const TextAEEditor = (props) => {
   };
 
   const onInspectCallbackSave = (event) => {
-    let DuplicateCheck = true;
+    DuplicateCheck = true;
     console.log("TextAEEditor 마우스 오버");
     // 핸들러 실행을 대기하는 시간(ms)
     // const debounceTime = 500;
@@ -118,8 +119,9 @@ const TextAEEditor = (props) => {
 
     // // debounceTime 이후에 실행되도록 타이머 등록
     // timeoutRef.current = setTimeout(() => {
-    editor.inspectCallback = (annotation) => {
-      if (DuplicateCheck) {
+    if (DuplicateCheck === true) {
+      console.log(" 마우스 오버 실행");
+      editor.inspectCallback = (annotation) => {
         console.log("TextAE inspectCallback 함수 호출", annotation);
 
         if (annotation) {
@@ -178,8 +180,9 @@ const TextAEEditor = (props) => {
               });
           }
         }
-      }
-    };
+        DuplicateCheck = false;
+      };
+    }
     //}, debounceTime);
   };
 
