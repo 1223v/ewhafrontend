@@ -109,98 +109,96 @@ function FeedbackGridCard(props) {
 
   // 피드백 텍스트 저장 이벤트
   const onFeedbackSave = (e) => {
-    if (e.key === "Enter" || ((e.ctrlKey || e.metaKey) && e.key === "s")) {
-      e.preventDefault();
-      let updatefilteredItems = [];
-      let encodedAttributes = [];
-      const filteredItems = props.AttributesContent.filter(
-        (item) => item.subj === props.id
+    e.preventDefault();
+    let updatefilteredItems = [];
+    let encodedAttributes = [];
+    const filteredItems = props.AttributesContent.filter(
+      (item) => item.subj === props.id
+    );
+    if (filteredItems.length > 0) {
+      filteredItems[0].obj = FeedbackAttributes;
+      updatefilteredItems = props.SubmitAttributesContent.filter(
+        (item) => item.subj !== props.id
       );
-      if (filteredItems.length > 0) {
-        filteredItems[0].obj = FeedbackAttributes;
-        updatefilteredItems = props.SubmitAttributesContent.filter(
-          (item) => item.subj !== props.id
-        );
-        updatefilteredItems.push(filteredItems[0]);
-        encodedAttributes = updatefilteredItems.map((attr) => {
-          try {
-            // 디코딩 시도
-            const decoded = fullyDecodeURI(attr.obj);
+      updatefilteredItems.push(filteredItems[0]);
+      encodedAttributes = updatefilteredItems.map((attr) => {
+        try {
+          // 디코딩 시도
+          const decoded = fullyDecodeURI(attr.obj);
 
-            // 디코딩 성공 시, 디코딩된 문자열이 원본 문자열과 같으면 인코딩하지 않고 리턴
-            if (decoded === attr.obj) {
-              return {
-                ...attr,
-                obj: fullyEncodeURI(attr.obj),
-              };
-            }
-            return attr;
-          } catch (e) {
-            // 디코딩 오류 발생 시 (예: 잘못된 인코딩) 원본 문자열 인코딩
+          // 디코딩 성공 시, 디코딩된 문자열이 원본 문자열과 같으면 인코딩하지 않고 리턴
+          if (decoded === attr.obj) {
             return {
               ...attr,
               obj: fullyEncodeURI(attr.obj),
             };
           }
-        });
-      } else {
-        updatefilteredItems = props.SubmitAttributesContent.filter(
-          (item) => item.subj !== props.id
-        );
-        updatefilteredItems.push({
-          id: props.NewAttributeCount, // 이곳 수정
-          subj: props.id,
-          pred: "Note",
-          obj: FeedbackAttributes,
-        });
-        encodedAttributes = updatefilteredItems.map((attr) => {
-          try {
-            // 디코딩 시도
-            const decoded = fullyDecodeURI(attr.obj);
-
-            // 디코딩 성공 시, 디코딩된 문자열이 원본 문자열과 같으면 인코딩하지 않고 리턴
-            if (decoded === attr.obj) {
-              return {
-                ...attr,
-                obj: fullyEncodeURI(attr.obj),
-              };
-            }
-            return attr;
-          } catch (e) {
-            // 디코딩 오류 발생 시 (예: 잘못된 인코딩) 원본 문자열 인코딩
-            return {
-              ...attr,
-              obj: fullyEncodeURI(attr.obj),
-            };
-          }
-        });
-      }
-
-      let body = {
-        ae_denotations: ["Flag"],
-        ae_attributes: encodedAttributes,
-      };
-      Axios.put(
-        `${API_URL}api/feedback/textae?as_no=${asNo}&user_no=${userNo}`,
-        body,
-        {
-          withCredentials: true,
+          return attr;
+        } catch (e) {
+          // 디코딩 오류 발생 시 (예: 잘못된 인코딩) 원본 문자열 인코딩
+          return {
+            ...attr,
+            obj: fullyEncodeURI(attr.obj),
+          };
         }
-      )
-        .then((response) => {
-          if (response.data.isSuccess) {
-            message.success("저장 완료했습니다.");
-            props.setDatacontent(!props.Datacontent);
-          } else {
-            message.error(response.data.msg);
+      });
+    } else {
+      updatefilteredItems = props.SubmitAttributesContent.filter(
+        (item) => item.subj !== props.id
+      );
+      updatefilteredItems.push({
+        id: props.NewAttributeCount, // 이곳 수정
+        subj: props.id,
+        pred: "Note",
+        obj: FeedbackAttributes,
+      });
+      encodedAttributes = updatefilteredItems.map((attr) => {
+        try {
+          // 디코딩 시도
+          const decoded = fullyDecodeURI(attr.obj);
+
+          // 디코딩 성공 시, 디코딩된 문자열이 원본 문자열과 같으면 인코딩하지 않고 리턴
+          if (decoded === attr.obj) {
+            return {
+              ...attr,
+              obj: fullyEncodeURI(attr.obj),
+            };
           }
-        })
-        .catch((error) => {
-          // 요청이 실패한 경우의 처리
-          message.error("알 수 없는 에러가 발생했습니다.");
-          navigate("/");
-        });
+          return attr;
+        } catch (e) {
+          // 디코딩 오류 발생 시 (예: 잘못된 인코딩) 원본 문자열 인코딩
+          return {
+            ...attr,
+            obj: fullyEncodeURI(attr.obj),
+          };
+        }
+      });
     }
+
+    let body = {
+      ae_denotations: ["Flag"],
+      ae_attributes: encodedAttributes,
+    };
+    Axios.put(
+      `${API_URL}api/feedback/textae?as_no=${asNo}&user_no=${userNo}`,
+      body,
+      {
+        withCredentials: true,
+      }
+    )
+      .then((response) => {
+        if (response.data.isSuccess) {
+          message.success("저장 완료했습니다.");
+          props.setDatacontent(!props.Datacontent);
+        } else {
+          message.error(response.data.msg);
+        }
+      })
+      .catch((error) => {
+        // 요청이 실패한 경우의 처리
+        message.error("알 수 없는 에러가 발생했습니다.");
+        navigate("/");
+      });
   };
 
   /**
@@ -273,10 +271,9 @@ function FeedbackGridCard(props) {
             cols="30"
             value={FeedbackAttributes}
             onChange={onTextChange}
-            onKeyDown={onFeedbackSave}
           />
 
-          <VscSend />
+          <VscSend size={20} onClick={onFeedbackSave} />
         </div>
       </SubFeedbackGridcard>
     </FeedbackGridcard>
@@ -284,6 +281,10 @@ function FeedbackGridCard(props) {
 }
 
 export default FeedbackGridCard;
+
+const FeedbackTextDiv = styled.div`
+  margin-right: 10px;
+`;
 
 const MainTitle = styled.h5`
   margin: 13px;
