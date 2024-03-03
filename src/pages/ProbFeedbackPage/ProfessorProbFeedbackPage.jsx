@@ -5,7 +5,7 @@ import {
 } from "@ant-design/icons";
 import { Button, FloatButton, message } from "antd";
 import Axios from "axios";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { API_URL } from "../../components/Config";
@@ -15,6 +15,7 @@ import ProfessorResultSheet from "../../components/views/Feedback/ProfessorResul
 import TextAEEditor from "../../components/views/Feedback/TextAEEditor";
 import NavBar from "../../components/views/NavBar/NavBar";
 import FeedbackGridCard from "../../components/views/commons/FeedbackGridCard";
+import KstTimeformat from "../../components/views/commons/KstTimeformat";
 import Timeformat from "../../components/views/commons/Timeformat";
 
 function ProfessorProbFeedbackPage() {
@@ -55,6 +56,8 @@ function ProfessorProbFeedbackPage() {
   const [TextAeToFeedbackDetection, setTextAeToFeedbackDetection] =
     useState(false); // TextAE -> FeedbackGridCard 변경 감지
   const [SaveFeedback, setSaveFeedback] = useState(false); // 저장버튼 boolean
+  const timeoutRef = useRef(null);
+  const [SaveTime, setSaveTime] = useState("");
 
   /**
    * 원문, stt 토글
@@ -71,7 +74,17 @@ function ProfessorProbFeedbackPage() {
   };
 
   const onSaveFeedback = () => {
-    setSaveFeedback(!SaveFeedback);
+    // 핸들러 실행을 대기하는 시간(ms)
+    const debounceTime = 500;
+
+    if (timeoutRef.current) {
+      clearTimeout(timeoutRef.current); // 이전에 등록된 타이머를 취소
+    }
+
+    // debounceTime 이후에 실행되도록 타이머 등록
+    timeoutRef.current = setTimeout(() => {
+      setSaveFeedback(!SaveFeedback);
+    }, debounceTime);
   };
 
   const onResultBottomSheetClick = () => {
@@ -191,7 +204,8 @@ function ProfessorProbFeedbackPage() {
 
         <Interpretation>
           <h4>
-            {AssignType !== "번역" ? "통역 전사문" : "번역"}
+            {AssignType !== "번역" ? "통역 전사문 " : "번역 "}
+
             <ChangeDiv>
               <Button
                 onClick={onSaveFeedback}
@@ -220,8 +234,12 @@ function ProfessorProbFeedbackPage() {
               TextAeToFeedbackDetection={TextAeToFeedbackDetection}
               setTextAeToFeedbackDetection={setTextAeToFeedbackDetection}
               SaveFeedback={SaveFeedback}
+              setSaveTime={setSaveTime}
             />
           </InterpretationBox>
+          <SaveTimeDiv>
+            <KstTimeformat dateString={SaveTime} />에 업데이트 되었음.
+          </SaveTimeDiv>
         </Interpretation>
 
         <Estimation>
@@ -318,6 +336,12 @@ function ProfessorProbFeedbackPage() {
   );
 }
 export default ProfessorProbFeedbackPage;
+
+const SaveTimeDiv = styled.div`
+  font-size: 10px;
+  color: #827f7f;
+  display: flex;
+`;
 
 const ChangeDiv = styled.div`
   float: right;

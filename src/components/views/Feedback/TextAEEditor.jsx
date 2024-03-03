@@ -204,6 +204,7 @@ const TextAEEditor = (props) => {
           props.setSubmitAttributesContent(response.data.textae.attributes);
           props.setNewAttributeCount(response.data.new_attribute);
           console.log(response.data.textae);
+          props.setSaveTime(response.headers["date"]);
 
           if (FirstTextAERender) {
             [editor] = window.initializeTextAEEditor(); // TextAEEditor 초기화
