@@ -43,6 +43,7 @@ function Audio(props) {
                 plugin: TimelinePlugin,
                 options: {
                     container: '#timeline',
+                    mediaType: 'audio/mpeg', // Specify the audio file type
                 },
             },
         ].filter(Boolean);
@@ -84,6 +85,7 @@ function Audio(props) {
     );
 
     const wavesurferRef = useRef();
+    const [currentRegion, setCurrentRegion] = useState(null);
     const handleWSMount = useCallback(
         (waveSurfer) => {
             wavesurferRef.current = waveSurfer;
@@ -102,6 +104,13 @@ function Audio(props) {
                     console.log('WaveSurfer is ready');
                     setMusicLoading(false);
                 });
+                wavesurferRef.current.on('region-click', (region) => {
+                    setCurrentRegion({
+                        start: region.start,
+                        end: region.end,
+                    });
+                    wavesurferRef.current.play(region.start,region.end);
+                });
 
                 wavesurferRef.current.on('region-removed', (region) => {
                     console.log('region-removed --> ', region);
@@ -116,7 +125,7 @@ function Audio(props) {
                 }
             }
         },
-        [regionCreatedHandler]
+        [regionCreatedHandler,setCurrentRegion, currentRegion]
     );
 
     const generateRegion = useCallback(() => {
@@ -182,7 +191,20 @@ function Audio(props) {
         },
         [props.regions]
     );
-
+    const playRegion = useCallback((start, end) => {//구간재생
+        wavesurferRef.current.play(start, end);
+        setplaytime(true);
+    }, []);
+    useEffect(() => {
+        if (currentRegion) {
+            wavesurferRef.current.on('seek', () => {
+                const currentTime = wavesurferRef.current.getCurrentTime();
+                if (currentRegion && currentTime > currentRegion.start && currentTime < currentRegion.end) {
+                    wavesurferRef.current.play(currentTime, currentRegion.end);
+                }
+            });
+        }
+    }, [currentRegion]); 
     const options = {
         waveColor: '#bcc4bd',
         progressColor: '#05422b',
@@ -229,6 +251,19 @@ function Audio(props) {
                 <Regionbutton onClick={removeLastRegion}>
                     - 구간 지우기
                 </Regionbutton>
+               <br />
+                {props.regions.map((region, index) => ( 
+                <Regionbutton2
+                    key={region.id}
+                    onClick={() => playRegion(region.start, region.end)}
+                    style={{
+                        backgroundColor: region.color, 
+                        color: 'black',
+                    }}
+                >
+            구간 {index + 1} 들어보기
+        </Regionbutton2>
+    ))}
             </Buttons>
         </div>
     );
@@ -256,5 +291,15 @@ const Regionbutton = styled.button`
     margin: 20px 60px 0px 60px;
     color: rgb(255, 255, 255);
     background-color: rgb(46, 70, 47);
+    border-color: transparent;
+`;
+
+const Regionbutton2 = styled.button`
+    height: 2.3rem;
+    width: 120px;
+    font-size: 0.875rem;
+    font-weight: 500;
+    border-radius: 0.5rem;
+    margin: 20px 60px 0px 60px;
     border-color: transparent;
 `;

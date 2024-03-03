@@ -311,7 +311,7 @@ const FeedbackDiv = styled.div`
 `;
 
 const Original = styled.div`
-  font-size: 12px;
+  font-size: 15px;
   margin: 0 auto;
   max-width: 800px;
   padding: 15px;
@@ -336,8 +336,10 @@ const OriginalBox = styled.div`
   height: 500px;
   overflow-y: auto;
   word-wrap: break-word;
+  line-height: 65px;
   border: 1px solid #d3d3d3;
   border-radius: 4px;
+  text-align: start;
   white-space: pre-wrap;
   background-color: #f9f9f9;
 `;

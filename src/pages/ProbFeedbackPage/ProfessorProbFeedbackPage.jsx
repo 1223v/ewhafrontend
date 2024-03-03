@@ -54,6 +54,7 @@ function ProfessorProbFeedbackPage() {
   const [ChangeDetection, setChangeDetection] = useState(false); // FeedbackGridCard -> TextAE 변경 감지
   const [TextAeToFeedbackDetection, setTextAeToFeedbackDetection] =
     useState(false); // TextAE -> FeedbackGridCard 변경 감지
+  const [SaveFeedback, setSaveFeedback] = useState(false); // 저장버튼 boolean
 
   /**
    * 원문, stt 토글
@@ -67,6 +68,10 @@ function ProfessorProbFeedbackPage() {
    */
   const onOriginTextChange = () => {
     setChecking(true);
+  };
+
+  const onSaveFeedback = () => {
+    setSaveFeedback(!SaveFeedback);
   };
 
   const onResultBottomSheetClick = () => {
@@ -185,7 +190,20 @@ function ProfessorProbFeedbackPage() {
         </Original>
 
         <Interpretation>
-          <h4>{AssignType !== "번역" ? "통역 전사문" : "번역"}</h4>
+          <h4>
+            {AssignType !== "번역" ? "통역 전사문" : "번역"}
+            <ChangeDiv>
+              <Button
+                onClick={onSaveFeedback}
+                style={{
+                  backgroundColor: "#05422b",
+                  color: "white",
+                }}
+              >
+                저장하기
+              </Button>
+            </ChangeDiv>
+          </h4>
           <InterpretationBox className="textae-container">
             <TextAEEditor
               Datacontent={Datacontent}
@@ -201,6 +219,7 @@ function ProfessorProbFeedbackPage() {
               ChangeDetection={ChangeDetection}
               TextAeToFeedbackDetection={TextAeToFeedbackDetection}
               setTextAeToFeedbackDetection={setTextAeToFeedbackDetection}
+              SaveFeedback={SaveFeedback}
             />
           </InterpretationBox>
         </Interpretation>
@@ -316,10 +335,11 @@ const FeedbackDiv = styled.div`
 `;
 
 const Original = styled.div`
-  font-size: 12px;
+  font-size: 15px;
   margin: 0 auto;
   max-width: 800px;
   padding: 15px;
+
   @media screen and (min-width: 1000px) {
     margin-top: 20px;
     position: absolute;
@@ -341,6 +361,7 @@ const OriginalBox = styled.div`
   height: 500px;
   overflow-y: auto;
   word-wrap: break-word;
+  line-height: 65px;
   border: 1px solid #d3d3d3;
   border-radius: 4px;
   text-align: start;
@@ -349,7 +370,7 @@ const OriginalBox = styled.div`
 `;
 
 const Interpretation = styled.div`
-  font-size: 12px;
+  font-size: 15px;
   margin: 0 auto;
   max-width: 800px;
   padding: 15px;
