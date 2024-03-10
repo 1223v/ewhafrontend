@@ -86,6 +86,8 @@ function Audio(props) {
 
     const wavesurferRef = useRef();
     const [currentRegion, setCurrentRegion] = useState(null);
+    const [currentTime, setCurrentTime] = useState(0); // 현재 재생 시간 상태
+    const [duration, setDuration] = useState(0); // 전체 오디오 길이 상태
     const handleWSMount = useCallback(
         (waveSurfer) => {
             wavesurferRef.current = waveSurfer;
@@ -103,6 +105,7 @@ function Audio(props) {
                 wavesurferRef.current.on('ready', () => {
                     console.log('WaveSurfer is ready');
                     setMusicLoading(false);
+                    setDuration(wavesurferRef.current.getDuration()); // 오디오 전체 길이 설정
                 });
                 wavesurferRef.current.on('region-click', (region) => {
                     setCurrentRegion({
@@ -111,7 +114,9 @@ function Audio(props) {
                     });
                     wavesurferRef.current.play(region.start,region.end);
                 });
-
+                wavesurferRef.current.on('audioprocess', () => {
+                    setCurrentTime(wavesurferRef.current.getCurrentTime()); // 현재 재생 시간 업데이트
+                });
                 wavesurferRef.current.on('region-removed', (region) => {
                     console.log('region-removed --> ', region);
                 });
@@ -125,8 +130,44 @@ function Audio(props) {
                 }
             }
         },
-        [regionCreatedHandler,setCurrentRegion, currentRegion]
+        [regionCreatedHandler,setCurrentRegion, currentRegion,props.soundtrack]
     );
+
+    // 재생 위치 컨트롤러 UI
+    const handleSliderChange = (e) => {
+    // 문자열 값을 숫자로 변환
+    const value = Number(e.target.value);
+    // 값이 0과 1 사이인지 확인하고, 그렇지 않다면 에러를 피하기 위해 기본값으로 처리
+    const seekTo = value >= 0 && value <= 1 ? value : 0;
+    if (wavesurferRef.current) {
+        wavesurferRef.current.seekTo(seekTo);
+        setCurrentTime(wavesurferRef.current.getCurrentTime());
+    }
+};
+
+// PlaybackControls 컴포넌트 내에서 슬라이더 입력 요소를 수정
+const PlaybackControls = () => (
+    <div style={{ display: 'flex', alignItems: 'center', marginTop: '20px', gap: '10px' }}>
+        <div style={{ minWidth: '60px' }}>
+            {formatTime(currentTime)} / {formatTime(duration)}
+        </div>
+        <input
+            type="range"
+            min="0"
+            max="1"
+            step="any"
+            value={currentTime / duration || 0}
+            onChange={handleSliderChange} // 값 변경을 커밋할 때(예: 마우스를 놓을 때) 호출됩니다.
+            style={{ flex: 1, cursor: 'pointer' }}
+        />
+    </div>
+);
+
+    const formatTime = (time) => {
+        const minutes = Math.floor(time / 60);
+        const seconds = Math.floor(time % 60);
+        return `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+    };
 
     const generateRegion = useCallback(() => {
         //여기 문제. 백에서 값을 받고 다시 값을 넣
@@ -232,6 +273,7 @@ function Audio(props) {
                 </WaveForm>
                 <div id="timeline" />
             </WaveSurfer>
+            <PlaybackControls />
             <Buttons>
                 <Regionbutton onClick={generateRegion}>
                     + 구간 추가하기

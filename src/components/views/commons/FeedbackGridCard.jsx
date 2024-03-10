@@ -56,11 +56,11 @@ function FeedbackGridCard(props) {
 
   const onSelectChange = (value) => {
     // 선택한 값이 CheckList에 이미 있으면 아무 것도 하지 않고 리턴
-
     if (CheckList.includes(value)) return;
 
     // 그렇지 않으면, 현재의 CheckList 배열에 선택한 값을 추가
     setCheckList(value);
+    console.log(value);
 
     const filteredItems = props.Sectioncontent.find(
       (item) => item.id === props.id

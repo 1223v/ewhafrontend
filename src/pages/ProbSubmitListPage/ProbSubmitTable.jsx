@@ -1,4 +1,4 @@
-import { message, Table } from "antd";
+import { message, Table, Tooltip } from "antd";
 import Axios from "axios";
 import React, { useEffect, useState } from "react";
 import { MdExposurePlus1, MdOutlineDeleteOutline } from "react-icons/md";
@@ -17,6 +17,7 @@ function ProbSubmitTable() {
   const asNo = params.get("as_no");
   const [People, setPeople] = useState([]);
   const [ProbStatus, setProbStatus] = useState(false); // 이벤트 발생시 상태를 저장하는 변수
+
   const onProbCancelClick = (PersonNum) => {
     if (
       window.confirm(
@@ -77,7 +78,7 @@ function ProbSubmitTable() {
 
   const columns = [
     {
-      title: "이름 | EMAIL",
+      title: "이름",
       dataIndex: "name",
       sorter: {
         compare: (a, b) => a.name.localeCompare(b.name),
@@ -85,7 +86,9 @@ function ProbSubmitTable() {
       },
       render: (text, record) => (
         <div>
-          {text} ( {record.email} )
+          <Tooltip title={record.email} placement="right">
+            {text}
+          </Tooltip>
         </div>
       ),
     },
@@ -97,7 +100,14 @@ function ProbSubmitTable() {
         compare: (a, b) => new Date(a.submit_time) - new Date(b.submit_time),
         multiple: 2,
       },
-      render: (text) => (text ? <Timeformat dateString={text} /> : "제출 안함"),
+      render: (text, record) =>
+        text ? (
+          <Tooltip title={<Timeformat dateString={text} />} placement="right">
+            {record.submit_time_diff}
+          </Tooltip>
+        ) : (
+          "제출 안함"
+        ),
     },
     {
       title: "횟수",

@@ -338,7 +338,7 @@ function ProfessorProbFeedbackPage() {
 export default ProfessorProbFeedbackPage;
 
 const SaveTimeDiv = styled.div`
-  font-size: 10px;
+  font-size: 14px;
   color: #827f7f;
   display: flex;
 `;
@@ -514,7 +514,7 @@ const LectureBackDiv = styled.div`
 `;
 
 const LectureTitleDiv = styled.div`
-  font-size: 1.2rem;
+  font-size: 1.1rem;
   line-height: 1.5;
   color: #2b2d36;
   font-weight: 700;
@@ -524,8 +524,7 @@ const LectureTitleDiv = styled.div`
 `;
 
 const LectureSubTitleDiv = styled.div`
-  font-size: 1rem;
-  line-height: 1;
+  font-size: 0.9rem;
   color: #2b2d36;
   font-weight: 500;
   @import url("https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;400&display=swap");
