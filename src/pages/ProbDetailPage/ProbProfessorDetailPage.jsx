@@ -9,6 +9,7 @@ import styled from "styled-components";
 import { API_URL } from "../../components/Config";
 import FileDownload from "../../components/views/Fileload/FileDownload";
 import NavBar from "../../components/views/NavBar/NavBar";
+import ProfessorBreadcrumb from "../../components/views/commons/ProfessorBreadcrumb";
 import Timeformat from "../../components/views/commons/Timeformat";
 import ProbSubmitTable from "../ProbSubmitListPage/ProbSubmitTable";
 
@@ -69,6 +70,7 @@ function ProbProfessorDetailPage() {
   return (
     <LectureBackgroudDiv>
       <NavBar />
+      <ProfessorBreadcrumb />
       <div style={{ display: "flex" }}>
         <LectureBackDiv>
           {userinfos?.userData?.role === 3 ? (

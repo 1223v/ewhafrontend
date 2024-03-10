@@ -6,6 +6,7 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { API_URL } from "../../components/Config";
 import NavBar from "../../components/views/NavBar/NavBar";
+import ProfessorBreadcrumb from "../../components/views/commons/ProfessorBreadcrumb";
 import Timeformat from "../../components/views/commons/Timeformat";
 
 function ProbListProfessorPage() {
@@ -36,6 +37,7 @@ function ProbListProfessorPage() {
   return (
     <div>
       <NavBar />
+      <ProfessorBreadcrumb />
       <div style={{ display: "flex" }}>
         <LectureBackDiv>
           <Link to={`/`} style={{ color: "black", padding: "7px" }}>

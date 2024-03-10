@@ -16,6 +16,7 @@ import TextAEEditor from "../../components/views/Feedback/TextAEEditor";
 import NavBar from "../../components/views/NavBar/NavBar";
 import FeedbackGridCard from "../../components/views/commons/FeedbackGridCard";
 import KstTimeformat from "../../components/views/commons/KstTimeformat";
+import ProfessorBreadcrumb from "../../components/views/commons/ProfessorBreadcrumb";
 import Timeformat from "../../components/views/commons/Timeformat";
 
 function ProfessorProbFeedbackPage() {
@@ -140,6 +141,7 @@ function ProfessorProbFeedbackPage() {
   return (
     <div>
       <NavBar />
+      <ProfessorBreadcrumb />
       <div style={{ display: "flex" }}>
         <LectureBackDiv>
           <Link
