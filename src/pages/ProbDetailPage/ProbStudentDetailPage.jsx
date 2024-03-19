@@ -9,6 +9,7 @@ import { API_URL } from "../../components/Config";
 import FileDownload from "../../components/views/Fileload/FileDownload";
 import SubmitFileUpload from "../../components/views/Fileload/SubmitFileUpload";
 import NavBar from "../../components/views/NavBar/NavBar";
+import StudentBreadcrumb from "../../components/views/commons/StudentBreadcrumb";
 import Timeformat from "../../components/views/commons/Timeformat";
 
 function ProbStudentDetailPage() {
@@ -99,6 +100,10 @@ function ProbStudentDetailPage() {
   return (
     <LectureBackgroudDiv>
       <NavBar />
+      <StudentBreadcrumb
+        LectureName={ProbInfo.lecture_name}
+        AssignmentName={ProbInfo.as_name}
+      />
       <div style={{ display: "flex" }}>
         <LectureBackDiv>
           <Link
@@ -125,7 +130,9 @@ function ProbStudentDetailPage() {
             </svg>
           </Link>
         </LectureBackDiv>
-        <LectureTitleDiv>과제</LectureTitleDiv>
+        <LectureTitleDiv>
+          강의명: {ProbInfo.lecture_name} 과제 상세
+        </LectureTitleDiv>
       </div>
       <LectureAddFormDiv>
         <LectureNameDiv>

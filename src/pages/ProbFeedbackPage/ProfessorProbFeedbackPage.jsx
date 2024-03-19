@@ -42,6 +42,7 @@ function ProfessorProbFeedbackPage() {
   const [OriginAudio, setOriginAudio] = useState([]); // 원본 구간 음원 자료
   const [OriginText, setOriginText] = useState(""); // 원본 텍스트 자료
   const [STTText, setSTTText] = useState(""); // STT된 텍스트 자료
+  const [DestTranslang, setDestTranslang] = useState(""); //어느 stt를 사용했는지 판단하기 위한 자료
   const [OriginSelectAudio, setOriginSelectAudio] = useState(""); // 원본 선택된 음원
   const [StudentSelectAudio, setStudentSelectAudio] = useState(""); // 학생 선택된 음원
   const [Checking, setChecking] = useState(true); // 원문, stt 토글
@@ -59,12 +60,14 @@ function ProfessorProbFeedbackPage() {
   const [SaveFeedback, setSaveFeedback] = useState(false); // 저장버튼 boolean
   const timeoutRef = useRef(null);
   const [SaveTime, setSaveTime] = useState("");
+  const [displayText, setDisplayText] = useState(""); // 표시할 텍스트의 초기값 설정
 
   /**
    * 원문, stt 토글
    */
   const onSttTextChange = () => {
     setChecking(false);
+    setDisplayText("(OpenAI의 Whisper API로 작성 되었습니다.)");
   };
 
   /**
@@ -72,6 +75,7 @@ function ProfessorProbFeedbackPage() {
    */
   const onOriginTextChange = () => {
     setChecking(true);
+    setDisplayText("");
   };
 
   const onSaveFeedback = () => {
@@ -121,6 +125,7 @@ function ProfessorProbFeedbackPage() {
           setSTTText(response.data.original_tts);
           setAssignType(response.data.as_type);
           setAssignmentName(response.data.assignment_name);
+          setDestTranslang(response.data.dest_translang);
         } else {
           message.error(response.data.message);
 
@@ -141,7 +146,7 @@ function ProfessorProbFeedbackPage() {
   return (
     <div>
       <NavBar />
-      <ProfessorBreadcrumb />
+      <ProfessorBreadcrumb AssignmentName={AssignmentName} />
       <div style={{ display: "flex" }}>
         <LectureBackDiv>
           <Link
@@ -175,7 +180,7 @@ function ProfessorProbFeedbackPage() {
       <FeedbackDiv>
         <Original>
           <h4>
-            원문{" "}
+            원문 <span style={{ fontSize: "0.8em" }}>{displayText}</span>
             {AssignType !== "번역" && (
               <ChangeDiv>
                 <Button
@@ -206,7 +211,18 @@ function ProfessorProbFeedbackPage() {
 
         <Interpretation>
           <h4>
-            {AssignType !== "번역" ? "통역 전사문 " : "번역 "}
+            {AssignType !== "번역" ? (
+              <span>
+                통역전사문{" "}
+                <span style={{ fontSize: "0.8em" }}>
+                  {DestTranslang === "ko"
+                    ? "(MS의 Azure API로 작성 되었습니다.)"
+                    : "(NAVER의 CLOVA API로 작성 되었습니다.)"}
+                </span>
+              </span>
+            ) : (
+              "번역 "
+            )}
 
             <ChangeDiv>
               <Button

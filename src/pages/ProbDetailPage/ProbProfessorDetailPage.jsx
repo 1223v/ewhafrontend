@@ -70,7 +70,10 @@ function ProbProfessorDetailPage() {
   return (
     <LectureBackgroudDiv>
       <NavBar />
-      <ProfessorBreadcrumb />
+      <ProfessorBreadcrumb
+        LectureName={ProbInfo.lecture_name}
+        AssignmentName={ProbInfo.as_name}
+      />
       <div style={{ display: "flex" }}>
         <LectureBackDiv>
           {userinfos?.userData?.role === 3 ? (
@@ -117,7 +120,9 @@ function ProbProfessorDetailPage() {
           )}
         </LectureBackDiv>
 
-        <LectureTitleDiv>강의명: {ProbInfo.lecture_name}</LectureTitleDiv>
+        <LectureTitleDiv>
+          강의명: {ProbInfo.lecture_name} 과제 상세
+        </LectureTitleDiv>
         <LectureGroupDiv>
           <FeedbackBtnDiv>
             <FeedbackLink

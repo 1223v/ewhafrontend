@@ -37,7 +37,7 @@ function ProbListProfessorPage() {
   return (
     <div>
       <NavBar />
-      <ProfessorBreadcrumb />
+      <ProfessorBreadcrumb LectureName={lectureName} />
       <div style={{ display: "flex" }}>
         <LectureBackDiv>
           <Link to={`/`} style={{ color: "black", padding: "7px" }}>
@@ -57,7 +57,7 @@ function ProbListProfessorPage() {
             </svg>
           </Link>
         </LectureBackDiv>
-        <LectureTitleDiv>과제 리스트 : {lectureName}</LectureTitleDiv>
+        <LectureTitleDiv>과제 목록 : {lectureName}</LectureTitleDiv>
         <CreateDiv>
           <Link to={`/prob/add?lecture_no=${lectureNo}`}>
             <CreateBtn

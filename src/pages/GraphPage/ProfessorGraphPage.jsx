@@ -143,7 +143,7 @@ function ProfessorGraphPage() {
       height: 350,
     },
     title: {
-      text: "내용 피드백 결과 결과",
+      text: "내용 피드백 결과",
     },
     plotOptions: {
       bar: {

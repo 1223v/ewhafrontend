@@ -15,6 +15,7 @@ import ReadOnlyTextAEEditor from "../../components/views/Feedback/ReadOnlyTextAE
 import StudentResultSheet from "../../components/views/Feedback/StudentResultSheet";
 import NavBar from "../../components/views/NavBar/NavBar";
 import ReadOnlyFeedbackGridCard from "../../components/views/commons/ReadOnlyFeedbackGridCard";
+import StudentBreadcrumb from "../../components/views/commons/StudentBreadcrumb";
 import Timeformat from "../../components/views/commons/Timeformat";
 
 function StudentProbFeedbackPage() {
@@ -32,6 +33,7 @@ function StudentProbFeedbackPage() {
   const [AttributesContent, setAttributesContent] = useState([]); // textaeeditor Attributes 데이터
   const [SubmitAttributesContent, setSubmitAttributesContent] = useState([]); // textaeeditor Attributes 피드백 반영 데이터
   const [StudentInfo, setStudentInfo] = useState(""); // 학생 정보
+  const [AssignmentName, setAssignmentName] = useState(""); // 과제 이름
   const [AssignType, setAssignType] = useState(""); // 과제 타입
   const [LimitTime, setLimitTime] = useState(""); // 마감 시간
   const [SubmitTime, setSubmitTime] = useState(""); // 제출 시간
@@ -42,6 +44,7 @@ function StudentProbFeedbackPage() {
   const [OriginSelectAudio, setOriginSelectAudio] = useState(""); // 원본 선택된 음원
   const [StudentSelectAudio, setStudentSelectAudio] = useState(""); // 학생 선택된 음원
   const [Checking, setChecking] = useState(true); // 원문, stt 토글
+  const [DestTranslang, setDestTranslang] = useState(""); //어느 stt를 사용했는지 판단하기 위한 자료
   const [Synchronization, setSynchronization] = useState(false); // 원본 / 학생 동기화
   const [SynchronizationPlay, setSynchronizationPlay] = useState(false); // 원본 / 학생 동기화 플레이
   const [SynchronizationskipForward, setSynchronizationskipForward] =
@@ -53,12 +56,14 @@ function StudentProbFeedbackPage() {
   const [ChangeDetection, setChangeDetection] = useState(false); // FeedbackGridCard -> TextAE 변경 감지
   const [TextAeToFeedbackDetection, setTextAeToFeedbackDetection] =
     useState(false); // TextAE -> FeedbackGridCard 변경 감지
+  const [displayText, setDisplayText] = useState(""); // 표시할 텍스트의 초기값 설정
 
   /**
    * 원문, stt 토글
    */
   const onSttTextChange = () => {
     setChecking(false);
+    setDisplayText("(OpenAI의 Whisper API로 작성 되었습니다.)");
   };
 
   /**
@@ -66,6 +71,7 @@ function StudentProbFeedbackPage() {
    */
   const onOriginTextChange = () => {
     setChecking(true);
+    setDisplayText("");
   };
 
   const onResultBottomSheetClick = () => {
@@ -100,6 +106,8 @@ function StudentProbFeedbackPage() {
           setOriginText(response.data.original_text);
           setSTTText(response.data.original_tts);
           setAssignType(response.data.as_type);
+          setDestTranslang(response.data.dest_translang);
+          setAssignmentName(response.data.assignment_name);
         } else {
           message.error(response.data.message);
 
@@ -120,6 +128,7 @@ function StudentProbFeedbackPage() {
   return (
     <div>
       <NavBar />
+      <StudentBreadcrumb AssignmentName={AssignmentName} />
       <div style={{ display: "flex" }}>
         <LectureBackDiv>
           <Link
@@ -143,7 +152,7 @@ function StudentProbFeedbackPage() {
           </Link>
         </LectureBackDiv>
         <LectureTitleDiv>
-          과제 피드백 : {StudentInfo}{" "}
+          {AssignmentName} 과제 피드백 : {StudentInfo}{" "}
           <LectureSubTitleDiv>
             (제출 시간 : <Timeformat dateString={SubmitTime} /> , 마감 시간{" "}
             <Timeformat dateString={LimitTime} />)
@@ -153,7 +162,7 @@ function StudentProbFeedbackPage() {
       <FeedbackDiv>
         <Original>
           <h4>
-            원문{" "}
+            원문 <span style={{ fontSize: "0.8em" }}>{displayText}</span>
             <ChangeDiv>
               <Button
                 onClick={onOriginTextChange}
@@ -181,7 +190,20 @@ function StudentProbFeedbackPage() {
         </Original>
 
         <Interpretation>
-          <h4>{AssignType !== "번역" ? "통역 전사문" : "번역"}</h4>
+          <h4>
+            {AssignType !== "번역" ? (
+              <span>
+                통역전사문{" "}
+                <span style={{ fontSize: "0.8em" }}>
+                  {DestTranslang === "ko"
+                    ? "(MS의 Azure API로 작성 되었습니다.)"
+                    : "(NAVER의 CLOVA API로 작성 되었습니다.)"}
+                </span>
+              </span>
+            ) : (
+              "번역 "
+            )}
+          </h4>
           <InterpretationBox>
             <ReadOnlyTextAEEditor
               Datacontent={Datacontent}

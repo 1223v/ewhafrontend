@@ -6,6 +6,7 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { API_URL } from "../../components/Config";
 import NavBar from "../../components/views/NavBar/NavBar";
+import StudentBreadcrumb from "../../components/views/commons/StudentBreadcrumb";
 import Timeformat from "../../components/views/commons/Timeformat";
 
 function ProbListStudentPage() {
@@ -14,6 +15,7 @@ function ProbListStudentPage() {
   const lectureNo = params.get("lecture_no");
   let navigate = useNavigate();
   const [Problist, setProblist] = useState([]);
+  const [lectureName, setLectureName] = useState("");
 
   useEffect(() => {
     Axios.get(`${API_URL}api/prob/student?lecture_no=${lectureNo}`, {
@@ -22,6 +24,7 @@ function ProbListStudentPage() {
       .then((response) => {
         // 요청이 성공한 경우의 처리
         console.log(response.data);
+        setLectureName(response.data.lecture_name);
         setProblist(response.data.prob_list);
       })
       .catch((error) => {
@@ -34,6 +37,7 @@ function ProbListStudentPage() {
   return (
     <div>
       <NavBar />
+      <StudentBreadcrumb LectureName={lectureName} />
       <div style={{ display: "flex" }}>
         <LectureBackDiv>
           <Link to={`/`} style={{ color: "black", padding: "7px" }}>
@@ -53,7 +57,7 @@ function ProbListStudentPage() {
             </svg>
           </Link>
         </LectureBackDiv>
-        <LectureTitleDiv>과제 리스트</LectureTitleDiv>
+        <LectureTitleDiv>과제 목록 : {lectureName}</LectureTitleDiv>
       </div>
       {Problist?.length === 0 ? (
         <NoDataDiv>

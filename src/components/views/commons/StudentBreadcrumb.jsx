@@ -4,44 +4,42 @@ import React from "react";
 import { Link, useLocation } from "react-router-dom";
 import styled from "styled-components";
 
-const ProfessorBreadcrumb = (props) => {
+const StudentBreadcrumb = (props) => {
   const location = useLocation();
   const params = new URLSearchParams(location.search);
   const lectureNo = params.get("lecture_no");
   const asNo = params.get("as_no");
 
-  const urlMenu = [
+  let urlMenu = [
     {
       title: <HomeOutlined />,
       href: "/",
     },
     {
       title: (
-        <Link to={`/prob/list/professor?lecture_no=${lectureNo}`}>
+        <Link to={`/prob/list/student?lecture_no=${lectureNo}`}>
           {props.LectureName} 과제 목록
         </Link>
       ),
-      pathElement: "/prob/list/professor",
+      pathElement: "/prob/list/student",
     },
     {
       title: (
-        <Link
-          to={`/prob/detail/professor?lecture_no=${lectureNo}&as_no=${asNo}`}
-        >
+        <Link to={`/prob/detail/student?lecture_no=${lectureNo}&as_no=${asNo}`}>
           {props.AssignmentName} 과제 상세
         </Link>
       ),
-      pathElement: "/prob/detail/professor",
+      pathElement: "/prob/detail/student",
     },
     {
       title: (
         <Link
-          to={`/prob/feedback/professor?lecture_no=${lectureNo}&as_no=${asNo}`}
+          to={`/prob/feedback/student?lecture_no=${lectureNo}&as_no=${asNo}`}
         >
           {props.AssignmentName} 과제 피드백
         </Link>
       ),
-      pathElement: "/prob/feedback/professor",
+      pathElement: "/prob/feedback/student",
     },
   ];
 
@@ -57,14 +55,14 @@ const ProfessorBreadcrumb = (props) => {
   }
 
   return (
-    <ProfessorBreadcrumbDiv>
+    <StudentBreadcrumbDiv>
       <Breadcrumb separator=">" items={breadcrumbItems} />
-    </ProfessorBreadcrumbDiv>
+    </StudentBreadcrumbDiv>
   );
 };
 
-export default ProfessorBreadcrumb;
+export default StudentBreadcrumb;
 
-const ProfessorBreadcrumbDiv = styled.div`
+const StudentBreadcrumbDiv = styled.div`
   margin: 20px 0 0 20px;
 `;
