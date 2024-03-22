@@ -33,6 +33,26 @@ const ProfessorBreadcrumb = (props) => {
       ),
       pathElement: "/prob/detail/professor",
     },
+  ];
+
+  const urlMenu2 = [
+    {
+      title: (
+        <Link to={`/prob/add?lecture_no=${lectureNo}`}>
+          {props.LectureName} 과제 생성하기
+        </Link>
+      ),
+      pathElement: "/prob/add",
+    },
+
+    {
+      title: (
+        <Link to={`/prob/mod?lecture_no=${lectureNo}&as_no=${asNo}`}>
+          {props.AssignmentName} 과제 수정하기
+        </Link>
+      ),
+      pathElement: "/prob/mod",
+    },
     {
       title: (
         <Link
@@ -50,7 +70,22 @@ const ProfessorBreadcrumb = (props) => {
 
   // 경로 포함 확인
   for (let i = 0; i < urlMenu.length; i++) {
+    if (
+      urlMenu2.filter((item) => item.pathElement === location.pathname)
+        .length === 1
+    ) {
+      breadcrumbItems = urlMenu;
+      if (urlMenu2[0].pathElement === location.pathname) {
+        // 과제 생성하기 일경우 과제 상세 빼기
+        delete breadcrumbItems[2];
+      }
+      breadcrumbItems.push(
+        urlMenu2.filter((item) => item.pathElement === location.pathname)[0]
+      );
+      break;
+    }
     breadcrumbItems.push(urlMenu[i]);
+
     if (location.pathname.includes(urlMenu[i].pathElement)) {
       break;
     }
