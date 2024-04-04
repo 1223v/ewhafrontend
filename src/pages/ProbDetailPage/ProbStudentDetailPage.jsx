@@ -59,11 +59,16 @@ function ProbStudentDetailPage() {
         };
         await Axios.put(`${API_URL}api/prob/end`, body, {
           withCredentials: true,
+        }).then((response) => {
+          // 두 번째 요청에 대한 응답을 처리할 로직
+          if (response.data.isSuccess) {
+            message.success(response.data.message);
+            navigate(`/prob/list/student?lecture_no=${lectureNo}`);
+          } else {
+            message.error(response.data.message);
+            navigate(`/prob/list/student?lecture_no=${lectureNo}`);
+          }
         });
-
-        // 두 번째 요청에 대한 응답을 처리할 로직
-        message.success("최종 제출 완료");
-        navigate(`/prob/list/student?lecture_no=${lectureNo}`);
       } catch (error) {
         message.error(error);
         //navigate("/");
