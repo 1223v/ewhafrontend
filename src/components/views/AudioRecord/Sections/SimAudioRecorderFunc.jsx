@@ -1,13 +1,13 @@
-import React, { useContext, useState, useEffect } from "react";
-import { MainContext } from "./MainContext";
-import AudioAnalyser from "react-audio-analyser";
-import RecordButton from "./RecordButton";
-import Axios from "axios";
-import { API_URL } from "../../../Config";
 import { message } from "antd";
-import EffectSound from "../../../../util/EffectSound";
-import MP from "../../../../assets/sound/MP.mp3";
+import Axios from "axios";
+import React, { useContext, useEffect, useState } from "react";
+import AudioAnalyser from "react-audio-analyser";
 import { useLocation } from "react-router-dom";
+import MP from "../../../../assets/sound/MP.mp3";
+import EffectSound from "../../../../util/EffectSound";
+import { API_URL } from "../../../Config";
+import { MainContext } from "./MainContext";
+import RecordButton from "./RecordButton";
 
 export default function SimAudioRecorderFunc(props) {
   const location = useLocation();
@@ -98,7 +98,7 @@ export default function SimAudioRecorderFunc(props) {
 
   return (
     <div style={{ margin: "10px" }}>
-      <AudioAnalyser {...audioProps} width="290">
+      <AudioAnalyser {...audioProps} width={290}>
         {shouldHide && (
           <div className="btn-box">
             <RecordButton id="recordButton" onClick={onRecordCheck} />

@@ -121,7 +121,7 @@ function ProbProfessorDetailPage() {
         </LectureBackDiv>
 
         <LectureTitleDiv>
-          강의명: {ProbInfo.lecture_name} 과제 상세
+          {ProbInfo.as_name} 과제 상세(강의명 : {ProbInfo.lecture_name})
         </LectureTitleDiv>
         <LectureGroupDiv>
           <FeedbackBtnDiv>
@@ -239,7 +239,7 @@ const SubmitTableDiv = styled.div`
 `;
 
 const LectureTitleDiv = styled.div`
-  font-size: 1.2rem;
+  font-size: 1.1rem;
   line-height: 2;
   color: #2b2d36;
   font-weight: 700;

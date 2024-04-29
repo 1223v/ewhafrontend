@@ -9,6 +9,7 @@ import FileRead from "../../components/views/Audio/Sections/FileRead";
 import FileUpload from "../../components/views/Fileload/FileUpload";
 import LoadingPage from "../../components/views/LoadingPage/LoadingPage";
 import NavBar from "../../components/views/NavBar/NavBar";
+import ProfessorBreadcrumb from "../../components/views/commons/ProfessorBreadcrumb";
 
 const Startlanguage = [
   { value: "jp", label: "일본어" },
@@ -33,6 +34,8 @@ const AssignmentOption = [
 const SpeedOption = [
   { value: 1.0, label: "1배속" },
   { value: 0.5, label: "0.5배속" },
+  { value: 0.7, label: "0.7배속" },
+  { value: 0.8, label: "0.8배속" },
   { value: 1.25, label: "1.25배속" },
   { value: 1.5, label: "1.5배속" },
   { value: 1.75, label: "1.75배속" },
@@ -206,6 +209,7 @@ function ProbAddPage() {
   return (
     <LectureBackgroudDiv>
       <NavBar />
+      <ProfessorBreadcrumb />
       <div style={{ display: "flex" }}>
         {Loading ? <LoadingPage /> : null}
         <LectureBackDiv>
