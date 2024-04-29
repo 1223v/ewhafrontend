@@ -43,7 +43,7 @@ function NavBar() {
             <Link to="/">Home</Link>
           </li>
           <li>
-            <Link to="/lecture_add">강의 생성</Link>
+            <Link to="/prob/selfstudys">자습용 과제</Link>
           </li>
           <li>
             <Link to="https://cyber.ewha.ac.kr/">사이버캠퍼스</Link>

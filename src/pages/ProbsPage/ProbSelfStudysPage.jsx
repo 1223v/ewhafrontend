@@ -1,24 +1,25 @@
 import { Empty } from "antd";
 import Axios from "axios";
 import React, { useEffect, useState } from "react";
-import { AiOutlineCheck, AiOutlineClose } from "react-icons/ai";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { AiOutlineCheck, AiOutlineClose, AiOutlinePlus } from "react-icons/ai";
+import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { API_URL } from "../../components/Config";
 import NavBar from "../../components/views/NavBar/NavBar";
-import StudentBreadcrumb from "../../components/views/commons/StudentBreadcrumb";
+import ProfessorBreadcrumb from "../../components/views/commons/ProfessorBreadcrumb";
 import Timeformat from "../../components/views/commons/Timeformat";
 
-function ProbListStudentPage() {
-  const location = useLocation();
-  const params = new URLSearchParams(location.search);
-  const lectureNo = params.get("lecture_no");
+function ProbSelfStudysPage() {
   let navigate = useNavigate();
   const [Problist, setProblist] = useState([]);
   const [lectureName, setLectureName] = useState("");
 
+  const onDetailPageMove = (as_no) => {
+    navigate(`/prob/selfstudys/detail?as_no=${as_no}`);
+  };
+
   useEffect(() => {
-    Axios.get(`${API_URL}api/prob/student?lecture_no=${lectureNo}`, {
+    Axios.get(`${API_URL}api/prob/student?lecture_no=${181}`, {
       withCredentials: true,
     })
       .then((response) => {
@@ -30,14 +31,14 @@ function ProbListStudentPage() {
       .catch((error) => {
         // 요청이 실패한 경우의 처리
         console.error(error);
-        navigate("/");
+        //navigate("/");
       });
   }, []);
 
   return (
     <div>
       <NavBar />
-      <StudentBreadcrumb LectureName={lectureName} />
+      <ProfessorBreadcrumb LectureName={lectureName} />
       <div style={{ display: "flex" }}>
         <LectureBackDiv>
           <Link to={`/`} style={{ color: "black", padding: "7px" }}>
@@ -57,7 +58,18 @@ function ProbListStudentPage() {
             </svg>
           </Link>
         </LectureBackDiv>
-        <LectureTitleDiv>과제 목록 : {lectureName}</LectureTitleDiv>
+        <LectureTitleDiv>자습용 과제</LectureTitleDiv>
+        <CreateDiv>
+          {" "}
+          <Link to={`/prob/selfstudys/add`}>
+            <CreateBtn
+              className="middle none center rounded-lg bg-green-900 py-2 px-6 text-xs uppercase text-white transition-all border-none"
+              data-ripple-light="true"
+            >
+              + 자습용 과제 생성
+            </CreateBtn>
+          </Link>
+        </CreateDiv>
       </div>
       {Problist?.length === 0 ? (
         <NoDataDiv>
@@ -118,13 +130,13 @@ function ProbListStudentPage() {
                         scope="col"
                         className="px-6 py-3 text-xs font-bold text-right text-gray-500 uppercase "
                       >
-                        최종 제출
+                        과제 게시
                       </th>
                       <th
                         scope="col"
                         className="px-6 py-3 text-xs font-bold text-right text-gray-500 uppercase "
                       >
-                        교수 평가
+                        게시일
                       </th>
                       <th
                         scope="col"
@@ -138,70 +150,40 @@ function ProbListStudentPage() {
                     {Problist?.map((assignment, index) => {
                       return (
                         <React.Fragment key={index}>
-                          <tr>
+                          <tr
+                            onClick={() => onDetailPageMove(assignment.as_no)}
+                          >
                             <td className="px-6 py-4 text-sm font-medium text-gray-800 whitespace-nowrap">
-                              <StyledLink
-                                to={`/prob/detail?as_no=${assignment.as_no}&lecture_no=${lectureNo}`}
-                              >
-                                {index + 1}
-                              </StyledLink>
+                              {index + 1}
                             </td>
 
                             <td className="px-6 py-4 text-sm text-gray-800 whitespace-nowrap">
-                              <StyledLink
-                                to={`/prob/detail/student?as_no=${assignment.as_no}&lecture_no=${lectureNo}`}
-                              >
-                                {assignment.as_name}
-                              </StyledLink>
+                              {assignment.as_name}
                             </td>
                             <td className="px-6 py-4 text-sm font-medium text-right whitespace-nowrap">
-                              <StyledLink
-                                to={`/prob/detail/student?as_no=${assignment.as_no}&lecture_no=${lectureNo}`}
-                              >
-                                {assignment.end_submission ? (
-                                  <AiOutlineCheck
-                                    size="18"
-                                    style={{ color: "green" }}
-                                  />
-                                ) : (
-                                  <AiOutlineClose
-                                    size="18"
-                                    style={{ color: "red" }}
-                                  />
-                                )}
-                              </StyledLink>
+                              {assignment.reaveal ? (
+                                <AiOutlineCheck
+                                  size="18"
+                                  style={{ color: "green" }}
+                                />
+                              ) : (
+                                <AiOutlineClose
+                                  size="18"
+                                  style={{ color: "red" }}
+                                />
+                              )}
                             </td>
                             <td
                               className="px-6 py-4 text-sm font-medium float-right text-right whitespace-nowrap"
                               style={{ fontSize: "13px" }}
                             >
-                              <StyledLink
-                                to={`/prob/detail/student?as_no=${assignment.as_no}&lecture_no=${lectureNo}`}
-                              >
-                                {assignment.professor_review ? (
-                                  <AiOutlineCheck
-                                    size="18"
-                                    style={{ color: "green" }}
-                                  />
-                                ) : (
-                                  <AiOutlineClose
-                                    size="18"
-                                    style={{ color: "red" }}
-                                  />
-                                )}
-                              </StyledLink>
+                              <Timeformat dateString={assignment.open_time} />
                             </td>
                             <td
                               className="px-6 py-4 text-sm font-medium text-center whitespace-nowrap mx-auto"
                               style={{ fontSize: "13px" }}
                             >
-                              <StyledLink
-                                to={`/prob/detail/student?as_no=${assignment.as_no}&lecture_no=${lectureNo}`}
-                              >
-                                <Timeformat
-                                  dateString={assignment.limit_time}
-                                />
-                              </StyledLink>
+                              <Timeformat dateString={assignment.limit_time} />
                             </td>
                           </tr>
                         </React.Fragment>
@@ -214,19 +196,59 @@ function ProbListStudentPage() {
           </div>
         </div>
       )}
+      <MusicPlayDiv>
+        <Link to={`/prob/selfstudys/add`}>
+          <PlayBtn>
+            <AiOutlinePlus size="25" />
+          </PlayBtn>
+        </Link>
+      </MusicPlayDiv>
     </div>
   );
 }
 
-export default ProbListStudentPage;
+export default ProbSelfStudysPage;
+
+const NoDataDiv = styled.div`
+  margin-top: 25%;
+`;
+
+const MusicPlayDiv = styled.div`
+  position: fixed;
+  bottom: 64px;
+  z-index: 2;
+
+  -webkit-box-align: center;
+  align-items: center;
+  width: 100%;
+  height: 2rem;
+  border: none;
+  background: rgb(255, 255, 255, 0);
+
+  @media screen and (min-width: 768px) {
+    display: none;
+  }
+`;
+
+const PlayBtn = styled.button`
+  background-color: rgb(5, 66, 43);
+  height: 56px;
+  width: 56px;
+  border: none;
+  border-radius: 50%;
+  color: white;
+  cursor: pointer;
+  float: right;
+  margin-right: 20px;
+  box-shadow: 0px 3px 5px -1px rgba(0, 0, 0, 0.2),
+    0px 6px 10px 0px rgba(0, 0, 0, 0.14), 0px 1px 18px 0px rgba(0, 0, 0, 0.12);
+`;
 
 const StyledLink = styled(Link)`
-  text-decoration: none; /* 기본 밑줄 제거 */
-  /* 원하는 스타일을 추가하세요 */
-  color: #333; /* 텍스트 색상 */
-
-  /* 추가 스타일 속성들... */
+  text-decoration: none;
+  color: #333;
 `;
+
 const LectureBackDiv = styled.div`
   background-color: #85889914;
   border-radius: 7px;
@@ -235,14 +257,27 @@ const LectureBackDiv = styled.div`
   width: 40px;
   color: black;
 `;
-
 const LectureTitleDiv = styled.div`
-  font-size: 1.4rem;
-  line-height: 1.5;
+  font-size: 1.2rem;
+  line-height: 1.9;
   color: #2b2d36;
   font-weight: 700;
   margin-top: 17px;
 `;
-const NoDataDiv = styled.div`
-  margin-top: 25%;
+
+const CreateDiv = styled.div`
+  margin: 20px;
+  margin-left: auto;
+  @media screen and (max-width: 768px) {
+    display: none;
+  }
+`;
+
+const CreateBtn = styled.button`
+  height: 2.5rem;
+  padding: 0.5625rem 1rem;
+  font-size: 0.875rem;
+  line-height: 1.375rem;
+  box-shadow: 0px 3px 5px -1px rgba(0, 0, 0, 0.2),
+    0px 6px 10px 0px rgba(0, 0, 0, 0.14), 0px 1px 18px 0px rgba(0, 0, 0, 0.12);
 `;

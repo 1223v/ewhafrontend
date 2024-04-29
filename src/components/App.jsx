@@ -6,14 +6,17 @@ import TranslationPage from "../pages/AudioRecordPage/TranslationPage";
 import ProfessorGraphPage from "../pages/GraphPage/ProfessorGraphPage";
 import StudentGraphPage from "../pages/GraphPage/StudentGraphPage";
 import LoginPage from "../pages/LoginPage/LoginPage";
+import ProbSelfStudyAddPage from "../pages/ProbAddPage/ ProbSelfStudyAddPage";
 import ProbAddPage from "../pages/ProbAddPage/ProbAddPage";
 import ProbModPage from "../pages/ProbAddPage/ProbModPage";
+import ProbSelfStudyModPage from "../pages/ProbAddPage/ProbSelfStudyModPage";
 import ProbProfessorDetailPage from "../pages/ProbDetailPage/ProbProfessorDetailPage";
 import ProbStudentDetailPage from "../pages/ProbDetailPage/ProbStudentDetailPage";
 import ProfessorProbFeedbackPage from "../pages/ProbFeedbackPage/ProfessorProbFeedbackPage";
 import StudentProbFeedbackPage from "../pages/ProbFeedbackPage/StudentProbFeedbackPage";
-import ProbListProfessorPage from "../pages/ProbListPage/ProbListProfessorPage";
-import ProbListStudentPage from "../pages/ProbListPage/ProbListStudentPage";
+import ProbListProfessorPage from "../pages/ProbsPage/ProbListProfessorPage";
+import ProbListStudentPage from "../pages/ProbsPage/ProbListStudentPage";
+import ProbSelfStudysPage from "../pages/ProbsPage/ProbSelfStudysPage";
 import RegisterPage from "../pages/RegisterPage/RegisterPage";
 import Highlighter from "../pages/TestPage/Highlighter";
 import "./App.css";
@@ -34,6 +37,9 @@ function App() {
   const NewSeqInterpretationPage = Auth(SeqInterpretationPage, true); // 순차통역 과제제출 페이지
   const NewSimInterpretationPage = Auth(SimInterpretationPage, true); // 동시통역 과제제출 페이지
   const NewTranslationPage = Auth(TranslationPage, true); // 번역 과제제출 페이지
+  const NewProbSelfStudyListPage = Auth(ProbSelfStudysPage, true); // 자습용 과제 페이지
+  const NewProbSelfStudyAddPage = Auth(ProbSelfStudyAddPage, true); // 자습용 과제 추가 페이지
+  const NewProbSelfStudyModPage = Auth(ProbSelfStudyModPage, true); // 자습용 과제 수정 페이지
 
   // 1: 학생, 2: 조교, 3: 교수
   const NewProbListStudentPage = Auth(ProbListStudentPage, true, 1); // 학생 과제 리스트 페이지
@@ -96,6 +102,15 @@ function App() {
         <Route
           path="/prob/graph/professor"
           element={<NewProfessorGraphPage />}
+        />
+        <Route path="/prob/selfstudys" element={<NewProbSelfStudyListPage />} />
+        <Route
+          path="/prob/selfstudys/add"
+          element={<NewProbSelfStudyAddPage />}
+        />
+        <Route
+          path="/prob/selfstudys/mod"
+          element={<NewProbSelfStudyModPage />}
         />
         <Route path="/prob/graph/student" element={<NewStudentGraphPage />} />
         <Route path="/*" element={<Navigate to="/"></Navigate>}></Route>
