@@ -11,6 +11,7 @@ import ProbAddPage from "../pages/ProbAddPage/ProbAddPage";
 import ProbModPage from "../pages/ProbAddPage/ProbModPage";
 import ProbSelfStudyModPage from "../pages/ProbAddPage/ProbSelfStudyModPage";
 import ProbProfessorDetailPage from "../pages/ProbDetailPage/ProbProfessorDetailPage";
+import ProbSelfStudyDetailPage from "../pages/ProbDetailPage/ProbSelfStudyDetailPage";
 import ProbStudentDetailPage from "../pages/ProbDetailPage/ProbStudentDetailPage";
 import ProfessorProbFeedbackPage from "../pages/ProbFeedbackPage/ProfessorProbFeedbackPage";
 import StudentProbFeedbackPage from "../pages/ProbFeedbackPage/StudentProbFeedbackPage";
@@ -40,6 +41,7 @@ function App() {
   const NewProbSelfStudyListPage = Auth(ProbSelfStudysPage, true); // 자습용 과제 페이지
   const NewProbSelfStudyAddPage = Auth(ProbSelfStudyAddPage, true); // 자습용 과제 추가 페이지
   const NewProbSelfStudyModPage = Auth(ProbSelfStudyModPage, true); // 자습용 과제 수정 페이지
+  const NewProbSelfStudyDetailPage = Auth(ProbSelfStudyDetailPage, true); // 자습용 과제 수정 페이지
 
   // 1: 학생, 2: 조교, 3: 교수
   const NewProbListStudentPage = Auth(ProbListStudentPage, true, 1); // 학생 과제 리스트 페이지
@@ -104,6 +106,10 @@ function App() {
           element={<NewProfessorGraphPage />}
         />
         <Route path="/prob/selfstudys" element={<NewProbSelfStudyListPage />} />
+        <Route
+          path="/prob/selfstudys/detail"
+          element={<NewProbSelfStudyDetailPage />}
+        />
         <Route
           path="/prob/selfstudys/add"
           element={<NewProbSelfStudyAddPage />}

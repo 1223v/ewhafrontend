@@ -1,13 +1,12 @@
 import { Empty } from "antd";
 import Axios from "axios";
 import React, { useEffect, useState } from "react";
-import { AiOutlineCheck, AiOutlineClose, AiOutlinePlus } from "react-icons/ai";
+import { AiOutlinePlus } from "react-icons/ai";
 import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { API_URL } from "../../components/Config";
 import NavBar from "../../components/views/NavBar/NavBar";
-import ProfessorBreadcrumb from "../../components/views/commons/ProfessorBreadcrumb";
-import Timeformat from "../../components/views/commons/Timeformat";
+import SelfStudyBreadcrumb from "../../components/views/commons/SelfStudyBreadcrumb";
 
 function ProbSelfStudysPage() {
   let navigate = useNavigate();
@@ -19,26 +18,26 @@ function ProbSelfStudysPage() {
   };
 
   useEffect(() => {
-    Axios.get(`${API_URL}api/prob/student?lecture_no=${181}`, {
+    Axios.get(`${API_URL}api/prob/self`, {
       withCredentials: true,
     })
       .then((response) => {
         // 요청이 성공한 경우의 처리
-        console.log(response.data);
+
         setLectureName(response.data.lecture_name);
         setProblist(response.data.prob_list);
       })
       .catch((error) => {
         // 요청이 실패한 경우의 처리
         console.error(error);
-        //navigate("/");
+        navigate("/");
       });
   }, []);
 
   return (
     <div>
       <NavBar />
-      <ProfessorBreadcrumb LectureName={lectureName} />
+      <SelfStudyBreadcrumb LectureName={lectureName} />
       <div style={{ display: "flex" }}>
         <LectureBackDiv>
           <Link to={`/`} style={{ color: "black", padding: "7px" }}>
@@ -126,24 +125,6 @@ function ProbSelfStudysPage() {
                           </svg>
                         </span>
                       </th>
-                      <th
-                        scope="col"
-                        className="px-6 py-3 text-xs font-bold text-right text-gray-500 uppercase "
-                      >
-                        과제 게시
-                      </th>
-                      <th
-                        scope="col"
-                        className="px-6 py-3 text-xs font-bold text-right text-gray-500 uppercase "
-                      >
-                        게시일
-                      </th>
-                      <th
-                        scope="col"
-                        className="px-6 py-3 text-xs font-bold text-center text-gray-500 uppercase "
-                      >
-                        마감일
-                      </th>
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-gray-200">
@@ -159,31 +140,6 @@ function ProbSelfStudysPage() {
 
                             <td className="px-6 py-4 text-sm text-gray-800 whitespace-nowrap">
                               {assignment.as_name}
-                            </td>
-                            <td className="px-6 py-4 text-sm font-medium text-right whitespace-nowrap">
-                              {assignment.reaveal ? (
-                                <AiOutlineCheck
-                                  size="18"
-                                  style={{ color: "green" }}
-                                />
-                              ) : (
-                                <AiOutlineClose
-                                  size="18"
-                                  style={{ color: "red" }}
-                                />
-                              )}
-                            </td>
-                            <td
-                              className="px-6 py-4 text-sm font-medium float-right text-right whitespace-nowrap"
-                              style={{ fontSize: "13px" }}
-                            >
-                              <Timeformat dateString={assignment.open_time} />
-                            </td>
-                            <td
-                              className="px-6 py-4 text-sm font-medium text-center whitespace-nowrap mx-auto"
-                              style={{ fontSize: "13px" }}
-                            >
-                              <Timeformat dateString={assignment.limit_time} />
                             </td>
                           </tr>
                         </React.Fragment>
