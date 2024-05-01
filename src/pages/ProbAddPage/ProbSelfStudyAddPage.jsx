@@ -142,7 +142,7 @@ function ProbSelfStudyAddPage() {
       speed: Speedlist, // 음원 속도
     };
     setLoading(true);
-    Axios.post(`${API_URL}api/prob/handle`, body, {
+    Axios.post(`${API_URL}api/prob/self/handle`, body, {
       withCredentials: true,
     })
       .then((response) => {

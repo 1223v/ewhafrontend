@@ -7,7 +7,6 @@ import styled from "styled-components";
 const SelfStudyBreadcrumb = (props) => {
   const location = useLocation();
   const params = new URLSearchParams(location.search);
-  const lectureNo = params.get("lecture_no");
   const asNo = params.get("as_no");
 
   const urlMenu = [
@@ -49,9 +48,7 @@ const SelfStudyBreadcrumb = (props) => {
     },
     {
       title: (
-        <Link
-          to={`/prob/feedback/professor?lecture_no=${lectureNo}&as_no=${asNo}`}
-        >
+        <Link to={`/prob/feedback/professor?as_no=${asNo}`}>
           {props.AssignmentName} 과제 피드백
         </Link>
       ),
