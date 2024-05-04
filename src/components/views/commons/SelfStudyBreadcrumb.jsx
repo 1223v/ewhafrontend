@@ -66,10 +66,12 @@ const SelfStudyBreadcrumb = (props) => {
         .length === 1
     ) {
       breadcrumbItems = urlMenu;
+
       if (urlMenu2[0].pathElement === location.pathname) {
         // 과제 생성하기 일경우 과제 상세 빼기
         delete breadcrumbItems[2];
       }
+
       breadcrumbItems.push(
         urlMenu2.filter((item) => item.pathElement === location.pathname)[0]
       );
@@ -77,7 +79,7 @@ const SelfStudyBreadcrumb = (props) => {
     }
     breadcrumbItems.push(urlMenu[i]);
 
-    if (location.pathname.includes(urlMenu[i].pathElement)) {
+    if (location.pathname === urlMenu[i].pathElement) {
       break;
     }
   }

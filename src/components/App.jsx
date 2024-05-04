@@ -1,5 +1,8 @@
 import { Navigate, Route, Routes } from "react-router-dom";
 import Auth from "../hoc/auth";
+import SelfSeqInterpretationPage from "../pages/AudioRecordPage/SelfSeqInterpretationPage";
+import SelfSimInterpretationPage from "../pages/AudioRecordPage/SelfSimInterpretationPage";
+import SelfTranslationPage from "../pages/AudioRecordPage/SelfTranslationPage";
 import SeqInterpretationPage from "../pages/AudioRecordPage/SeqInterpretationPage";
 import SimInterpretationPage from "../pages/AudioRecordPage/SimInterpretationPage";
 import TranslationPage from "../pages/AudioRecordPage/TranslationPage";
@@ -42,6 +45,9 @@ function App() {
   const NewProbSelfStudyAddPage = Auth(ProbSelfStudyAddPage, true); // 자습용 과제 추가 페이지
   const NewProbSelfStudyModPage = Auth(ProbSelfStudyModPage, true); // 자습용 과제 수정 페이지
   const NewProbSelfStudyDetailPage = Auth(ProbSelfStudyDetailPage, true); // 자습용 과제 수정 페이지
+  const NewSelfSeqInterpretationPage = Auth(SelfSeqInterpretationPage, true); // 순차통역 과제제출 페이지
+  const NewSelfSimInterpretationPage = Auth(SelfSimInterpretationPage, true); // 동시통역 과제제출 페이지
+  const NewSelfTranslationPage = Auth(SelfTranslationPage, true); // 번역 과제제출 페이지
 
   // 1: 학생, 2: 조교, 3: 교수
   const NewProbListStudentPage = Auth(ProbListStudentPage, true, 1); // 학생 과제 리스트 페이지
@@ -92,6 +98,18 @@ function App() {
         <Route
           path="/prob/submit/translation"
           element={<NewTranslationPage />}
+        />
+        <Route
+          path="/prob/submit/selfSeqInterpretation"
+          element={<NewSelfSeqInterpretationPage />}
+        />
+        <Route
+          path="/prob/submit/selfSimInterpretation"
+          element={<NewSelfSimInterpretationPage />}
+        />
+        <Route
+          path="/prob/submit/selfTranslation"
+          element={<NewSelfTranslationPage />}
         />
         <Route
           path="/prob/feedback/professor"
