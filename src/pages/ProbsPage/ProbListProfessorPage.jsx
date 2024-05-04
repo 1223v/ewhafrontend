@@ -34,6 +34,10 @@ function ProbListProfessorPage() {
       });
   }, []);
 
+  const onDetailPageMove = (as_no) => {
+    navigate(`/prob/detail/professor?as_no=${as_no}&lecture_no=${lectureNo}`);
+  };
+
   return (
     <div>
       <NavBar />
@@ -148,60 +152,40 @@ function ProbListProfessorPage() {
                     {Problist?.map((assignment, index) => {
                       return (
                         <React.Fragment key={index}>
-                          <tr>
+                          <tr
+                            onClick={() => onDetailPageMove(assignment.as_no)}
+                          >
                             <td className="px-6 py-4 text-sm font-medium text-gray-800 whitespace-nowrap">
-                              <StyledLink
-                                to={`/prob/detail/professor?as_no=${assignment.as_no}&lecture_no=${lectureNo}`}
-                              >
-                                {index + 1}
-                              </StyledLink>
+                              {index + 1}
                             </td>
 
                             <td className="px-6 py-4 text-sm text-gray-800 whitespace-nowrap">
-                              <StyledLink
-                                to={`/prob/detail/professor?as_no=${assignment.as_no}&lecture_no=${lectureNo}`}
-                              >
-                                {assignment.as_name}
-                              </StyledLink>
+                              {assignment.as_name}
                             </td>
                             <td className="px-6 py-4 text-sm font-medium text-right whitespace-nowrap">
-                              <StyledLink
-                                to={`/prob/detail/professor?as_no=${assignment.as_no}&lecture_no=${lectureNo}`}
-                              >
-                                {assignment.reaveal ? (
-                                  <AiOutlineCheck
-                                    size="18"
-                                    style={{ color: "green" }}
-                                  />
-                                ) : (
-                                  <AiOutlineClose
-                                    size="18"
-                                    style={{ color: "red" }}
-                                  />
-                                )}
-                              </StyledLink>
+                              {assignment.reaveal ? (
+                                <AiOutlineCheck
+                                  size="18"
+                                  style={{ color: "green" }}
+                                />
+                              ) : (
+                                <AiOutlineClose
+                                  size="18"
+                                  style={{ color: "red" }}
+                                />
+                              )}
                             </td>
                             <td
                               className="px-6 py-4 text-sm font-medium float-right text-right whitespace-nowrap"
                               style={{ fontSize: "13px" }}
                             >
-                              <StyledLink
-                                to={`/prob/detail/professor?as_no=${assignment.as_no}&lecture_no=${lectureNo}`}
-                              >
-                                <Timeformat dateString={assignment.open_time} />
-                              </StyledLink>
+                              <Timeformat dateString={assignment.open_time} />
                             </td>
                             <td
                               className="px-6 py-4 text-sm font-medium text-center whitespace-nowrap mx-auto"
                               style={{ fontSize: "13px" }}
                             >
-                              <StyledLink
-                                to={`/prob/detail/professor?as_no=${assignment.as_no}&lecture_no=${lectureNo}`}
-                              >
-                                <Timeformat
-                                  dateString={assignment.limit_time}
-                                />
-                              </StyledLink>
+                              <Timeformat dateString={assignment.limit_time} />
                             </td>
                           </tr>
                         </React.Fragment>
