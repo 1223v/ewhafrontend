@@ -5,7 +5,6 @@ const FileRead = (props) => {
     let file = e.target.files[0];
     let fileReader = new FileReader();
     fileReader.onload = () => {
-      console.log(fileReader.result);
       props.setTxtreads(fileReader.result);
     };
     fileReader.readAsText(file);

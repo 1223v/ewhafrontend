@@ -198,7 +198,6 @@ function Audio(props) {
         color: `rgba(${r}, ${g}, ${b}, 0.5)`,
       },
     ]);
-    console.log("실행됩니다.");
   }, [props.regions, wavesurferRef]);
 
   const removeLastRegion = useCallback(() => {
