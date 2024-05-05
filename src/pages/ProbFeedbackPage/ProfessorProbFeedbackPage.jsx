@@ -115,7 +115,7 @@ function ProfessorProbFeedbackPage() {
       .then((response) => {
         if (response.data.isSuccess) {
           // 요청이 성공한 경우의 처리
-          console.log(response.data);
+
           setStudentInfo(response.data.student_name);
           setLimitTime(response.data.limit_time);
           setSubmitTime(response.data.submit_time);

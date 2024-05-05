@@ -60,7 +60,6 @@ function FeedbackGridCard(props) {
 
     // 그렇지 않으면, 현재의 CheckList 배열에 선택한 값을 추가
     setCheckList(value);
-    console.log(value);
 
     const filteredItems = props.Sectioncontent.find(
       (item) => item.id === props.id
@@ -88,8 +87,6 @@ function FeedbackGridCard(props) {
         if (response.data.isSuccess) {
           message.success("저장 완료했습니다.");
           props.setDatacontent(!props.Datacontent);
-
-          console.log(isSelectOpen);
         } else {
           message.error("저장 실패했습니다. 다시 시도해주세요.");
         }

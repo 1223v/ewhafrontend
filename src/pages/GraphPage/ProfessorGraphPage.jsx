@@ -264,7 +264,7 @@ function ProfessorGraphPage() {
       .then((response) => {
         if (response.data.isSuccess) {
           // 요청이 성공한 경우의 처리
-          console.log(response.data);
+
           setDeliveryList(response.data.Delivery);
           setAccuracyList(response.data.Accuracy);
           setDeliveryDetailList(response.data.DeliveryDetail);

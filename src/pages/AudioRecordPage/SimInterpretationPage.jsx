@@ -1,6 +1,5 @@
 import { Row, message } from "antd";
 import Axios from "axios";
-import { createBrowserHistory } from "history";
 import React, { useEffect, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import styled from "styled-components";
@@ -35,32 +34,6 @@ function SimInterpretationPage() {
   const [AssignSpeed, setAssignSpeed] = useState(1); // 과제 속도
 
   useEffect(() => {
-    window.addEventListener("beforeunload", function (e) {
-      // 메시지 설정
-      e.preventDefault(); // 기본 이벤트를 취소
-
-      console.log("beforeunload");
-    });
-    const history = createBrowserHistory();
-
-    // 이전 페이지로의 이동을 막습니다.
-    history.block((location) => {
-      console.log(location);
-      if (location.action === "POP" || location.action === "PUSH") {
-        window.location.href = "/prob/detail/student?lecture_no=94&as_no=635";
-        //return false; // 이동을 차단
-      }
-
-      return null;
-    });
-
-    return () => {
-      // 컴포넌트가 언마운트 될 때 history.block을 해제
-      history.block(null);
-    };
-  }, []);
-
-  useEffect(() => {
     Axios.get(
       `${API_URL}api/prob/record?lecture_no=${lectureNo}&as_no=${asNo}`,
       {
@@ -70,7 +43,6 @@ function SimInterpretationPage() {
       .then((response) => {
         // 요청이 성공한 경우의 처리
         if (response.data.isSuccess) {
-          console.log(response.data);
           setAudiolist(response.data.audio_regions_url);
           setEndlength(response.data.audio_regions_url.length);
           setAssignName(response.data.as_name);

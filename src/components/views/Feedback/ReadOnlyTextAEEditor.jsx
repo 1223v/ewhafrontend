@@ -24,11 +24,10 @@ const ReadOnlyTextAEEditor = (props) => {
   const onAnchoringClick = () => {
     let DuplicateCheckAnchoring = true;
     if (props.Sectioncontent?.length !== 0) {
-      console.log("test");
       editor.lastSelectedDenotationIDCallback = (denotationID) => {
         if (DuplicateCheckAnchoring) {
           props.setAnchoring(denotationID);
-          console.log("TextAE -> FeedbackGridCard" + denotationID);
+
           props.setTextAeToFeedbackDetection(!props.TextAeToFeedbackDetection);
           DuplicateCheckAnchoring = false;
         }
@@ -86,8 +85,6 @@ const ReadOnlyTextAEEditor = (props) => {
   useEffect(() => {
     if (props.Anchoring !== "") {
       editor.selectDenotation(props.Anchoring);
-
-      console.log("FeedbackGridCard -> TextAE");
     }
   }, [props.ChangeDetection]);
 

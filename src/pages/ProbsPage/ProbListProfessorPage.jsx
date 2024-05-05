@@ -23,7 +23,7 @@ function ProbListProfessorPage() {
     })
       .then((response) => {
         // 요청이 성공한 경우의 처리
-        console.log(response.data);
+
         setLectureName(response.data.lecture_name);
         setProblist(response.data.prob_list);
       })

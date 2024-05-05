@@ -50,7 +50,6 @@ function ProbStudentDetailPage() {
           );
 
           // 첫 번째 요청에 대한 응답을 처리할 로직 (예: 상태 업데이트 등)
-          console.log(response.data);
         }
 
         // 두 번째 요청 시작 (MusicFile의 길이와 상관없이 항상 실행)
@@ -85,7 +84,6 @@ function ProbStudentDetailPage() {
           setProbInfo(response.data);
           setProbInfoOpenTime(response.data.open_time);
           setProbInfoCloseTime(response.data.limit_time);
-          console.log(response.data);
         } else {
           message.error("다시 시도해주세요.");
           navigate("/");

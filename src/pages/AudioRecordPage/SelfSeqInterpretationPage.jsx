@@ -65,7 +65,6 @@ function SelfSeqInterpretationPage() {
       .then((response) => {
         // 요청이 성공한 경우의 처리
         if (response.data.isSuccess) {
-          console.log(response.data);
           setAudiolist(response.data.audio_regions_url);
           setEndlength(response.data.audio_regions_url.length);
           setAssignName(response.data.as_name);

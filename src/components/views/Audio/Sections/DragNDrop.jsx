@@ -1,11 +1,11 @@
-import { FileUploader } from "react-drag-drop-files";
-import styled from "styled-components";
-import Audio from "../Audio";
-import Axios from "axios";
-import { GrClose } from "react-icons/gr";
-import { API_URL } from "../../../Config";
 import { message } from "antd";
+import Axios from "axios";
+import { FileUploader } from "react-drag-drop-files";
+import { GrClose } from "react-icons/gr";
 import { useNavigate } from "react-router-dom";
+import styled from "styled-components";
+import { API_URL } from "../../../Config";
+import Audio from "../Audio";
 
 const fileTypes = ["mp3"];
 
@@ -30,7 +30,6 @@ function DragNDrop(props) {
         const URL = `${API_URL}` + response.data.file_path;
         props.setMusic(URL);
         props.setUrlfile(response.data.file_path);
-        console.log(URL);
       })
       .catch((error) => {
         console.error("파일 업로드 실패:", error);
