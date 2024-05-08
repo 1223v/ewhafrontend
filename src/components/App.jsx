@@ -8,6 +8,7 @@ import SimInterpretationPage from "../pages/AudioRecordPage/SimInterpretationPag
 import TranslationPage from "../pages/AudioRecordPage/TranslationPage";
 import ProfessorGraphPage from "../pages/GraphPage/ProfessorGraphPage";
 import StudentGraphPage from "../pages/GraphPage/StudentGraphPage";
+import LandingPage from "../pages/LandingPage/LandingPage";
 import LoginPage from "../pages/LoginPage/LoginPage";
 import ProbAddPage from "../pages/ProbAddPage/ProbAddPage";
 import ProbModPage from "../pages/ProbAddPage/ProbModPage";
@@ -24,7 +25,6 @@ import ProbSelfStudysPage from "../pages/ProbsPage/ProbSelfStudysPage";
 import RegisterPage from "../pages/RegisterPage/RegisterPage";
 import Highlighter from "../pages/TestPage/Highlighter";
 import "./App.css";
-import LandingPage from "./views/LandingPage/LandingPage";
 import LectureAddPage from "./views/LectureAddPage/LectureAddPage";
 import LectureModPage from "./views/LectureAddPage/LectureModPage";
 

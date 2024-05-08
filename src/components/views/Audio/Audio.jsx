@@ -10,7 +10,7 @@ import styled from "styled-components";
 import { Region, WaveForm, WaveSurfer } from "wavesurfer-react";
 import RegionsPlugin from "wavesurfer.js/dist/plugin/wavesurfer.regions.min";
 import TimelinePlugin from "wavesurfer.js/dist/plugin/wavesurfer.timeline.min";
-import LoadingPage from "../LoadingPage/LoadingPage";
+import LoadingPage from "../Loading/LoadingPage";
 
 //https://velog.io/@seorim0801/react%EB%A1%9C-%EC%9D%8C%EC%84%B1-%EB%85%B9%EC%9D%8C-%EA%B8%B0%EB%8A%A5%EC%9D%84-%EA%B5%AC%ED%98%84%ED%95%B4%EB%B3%B4%EC%9E%90
 

@@ -5,7 +5,7 @@ import { TbRewindBackward5, TbRewindForward5 } from "react-icons/tb";
 import styled from "styled-components";
 import { WaveForm, WaveSurfer } from "wavesurfer-react";
 import { API_URL } from "../../Config";
-import LoadingPage from "../LoadingPage/LoadingPage";
+import LoadingPage from "../Loading/LoadingPage";
 
 function StudentAudioplay(props) {
   const options = {

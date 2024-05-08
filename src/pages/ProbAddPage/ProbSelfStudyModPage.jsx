@@ -7,7 +7,7 @@ import { API_URL } from "../../components/Config";
 import DragNDrop from "../../components/views/Audio/Sections/DragNDrop";
 import FileRead from "../../components/views/Audio/Sections/FileRead";
 import FileUpload from "../../components/views/Fileload/FileUpload";
-import LoadingPage from "../../components/views/LoadingPage/LoadingPage";
+import LoadingPage from "../../components/views/Loading/LoadingPage";
 import NavBar from "../../components/views/NavBar/NavBar";
 import SelfStudyBreadcrumb from "../../components/views/commons/SelfStudyBreadcrumb";
 

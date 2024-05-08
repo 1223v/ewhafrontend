@@ -4,7 +4,7 @@ import { FaPause, FaPlay } from "react-icons/fa";
 import { TbRewindBackward5, TbRewindForward5 } from "react-icons/tb";
 import styled from "styled-components";
 import { WaveForm, WaveSurfer } from "wavesurfer-react";
-import LoadingPage from "../LoadingPage/LoadingPage";
+import LoadingPage from "../Loading/LoadingPage";
 
 function OriginAudioplay(props) {
   const options = {
