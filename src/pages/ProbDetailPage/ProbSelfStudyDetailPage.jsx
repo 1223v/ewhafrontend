@@ -38,7 +38,7 @@ function ProbSelfStudyDetailPage() {
         console.log(error);
         navigate("/login");
       });
-  }, []);
+  }, [ProbStatus]);
 
   const onProbCancelClick = () => {
     if (
