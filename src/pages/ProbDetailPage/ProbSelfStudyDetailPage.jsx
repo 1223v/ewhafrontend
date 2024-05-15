@@ -290,16 +290,14 @@ function ProbSelfStudyDetailPage() {
               ) : null}
             </div>
           ) : (
-            ProbInfo.feedback === true && (
-              <StyledLink
-                className="text-green-500 hover:text-green-700"
-                to={`/prob/self/feedback?as_no=${asNo}`}
-              >
-                <button className="bg-transparent hover:bg-gray-100 hover:bg-opacity-50 text-green-700 font-semibold py-2 px-4 border border-green-500 rounded m-2">
-                  피드백 확인
-                </button>
-              </StyledLink>
-            )
+            <Link
+              className="text-green-500 hover:text-green-700"
+              to={`/prob/selfstudys/feedback?as_no=${asNo}`}
+            >
+              <button className="bg-transparent hover:bg-gray-100 hover:bg-opacity-50 text-green-700 font-semibold py-2 px-4 border border-green-500 rounded m-2">
+                피드백 확인
+              </button>
+            </Link>
           )}
         </ProbBtnDiv>
       </BtnDiv>
