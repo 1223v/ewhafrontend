@@ -18,6 +18,7 @@ function LandingPage() {
   let navigate = useNavigate();
   const [Lectures, setLectures] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
+  const [selectedTags, setSelectedTags] = useState([]);
 
   const userinfos = useSelector((state) => state.user);
 
@@ -25,9 +26,21 @@ function LandingPage() {
     setSearchTerm(value.toLowerCase());
   };
 
+  const handleTagChange = (value) => {
+    if (!selectedTags.includes(value)) {
+      setSelectedTags([...selectedTags, value]);
+    }
+  };
+
+  const handleTagClose = (tag) => {
+    setSelectedTags(selectedTags.filter((t) => t !== tag));
+  };
+
   const filteredLectures = Array.isArray(Lectures)
-    ? Lectures.filter((lecture) =>
-        lecture.lecture_name.toLowerCase().includes(searchTerm)
+    ? Lectures.filter(
+        (lecture) =>
+          lecture.lecture_name.toLowerCase().includes(searchTerm) &&
+          selectedTags.every((tag) => lecture.year + lecture.semester === tag)
       )
     : [];
 
@@ -59,6 +72,12 @@ function LandingPage() {
           userRole={userinfos?.userData?.role}
         />
         <SearchBar onChange={handleSearch} />
+        {/* <TagSelect
+          lectures={Lectures}
+          selectedTags={selectedTags}
+          onTagChange={handleTagChange}
+          onTagClose={handleTagClose}
+        /> */}
         <div className="calender_Area">
           <CalenderComponent />
         </div>
@@ -79,7 +98,7 @@ function LandingPage() {
             )}
           </h3>
 
-          <Row style={{ 'height': '80%' }}>
+          <Row style={{ height: "80%" }}>
             {filteredLectures.length > 0 ? (
               filteredLectures.map((lesson, index) => (
                 <React.Fragment key={index}>
@@ -123,7 +142,7 @@ const CreateBtn = styled.button`
   z-index: 100;
 
   @media screen and (max-width: 830px) {
-    right: 1.25rem;
+    right: 0rem;
     position: relative;
   }
 `;
