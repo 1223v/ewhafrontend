@@ -96,6 +96,13 @@ function ProfessorGraphPage() {
         "기타",
       ],
     },
+    yaxis: {
+      labels: {
+        formatter: (value) => {
+          return Math.floor(value);
+        },
+      },
+    },
   };
 
   const options3 = {

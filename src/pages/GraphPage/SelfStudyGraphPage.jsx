@@ -12,105 +12,11 @@ function SelfStudyGraphPage() {
   const location = useLocation();
   let navigate = useNavigate();
   const params = new URLSearchParams(location.search);
-  const lectureNo = params.get("lecture_no");
   const asNo = params.get("as_no");
-  const userNo = params.get("user_no");
 
-  const [DeliveryList, setDeliveryList] = useState([]); // 전달력 리스트
-  const [AccuracyList, setAccuracyList] = useState([]); // 내용 피드백 결과 리스트
   const [DeliveryDetailList, setDeliveryDetailList] = useState([]); // 전달력 디테일 리스트
   const [AccuracyDetailList, setAccuracyDetailList] = useState([]); // 내용 피드백 결과 디테일 리스트
   const [AssignType, setAssignType] = useState(""); // 과제 타입
-
-  const options = {
-    chart: {
-      type: "bar",
-      height: 350,
-    },
-    title: {
-      text: "전달력 결과",
-    },
-    plotOptions: {
-      bar: {
-        horizontal: false,
-        columnWidth: "55%",
-        endingShape: "rounded",
-      },
-    },
-    dataLabels: {
-      enabled: false,
-    },
-    stroke: {
-      show: true,
-      width: 2,
-      colors: ["transparent"],
-    },
-    xaxis: {
-      categories: [
-        "침묵(pause)",
-        "필러(filler)",
-        "백트레킹(backtracking)",
-        "기타",
-      ],
-    },
-    yaxis: {},
-    fill: {
-      opacity: 1,
-    },
-    tooltip: {
-      y: {
-        formatter: function (val) {
-          return val;
-        },
-      },
-    },
-  };
-
-  const options2 = {
-    chart: {
-      type: "bar",
-      height: 350,
-    },
-    title: {
-      text: "내용 피드백 결과",
-    },
-    plotOptions: {
-      bar: {
-        horizontal: false,
-        columnWidth: "55%",
-        endingShape: "rounded",
-      },
-    },
-    dataLabels: {
-      enabled: false,
-    },
-    stroke: {
-      show: true,
-      width: 2,
-      colors: ["transparent"],
-    },
-    xaxis: {
-      categories: [
-        "오역(translation_error)",
-        "누락(omission)",
-        "표현(expression)",
-        "억양(intonation)",
-        "문법오류(grammar_error)",
-        "기타",
-      ],
-    },
-    yaxis: {},
-    fill: {
-      opacity: 1,
-    },
-    tooltip: {
-      y: {
-        formatter: function (val) {
-          return val;
-        },
-      },
-    },
-  };
 
   const options3 = {
     chart: {
@@ -191,24 +97,20 @@ function SelfStudyGraphPage() {
   };
 
   useEffect(() => {
-    Axios.get(`${API_URL}api/feedback/student/graph?as_no=${asNo}`, {
+    Axios.get(`${API_URL}api/prob/self/graph?as_no=${asNo}`, {
       withCredentials: true,
     })
       .then((response) => {
         if (response.data.isSuccess) {
           // 요청이 성공한 경우의 처리
 
-          setDeliveryList(response.data.Delivery);
-          setAccuracyList(response.data.Accuracy);
           setDeliveryDetailList(response.data.DeliveryDetail[0]?.data);
           setAccuracyDetailList(response.data.AccuracyDetail[0]?.data);
           setAssignType(response.data.as_type);
         } else {
           message.error(response.data.message);
 
-          navigate(
-            `/prob/feedback/student?lecture_no=${lectureNo}&as_no=${asNo}&user_no=${userNo}`
-          );
+          navigate(`/prob/selfstudys/feedback?as_no=${asNo}`);
         }
       })
 
@@ -226,7 +128,7 @@ function SelfStudyGraphPage() {
       <div style={{ display: "flex" }}>
         <LectureBackDiv>
           <Link
-            to={`/prob/feedback/student?as_no=${asNo}&lecture_no=${lectureNo}&user_no=${userNo}`}
+            to={`/prob/selfstudys/feedback?as_no=${asNo}`}
             style={{ color: "black", padding: "7px" }}
           >
             <svg
@@ -248,25 +150,6 @@ function SelfStudyGraphPage() {
         <LectureTitleDiv>학생 평가 그래프</LectureTitleDiv>
       </div>
       <StyledNewWishList>
-        <StyledButtonWrapper>
-          {AssignType !== "번역" && (
-            <ChartInDiv>
-              <ReactApexChart
-                options={options}
-                series={DeliveryList}
-                type="bar"
-              />
-            </ChartInDiv>
-          )}
-          <ChartInDiv>
-            <ReactApexChart
-              options={options2}
-              series={AccuracyList}
-              type="bar"
-            />
-          </ChartInDiv>
-        </StyledButtonWrapper>
-
         <StyledButtonWrapper>
           {AssignType !== "번역" && (
             <ChartInDiv>
