@@ -8,6 +8,7 @@ import "react-spring-bottom-sheet/dist/style.css";
 import styled from "styled-components";
 import { API_URL } from "../../components/Config";
 import NavBar from "../../components/views/NavBar/NavBar";
+import useGraphReload from "../../hooks/useGraphReload";
 
 function ProfessorGraphPage() {
   const location = useLocation();
@@ -16,6 +17,8 @@ function ProfessorGraphPage() {
   const lectureNo = params.get("lecture_no");
   const asNo = params.get("as_no");
   const userNo = params.get("user_no");
+  const updateApiUrl = `${API_URL}api/feedback/graph/update?as_no=${asNo}&student_no=${userNo}`;
+  const navigateUrl = `/prob/feedback/professor?lecture_no=${lectureNo}&as_no=${asNo}`;
 
   const [DeliveryList, setDeliveryList] = useState([]); // 전달력 리스트
   const [AccuracyList, setAccuracyList] = useState([]); // 내용 피드백 결과 리스트
@@ -28,7 +31,12 @@ function ProfessorGraphPage() {
   const [DeliveryDetail, setDeliveryDetail] = useState([]); // 전달력 디테일
   const [AccuracyDetail, setAccuracyDetail] = useState([]); // 내용 피드백 결과 디테일
   const [AssignType, setAssignType] = useState(""); // 과제 타입
-  const [ReloadCheck, setReloadCheck] = useState(false); // 그래프 갱신 체크
+
+  const { ReloadCheck, reloadGraph } = useGraphReload(
+    updateApiUrl,
+    navigateUrl,
+    false
+  );
 
   const options = {
     chart: {
@@ -206,64 +214,6 @@ function ProfessorGraphPage() {
     );
   };
 
-  const onGraphReloadClick = () => {
-    Axios.get(
-      `${API_URL}api/feedback/graph/update?as_no=${asNo}&student_no=${userNo}`,
-      {
-        withCredentials: true,
-      }
-    )
-      .then((response) => {
-        if (response.data.isSuccess) {
-          // 요청이 성공한 경우의 처리
-          setReloadCheck(!ReloadCheck);
-          message.success("그래프가 갱신되었습니다.");
-        } else {
-          message.error(response.data.message);
-
-          navigate(
-            `/prob/feedback/professor?lecture_no=${lectureNo}&as_no=${asNo}`
-          );
-        }
-      })
-
-      .catch((error) => {
-        // 요청이 실패한 경우의 처리
-        console.error(error);
-        message.error("알 수 없는 에러가 발생했습니다.");
-        navigate("/");
-      });
-  };
-
-  useEffect(() => {
-    Axios.get(
-      `${API_URL}api/feedback/graph/update?as_no=${asNo}&student_no=${userNo}`,
-      {
-        withCredentials: true,
-      }
-    )
-      .then((response) => {
-        if (response.data.isSuccess) {
-          // 요청이 성공한 경우의 처리
-          setReloadCheck(!ReloadCheck);
-          message.success("그래프가 갱신되었습니다.");
-        } else {
-          message.error(response.data.message);
-
-          navigate(
-            `/prob/feedback/professor?lecture_no=${lectureNo}&as_no=${asNo}`
-          );
-        }
-      })
-
-      .catch((error) => {
-        // 요청이 실패한 경우의 처리
-        console.error(error);
-        message.error("알 수 없는 에러가 발생했습니다.");
-        navigate("/");
-      });
-  }, []);
-
   useEffect(() => {
     Axios.get(`${API_URL}api/feedback/professor/graph?as_no=${asNo}`, {
       withCredentials: true,
@@ -307,7 +257,7 @@ function ProfessorGraphPage() {
           right: 24,
           top: 84,
         }}
-        onClick={onGraphReloadClick}
+        onClick={reloadGraph}
       />
       <div style={{ display: "flex" }}>
         <LectureBackDiv>

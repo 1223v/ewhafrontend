@@ -1,4 +1,5 @@
-import { message } from "antd";
+import { RedoOutlined } from "@ant-design/icons";
+import { FloatButton, message } from "antd";
 import Axios from "axios";
 import React, { useEffect, useState } from "react";
 import ReactApexChart from "react-apexcharts";
@@ -7,16 +8,25 @@ import "react-spring-bottom-sheet/dist/style.css";
 import styled from "styled-components";
 import { API_URL } from "../../components/Config";
 import NavBar from "../../components/views/NavBar/NavBar";
+import useGraphReload from "../../hooks/useGraphReload";
 
 function SelfStudyGraphPage() {
   const location = useLocation();
   let navigate = useNavigate();
   const params = new URLSearchParams(location.search);
   const asNo = params.get("as_no");
+  const updateApiUrl = `${API_URL}api/prob/self/graph/update?as_no=${asNo}`;
+  const navigateUrl = `/prob/selfstudys/feedback?as_no=${asNo}`;
 
   const [DeliveryDetailList, setDeliveryDetailList] = useState([]); // 전달력 디테일 리스트
   const [AccuracyDetailList, setAccuracyDetailList] = useState([]); // 내용 피드백 결과 디테일 리스트
   const [AssignType, setAssignType] = useState(""); // 과제 타입
+
+  const { ReloadCheck, reloadGraph } = useGraphReload(
+    updateApiUrl,
+    navigateUrl,
+    false
+  );
 
   const options3 = {
     chart: {
@@ -110,7 +120,7 @@ function SelfStudyGraphPage() {
         } else {
           message.error(response.data.message);
 
-          navigate(`/prob/selfstudys/feedback?as_no=${asNo}`);
+          navigate(navigateUrl);
         }
       })
 
@@ -120,17 +130,24 @@ function SelfStudyGraphPage() {
         message.error("알 수 없는 에러가 발생했습니다.");
         navigate("/");
       });
-  }, []);
+  }, [ReloadCheck]);
 
   return (
     <div>
       <NavBar />
+      <FloatButton
+        icon={<RedoOutlined />}
+        tooltip={<div>그래프 재갱신</div>}
+        type="default"
+        style={{
+          right: 24,
+          top: 84,
+        }}
+        onClick={reloadGraph}
+      />
       <div style={{ display: "flex" }}>
         <LectureBackDiv>
-          <Link
-            to={`/prob/selfstudys/feedback?as_no=${asNo}`}
-            style={{ color: "black", padding: "7px" }}
-          >
+          <Link to={navigateUrl} style={{ color: "black", padding: "7px" }}>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
