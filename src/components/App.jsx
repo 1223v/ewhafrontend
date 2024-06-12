@@ -30,6 +30,9 @@ import "./App.css";
 import LectureAddPage from "./views/LectureAddPage/LectureAddPage";
 import LectureModPage from "./views/LectureAddPage/LectureModPage";
 
+// publishing
+import MainPublishingPage from "../pages/PublishingPage/MainPublishingPage";
+
 function App() {
   //false : 로그인 안한 유저
   const NewLoginPage = Auth(LoginPage, false); // 로그인 페이지
@@ -153,6 +156,8 @@ function App() {
         <Route path="/prob/graph/student" element={<NewStudentGraphPage />} />
         <Route path="/*" element={<Navigate to="/"></Navigate>}></Route>
         <Route path="/test" element={<NewTest />} />
+
+        <Route path="/test/main" element={<MainPublishingPage />}/>
       </Routes>
     </div>
   );
