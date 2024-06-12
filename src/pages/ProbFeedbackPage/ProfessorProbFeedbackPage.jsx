@@ -39,8 +39,10 @@ function ProfessorProbFeedbackPage() {
   const [LimitTime, setLimitTime] = useState(""); // 마감 시간
   const [SubmitTime, setSubmitTime] = useState(""); // 제출 시간
   const [StudentAudio, setStudentAudio] = useState([]); // 학생 구간 녹음 자료
+  const [StudentDelay, setStudentDelay] = useState([]); // 학생 구간 녹음 딜레이
   const [OriginAudio, setOriginAudio] = useState([]); // 원본 구간 음원 자료
   const [OriginText, setOriginText] = useState(""); // 원본 텍스트 자료
+  const [Origindelay, setOrigindelay] = useState(0.0);
   const [STTText, setSTTText] = useState(""); // STT된 텍스트 자료
   const [DestTranslang, setDestTranslang] = useState(""); //어느 stt를 사용했는지 판단하기 위한 자료
   const [OriginSelectAudio, setOriginSelectAudio] = useState(""); // 원본 선택된 음원
@@ -67,7 +69,9 @@ function ProfessorProbFeedbackPage() {
    */
   const onSttTextChange = () => {
     setChecking(false);
-    setDisplayText("(OpenAI의 Whisper API로 작성 되었습니다.)");
+    if (AssignType != "번역") {
+      setDisplayText("(OpenAI의 Whisper API로 작성 되었습니다.)[delay:"+Origindelay+"초]");
+    }
   };
 
   /**
@@ -123,7 +127,12 @@ function ProfessorProbFeedbackPage() {
           setOriginAudio(response.data.assignment_audio);
           setOriginText(response.data.original_text);
           setSTTText(response.data.original_tts);
+          setOrigindelay(response.data.original_delay);
           setAssignType(response.data.as_type);
+          if (response.data.as_type != "번역") {
+            const delayString = response.data.student_delay.map(item => item.delay).join(' / ');
+            setStudentDelay(delayString);
+          }
           setAssignmentName(response.data.assignment_name);
           setDestTranslang(response.data.dest_translang);
         } else {
@@ -218,6 +227,7 @@ function ProfessorProbFeedbackPage() {
                   {DestTranslang === "ko"
                     ? "(MS의 Azure API로 작성 되었습니다.)"
                     : "(NAVER의 CLOVA API로 작성 되었습니다.)"}
+                    <br/>[delay:{StudentDelay}초]
                 </span>
               </span>
             ) : (

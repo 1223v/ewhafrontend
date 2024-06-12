@@ -31,7 +31,7 @@ function FeedbackGridCard(props) {
     { label: "grammar_error", value: "grammar_error" },
     { label: "pause", value: "pause" },
     { label: "filler", value: "filler" },
-    { label: "canclellation", value: "canclellation" },
+    { label: "cancellation", value: "cancellation" },
     { label: "others", value: "others" },
   ]); // 피드백 옵션
 

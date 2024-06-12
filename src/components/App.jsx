@@ -26,9 +26,13 @@ import ProbListStudentPage from "../pages/ProbsPage/ProbListStudentPage";
 import ProbSelfStudysPage from "../pages/ProbsPage/ProbSelfStudysPage";
 import RegisterPage from "../pages/RegisterPage/RegisterPage";
 import Highlighter from "../pages/TestPage/Highlighter";
+import EmailAcessPage from "../pages/EmailAccessPage/EmailAccessPage"
 import "./App.css";
 import LectureAddPage from "./views/LectureAddPage/LectureAddPage";
 import LectureModPage from "./views/LectureAddPage/LectureModPage";
+import FindPass from "../pages/FindPassPage/FindPassPage";
+import FindPassCheck from "../pages/FindPassPage/FindPassCheckPage";
+import FindIdPage from "../pages/FindIdPage/FindIdPage";
 
 // publishing
 import MainPublishingPage from "../pages/PublishingPage/MainPublishingPage";
@@ -37,7 +41,9 @@ function App() {
   //false : 로그인 안한 유저
   const NewLoginPage = Auth(LoginPage, false); // 로그인 페이지
   const NewRegisterPage = Auth(RegisterPage, false); // 회원가입 페이지
-
+  const EmailAccessPage = Auth(EmailAcessPage, false);// 회원가입 이메일인증페이지
+  const FindPassPage = Auth(FindPass, false);
+  const FindPassCheckPage = Auth(FindPassCheck, false);
   //true : 로그인 한 유저
   const NewLandingPage = Auth(LandingPage, true); // 메인 페이지
   const NewTest = Auth(Highlighter, true); // 테스트
@@ -76,7 +82,10 @@ function App() {
         <Route path="/" element={<NewLandingPage />} />
         <Route path="/login" element={<NewLoginPage />} />
         <Route path="/register" element={<NewRegisterPage />} />
-
+        <Route path="/verify_email" element={<EmailAccessPage /> }/>
+        <Route path="/find_id" element={<FindIdPage/>}/>
+        <Route path="/find_passcheck" element={<FindPassCheckPage /> }/>
+        <Route path="/find_pass" element={<FindPassPage /> }/>
         <Route path="/lecture_add" element={<NewLectureAddPage />} />
         <Route path="/lecture_mod" element={<NewLectureModPage />} />
         <Route path="/prob/add" element={<NewProbAddPage />} />
