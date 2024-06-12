@@ -11,21 +11,19 @@ import styled from "styled-components";
 import { API_URL } from "../../components/Config";
 import OriginAudioplay from "../../components/views/Audio/OriginAudioplay";
 import StudentAudioplay from "../../components/views/Audio/StudentAudioplay";
-import ProfessorResultSheet from "../../components/views/Feedback/ProfessorResultSheet";
-import TextAEEditor from "../../components/views/Feedback/TextAEEditor";
+import SelfStudyResultSheet from "../../components/views/Feedback/SelfStudyResultSheet";
+import SelfStudyTextAEEditor from "../../components/views/Feedback/SelfStudyTextAEEditor";
 import NavBar from "../../components/views/NavBar/NavBar";
-import FeedbackGridCard from "../../components/views/commons/FeedbackGridCard";
 import KstTimeformat from "../../components/views/commons/KstTimeformat";
-import ProfessorBreadcrumb from "../../components/views/commons/ProfessorBreadcrumb";
+import SelfStudyBreadcrumb from "../../components/views/commons/SelfStudyBreadcrumb";
+import SelfStudyFeedbackGridCard from "../../components/views/commons/SelfStudyFeedbackGridCard";
 import Timeformat from "../../components/views/commons/Timeformat";
 
-function ProfessorProbFeedbackPage() {
+function SelfStudyProbFeedbackPage() {
   const location = useLocation();
   let navigate = useNavigate();
   const params = new URLSearchParams(location.search);
-  const lectureNo = params.get("lecture_no");
   const asNo = params.get("as_no");
-  const userNo = params.get("user_no"); // 학생 번호
   const [FeedbackResult, setFeedbackResult] = useState(false); // 총평 바텀시트 open 여부
   const [NewAttributeCount, setNewAttributeCount] = useState(""); // 새로운 속성 개수
   const [Datacontent, setDatacontent] = useState(false); // textaeeditor 데이터 변경 감지
@@ -39,10 +37,8 @@ function ProfessorProbFeedbackPage() {
   const [LimitTime, setLimitTime] = useState(""); // 마감 시간
   const [SubmitTime, setSubmitTime] = useState(""); // 제출 시간
   const [StudentAudio, setStudentAudio] = useState([]); // 학생 구간 녹음 자료
-  const [StudentDelay, setStudentDelay] = useState([]); // 학생 구간 녹음 딜레이
   const [OriginAudio, setOriginAudio] = useState([]); // 원본 구간 음원 자료
   const [OriginText, setOriginText] = useState(""); // 원본 텍스트 자료
-  const [Origindelay, setOrigindelay] = useState(0.0);
   const [STTText, setSTTText] = useState(""); // STT된 텍스트 자료
   const [DestTranslang, setDestTranslang] = useState(""); //어느 stt를 사용했는지 판단하기 위한 자료
   const [OriginSelectAudio, setOriginSelectAudio] = useState(""); // 원본 선택된 음원
@@ -69,9 +65,7 @@ function ProfessorProbFeedbackPage() {
    */
   const onSttTextChange = () => {
     setChecking(false);
-    if (AssignType != "번역") {
-      setDisplayText("(OpenAI의 Whisper API로 작성 되었습니다.)[delay:"+Origindelay+"초]");
-    }
+    setDisplayText("(OpenAI의 Whisper API로 작성 되었습니다.)");
   };
 
   /**
@@ -101,21 +95,16 @@ function ProfessorProbFeedbackPage() {
   };
 
   const onGraphClick = () => {
-    navigate(
-      `/prob/graph/professor?lecture_no=${lectureNo}&as_no=${asNo}&user_no=${userNo}`
-    );
+    navigate(`/prob/graph/selfstudy?as_no=${asNo}`);
   };
 
   /**
    * TextAEEditor의 데이터를 불러오는 함수
    */
   useEffect(() => {
-    Axios.get(
-      `${API_URL}api/feedback/info?as_no=${asNo}&student_no=${userNo}`,
-      {
-        withCredentials: true,
-      }
-    )
+    Axios.get(`${API_URL}api/prob/self/info?as_no=${asNo}`, {
+      withCredentials: true,
+    })
       .then((response) => {
         if (response.data.isSuccess) {
           // 요청이 성공한 경우의 처리
@@ -127,20 +116,13 @@ function ProfessorProbFeedbackPage() {
           setOriginAudio(response.data.assignment_audio);
           setOriginText(response.data.original_text);
           setSTTText(response.data.original_tts);
-          setOrigindelay(response.data.original_delay);
           setAssignType(response.data.as_type);
-          if (response.data.as_type != "번역") {
-            const delayString = response.data.student_delay.map(item => item.delay).join(' / ');
-            setStudentDelay(delayString);
-          }
           setAssignmentName(response.data.assignment_name);
           setDestTranslang(response.data.dest_translang);
         } else {
           message.error(response.data.message);
 
-          navigate(
-            `/prob/detail/professor?lecture_no=${lectureNo}&as_no=${asNo}`
-          );
+          navigate(`/prob/selfstudys/detail?as_no=${asNo}`);
         }
       })
 
@@ -155,11 +137,11 @@ function ProfessorProbFeedbackPage() {
   return (
     <div>
       <NavBar />
-      <ProfessorBreadcrumb AssignmentName={AssignmentName} />
+      <SelfStudyBreadcrumb AssignmentName={AssignmentName} />
       <div style={{ display: "flex" }}>
         <LectureBackDiv>
           <Link
-            to={`/prob/detail/professor?as_no=${asNo}&lecture_no=${lectureNo}`}
+            to={`/prob/selfstudys/detail?as_no=${asNo}`}
             style={{ color: "black", padding: "7px" }}
           >
             <svg
@@ -227,7 +209,6 @@ function ProfessorProbFeedbackPage() {
                   {DestTranslang === "ko"
                     ? "(MS의 Azure API로 작성 되었습니다.)"
                     : "(NAVER의 CLOVA API로 작성 되었습니다.)"}
-                    <br/>[delay:{StudentDelay}초]
                 </span>
               </span>
             ) : (
@@ -247,7 +228,7 @@ function ProfessorProbFeedbackPage() {
             </ChangeDiv>
           </h4>
           <InterpretationBox className="textae-container">
-            <TextAEEditor
+            <SelfStudyTextAEEditor
               Datacontent={Datacontent}
               setDatacontent={setDatacontent}
               setTextContent={setTextContent}
@@ -275,7 +256,7 @@ function ProfessorProbFeedbackPage() {
           <EstimationBox>
             {Sectioncontent?.map((lesson, index) => (
               <React.Fragment key={index}>
-                <FeedbackGridCard
+                <SelfStudyFeedbackGridCard
                   id={lesson.id}
                   begin={lesson.span.begin}
                   end={lesson.span.end}
@@ -356,14 +337,14 @@ function ProfessorProbFeedbackPage() {
           tooltip={<div>총평 작성</div>}
         />
       </FloatButton.Group>
-      <ProfessorResultSheet
+      <SelfStudyResultSheet
         Result={FeedbackResult}
         setResult={setFeedbackResult}
       />
     </div>
   );
 }
-export default ProfessorProbFeedbackPage;
+export default SelfStudyProbFeedbackPage;
 
 const SaveTimeDiv = styled.div`
   font-size: 14px;

@@ -17,13 +17,17 @@ function ProbListStudentPage() {
   const [Problist, setProblist] = useState([]);
   const [lectureName, setLectureName] = useState("");
 
+  const onDetailPageMove = (as_no) => {
+    navigate(`/prob/detail/student?as_no=${as_no}&lecture_no=${lectureNo}`);
+  };
+
   useEffect(() => {
     Axios.get(`${API_URL}api/prob/student?lecture_no=${lectureNo}`, {
       withCredentials: true,
     })
       .then((response) => {
         // 요청이 성공한 경우의 처리
-        console.log(response.data);
+
         setLectureName(response.data.lecture_name);
         setProblist(response.data.prob_list);
       })
@@ -138,70 +142,50 @@ function ProbListStudentPage() {
                     {Problist?.map((assignment, index) => {
                       return (
                         <React.Fragment key={index}>
-                          <tr>
+                          <tr
+                            onClick={() => onDetailPageMove(assignment.as_no)}
+                          >
                             <td className="px-6 py-4 text-sm font-medium text-gray-800 whitespace-nowrap">
-                              <StyledLink
-                                to={`/prob/detail?as_no=${assignment.as_no}&lecture_no=${lectureNo}`}
-                              >
-                                {index + 1}
-                              </StyledLink>
+                              {index + 1}
                             </td>
 
                             <td className="px-6 py-4 text-sm text-gray-800 whitespace-nowrap">
-                              <StyledLink
-                                to={`/prob/detail/student?as_no=${assignment.as_no}&lecture_no=${lectureNo}`}
-                              >
-                                {assignment.as_name}
-                              </StyledLink>
+                              {assignment.as_name}
                             </td>
                             <td className="px-6 py-4 text-sm font-medium text-right whitespace-nowrap">
-                              <StyledLink
-                                to={`/prob/detail/student?as_no=${assignment.as_no}&lecture_no=${lectureNo}`}
-                              >
-                                {assignment.end_submission ? (
-                                  <AiOutlineCheck
-                                    size="18"
-                                    style={{ color: "green" }}
-                                  />
-                                ) : (
-                                  <AiOutlineClose
-                                    size="18"
-                                    style={{ color: "red" }}
-                                  />
-                                )}
-                              </StyledLink>
+                              {assignment.end_submission ? (
+                                <AiOutlineCheck
+                                  size="18"
+                                  style={{ color: "green" }}
+                                />
+                              ) : (
+                                <AiOutlineClose
+                                  size="18"
+                                  style={{ color: "red" }}
+                                />
+                              )}
                             </td>
                             <td
                               className="px-6 py-4 text-sm font-medium float-right text-right whitespace-nowrap"
                               style={{ fontSize: "13px" }}
                             >
-                              <StyledLink
-                                to={`/prob/detail/student?as_no=${assignment.as_no}&lecture_no=${lectureNo}`}
-                              >
-                                {assignment.professor_review ? (
-                                  <AiOutlineCheck
-                                    size="18"
-                                    style={{ color: "green" }}
-                                  />
-                                ) : (
-                                  <AiOutlineClose
-                                    size="18"
-                                    style={{ color: "red" }}
-                                  />
-                                )}
-                              </StyledLink>
+                              {assignment.professor_review ? (
+                                <AiOutlineCheck
+                                  size="18"
+                                  style={{ color: "green" }}
+                                />
+                              ) : (
+                                <AiOutlineClose
+                                  size="18"
+                                  style={{ color: "red" }}
+                                />
+                              )}
                             </td>
                             <td
                               className="px-6 py-4 text-sm font-medium text-center whitespace-nowrap mx-auto"
                               style={{ fontSize: "13px" }}
                             >
-                              <StyledLink
-                                to={`/prob/detail/student?as_no=${assignment.as_no}&lecture_no=${lectureNo}`}
-                              >
-                                <Timeformat
-                                  dateString={assignment.limit_time}
-                                />
-                              </StyledLink>
+                              <Timeformat dateString={assignment.limit_time} />
                             </td>
                           </tr>
                         </React.Fragment>

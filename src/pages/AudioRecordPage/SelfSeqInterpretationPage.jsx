@@ -11,11 +11,10 @@ import NavBar from "../../components/views/NavBar/NavBar";
 import AudiorecordGridCard from "../../components/views/commons/AudiorecordGridCard";
 import SeqAudiorecordGridcard from "../../components/views/commons/SeqAudiorecordGridCard";
 
-function SeqInterpretationPage() {
+function SelfSeqInterpretationPage() {
   let navigate = useNavigate();
   const location = useLocation();
   const params = new URLSearchParams(location.search);
-  const lectureNo = params.get("lecture_no");
   const asNo = params.get("as_no");
   const [Audiolist, setAudiolist] = useState([]); // 영역별 음원 리스트
   const [Regionmusic, setRegionmusic] = useState(""); // 현재 재생되고 있는 음원
@@ -39,17 +38,14 @@ function SeqInterpretationPage() {
         let body = {
           submitUUID: Realsubmit,
           as_no: asNo,
-          lecture_no: lectureNo,
         };
 
-        Axios.post(`${API_URL}api/prob/submit`, body, {
+        Axios.post(`${API_URL}api/prob/self/submit`, body, {
           withCredentials: true,
         })
           .then((response) => {
             message.success("저장을 완료했습니다.");
-            navigate(
-              `/prob/detail/student?lecture_no=${lectureNo}&as_no=${asNo}`
-            );
+            navigate(`/prob/selfstudys/detail?as_no=${asNo}`);
           })
           .catch((error) => {
             // 요청이 실패한 경우의 처리
@@ -63,12 +59,9 @@ function SeqInterpretationPage() {
   };
 
   useEffect(() => {
-    Axios.get(
-      `${API_URL}api/prob/record?lecture_no=${lectureNo}&as_no=${asNo}`,
-      {
-        withCredentials: true,
-      }
-    )
+    Axios.get(`${API_URL}api/prob/self/record?as_no=${asNo}`, {
+      withCredentials: true,
+    })
       .then((response) => {
         // 요청이 성공한 경우의 처리
         if (response.data.isSuccess) {
@@ -80,9 +73,7 @@ function SeqInterpretationPage() {
           setAssignSpeed(response.data.as_speed);
         } else {
           message.error(response.data.message);
-          navigate(
-            `/prob/detail/student?lecture_no=${lectureNo}&as_no=${asNo}`
-          );
+          navigate(`/prob/selfstudys/detail?as_no=${asNo}`);
         }
       })
       .catch((error) => {
@@ -108,7 +99,7 @@ function SeqInterpretationPage() {
       <div style={{ display: "flex" }}>
         <LectureBackDiv>
           <Link
-            to={`/prob/detail/student?lecture_no=${lectureNo}&as_no=${asNo}`}
+            to={`/prob/selfstudys/detail?as_no=${asNo}`}
             style={{ color: "black", padding: "7px" }}
           >
             <svg
@@ -187,7 +178,7 @@ function SeqInterpretationPage() {
   );
 }
 
-export default SeqInterpretationPage;
+export default SelfSeqInterpretationPage;
 
 const LectureBackgroudDiv = styled.div`
   background-color: #f7f7fa;

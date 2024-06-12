@@ -46,7 +46,7 @@ export default SearchBar;
 
 const Button = styled.button`
   margin-top: 8px;
-  margin-left: 30px;
+  margin-left: 20px;
   font-size: 20px;
   border: none;
   cursor: pointer;

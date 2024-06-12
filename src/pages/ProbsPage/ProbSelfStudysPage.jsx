@@ -1,29 +1,29 @@
 import { Empty } from "antd";
 import Axios from "axios";
 import React, { useEffect, useState } from "react";
-import { AiOutlineCheck, AiOutlineClose, AiOutlinePlus } from "react-icons/ai";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { AiOutlinePlus } from "react-icons/ai";
+import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { API_URL } from "../../components/Config";
 import NavBar from "../../components/views/NavBar/NavBar";
-import ProfessorBreadcrumb from "../../components/views/commons/ProfessorBreadcrumb";
-import Timeformat from "../../components/views/commons/Timeformat";
+import SelfStudyBreadcrumb from "../../components/views/commons/SelfStudyBreadcrumb";
 
-function ProbListProfessorPage() {
-  const location = useLocation();
-  const params = new URLSearchParams(location.search);
-  const lectureNo = params.get("lecture_no");
+function ProbSelfStudysPage() {
   let navigate = useNavigate();
   const [Problist, setProblist] = useState([]);
   const [lectureName, setLectureName] = useState("");
 
+  const onDetailPageMove = (as_no) => {
+    navigate(`/prob/selfstudys/detail?as_no=${as_no}`);
+  };
+
   useEffect(() => {
-    Axios.get(`${API_URL}api/prob/professor?lecture_no=${lectureNo}`, {
+    Axios.get(`${API_URL}api/prob/self`, {
       withCredentials: true,
     })
       .then((response) => {
         // 요청이 성공한 경우의 처리
-        console.log(response.data);
+
         setLectureName(response.data.lecture_name);
         setProblist(response.data.prob_list);
       })
@@ -37,7 +37,7 @@ function ProbListProfessorPage() {
   return (
     <div>
       <NavBar />
-      <ProfessorBreadcrumb LectureName={lectureName} />
+      <SelfStudyBreadcrumb LectureName={lectureName} />
       <div style={{ display: "flex" }}>
         <LectureBackDiv>
           <Link to={`/`} style={{ color: "black", padding: "7px" }}>
@@ -57,14 +57,15 @@ function ProbListProfessorPage() {
             </svg>
           </Link>
         </LectureBackDiv>
-        <LectureTitleDiv>과제 목록 : {lectureName}</LectureTitleDiv>
+        <LectureTitleDiv>자습용 과제</LectureTitleDiv>
         <CreateDiv>
-          <Link to={`/prob/add?lecture_no=${lectureNo}`}>
+          {" "}
+          <Link to={`/prob/selfstudys/add`}>
             <CreateBtn
               className="middle none center rounded-lg bg-green-900 py-2 px-6 text-xs uppercase text-white transition-all border-none"
               data-ripple-light="true"
             >
-              + 과제 생성하기
+              + 자습용 과제 생성
             </CreateBtn>
           </Link>
         </CreateDiv>
@@ -124,84 +125,21 @@ function ProbListProfessorPage() {
                           </svg>
                         </span>
                       </th>
-                      <th
-                        scope="col"
-                        className="px-6 py-3 text-xs font-bold text-right text-gray-500 uppercase "
-                      >
-                        과제 게시
-                      </th>
-                      <th
-                        scope="col"
-                        className="px-6 py-3 text-xs font-bold text-right text-gray-500 uppercase "
-                      >
-                        게시일
-                      </th>
-                      <th
-                        scope="col"
-                        className="px-6 py-3 text-xs font-bold text-center text-gray-500 uppercase "
-                      >
-                        마감일
-                      </th>
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-gray-200">
                     {Problist?.map((assignment, index) => {
                       return (
                         <React.Fragment key={index}>
-                          <tr>
+                          <tr
+                            onClick={() => onDetailPageMove(assignment.as_no)}
+                          >
                             <td className="px-6 py-4 text-sm font-medium text-gray-800 whitespace-nowrap">
-                              <StyledLink
-                                to={`/prob/detail/professor?as_no=${assignment.as_no}&lecture_no=${lectureNo}`}
-                              >
-                                {index + 1}
-                              </StyledLink>
+                              {index + 1}
                             </td>
 
                             <td className="px-6 py-4 text-sm text-gray-800 whitespace-nowrap">
-                              <StyledLink
-                                to={`/prob/detail/professor?as_no=${assignment.as_no}&lecture_no=${lectureNo}`}
-                              >
-                                {assignment.as_name}
-                              </StyledLink>
-                            </td>
-                            <td className="px-6 py-4 text-sm font-medium text-right whitespace-nowrap">
-                              <StyledLink
-                                to={`/prob/detail/professor?as_no=${assignment.as_no}&lecture_no=${lectureNo}`}
-                              >
-                                {assignment.reaveal ? (
-                                  <AiOutlineCheck
-                                    size="18"
-                                    style={{ color: "green" }}
-                                  />
-                                ) : (
-                                  <AiOutlineClose
-                                    size="18"
-                                    style={{ color: "red" }}
-                                  />
-                                )}
-                              </StyledLink>
-                            </td>
-                            <td
-                              className="px-6 py-4 text-sm font-medium float-right text-right whitespace-nowrap"
-                              style={{ fontSize: "13px" }}
-                            >
-                              <StyledLink
-                                to={`/prob/detail/professor?as_no=${assignment.as_no}&lecture_no=${lectureNo}`}
-                              >
-                                <Timeformat dateString={assignment.open_time} />
-                              </StyledLink>
-                            </td>
-                            <td
-                              className="px-6 py-4 text-sm font-medium text-center whitespace-nowrap mx-auto"
-                              style={{ fontSize: "13px" }}
-                            >
-                              <StyledLink
-                                to={`/prob/detail/professor?as_no=${assignment.as_no}&lecture_no=${lectureNo}`}
-                              >
-                                <Timeformat
-                                  dateString={assignment.limit_time}
-                                />
-                              </StyledLink>
+                              {assignment.as_name}
                             </td>
                           </tr>
                         </React.Fragment>
@@ -215,7 +153,7 @@ function ProbListProfessorPage() {
         </div>
       )}
       <MusicPlayDiv>
-        <Link to={`/prob/add?lecture_no=${lectureNo}`}>
+        <Link to={`/prob/selfstudys/add`}>
           <PlayBtn>
             <AiOutlinePlus size="25" />
           </PlayBtn>
@@ -225,7 +163,7 @@ function ProbListProfessorPage() {
   );
 }
 
-export default ProbListProfessorPage;
+export default ProbSelfStudysPage;
 
 const NoDataDiv = styled.div`
   margin-top: 25%;

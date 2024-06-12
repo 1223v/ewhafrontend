@@ -1,7 +1,7 @@
-import { Checkbox, message } from "antd";
+import { message } from "antd";
 import Axios from "axios";
 import React, { useState } from "react";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { API_URL } from "../../components/Config";
 import DragNDrop from "../../components/views/Audio/Sections/DragNDrop";
@@ -9,7 +9,7 @@ import FileRead from "../../components/views/Audio/Sections/FileRead";
 import FileUpload from "../../components/views/Fileload/FileUpload";
 import LoadingPage from "../../components/views/Loading/LoadingPage";
 import NavBar from "../../components/views/NavBar/NavBar";
-import ProfessorBreadcrumb from "../../components/views/commons/ProfessorBreadcrumb";
+import SelfStudyBreadcrumb from "../../components/views/commons/SelfStudyBreadcrumb";
 
 const Startlanguage = [
   { value: "jp", label: "일본어" },
@@ -42,15 +42,11 @@ const SpeedOption = [
   { value: 2.0, label: "2배속" },
 ];
 
-function ProbAddPage() {
+function ProbSelfStudyAddPage() {
   let navigate = useNavigate();
-  const location = useLocation();
-  const params = new URLSearchParams(location.search);
-  const lectureNo = params.get("lecture_no");
+
   const [Title, setTitle] = useState(""); // 과제 제목
   const [Description, setDescription] = useState(""); // 과제 설명
-  const [CreateTime, setCreateTime] = useState(""); // 게시일
-  const [LimitTime, setLimitTime] = useState(""); // 마감일
   const [Startlanguagelist, setStartlanguagelist] = useState("jp"); // 출발언어
   const [Endlanguagelist, setEndlanguagelist] = useState("ko"); // 도착언어
   const [Assignmentlist, setAssignmentlist] = useState("순차통역"); // 타입 (번역, 순차, 동시)
@@ -63,8 +59,6 @@ function ProbAddPage() {
   const [Modregions, setModregions] = useState([]); // 수정에 필요한 구간
   const [ReferenceName, setReferenceName] = useState(""); // 참고자료 이름
   const [ReferenceFileURL, setReferenceFileURL] = useState(""); // 참고자료 URL
-  const [RecordCount, setRecordCount] = useState(0); // 녹음 횟수
-  const [isChecked, setisChecked] = useState(false); // 무제한 설정 시
   const [Keyword, setKeyword] = useState(""); // 키워드 설정
   const [Loading, setLoading] = useState(false); // 로딩
   const [fileList, setFileList] = useState(null); // 파일 리스트
@@ -77,16 +71,6 @@ function ProbAddPage() {
   // 과제 설명 설정
   const onDescriptionChange = (e) => {
     setDescription(e.currentTarget.value);
-  };
-
-  // 마감일 설정
-  const onLimitChange = (e) => {
-    setLimitTime(e.currentTarget.value);
-  };
-
-  // 게시일 설정
-  const onCreateTimeChange = (e) => {
-    setCreateTime(e.currentTarget.value);
   };
 
   // 시작 언어 설정
@@ -109,22 +93,6 @@ function ProbAddPage() {
     setSpeedlist(e.currentTarget.value);
   };
 
-  // 녹음 무제한 선택
-  const onRecordCheck = (e) => {
-    if (e.target.checked) {
-      setisChecked(true);
-      setRecordCount(2100000000);
-    } else {
-      setisChecked(false);
-      setRecordCount(0);
-    }
-  };
-
-  // 녹음 횟수 설정
-  const onRecordcountChange = (e) => {
-    setRecordCount(e.target.value);
-  };
-
   //키워드 설정
   const onKeywordChange = (e) => {
     setKeyword(e.target.value);
@@ -138,9 +106,6 @@ function ProbAddPage() {
     if (Description.length === 0) {
       return message.error("과제 설명을 적어주세요.");
     }
-    if (LimitTime.length === 0 || CreateTime.length === 0) {
-      return message.error("과제 기한을 정해주세요.");
-    }
 
     // 번역 과제가 아닐 때 추가적인 검증
     if (Assignmentlist !== "번역") {
@@ -152,9 +117,6 @@ function ProbAddPage() {
           "음원 파일이 존재하지 않습니다. 음원을 추가해주세요."
         );
       }
-      if (RecordCount <= 0) {
-        return message.error("과제 횟수를 1회 이상 설정해주세요.");
-      }
       if (Speedlist.length === 0) {
         return message.error("음원 속도를 설정해주세요.");
       }
@@ -165,20 +127,13 @@ function ProbAddPage() {
       }
     }
 
-    let finalRecordCount =
-      Assignmentlist === "번역" ? 1000000 : parseInt(RecordCount);
     let body = {
-      lecture_no: parseInt(lectureNo), //강의 번호
       as_name: Title, // 과제 제목
       as_type: Assignmentlist, // 과제 타입(순차, 동시, 번역)
-      assign_count: finalRecordCount, // 녹음 횟수
       description: Description, // 과제 설명
       file_name: ReferenceName, // 참고자료 이름
       file_path: ReferenceFileURL, // 참고자료 경로
       keyword: Keyword, // 키워드
-      keyword_open: 1, // 키워드 공개, 비공개
-      limit_time: LimitTime, // 마감일
-      open_time: CreateTime, // 게시일
       original_text: Txtread, // 원본
       prob_sound_path: Urlfile, // 음원 경로
       prob_split_region: regionsCopy, // 음원 구간
@@ -187,14 +142,14 @@ function ProbAddPage() {
       speed: Speedlist, // 음원 속도
     };
     setLoading(true);
-    Axios.post(`${API_URL}api/prob/handle`, body, {
+    Axios.post(`${API_URL}api/prob/self/handle`, body, {
       withCredentials: true,
     })
       .then((response) => {
         setLoading(false);
         if (response.data.isSuccess) {
           message.success("과제를 생성했습니다.");
-          navigate(`/prob/list/professor?lecture_no=${lectureNo}`);
+          navigate(`/prob/selfstudys`);
         } else {
           message.error("과제 생성에 실패했습니다. 다시 시도해주세요.");
           navigate("/");
@@ -209,12 +164,12 @@ function ProbAddPage() {
   return (
     <LectureBackgroudDiv>
       <NavBar />
-      <ProfessorBreadcrumb />
+      <SelfStudyBreadcrumb LectureName={"자습"} />
       <div style={{ display: "flex" }}>
         {Loading ? <LoadingPage /> : null}
         <LectureBackDiv>
           <Link
-            to={`/prob/list/professor?lecture_no=${lectureNo}`}
+            to={`/prob/selfstudys`}
             style={{
               textDecoration: "none",
               color: "inherit",
@@ -237,15 +192,15 @@ function ProbAddPage() {
             </svg>
           </Link>
         </LectureBackDiv>
-        <LectureTitleDiv>과제 생성하기</LectureTitleDiv>
+        <LectureTitleDiv>자습 생성하기</LectureTitleDiv>
       </div>
       <LectureAddFormDiv>
         <LectureNameDiv>
-          <LectureName>과제 명</LectureName>
+          <LectureName>자습 과제명</LectureName>
           <LectureNameinputDiv>
             <LectureNameinput
               type="text"
-              placeholder=" 과제명을 적어주세요"
+              placeholder="자습 과제명을 적어주세요"
               size="10"
               maxlength="8"
               value={Title}
@@ -255,7 +210,7 @@ function ProbAddPage() {
         </LectureNameDiv>
         <LectureHr />
         <LectureNameDiv>
-          <LectureName>과제 종류</LectureName>
+          <LectureName>자습 종류</LectureName>
           <LectureNameinputDiv style={{ marginTop: "10px" }}>
             <select
               id="countries"
@@ -305,28 +260,7 @@ function ProbAddPage() {
             </LectureNameDiv>
           </div>
         )}
-        <LectureHr />
-        <LectureNameDiv>
-          <LectureName>과제 게시일</LectureName>
-          <LectureNameinputDiv style={{ marginTop: "7px" }}>
-            <Purposeinput
-              type="datetime-local"
-              name="bday"
-              onChange={onCreateTimeChange}
-            />
-          </LectureNameinputDiv>
-        </LectureNameDiv>
-        <LectureHr />
-        <LectureNameDiv>
-          <LectureName>과제 마감일</LectureName>
-          <LectureNameinputDiv style={{ marginTop: "7px" }}>
-            <Purposeinput
-              type="datetime-local"
-              name="bday"
-              onChange={onLimitChange}
-            />
-          </LectureNameinputDiv>
-        </LectureNameDiv>
+
         {Assignmentlist !== "번역" && (
           <div>
             <LectureHr />
@@ -344,29 +278,6 @@ function ProbAddPage() {
                     </option>
                   ))}
                 </select>
-              </LectureNameinputDiv>
-            </LectureNameDiv>
-
-            <LectureHr />
-            <LectureNameDiv>
-              <LectureName>과제 횟수</LectureName>
-              <LectureNameinputDiv>
-                {isChecked === false && (
-                  <RecordCountInput
-                    type="number"
-                    placeholder=" 녹음 횟수를 적어주세요. 예). 1회시 -> 1"
-                    size="6"
-                    maxlength="4"
-                    value={RecordCount}
-                    onChange={onRecordcountChange}
-                  />
-                )}
-                <Checkbox
-                  style={isChecked ? { marginTop: "20px" } : {}}
-                  onChange={onRecordCheck}
-                >
-                  제한 없음
-                </Checkbox>
               </LectureNameinputDiv>
             </LectureNameDiv>
           </div>
@@ -405,7 +316,7 @@ function ProbAddPage() {
         )}
         <LectureHr />
         <LectureNameDiv>
-          <LectureName>과제 설명</LectureName>
+          <LectureName>자습 설명</LectureName>
           <LectureNameinputDiv>
             <ProbDescriptionTextarea
               type="text"
@@ -422,7 +333,7 @@ function ProbAddPage() {
         {Assignmentlist !== "번역" && (
           <div>
             <ProbMusicDiv>
-              <LectureName>과제 음원</LectureName>
+              <LectureName>자습 음원</LectureName>
               <LectureNameinputDiv>
                 <DragNDrop
                   Urlfile={Urlfile}
@@ -448,14 +359,14 @@ function ProbAddPage() {
       </LectureAddFormDiv>
       <LectureCreateDiv>
         <LectureCreateButton onClick={onSaveButton}>
-          생성하기
+          자습 생성하기
         </LectureCreateButton>
       </LectureCreateDiv>
     </LectureBackgroudDiv>
   );
 }
 
-export default ProbAddPage;
+export default ProbSelfStudyAddPage;
 
 const LectureBackgroudDiv = styled.div`
   background-color: #f7f7fa;

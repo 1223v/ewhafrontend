@@ -1,24 +1,33 @@
 import { Navigate, Route, Routes } from "react-router-dom";
 import Auth from "../hoc/auth";
+import SelfSeqInterpretationPage from "../pages/AudioRecordPage/SelfSeqInterpretationPage";
+import SelfSimInterpretationPage from "../pages/AudioRecordPage/SelfSimInterpretationPage";
+import SelfTranslationPage from "../pages/AudioRecordPage/SelfTranslationPage";
 import SeqInterpretationPage from "../pages/AudioRecordPage/SeqInterpretationPage";
 import SimInterpretationPage from "../pages/AudioRecordPage/SimInterpretationPage";
 import TranslationPage from "../pages/AudioRecordPage/TranslationPage";
 import ProfessorGraphPage from "../pages/GraphPage/ProfessorGraphPage";
+import SelfStudyGraphPage from "../pages/GraphPage/SelfStudyGraphPage";
 import StudentGraphPage from "../pages/GraphPage/StudentGraphPage";
+import LandingPage from "../pages/LandingPage/LandingPage";
 import LoginPage from "../pages/LoginPage/LoginPage";
 import ProbAddPage from "../pages/ProbAddPage/ProbAddPage";
 import ProbModPage from "../pages/ProbAddPage/ProbModPage";
+import ProbSelfStudyAddPage from "../pages/ProbAddPage/ProbSelfStudyAddPage";
+import ProbSelfStudyModPage from "../pages/ProbAddPage/ProbSelfStudyModPage";
 import ProbProfessorDetailPage from "../pages/ProbDetailPage/ProbProfessorDetailPage";
+import ProbSelfStudyDetailPage from "../pages/ProbDetailPage/ProbSelfStudyDetailPage";
 import ProbStudentDetailPage from "../pages/ProbDetailPage/ProbStudentDetailPage";
 import ProfessorProbFeedbackPage from "../pages/ProbFeedbackPage/ProfessorProbFeedbackPage";
+import SelfStudyProbFeedbackPage from "../pages/ProbFeedbackPage/SelfStudyProbFeedbackPage";
 import StudentProbFeedbackPage from "../pages/ProbFeedbackPage/StudentProbFeedbackPage";
-import ProbListProfessorPage from "../pages/ProbListPage/ProbListProfessorPage";
-import ProbListStudentPage from "../pages/ProbListPage/ProbListStudentPage";
+import ProbListProfessorPage from "../pages/ProbsPage/ProbListProfessorPage";
+import ProbListStudentPage from "../pages/ProbsPage/ProbListStudentPage";
+import ProbSelfStudysPage from "../pages/ProbsPage/ProbSelfStudysPage";
 import RegisterPage from "../pages/RegisterPage/RegisterPage";
 import Highlighter from "../pages/TestPage/Highlighter";
 import EmailAcessPage from "../pages/EmailAccessPage/EmailAccessPage"
 import "./App.css";
-import LandingPage from "./views/LandingPage/LandingPage";
 import LectureAddPage from "./views/LectureAddPage/LectureAddPage";
 import LectureModPage from "./views/LectureAddPage/LectureModPage";
 import FindPass from "../pages/FindPassPage/FindPassPage";
@@ -40,6 +49,15 @@ function App() {
   const NewSeqInterpretationPage = Auth(SeqInterpretationPage, true); // 순차통역 과제제출 페이지
   const NewSimInterpretationPage = Auth(SimInterpretationPage, true); // 동시통역 과제제출 페이지
   const NewTranslationPage = Auth(TranslationPage, true); // 번역 과제제출 페이지
+  const NewProbSelfStudyListPage = Auth(ProbSelfStudysPage, true); // 자습용 과제 페이지
+  const NewProbSelfStudyAddPage = Auth(ProbSelfStudyAddPage, true); // 자습용 과제 추가 페이지
+  const NewProbSelfStudyModPage = Auth(ProbSelfStudyModPage, true); // 자습용 과제 수정 페이지
+  const NewProbSelfStudyDetailPage = Auth(ProbSelfStudyDetailPage, true); // 자습용 과제 수정 페이지
+  const NewSelfSeqInterpretationPage = Auth(SelfSeqInterpretationPage, true); // 순차통역 과제제출 페이지
+  const NewSelfSimInterpretationPage = Auth(SelfSimInterpretationPage, true); // 동시통역 과제제출 페이지
+  const NewSelfTranslationPage = Auth(SelfTranslationPage, true); // 번역 과제제출 페이지
+  const NewSelfStudyProbFeedbackPage = Auth(SelfStudyProbFeedbackPage, true); // 자습용 과제 피드백 페이지
+  const NewSelfStudyGraphPage = Auth(SelfStudyGraphPage, true); // 자습용 과제 그래프 페이지
 
   // 1: 학생, 2: 조교, 3: 교수
   const NewProbListStudentPage = Auth(ProbListStudentPage, true, 1); // 학생 과제 리스트 페이지
@@ -95,6 +113,18 @@ function App() {
           element={<NewTranslationPage />}
         />
         <Route
+          path="/prob/submit/selfSeqInterpretation"
+          element={<NewSelfSeqInterpretationPage />}
+        />
+        <Route
+          path="/prob/submit/selfSimInterpretation"
+          element={<NewSelfSimInterpretationPage />}
+        />
+        <Route
+          path="/prob/submit/selfTranslation"
+          element={<NewSelfTranslationPage />}
+        />
+        <Route
           path="/prob/feedback/professor"
           element={<NewProfessorProbFeedbackPage />}
         />
@@ -102,10 +132,33 @@ function App() {
           path="/prob/feedback/student"
           element={<NewStudentProbFeedbackPage />}
         />
+
         <Route
           path="/prob/graph/professor"
           element={<NewProfessorGraphPage />}
         />
+        <Route path="/prob/selfstudys" element={<NewProbSelfStudyListPage />} />
+        <Route
+          path="/prob/selfstudys/detail"
+          element={<NewProbSelfStudyDetailPage />}
+        />
+        <Route
+          path="/prob/selfstudys/add"
+          element={<NewProbSelfStudyAddPage />}
+        />
+        <Route
+          path="/prob/selfstudys/mod"
+          element={<NewProbSelfStudyModPage />}
+        />
+        <Route
+          path="/prob/selfstudys/feedback"
+          element={<NewSelfStudyProbFeedbackPage />}
+        />
+        <Route
+          path="/prob/graph/selfstudy"
+          element={<NewSelfStudyGraphPage />}
+        />
+
         <Route path="/prob/graph/student" element={<NewStudentGraphPage />} />
         <Route path="/*" element={<Navigate to="/"></Navigate>}></Route>
         <Route path="/test" element={<NewTest />} />

@@ -7,14 +7,13 @@ import styled from "styled-components";
 import { API_URL } from "../../Config";
 import { fullyDecodeURI, fullyEncodeURI } from "./fullyEncodeURI";
 
-function FeedbackGridCard(props) {
+function SelfStudyFeedbackGridCard(props) {
   const timerId = useRef(null); // useRef를 사용하여 timerId 관리
   const myRef = useRef(null);
   const location = useLocation();
   let navigate = useNavigate();
   const params = new URLSearchParams(location.search);
   const asNo = params.get("as_no");
-  const userNo = params.get("user_no");
   const textSnippet = props.TextContent.substring(
     props.begin,
     props.end
@@ -31,7 +30,7 @@ function FeedbackGridCard(props) {
     { label: "grammar_error", value: "grammar_error" },
     { label: "pause", value: "pause" },
     { label: "filler", value: "filler" },
-    { label: "cancellation", value: "cancellation" },
+    { label: "canclellation", value: "canclellation" },
     { label: "others", value: "others" },
   ]); // 피드백 옵션
 
@@ -76,13 +75,9 @@ function FeedbackGridCard(props) {
       ae_denotations: updatefilteredItems,
       ae_attributes: ["Flag"],
     };
-    Axios.put(
-      `${API_URL}api/feedback/textae?as_no=${asNo}&user_no=${userNo}`,
-      body,
-      {
-        withCredentials: true,
-      }
-    )
+    Axios.put(`${API_URL}api/prob/self/textae?as_no=${asNo}`, body, {
+      withCredentials: true,
+    })
       .then((response) => {
         if (response.data.isSuccess) {
           message.success("저장 완료했습니다.");
@@ -176,13 +171,9 @@ function FeedbackGridCard(props) {
       ae_denotations: ["Flag"],
       ae_attributes: encodedAttributes,
     };
-    Axios.put(
-      `${API_URL}api/feedback/textae?as_no=${asNo}&user_no=${userNo}`,
-      body,
-      {
-        withCredentials: true,
-      }
-    )
+    Axios.put(`${API_URL}api/prob/self/textae?as_no=${asNo}`, body, {
+      withCredentials: true,
+    })
       .then((response) => {
         if (response.data.isSuccess) {
           message.success("저장 완료했습니다.");
@@ -277,7 +268,7 @@ function FeedbackGridCard(props) {
   );
 }
 
-export default FeedbackGridCard;
+export default SelfStudyFeedbackGridCard;
 
 const FeedbackTextDiv = styled.div`
   margin-right: 10px;

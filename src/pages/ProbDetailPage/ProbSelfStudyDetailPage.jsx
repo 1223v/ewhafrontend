@@ -1,30 +1,74 @@
 import { message } from "antd";
 import Axios from "axios";
 import React, { useEffect, useState } from "react";
-import { AiOutlineCheck, AiOutlineClose } from "react-icons/ai";
-import { useSelector } from "react-redux";
+import { FaRegEdit } from "react-icons/fa";
+import { MdDeleteOutline } from "react-icons/md";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { API_URL } from "../../components/Config";
 import FileDownload from "../../components/views/Fileload/FileDownload";
 import SubmitFileUpload from "../../components/views/Fileload/SubmitFileUpload";
 import NavBar from "../../components/views/NavBar/NavBar";
-import StudentBreadcrumb from "../../components/views/commons/StudentBreadcrumb";
-import Timeformat from "../../components/views/commons/Timeformat";
+import SelfStudyBreadcrumb from "../../components/views/commons/SelfStudyBreadcrumb";
 
-function ProbStudentDetailPage() {
+function ProbSelfStudyDetailPage() {
   let navigate = useNavigate();
   const location = useLocation();
   const params = new URLSearchParams(location.search);
-  const lectureNo = params.get("lecture_no");
   const asNo = params.get("as_no");
-
-  const userinfos = useSelector((state) => state.user);
-
   const [ProbInfo, setProbInfo] = useState([]);
-  const [ProbInfoOpenTime, setProbInfoOpenTime] = useState(""); //게시일 Getter Setter
-  const [ProbInfoCloseTime, setProbInfoCloseTime] = useState(""); //마감일 Getter Setter
   const [MusicFile, setMusicFile] = useState([]); //음원 파일
+  const [ProbStatus, setProbStatus] = useState(false); // 이벤트 발생시 상태를 저장하는 변수
+
+  useEffect(() => {
+    Axios.get(`${API_URL}api/prob/self/detail?as_no=${asNo}`, {
+      withCredentials: true,
+    })
+      .then((response) => {
+        if (response.data) {
+          setProbInfo(response.data);
+        } else {
+          message.error("다시 시도해주세요.");
+          navigate("/");
+        }
+      })
+      .catch((error) => {
+        // 요청이 실패한 경우의 처리
+        message.error("알 수 없는 에러가 발생했습니다.");
+        console.log(error);
+        navigate("/login");
+      });
+  }, [ProbStatus]);
+
+  const onProbCancelClick = () => {
+    if (
+      window.confirm(
+        "과제 제출을 취소하시겠습니까? 학생의 과제 결과가 모두 사라집니다. 학생이 처음부터 다시 과제를 해야 합니다."
+      )
+    ) {
+      let body = {
+        as_no: asNo,
+      };
+      Axios.post(`${API_URL}api/prob/self/cancel?as_no=${asNo}`, body, {
+        withCredentials: true,
+      })
+        .then((response) => {
+          // 요청이 성공한 경우의 처리
+          if (response.data) {
+            message.success("과제가 취소되었습니다.");
+            setProbStatus(!ProbStatus);
+          } else {
+            message.error("과제 취소에 실패했습니다. 다시 확인해주세요.");
+            navigate("/");
+          }
+        })
+        .catch((error) => {
+          // 요청이 실패한 경우의 처리
+          message.error("알 수 없는 에러가 발생했습니다.");
+          navigate("/login");
+        });
+    }
+  };
 
   const onLastSubmitClick = async () => {
     if (
@@ -38,11 +82,10 @@ function ProbStudentDetailPage() {
           let submitFile = {
             submitUUID: MusicFile,
             as_no: asNo,
-            lecture_no: lectureNo,
           };
 
           let response = await Axios.post(
-            `${API_URL}api/prob/submit`,
+            `${API_URL}api/prob/self/submit`,
             submitFile,
             {
               withCredentials: true,
@@ -50,22 +93,28 @@ function ProbStudentDetailPage() {
           );
 
           // 첫 번째 요청에 대한 응답을 처리할 로직 (예: 상태 업데이트 등)
+          if (response.data.isSuccess) {
+            message.success(response.data.message);
+          } else {
+            message.error(response.data.message);
+            navigate(`/prob/selfstudys`);
+          }
         }
 
         // 두 번째 요청 시작 (MusicFile의 길이와 상관없이 항상 실행)
         let body = {
           as_no: asNo,
         };
-        await Axios.put(`${API_URL}api/prob/end`, body, {
+        await Axios.put(`${API_URL}api/prob/self/end`, body, {
           withCredentials: true,
         }).then((response) => {
           // 두 번째 요청에 대한 응답을 처리할 로직
           if (response.data.isSuccess) {
             message.success(response.data.message);
-            navigate(`/prob/list/student?lecture_no=${lectureNo}`);
+            navigate(`/prob/selfstudys`);
           } else {
             message.error(response.data.message);
-            navigate(`/prob/list/student?lecture_no=${lectureNo}`);
+            navigate(`/prob/selfstudys`);
           }
         });
       } catch (error) {
@@ -75,48 +124,38 @@ function ProbStudentDetailPage() {
     }
   };
 
-  useEffect(() => {
-    Axios.get(`${API_URL}api/prob/detail?as_no=${asNo}`, {
-      withCredentials: true,
-    })
-      .then((response) => {
-        if (response.data) {
-          setProbInfo(response.data);
-          setProbInfoOpenTime(response.data.open_time);
-          setProbInfoCloseTime(response.data.limit_time);
-        } else {
-          message.error("다시 시도해주세요.");
-          navigate("/");
-        }
+  const onDeleteButton = () => {
+    if (window.confirm("삭제하시겠습니까?")) {
+      Axios.delete(`${API_URL}api/prob/self/handle?as_no=${asNo}`, {
+        withCredentials: true,
       })
-      .catch((error) => {
-        // 요청이 실패한 경우의 처리
-        message.error("알 수 없는 에러가 발생했습니다.");
-        navigate("/login");
-      });
-  }, []);
-
-  useEffect(() => {
-    console.log(MusicFile);
-  }, [MusicFile]);
-
+        .then((response) => {
+          // 요청이 성공한 경우의 처리
+          if (response.data.isSuccess) {
+            message.success("과제가 삭제되었습니다.");
+            navigate(`/prob/selfstudys`);
+          } else {
+            message.error("과제 삭제에 실패했습니다. 다시 확인해주세요.");
+            navigate("/");
+          }
+        })
+        .catch((error) => {
+          message.error("과제 삭제에 실패했습니다. 다시 확인해주세요.");
+          console.log(error);
+          navigate("/");
+        });
+    }
+  };
   return (
     <LectureBackgroudDiv>
       <NavBar />
-      <StudentBreadcrumb
-        LectureName={ProbInfo.lecture_name}
+      <SelfStudyBreadcrumb
+        LectureName={"자습"}
         AssignmentName={ProbInfo.as_name}
       />
       <div style={{ display: "flex" }}>
         <LectureBackDiv>
-          <Link
-            to={`/prob/list/student?lecture_no=${lectureNo}`}
-            style={{
-              textDecoration: "none",
-              color: "inherit",
-              margin: "9px",
-            }}
-          >
+          <StyledLink to={`/prob/selfstudys`}>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
@@ -131,90 +170,41 @@ function ProbStudentDetailPage() {
                 d="M19.5 12h-15m0 0l6.75 6.75M4.5 12l6.75-6.75"
               />
             </svg>
-          </Link>
+          </StyledLink>
         </LectureBackDiv>
-        <LectureTitleDiv>
-          {ProbInfo.as_name} 과제 상세(강의명 : {ProbInfo.lecture_name})
-        </LectureTitleDiv>
+
+        <LectureTitleDiv>{ProbInfo.as_name} 과제 상세</LectureTitleDiv>
+        <LectureGroupDiv>
+          <FeedbackBtnDiv>
+            <FeedbackLink to={`/prob/selfstudys/mod?as_no=${asNo}`}>
+              <FaRegEdit size={28} />
+            </FeedbackLink>
+          </FeedbackBtnDiv>
+          <FeedbackBtnDiv onClick={onDeleteButton}>
+            <MdDeleteOutline size={30} />
+          </FeedbackBtnDiv>
+        </LectureGroupDiv>
       </div>
       <LectureAddFormDiv>
         <LectureNameDiv>
           <LectureName>제 목</LectureName>
           <LectureNameinputDiv>{ProbInfo.as_name}</LectureNameinputDiv>
         </LectureNameDiv>
-        <hr style={{ background: "#d3d3d3", height: "1px", border: "0" }} />
+        <LectureHr />
         <LectureNameDiv>
           <LectureName>과제 종류</LectureName>
           <LectureNameinputDiv>{ProbInfo.as_type}</LectureNameinputDiv>
         </LectureNameDiv>
-        <hr style={{ background: "#d3d3d3", height: "1px", border: "0" }} />
-        <LectureNameDiv>
-          <LectureName>게시일</LectureName>
-          <LectureNameinputDiv>
-            <Timeformat dateString={ProbInfoOpenTime} />
-          </LectureNameinputDiv>
-        </LectureNameDiv>
-        <hr style={{ background: "#d3d3d3", height: "1px", border: "0" }} />
-        <LectureNameDiv>
-          <LectureName>마감일</LectureName>
-          <LectureNameinputDiv>
-            <Timeformat dateString={ProbInfoCloseTime} />
-          </LectureNameinputDiv>
-        </LectureNameDiv>
-        {userinfos?.userData?.role === 1 && (
-          <div>
-            {ProbInfo.as_type !== "번역" && (
-              <div>
-                <hr
-                  style={{ background: "#d3d3d3", height: "1px", border: "0" }}
-                />
-                <LectureNameDiv>
-                  <LectureName>녹음 횟수</LectureName>
-                  <LectureNameinputDiv>
-                    {ProbInfo.my_count === null ? 0 : ProbInfo.my_count} /{" "}
-                    {ProbInfo.assign_count < 1000000
-                      ? ProbInfo.assign_count + ProbInfo.chance_count
-                      : "무제한"}
-                  </LectureNameinputDiv>
-                </LectureNameDiv>
-              </div>
-            )}
-            <hr style={{ background: "#d3d3d3", height: "1px", border: "0" }} />
-            <LectureNameDiv>
-              <LectureName>최종제출 확인</LectureName>
-              <LectureNameinputDiv>
-                {ProbInfo.end_submission ? (
-                  <AiOutlineCheck size="18" style={{ color: "green" }} />
-                ) : (
-                  <AiOutlineClose size="18" style={{ color: "red" }} />
-                )}
-              </LectureNameinputDiv>
-            </LectureNameDiv>
-            {ProbInfo.end_submission === 1 && (
-              <div>
-                <hr
-                  style={{ background: "#d3d3d3", height: "1px", border: "0" }}
-                />
-                <LectureNameDiv>
-                  <LectureName>평가 완료</LectureName>
-                  <LectureNameinputDiv>
-                    {ProbInfo.feedback ? "평가 완료" : "평가 중"}
-                  </LectureNameinputDiv>
-                </LectureNameDiv>
-              </div>
-            )}
-          </div>
-        )}
         {ProbInfo.as_type !== "번역" && (
           <div>
-            <hr style={{ background: "#d3d3d3", height: "1px", border: "0" }} />
+            <LectureHr />
             <LectureNameDiv>
               <LectureName>키워드</LectureName>
               <LectureDescriptionDiv>{ProbInfo.keyword}</LectureDescriptionDiv>
             </LectureNameDiv>
           </div>
         )}
-        <hr style={{ background: "#d3d3d3", height: "1px", border: "0" }} />
+        <LectureHr />
         <LectureNameDiv>
           <LectureName>첨부 파일</LectureName>
           <LectureNameinputDiv>
@@ -228,15 +218,14 @@ function ProbStudentDetailPage() {
             )}
           </LectureNameinputDiv>
         </LectureNameDiv>
-
-        <hr style={{ background: "#d3d3d3", height: "1px", border: "0" }} />
+        <LectureHr />
         <LectureNameDiv>
           <LectureName>과제 설명</LectureName>
           <LectureDescriptionDiv>{ProbInfo.detail}</LectureDescriptionDiv>
         </LectureNameDiv>
         {ProbInfo.end_submission === false && ProbInfo.as_type !== "번역" && (
           <div>
-            <hr style={{ background: "#d3d3d3", height: "1px", border: "0" }} />
+            <LectureHr />
             <ProbMusicDiv>
               <LectureName>음원 제출</LectureName>
               <LectureNameinputDiv>
@@ -248,25 +237,18 @@ function ProbStudentDetailPage() {
             </ProbMusicDiv>
           </div>
         )}
-        <hr style={{ background: "#d3d3d3", height: "1px", border: "0" }} />
-        <LectureNameDiv>
-          <LectureName>내 과제 확인</LectureName>
-          <LectureNameinputDiv>
-            {ProbInfo.file ? (
-              <FileDownload
-                DownloadUrl={ProbInfo.file}
-                FileName={ProbInfo.file}
-              />
-            ) : (
-              "첨부파일이 없습니다."
-            )}
-          </LectureNameinputDiv>
-        </LectureNameDiv>
       </LectureAddFormDiv>
 
       <BtnDiv>
         <FeedbackBtnDiv>
-          {ProbInfo.end_submission === false && (
+          {ProbInfo.end_submission ? (
+            <button
+              className="bg-transparent hover:bg-gray-100 hover:bg-opacity-50 text-red-700 font-semibold py-2 px-4 border border-red-500 rounded m-2"
+              onClick={onProbCancelClick}
+            >
+              최종 제출 취소
+            </button>
+          ) : (
             <button
               className="bg-transparent hover:bg-gray-100 hover:bg-opacity-50 text-blue-700 font-semibold py-2 px-4 border border-blue-500 rounded m-2"
               onClick={onLastSubmitClick}
@@ -275,13 +257,13 @@ function ProbStudentDetailPage() {
             </button>
           )}
         </FeedbackBtnDiv>
-        <TestBtnDiv>
+        <ProbBtnDiv>
           {ProbInfo.end_submission === false ? (
             <div>
               {ProbInfo.as_type === "순차통역" ? (
                 <StyledLink
                   className="text-green-500 hover:text-green-700"
-                  to={`/prob/submit/seqInterpretation?lecture_no=${lectureNo}&as_no=${asNo}&user_no=${userinfos?.userData?.user_no}`}
+                  to={`/prob/submit/selfSeqInterpretation?as_no=${asNo}`}
                 >
                   <button className="bg-transparent hover:bg-gray-100 hover:bg-opacity-50 text-green-700 font-semibold py-2 px-4 border border-green-500 rounded m-2">
                     과제하기
@@ -290,7 +272,7 @@ function ProbStudentDetailPage() {
               ) : ProbInfo.as_type === "동시통역" ? (
                 <StyledLink
                   className="text-green-500 hover:text-green-700"
-                  to={`/prob/submit/simInterpretation?lecture_no=${lectureNo}&as_no=${asNo}&user_no=${userinfos?.userData?.user_no}`}
+                  to={`/prob/submit/selfSimInterpretation?as_no=${asNo}`}
                 >
                   <button className="bg-transparent hover:bg-gray-100 hover:bg-opacity-50 text-green-700 font-semibold py-2 px-4 border border-green-500 rounded m-2">
                     과제하기
@@ -299,7 +281,7 @@ function ProbStudentDetailPage() {
               ) : ProbInfo.as_type === "번역" ? (
                 <StyledLink
                   className="text-green-500 hover:text-green-700"
-                  to={`/prob/submit/translation?lecture_no=${lectureNo}&as_no=${asNo}&user_no=${userinfos?.userData?.user_no}`}
+                  to={`/prob/submit/selfTranslation?as_no=${asNo}`}
                 >
                   <button className="bg-transparent hover:bg-gray-100 hover:bg-opacity-50 text-green-700 font-semibold py-2 px-4 border border-green-500 rounded m-2">
                     과제하기
@@ -307,39 +289,39 @@ function ProbStudentDetailPage() {
                 </StyledLink>
               ) : null}
             </div>
-          ) : ProbInfo.feedback === true ? (
-            <StyledLink
+          ) : (
+            <Link
               className="text-green-500 hover:text-green-700"
-              to={`/prob/feedback/student?as_no=${asNo}&lecture_no=${lectureNo}&user_no=${userinfos?.userData?.user_no}`}
+              to={`/prob/selfstudys/feedback?as_no=${asNo}`}
             >
               <button className="bg-transparent hover:bg-gray-100 hover:bg-opacity-50 text-green-700 font-semibold py-2 px-4 border border-green-500 rounded m-2">
                 피드백 확인
               </button>
-            </StyledLink>
-          ) : (
-            /*<StyledLink
-              className="text-green-500 hover:text-green-700"
-              to={`/prob/check/student?as_no=${asNo}&lecture_no=${lectureNo}&user_no=${userinfos?.userData?.user_no}`}
-            >
-              <button className="bg-transparent hover:bg-gray-100 hover:bg-opacity-50 text-green-700 font-semibold py-2 px-4 border border-green-500 rounded m-2">
-                과제 확인하기
-              </button>
-            </StyledLink>
-            */
-            <div>평가중입니다.</div>
+            </Link>
           )}
-        </TestBtnDiv>
+        </ProbBtnDiv>
       </BtnDiv>
     </LectureBackgroudDiv>
   );
 }
 
-export default ProbStudentDetailPage;
+export default ProbSelfStudyDetailPage;
+
+const LectureHr = styled.hr`
+  background: #d3d3d3;
+  height: 1px;
+  border: 0;
+`;
 
 const LectureBackgroudDiv = styled.div`
   background-color: #f7f7fa;
   width: 100%;
   height: 100%;
+`;
+
+const LectureGroupDiv = styled.div`
+  display: flex;
+  margin-left: 30px;
 `;
 
 const LectureAddFormDiv = styled.div`
@@ -355,23 +337,13 @@ const LectureAddFormDiv = styled.div`
   }
 `;
 
-const ProbMusicDiv = styled.div`
-  font-size: 14px;
-  line-height: 1.5;
-  color: #525364;
-  width: 95%;
-  @import url("https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;400&display=swap");
-  font-family: "Noto Sans KR", sans-serif;
-  margin: 17px;
-  @media screen and (max-width: 830px) {
-    margin: 11px;
-  }
+const FeedbackBtnDiv = styled.div`
+  margin-top: 20px;
 `;
 
-const FeedbackBtnDiv = styled.div``;
-
-const TestBtnDiv = styled.div``;
-
+const ProbBtnDiv = styled.div`
+  margin-top: 20px;
+`;
 const BtnDiv = styled.div`
   display: flex;
   justify-content: space-between;
@@ -387,7 +359,7 @@ const BtnDiv = styled.div`
 
 const LectureTitleDiv = styled.div`
   font-size: 1.1rem;
-  line-height: 1.5;
+  line-height: 2;
   color: #2b2d36;
   font-weight: 700;
   @import url("https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;400&display=swap");
@@ -440,7 +412,27 @@ const LectureName = styled.div`
   min-width: 80px;
 `;
 
+const ProbMusicDiv = styled.div`
+  font-size: 14px;
+  line-height: 1.5;
+  color: #525364;
+  width: 95%;
+  @import url("https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;400&display=swap");
+  font-family: "Noto Sans KR", sans-serif;
+  margin: 17px;
+  @media screen and (max-width: 830px) {
+    margin: 11px;
+  }
+`;
+
 const StyledLink = styled(Link)`
+  text-decoration: none;
+  color: #333;
+  color: inherit;
+  margin: 9px;
+`;
+
+const FeedbackLink = styled(Link)`
   text-decoration: none;
   color: #333;
   color: inherit;

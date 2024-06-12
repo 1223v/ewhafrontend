@@ -1,5 +1,5 @@
 import { RedoOutlined } from "@ant-design/icons";
-import { FloatButton, Select, message } from "antd";
+import { FloatButton, message } from "antd";
 import Axios from "axios";
 import React, { useEffect, useState } from "react";
 import ReactApexChart from "react-apexcharts";
@@ -10,26 +10,16 @@ import { API_URL } from "../../components/Config";
 import NavBar from "../../components/views/NavBar/NavBar";
 import useGraphReload from "../../hooks/useGraphReload";
 
-function ProfessorGraphPage() {
+function SelfStudyGraphPage() {
   const location = useLocation();
   let navigate = useNavigate();
   const params = new URLSearchParams(location.search);
-  const lectureNo = params.get("lecture_no");
   const asNo = params.get("as_no");
-  const userNo = params.get("user_no");
-  const updateApiUrl = `${API_URL}api/feedback/graph/update?as_no=${asNo}&student_no=${userNo}`;
-  const navigateUrl = `/prob/feedback/professor?lecture_no=${lectureNo}&as_no=${asNo}`;
+  const updateApiUrl = `${API_URL}api/prob/self/graph/update?as_no=${asNo}`;
+  const navigateUrl = `/prob/selfstudys/feedback?as_no=${asNo}`;
 
-  const [DeliveryList, setDeliveryList] = useState([]); // 전달력 리스트
-  const [AccuracyList, setAccuracyList] = useState([]); // 내용 피드백 결과 리스트
-  const [DeliveryAvgs, setDeliveryAvgs] = useState([]); // 전달력 평균 리스트
-  const [AccuracyAvgs, setAccuracyAvgs] = useState([]); // 내용 피드백 결과 평균 리스트
-  const [DeliveryAvgsDetail, setDeliveryAvgsDetail] = useState([]); // 전달력 평균 디테일 리스트
-  const [AccuracyAvgsDetail, setAccuracyAvgsDetail] = useState([]); // 내용 피드백 결과 평균 디테일 리스트
   const [DeliveryDetailList, setDeliveryDetailList] = useState([]); // 전달력 디테일 리스트
   const [AccuracyDetailList, setAccuracyDetailList] = useState([]); // 내용 피드백 결과 디테일 리스트
-  const [DeliveryDetail, setDeliveryDetail] = useState([]); // 전달력 디테일
-  const [AccuracyDetail, setAccuracyDetail] = useState([]); // 내용 피드백 결과 디테일
   const [AssignType, setAssignType] = useState(""); // 과제 타입
 
   const { ReloadCheck, reloadGraph } = useGraphReload(
@@ -37,81 +27,6 @@ function ProfessorGraphPage() {
     navigateUrl,
     false
   );
-
-  const options = {
-    chart: {
-      height: 350,
-      type: "radar",
-      dropShadow: {
-        enabled: true,
-        blur: 1,
-        left: 1,
-        top: 1,
-      },
-    },
-    title: {
-      text: "전달력 결과",
-    },
-    stroke: {
-      width: 2,
-    },
-    fill: {
-      opacity: 0.1,
-    },
-    markers: {
-      size: 0,
-    },
-    xaxis: {
-      categories: [
-        "침묵(pause)",
-        "필러(filler)",
-        "백트레킹(backtracking)",
-        "기타",
-      ],
-    },
-  };
-
-  const options2 = {
-    chart: {
-      height: 350,
-      type: "radar",
-      dropShadow: {
-        enabled: true,
-        blur: 1,
-        left: 1,
-        top: 1,
-      },
-    },
-    title: {
-      text: "내용 피드백 결과",
-    },
-    stroke: {
-      width: 2,
-    },
-    fill: {
-      opacity: 0.1,
-    },
-    markers: {
-      size: 0,
-    },
-    xaxis: {
-      categories: [
-        "오역(translation_error)",
-        "누락(omission)",
-        "표현(expression)",
-        "억양(intonation)",
-        "문법오류(grammar_error)",
-        "기타",
-      ],
-    },
-    yaxis: {
-      labels: {
-        formatter: (value) => {
-          return Math.floor(value);
-        },
-      },
-    },
-  };
 
   const options3 = {
     chart: {
@@ -191,50 +106,21 @@ function ProfessorGraphPage() {
     },
   };
 
-  const onStudentChange = (value) => {
-    setDeliveryDetail(
-      DeliveryDetailList.filter((item) => item.name === value).map(
-        (item) => item.data
-      )[0]
-    );
-    setAccuracyDetail(
-      AccuracyDetailList.filter((item) => item.name === value).map(
-        (item) => item.data
-      )[0]
-    );
-    setDeliveryAvgsDetail(
-      DeliveryAvgs.filter((item) => item.name === value).map(
-        (item) => item.data
-      )[0]
-    );
-    setAccuracyAvgsDetail(
-      AccuracyAvgs.filter((item) => item.name === value).map(
-        (item) => item.data
-      )[0]
-    );
-  };
-
   useEffect(() => {
-    Axios.get(`${API_URL}api/feedback/professor/graph?as_no=${asNo}`, {
+    Axios.get(`${API_URL}api/prob/self/graph?as_no=${asNo}`, {
       withCredentials: true,
     })
       .then((response) => {
         if (response.data.isSuccess) {
           // 요청이 성공한 경우의 처리
 
-          setDeliveryList(response.data.Delivery);
-          setAccuracyList(response.data.Accuracy);
-          setDeliveryDetailList(response.data.DeliveryDetail);
-          setAccuracyDetailList(response.data.AccuracyDetail);
+          setDeliveryDetailList(response.data.DeliveryDetail[0]?.data);
+          setAccuracyDetailList(response.data.AccuracyDetail[0]?.data);
           setAssignType(response.data.as_type);
-          setDeliveryAvgs(response.data.DeliveryAvg);
-          setAccuracyAvgs(response.data.AccuracyAvg);
         } else {
           message.error(response.data.message);
 
-          navigate(
-            `/prob/feedback/professor?lecture_no=${lectureNo}&as_no=${asNo}`
-          );
+          navigate(navigateUrl);
         }
       })
 
@@ -261,10 +147,7 @@ function ProfessorGraphPage() {
       />
       <div style={{ display: "flex" }}>
         <LectureBackDiv>
-          <Link
-            to={`/prob/feedback/professor?as_no=${asNo}&lecture_no=${lectureNo}&user_no=${userNo}`}
-            style={{ color: "black", padding: "7px" }}
-          >
+          <Link to={navigateUrl} style={{ color: "black", padding: "7px" }}>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
@@ -288,42 +171,8 @@ function ProfessorGraphPage() {
           {AssignType !== "번역" && (
             <ChartInDiv>
               <ReactApexChart
-                options={options}
-                series={DeliveryList}
-                type="radar"
-              />
-            </ChartInDiv>
-          )}
-          <ChartInDiv>
-            <ReactApexChart
-              options={options2}
-              series={AccuracyList}
-              type="radar"
-            />
-          </ChartInDiv>
-        </StyledButtonWrapper>
-        <SelectUserDiv>
-          <Name>확인하고자 하는 학생을 선택해주세요.</Name>
-          <NameinputDiv>
-            <Select
-              placeholder="학생 선택"
-              style={{
-                width: 120,
-              }}
-              onChange={onStudentChange}
-              options={DeliveryDetailList.map((item) => ({
-                value: item.name,
-                label: item.name,
-              }))}
-            />
-          </NameinputDiv>
-        </SelectUserDiv>
-        <StyledButtonWrapper>
-          {AssignType !== "번역" && (
-            <ChartInDiv>
-              <ReactApexChart
                 options={options3}
-                series={DeliveryAvgsDetail}
+                series={DeliveryDetailList}
                 type="bar"
               />
             </ChartInDiv>
@@ -331,25 +180,7 @@ function ProfessorGraphPage() {
           <ChartInDiv>
             <ReactApexChart
               options={options4}
-              series={AccuracyAvgsDetail}
-              type="bar"
-            />
-          </ChartInDiv>
-        </StyledButtonWrapper>
-        <StyledButtonWrapper>
-          {AssignType !== "번역" && (
-            <ChartInDiv>
-              <ReactApexChart
-                options={options3}
-                series={DeliveryDetail}
-                type="bar"
-              />
-            </ChartInDiv>
-          )}
-          <ChartInDiv>
-            <ReactApexChart
-              options={options4}
-              series={AccuracyDetail}
+              series={AccuracyDetailList}
               type="bar"
             />
           </ChartInDiv>
@@ -359,7 +190,7 @@ function ProfessorGraphPage() {
   );
 }
 
-export default ProfessorGraphPage;
+export default SelfStudyGraphPage;
 
 const ChartInDiv = styled.div`
   border-bottom: 3px solid #00aaff;

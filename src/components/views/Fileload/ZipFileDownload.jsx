@@ -20,7 +20,6 @@ function ZipFileDownload(props) {
         if (response.data.isSuccess) {
           handleDownload(response.data.url, response.data.file_name);
         }
-        console.log(response.data);
       })
       .catch((error) => {
         message.error("DownloadUrl을 가져오는 데 실패했습니다.");
@@ -35,8 +34,6 @@ function ZipFileDownload(props) {
       responseType: "blob", // 파일 다운로드를 위해 responseType을 'blob'으로 설정
     })
       .then((response) => {
-        console.log(response.data);
-
         // 파일 데이터를 Blob 형식으로 받아옵니다.
         const blob = new Blob([response.data], {
           type: response.headers["content-type"],
@@ -63,8 +60,6 @@ function ZipFileDownload(props) {
       responseType: "blob", // 파일 다운로드를 위해 responseType을 'blob'으로 설정
     })
       .then((response) => {
-        console.log(response.data);
-
         // 파일 데이터를 Blob 형식으로 받아옵니다.
         const blob = new Blob([response.data], {
           type: response.headers["content-type"],

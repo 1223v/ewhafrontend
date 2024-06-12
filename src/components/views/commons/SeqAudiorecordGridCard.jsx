@@ -19,7 +19,6 @@ function SeqAudiorecordGridcard(props) {
     if (props.WaveSuferLoading) {
       props.setLoading(false);
       props.setPlaymusic(!props.Playmusic);
-      console.log(props.Wavaudio);
 
       props.setWaveSuferLoading(false);
     }

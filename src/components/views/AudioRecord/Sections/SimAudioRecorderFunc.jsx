@@ -12,7 +12,6 @@ import RecordButton from "./RecordButton";
 export default function SimAudioRecorderFunc(props) {
   const location = useLocation();
   const params = new URLSearchParams(location.search);
-  const lectureNo = params.get("lecture_no");
   const asNo = params.get("as_no");
   const { audioURL, setAudioURL, setAudioExtension } = useContext(MainContext);
   const [status, setStatus] = useState("");
