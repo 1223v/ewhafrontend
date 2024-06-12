@@ -1,6 +1,7 @@
 import Axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
+import { IMAGES } from "../../../constants/image";
 import { API_URL } from "../../Config";
 import "./NavBar.css";
 
@@ -52,8 +53,8 @@ function NavBar() {
         <div className="navbar__logo">
           <Link to="/">
             <img
-              src="https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2FbrdCGZ%2FbtssUHrof3e%2F3xVEEtMcV1EMBqvSWEnNk0%2Fimg.png"
-              style={{ height: "55px", marginTop: "5px" }}
+              src={IMAGES.logo}
+              style={{ height: "33px", marginTop: "5px" }}
               alt="ewha_logo"
             />
           </Link>
