@@ -13,8 +13,8 @@ function RegisterPage() {
     const [Name, setName] = useState("");
     const [Password, setPassword] = useState("");
     const [ConfirmPassword, setConfirmPassword] = useState("");
-    const [Major, setMajor] = useState("");
-    const [Role, setRole] = useState("");
+    const [Major, setMajor] = useState("한일번역");
+    const [Role, setRole] = useState("교수");
     const [Isactive, setIsactive] = useState(true);
     const [Passactive, setPassactive] = useState(true);
     const [Emailactive, setEmailactive] = useState(true);
@@ -84,7 +84,7 @@ function RegisterPage() {
             if (response.payload.registerSuccess) {
                 alert(response.payload.msg);
 
-                Axios.post("edu-trans.ewha.ac.kr:8443/email", dataToSubmit, {
+                Axios.post("/api/user/email", dataToSubmit, {
                     withCredentials: true,
                 }).then((secondresponse) => {
                     if (secondresponse.data.emailcheckSuccess) {
