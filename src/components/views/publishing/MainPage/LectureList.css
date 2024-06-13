@@ -57,6 +57,10 @@
   gap: 1vw;
 }
 
+.lectureTag.big {
+  padding: var(--padding-width-sm) var(--margin-size-sm);
+}
+
 .lectureTag.gr {
   background-color: rgba(5, 66, 43, 0.1);
   color: rgba(5, 66, 43, 0.7);
@@ -120,6 +124,13 @@
   min-width: 60px;
 }
 
+@media screen and (max-width: 880px) {
+  .lectureFilterSelect {
+    width: 100%;
+    min-width: auto;
+  }
+}
+
 .lectureFilterSelect__button {
   display: flex;
   align-items: center;
@@ -173,6 +184,7 @@
   transform: translateY(-10px);
   transition: opacity 0.3s ease, transform 0.3s ease;
   pointer-events: none;
+  z-index: 1001;
 }
 
 .lectureFilterSelect-box.active {
@@ -217,9 +229,15 @@
 }
 
 .lectureFilterList-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--padding-height-sm);
+  cursor: pointer;
+}
+.lectureFilterList-btn > span {
   color: var(--text-color);
   font-weight: 700;
-  cursor: pointer;
 }
 
 /* LectureFilterSearch */
@@ -304,11 +322,12 @@
   box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.05);
   cursor: pointer;
   padding: var(--font-size-md);
-  transition: transform 0.3s ease;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .lectureCard:hover {
   transform: translateY(-5px);
+  box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.15);
 }
 
 .lectureCard_name {

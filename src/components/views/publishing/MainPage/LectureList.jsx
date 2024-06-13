@@ -3,8 +3,11 @@ import { useNavigate } from "react-router-dom";
 import { MAIN } from "../../../../constants/text";
 import useFilteredLectures from "../../../../hooks/useFilteredLectures";
 import useLectures from "../../../../hooks/useLectures";
+import { usePagenation } from "../../../../hooks/usePagenation";
 import useTransformLectureData from "../../../../hooks/useTransformLectureData";
 import LoadingPage from "../../Loading/LoadingPage";
+import NavBar from "../../NavBar/NavBar";
+import { Paging } from "../../Paging";
 import { LectureBtn } from "./LectureBtn";
 import LectureCardWrapper from "./LectureCardWrapper";
 import LectureFilter from "./LectureFilter";
@@ -23,29 +26,46 @@ export function LectureList() {
   );
   const { semesters, separateds } = useTransformLectureData(lectures);
 
+  const { pageNumbers, currentPage, setCurrentPage, calculatePageNumbers } = usePagenation(lectures.length);
+
   useEffect(() => {
     if (error) {
       navigate("/login");
     }
   }, [error, navigate]);
 
+  useEffect(() => {
+    calculatePageNumbers(filteredLectures.length);
+    setCurrentPage(1);
+  }, [filteredLectures])
+
   return (
-    <section id="lectureList">
-      <div className="lectureList__header">
-        <h2>{MAIN.TITLE}</h2>
-        <LectureBtn />
-      </div>
-      <LectureFilter
-        semesters={semesters}
-        separateds={separateds}
-        setSearchTerm={setSearchTerm}
-        setSelectedTags={setSelectedTags}
-      />
-      {loading ? (
-        <LoadingPage />
-      ) : (
-        <LectureCardWrapper lectures={filteredLectures} />
-      )}
-    </section>
+    <>
+      <NavBar />
+      <section id="lectureList">
+        <div className="lectureList__header">
+          <h2>{MAIN.TITLE}</h2>
+          <LectureBtn />
+        </div>
+        <LectureFilter
+          semesters={semesters}
+          separateds={separateds}
+          setSearchTerm={setSearchTerm}
+          setSelectedTags={setSelectedTags}
+        />
+        {loading ? (
+          <LoadingPage />
+        ) : (
+          <>
+            <LectureCardWrapper lectures={filteredLectures} currentPage={currentPage} />
+            <Paging 
+              numbers={pageNumbers}
+              currentPage={currentPage}
+              setCurrentPage={setCurrentPage}
+            />
+          </>
+        )}
+      </section>
+    </>
   );
 }

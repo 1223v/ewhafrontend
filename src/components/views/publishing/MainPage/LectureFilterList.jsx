@@ -1,11 +1,11 @@
 import classNames from "classnames";
 import React from "react";
+import { HiArrowPath } from "react-icons/hi2";
 import { MAIN } from "../../../../constants/text";
 import LectureTag from "./LectureTag";
 
 // 메인페이지 - 선택한 태그 리스트
 function LectureFilterList({ tags, onRemove, onClear }) {
-  console.log(tags);
   return (
     <div className="lectureFilterList">
       {tags?.map((item, index) => (
@@ -19,7 +19,8 @@ function LectureFilterList({ tags, onRemove, onClear }) {
       ))}
       {tags?.length > 0 && (
         <span className="lectureFilterList-btn" onClick={onClear}>
-          {MAIN.BTN.reset}
+          <HiArrowPath />
+          <span>{MAIN.BTN.reset}</span>
         </span>
       )}
     </div>
