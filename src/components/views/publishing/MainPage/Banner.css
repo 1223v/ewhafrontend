@@ -1,0 +1,35 @@
+/* Banner */
+
+.banner {
+  /* width: 100vw; */
+  max-width: 2000px;
+  max-height: 584px;
+  height: 584px;
+  background-image: url('../../../../assets/images/banner_pc.jpg');
+  background-size: cover;
+  background-position: center; 
+  background-repeat: no-repeat; 
+
+  display: flex;
+  align-items: center;
+  overflow-y: hidden;
+  margin: 0 auto;
+}
+
+@media screen and (max-width: 880px) {
+  .banner {
+    background-image: url('../../../../assets/images/banner_mobile.jpg');
+    background-position: top;
+    height: 500px;
+  }
+}
+
+/* 
+.banner >  img {
+  width: 100vw;
+  max-width: 2000px;
+  max-height: 584px;
+  overflow-y: hidden;
+  margin: 0 auto;
+  object-fit: cover;
+} */
