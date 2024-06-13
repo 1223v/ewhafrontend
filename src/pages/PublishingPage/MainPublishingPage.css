@@ -1,0 +1,13 @@
+#mainWapper {
+  width: 100%;
+  /* max-width: 1620px; */
+  margin: 0 auto;
+  background-color: var(--background-color);
+  font-size: 16px;
+}
+
+@media screen and (max-width: 830px) {
+  #mainWapper {
+    font-size: 12px;
+  }
+}
