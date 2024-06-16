@@ -2,6 +2,7 @@ import React from "react";
 import ReactApexChart from "react-apexcharts";
 import theme from "../../../../style/theme/theme";
 
+import classNames from "classnames";
 import dayjs from "dayjs";
 import { useNavigate } from "react-router-dom";
 import { IMAGES } from "../../../../constants/image";
@@ -9,6 +10,7 @@ import "./Schedule.css";
 
 // 메인페이지 - 일자별 일정 박스
 function ScheduleDateBox({
+  isLast,
   asId,
   lectureId,
   name,
@@ -66,10 +68,12 @@ function ScheduleDateBox({
   return (
     <div className="scheduleDateBox" onClick={() => navigate(`/prob/detail/professor?as_no=${asId}&lecture_no=${lectureId}`)}>
       <div className="scheduleDateBox-box">
-        {/* <div className="scheduleDateBox-box__line">
-          <span className="scheduleDateBox__line__circle"></span>
-          <p className="scheduleDateBox__line"></p>
-        </div> */}
+        <div className="scheduleDateBox-box__line">
+          <span className="scheduleDateBox__line__circle__item"></span>
+          {/* <div className="scheduleDateBox__line__circle">
+          </div> */}
+          <p className={classNames("scheduleDateBox__line", { 'last': isLast })}></p>
+        </div>
         <div className="scheduleDateBox-info">
           <span className="scheduleDateBox-info__date">
             <img src={IMAGES.calendar} alt="calendar"/>

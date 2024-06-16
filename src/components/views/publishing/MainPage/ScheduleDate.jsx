@@ -12,25 +12,24 @@ function ScheduleDate({
     <div className='scheduleDate'>
       <span className='scheduleDate__day'>{dayjs(value).format("YYYY.MM.DD")}</span>
       <div className='scheduleDate__wrapper'>
-        <div className="scheduleDateBox-box__line">
+        {/* <div className="scheduleDateBox-box__line">
           {schedules?.length > 0 && (
             <>
             <div className='scheduleDateBox-box__line__circle'>
-              {/* {[...2].map((i) => (
-              ))} */}
               <span className={`scheduleDateBox__line__circle__item a`}></span>
-              {/* <span className={`scheduleDateBox__line__circle__item b`}></span>
-              <span className={`scheduleDateBox__line__circle__item c`}></span> */}
+              <span className={`scheduleDateBox__line__circle__item b`}></span>
+              <span className={`scheduleDateBox__line__circle__item c`}></span>
             </div>
             <p className="scheduleDateBox__line"></p>
             </>
           )}
-        </div>
+        </div> */}
         <div className='scheduleDate__wrapper__item'>
           {schedules?.length > 0 ? (
-            schedules?.slice(0, 3).map((item) => (
+            schedules?.slice(0, 3).map((item, idx) => (
               <React.Fragment key={item.assignment_no}>
                 <ScheduleDateBox 
+                  isLast={schedules?.length - 1 >= 3 ? 2 : schedules?.length - 1 === idx}
                   asId={item.assignment_no}
                   lectureId={item.lecture_no}
                   name={item.as_name}
