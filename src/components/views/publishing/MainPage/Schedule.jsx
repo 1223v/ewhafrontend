@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import dayjs from 'dayjs';
 import useFetchCalendars from '../../../../hooks/useFetchCalendar';
 import useFetchSchedules from '../../../../hooks/useFetchSchedules';
+import { useSchedules } from '../../../../hooks/useSchedules';
 import "./Schedule.css";
 import ScheduleCalendar from './ScheduleCalendar';
 import ScheduleDate from './ScheduleDate';
@@ -10,18 +11,18 @@ import ScheduleDate from './ScheduleDate';
 // 메인페이지 - 달력 + 일자별 일정
 export function Schedule() {
   const [value, onChange] = useState(new Date());
-  const [currentMonth, setCurrentMonth] = useState(dayjs(new Date()).format("YYYY-MM"));
+  const { setCurrentMonth, compareMonth } = useSchedules();
   const { fetchSchedules, schedules, loading, error } = useFetchSchedules(value);
   const { fetchCalendars, calendars } = useFetchCalendars(value);
 
-  // 달
-  // // const compareMonth = (newDate, currentMonth) => {
-  //   if(currentMonth === dayjs(newDate).format("YYYY-MM")) return true;
-  //   else return false;
-  // }
   useEffect(() => {
+    const isChn = compareMonth(value);
+    console.log(isChn);
     fetchSchedules(value);
-    fetchCalendars(value);
+    if (isChn) {
+      setCurrentMonth(dayjs(value).format("YYYY-MM"));
+      fetchCalendars(value)
+    };
   }, [value]);
 
   return (

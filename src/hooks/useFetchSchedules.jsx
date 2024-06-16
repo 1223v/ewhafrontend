@@ -1,6 +1,6 @@
 import Axios from "axios";
 import dayjs from "dayjs";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { API_URL } from "../components/Config";
 
 // 메인페이지 - 일자별 일정 custom hook
@@ -28,9 +28,9 @@ const useFetchSchedules = () => {
     }
   };
 
-  useEffect(() => {
-    fetchSchedules();
-  }, []);
+  // useEffect(() => {
+  //   fetchSchedules();
+  // }, []);
 
   return { fetchSchedules, schedules, loading, error };
 };
