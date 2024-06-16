@@ -21,6 +21,12 @@
 
 
 @media screen and (max-width: 880px) {
+  #schedule {
+    margin: -3rem auto;
+    border-radius: 50px 50px 0 0;
+    background-color: var(--background-color);
+  }
+
   .schedule__wrapper {
     flex-direction: column;
   }
@@ -56,20 +62,15 @@
   gap: var(--margin-size-lg);
   width: 45%;
   /* height: 90%; */
-  min-height: 50%;
-  max-height: 90%;
+  height: 40vh;
+  min-height: 400px;
+  /* min-height: 50%;
+  max-height: 90%; */
 
   border: 2px solid var(--border-color);
   padding: var(--margin-size-lg);
   padding-bottom: calc(var(--margin-size-lg) * 2);
   border-radius: 10px;
-}
-
-@media screen and (max-width: 880px) {
-  .scheduleDate {
-    margin: var(--margin-size-lg) 0;
-    width: 90%;
-  }
 }
 
 .scheduleDate__day {
@@ -83,9 +84,62 @@
   height: 100%;
   position: relative;
 
-  padding-left: var(--margin-size-lg);
+  /* padding-left: var(--margin-size-lg); */
   display: flex;
   align-items: center;
+}
+
+.scheduleDate__wrapper__item {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  gap: var(--margin-size-lg);
+}
+
+@media screen and (max-width: 880px) {
+  .scheduleDate {
+    margin: var(--margin-size-lg) 0;
+    width: 70%;
+    min-width: 420px;
+    /* height: fit-content; */
+    min-height: 200px;
+    border: none;
+    background-color: var(--white-color);
+    box-shadow: 2px 4px 10px rgba(0, 0, 0, 0.05);
+  }
+
+  .scheduleDate__day {
+    width: 90%;
+    text-align: left;
+    color: var(--text-color);
+  }
+  .scheduleDate__wrapper {
+    border-top: 0.5px solid var(--border-color);
+  }
+  .scheduleDate__wrapper__item {
+    gap: var(--font-size-xlg);
+  }
+}
+
+/* ScheduleDateBox */
+
+.scheduleDateBox {
+  display: flex;
+  /* align-items: center; */
+  justify-content: space-between;
+  height: 100%;
+  width: 100%;
+
+  position: relative;
+}
+
+.scheduleDateBox-box {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  height: 100%;
+
+  position: relative;
 }
 
 
@@ -100,8 +154,11 @@
   position: absolute;
   left: 4.25px;
   width: 1.5px;
-  height: 100%;
+  height: calc(100% + var(--margin-size-lg));
   background-color: var(--border-color);
+}
+.scheduleDateBox__line.last {
+  height: 100%;
 }
 
 .scheduleDateBox__line__circle {
@@ -134,33 +191,6 @@
   top: calc((var(--font-size-sm) * 3.2 + var(--font-size-md) + var(--margin-size-lg) * 2 + 5px) * 2);
 }
 
-.scheduleDate__wrapper__item {
-  flex-grow: 1;
-  display: flex;
-  flex-direction: column;
-  gap: var(--margin-size-lg);
-}
-
-/* ScheduleDateBox */
-
-.scheduleDateBox {
-  display: flex;
-  /* align-items: center; */
-  justify-content: space-between;
-  height: 100%;
-  width: 100%;
-
-  position: relative;
-}
-
-.scheduleDateBox-box {
-  display: flex;
-  align-items: center;
-  gap: 15px;
-  height: 100%;
-
-  /* position: relative; */
-}
 
 .scheduleDateBox-info {
   display: flex;
@@ -231,4 +261,14 @@
   font-size: var(--font-size-md);
   color: var(--text-color);
   font-weight: 700;
+}
+
+/* ScheduleCalendar */
+
+.scheduleCalendar__img {
+  width: calc(100%);
+  height: calc(100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
