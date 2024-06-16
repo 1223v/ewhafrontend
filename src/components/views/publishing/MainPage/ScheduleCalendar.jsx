@@ -1,11 +1,12 @@
+import classNames from 'classnames';
 import dayjs from 'dayjs';
 import React from 'react';
 import { Calendar } from 'react-calendar';
-import { IoChevronBackOutline, IoChevronForwardOutline } from "react-icons/io5";
 
-import classNames from 'classnames';
 import "../../../../../node_modules/react-calendar/dist/Calendar.css";
 import "./CustomCalendar.css";
+import { ScheduleCalendarNext } from './ScheduleCalendarNext';
+import { ScheduleCalendarPrev } from './ScheduleCalendarPrev';
 
 // 메이페이지 - 달력
 function ScheduleCalendar({ 
@@ -13,6 +14,8 @@ function ScheduleCalendar({
   onChange,
   mark 
 }) {
+  // const { value, onChange } = useSchedules();
+
   // 년 & 월 변경
   const handleMonthChange = (e) => {
     console.log(e);
@@ -32,21 +35,15 @@ function ScheduleCalendar({
         onChange={handleDate}
         formatDay={(local, date) => dayjs(date).format("D")}
         prevLabel={
-          <IoChevronBackOutline 
-            onClick={() => {
-              const newValue = dayjs(value).subtract(1, 'month').startOf('month').toDate();
-              onChange(newValue);
-              console.log(newValue);
-            }}
+          <ScheduleCalendarPrev 
+            value={value}
+            onChange={onChange}
           />
         }
         nextLabel={
-          <IoChevronForwardOutline 
-            onClick={() => {
-              const newValue = dayjs(value).add(1, 'month').startOf('month').toDate();
-              onChange(newValue);
-              console.log(newValue);
-            }}
+          <ScheduleCalendarNext
+            value={value}
+            onChange={onChange}
           />
         }
         next2Label={null}
