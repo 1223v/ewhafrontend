@@ -1,0 +1,34 @@
+#mypageWapper {
+  width: 100%;
+  /* max-width: 1620px; */
+  margin: 0 auto;
+  background-color: var(--background-color);
+  font-size: 16px;
+}
+
+@media screen and (max-width: 880px) {
+  #mypageWapper {
+    font-size: 12px;
+  }
+}
+
+.mypageWrapper__content {
+  width: 70%;
+  max-width: 1200px;
+  height: 100%;
+  margin: 0 auto;
+
+  display: flex;
+  flex-direction: column;
+  z-index: 1;
+}
+
+.mypageWrapper__content-banner {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: calc(var(--margin-size-lg) * 10);
+  width: 100%;
+  background-color: #1A845C05;
+  z-index: 0;
+}

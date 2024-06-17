@@ -1,0 +1,57 @@
+#currentLec {
+  width: 100%;
+  margin: var(--margin-size-lg) 0;
+}
+
+.currentLec-header {
+  width: 100%;
+  text-align: left;
+}
+
+.currentLec-header span {
+  font-size: var(--font-size-md);
+  color: var(--text-color);
+  font-weight: 700;
+}
+
+/* CurrentLecTable */
+
+.currentLecTable {
+  width: 100%;
+  text-align: center;
+  margin: var(--margin-size-lg) 0;
+  border-collapse: separate;
+  border-spacing: 0 var(--margin-size-sm);
+}
+
+/* CurrentLecTh */
+
+.currentLecTable tr {
+  width: 100%;
+  background-color: var(--light-gray-color);
+  text-align: center;
+  margin: var(--margin-size-sm) 0;
+  box-shadow: 2px 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.currentLecTh {
+  padding: var(--margin-size-md) 0;
+  /* margin: var(--margin-size-sm) 0; */
+}
+
+.currentLecTh > span {
+  font-size: var(--font-size-sm);
+  color: var(--text-color);
+  font-weight: 400;
+}
+
+.currentLecTd {
+  padding: var(--margin-size-md) 0;
+  background-color: var(--white-color);
+}
+
+.currentLecTd > span {
+  font-size: var(--font-size-sm);
+  color: var(--text-color);
+  font-weight: 400;
+}
