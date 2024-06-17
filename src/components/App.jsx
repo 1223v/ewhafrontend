@@ -6,6 +6,10 @@ import SelfTranslationPage from "../pages/AudioRecordPage/SelfTranslationPage";
 import SeqInterpretationPage from "../pages/AudioRecordPage/SeqInterpretationPage";
 import SimInterpretationPage from "../pages/AudioRecordPage/SimInterpretationPage";
 import TranslationPage from "../pages/AudioRecordPage/TranslationPage";
+import EmailAcessPage from "../pages/EmailAccessPage/EmailAccessPage";
+import FindIdPage from "../pages/FindIdPage/FindIdPage";
+import FindPassCheck from "../pages/FindPassPage/FindPassCheckPage";
+import FindPass from "../pages/FindPassPage/FindPassPage";
 import ProfessorGraphPage from "../pages/GraphPage/ProfessorGraphPage";
 import SelfStudyGraphPage from "../pages/GraphPage/SelfStudyGraphPage";
 import StudentGraphPage from "../pages/GraphPage/StudentGraphPage";
@@ -26,22 +30,19 @@ import ProbListStudentPage from "../pages/ProbsPage/ProbListStudentPage";
 import ProbSelfStudysPage from "../pages/ProbsPage/ProbSelfStudysPage";
 import RegisterPage from "../pages/RegisterPage/RegisterPage";
 import Highlighter from "../pages/TestPage/Highlighter";
-import EmailAcessPage from "../pages/EmailAccessPage/EmailAccessPage"
 import "./App.css";
 import LectureAddPage from "./views/LectureAddPage/LectureAddPage";
 import LectureModPage from "./views/LectureAddPage/LectureModPage";
-import FindPass from "../pages/FindPassPage/FindPassPage";
-import FindPassCheck from "../pages/FindPassPage/FindPassCheckPage";
-import FindIdPage from "../pages/FindIdPage/FindIdPage";
 
 // publishing
 import MainPublishingPage from "../pages/PublishingPage/MainPublishingPage";
+import MyPagePublishingPage from "../pages/PublishingPage/MyPagePublishingPage";
 
 function App() {
   //false : 로그인 안한 유저
   const NewLoginPage = Auth(LoginPage, false); // 로그인 페이지
   const NewRegisterPage = Auth(RegisterPage, false); // 회원가입 페이지
-  const EmailAccessPage = Auth(EmailAcessPage, false);// 회원가입 이메일인증페이지
+  const EmailAccessPage = Auth(EmailAcessPage, false); // 회원가입 이메일인증페이지
   const FindPassPage = Auth(FindPass, false);
   const FindPassCheckPage = Auth(FindPassCheck, false);
   //true : 로그인 한 유저
@@ -61,6 +62,7 @@ function App() {
   const NewSelfTranslationPage = Auth(SelfTranslationPage, true); // 번역 과제제출 페이지
   const NewSelfStudyProbFeedbackPage = Auth(SelfStudyProbFeedbackPage, true); // 자습용 과제 피드백 페이지
   const NewSelfStudyGraphPage = Auth(SelfStudyGraphPage, true); // 자습용 과제 그래프 페이지
+  const NewMainPublishingPage = Auth(MainPublishingPage, true); // 메인페이지
 
   // 1: 학생, 2: 조교, 3: 교수
   const NewProbListStudentPage = Auth(ProbListStudentPage, true, 1); // 학생 과제 리스트 페이지
@@ -82,10 +84,10 @@ function App() {
         <Route path="/" element={<NewLandingPage />} />
         <Route path="/login" element={<NewLoginPage />} />
         <Route path="/register" element={<NewRegisterPage />} />
-        <Route path="/verify_email" element={<EmailAccessPage /> }/>
-        <Route path="/find_id" element={<FindIdPage/>}/>
-        <Route path="/find_passcheck" element={<FindPassCheckPage /> }/>
-        <Route path="/find_pass" element={<FindPassPage /> }/>
+        <Route path="/verify_email" element={<EmailAccessPage />} />
+        <Route path="/find_id" element={<FindIdPage />} />
+        <Route path="/find_passcheck" element={<FindPassCheckPage />} />
+        <Route path="/find_pass" element={<FindPassPage />} />
         <Route path="/lecture_add" element={<NewLectureAddPage />} />
         <Route path="/lecture_mod" element={<NewLectureModPage />} />
         <Route path="/prob/add" element={<NewProbAddPage />} />
@@ -166,7 +168,8 @@ function App() {
         <Route path="/*" element={<Navigate to="/"></Navigate>}></Route>
         <Route path="/test" element={<NewTest />} />
 
-        <Route path="/test/main" element={<MainPublishingPage />}/>
+        <Route path="/test/main" element={<NewMainPublishingPage />} />
+        <Route path="/test/mypage" element={<MyPagePublishingPage />} />
       </Routes>
     </div>
   );

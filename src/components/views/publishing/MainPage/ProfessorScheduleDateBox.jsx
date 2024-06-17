@@ -1,15 +1,13 @@
+import classNames from "classnames";
 import React from "react";
 import ReactApexChart from "react-apexcharts";
-import theme from "../../../../style/theme/theme";
-
-import classNames from "classnames";
-import dayjs from "dayjs";
 import { useNavigate } from "react-router-dom";
-import { IMAGES } from "../../../../constants/image";
+import theme from "../../../../style/theme/theme";
 import "./Schedule.css";
+import ScheduleDateBoxInfo from "./ScheduleDateBoxInfo";
 
 // 메인페이지 - 일자별 일정 박스
-function ScheduleDateBox({
+function ProfessorScheduleDateBox({
   isLast,
   asId,
   lectureId,
@@ -18,9 +16,9 @@ function ScheduleDateBox({
   startDate,
   endDate,
   studentCount,
-  doneCount
+  doneCount,
 }) {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const options = {
     chart: {
       height: 10,
@@ -66,23 +64,31 @@ function ScheduleDateBox({
   const colors = [theme.colors.MainColor];
 
   return (
-    <div className="scheduleDateBox" onClick={() => navigate(`/prob/detail/professor?as_no=${asId}&lecture_no=${lectureId}`)}>
+    <div
+      className="scheduleDateBox"
+      onClick={() =>
+        navigate(`/prob/detail/professor?as_no=${asId}&lecture_no=${lectureId}`)
+      }
+    >
       <div className="scheduleDateBox-box">
         <div className="scheduleDateBox-box__line">
           <span className="scheduleDateBox__line__circle__item"></span>
           {/* <div className="scheduleDateBox__line__circle">
           </div> */}
-          <p className={classNames("scheduleDateBox__line", { 'last': isLast })}></p>
+          <p
+            className={classNames("scheduleDateBox__line", { last: isLast })}
+          ></p>
         </div>
         <div className="scheduleDateBox-info">
-          <span className="scheduleDateBox-info__date">
-            <img src={IMAGES.calendar} alt="calendar"/>
-            <span>{dayjs(startDate).format("MM.DD")} ~ {dayjs(endDate).format("MM.DD")}</span>
-          </span>
-          <span className="scheduleDateBox-info__name">{name}</span>
-          <span className="scheduleDateBox-info__class">{type}</span>
+          <ScheduleDateBoxInfo
+            name={name}
+            type={type}
+            startDate={startDate}
+            endDate={endDate}
+          />
           <span className="scheduleDateBox-info__complete">
-            <span>{studentCount}</span>명 중 <span>{doneCount}</span>명 제출 완료
+            <span>{studentCount}</span>명 중 <span>{doneCount}</span>명 제출
+            완료
           </span>
         </div>
       </div>
@@ -100,4 +106,4 @@ function ScheduleDateBox({
   );
 }
 
-export default ScheduleDateBox;
+export default ProfessorScheduleDateBox;
