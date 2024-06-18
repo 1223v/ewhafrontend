@@ -18,18 +18,6 @@ function ScheduleDate({ value, schedules }) {
         {dayjs(value).format("YYYY.MM.DD")}
       </span>
       <div className="scheduleDate__wrapper">
-        {/* <div className="scheduleDateBox-box__line">
-          {schedules?.length > 0 && (
-            <>
-            <div className='scheduleDateBox-box__line__circle'>
-              <span className={`scheduleDateBox__line__circle__item a`}></span>
-              <span className={`scheduleDateBox__line__circle__item b`}></span>
-              <span className={`scheduleDateBox__line__circle__item c`}></span>
-            </div>
-            <p className="scheduleDateBox__line"></p>
-            </>
-          )}
-        </div> */}
         <div className="scheduleDate__wrapper__item">
           {schedules?.length > 0 ? (
             schedules?.slice(0, 3).map((item, idx) => {

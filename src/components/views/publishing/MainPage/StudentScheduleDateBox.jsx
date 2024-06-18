@@ -27,7 +27,7 @@ function StudentScheduleDateBox({
         <div className="scheduleDateBox-box__line ">
           {/* <div className="scheduleDateBox__line__circle">
           </div> */}
-          <p className="scheduleDateBox__line line_style"></p>
+          <span className="scheduleDateBox__line line_style"></span>
         </div>
         <div className="scheduleDateBox-info">
           <ScheduleDateBoxInfo

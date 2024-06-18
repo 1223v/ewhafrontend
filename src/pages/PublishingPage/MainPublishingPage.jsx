@@ -9,8 +9,10 @@ function MainPublishingPage() {
   return (
     <main id='mainWapper'>
       <Banner />
-      <LectureList />
-      <Schedule />
+      <div className='mainPublishingPage'>
+        <LectureList />
+        <Schedule />
+      </div>
     </main>
   )
 }
