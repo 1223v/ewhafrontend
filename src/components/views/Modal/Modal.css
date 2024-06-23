@@ -1,0 +1,36 @@
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.2);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 100;
+}
+
+.modal-content {
+  background: white;
+  padding: var(--margin-size-lg);
+  border-radius: 30px;
+  border: 1px solid var(--border-color);
+
+  width: 40vw;
+  max-width: 700px;
+  /* height: 40vh; */
+
+}
+
+.modal-content > form {
+  height: 100%;
+  width: 100%;
+}
+
+.modal-close-button {
+  background: none;
+  border: none;
+  font-size: 16px;
+  cursor: pointer;
+}

@@ -63,6 +63,7 @@ function App() {
   const NewSelfStudyProbFeedbackPage = Auth(SelfStudyProbFeedbackPage, true); // 자습용 과제 피드백 페이지
   const NewSelfStudyGraphPage = Auth(SelfStudyGraphPage, true); // 자습용 과제 그래프 페이지
   const NewMainPublishingPage = Auth(MainPublishingPage, true); // 메인페이지
+  const NewMyPagePublishingPage = Auth(MyPagePublishingPage, true); // 마이페이지
 
   // 1: 학생, 2: 조교, 3: 교수
   const NewProbListStudentPage = Auth(ProbListStudentPage, true, 1); // 학생 과제 리스트 페이지
@@ -81,7 +82,7 @@ function App() {
   return (
     <div className="App">
       <Routes>
-        <Route path="/" element={<NewLandingPage />} />
+        <Route path="/" element={<NewMainPublishingPage />} />
         <Route path="/login" element={<NewLoginPage />} />
         <Route path="/register" element={<NewRegisterPage />} />
         <Route path="/verify_email" element={<EmailAccessPage />} />
@@ -169,7 +170,7 @@ function App() {
         <Route path="/test" element={<NewTest />} />
 
         <Route path="/test/main" element={<NewMainPublishingPage />} />
-        <Route path="/test/mypage" element={<MyPagePublishingPage />} />
+        <Route path="/test/mypage" element={<NewMyPagePublishingPage />} />
       </Routes>
     </div>
   );
