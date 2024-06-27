@@ -14,20 +14,24 @@ function LectureCard({
   major,
   seperated,
   professor,
+  deleteLecture,
 }) {
   const userinfos = useSelector((state) => state.user);
+  const role = userinfos?.userData?.role;
   const navigate = useNavigate();
 
   return (
     <div
       className="lectureCard"
-      onClick={() => navigate(`/prob/list/professor?lecture_no=${id}`)}
+      onClick={() => {
+        navigate(`/prob/list/${role === 1 ? "student" : "professor"}?lecture_no=${id}`)
+      }}
     >
       <div className="lectureCard_name-wrapper">
         <div className="lectureCard_name">{name}</div>
         {userinfos?.userData?.role === 3 && (
           <div onClick={(e) => e.stopPropagation()}>
-            <DropdownModal lectureNo={id} />
+            <DropdownModal lectureNo={id} deleteLecture={deleteLecture} />
           </div>
         )}
       </div>
