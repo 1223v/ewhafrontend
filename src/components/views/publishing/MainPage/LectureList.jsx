@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { MAIN } from "../../../../constants/text";
+import useDeleteLecture from "../../../../hooks/useDeleteLecture";
 import useFilteredLectures from "../../../../hooks/useFilteredLectures";
 import useLectures from "../../../../hooks/useLectures";
 import { usePagenation } from "../../../../hooks/usePagenation";
@@ -18,15 +20,18 @@ export function LectureList() {
   const navigate = useNavigate();
   const [selectedTags, setSelectedTags] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
-  const { lectures, loading, error } = useLectures();
+  const { lectures, loading, error, fetchLectures } = useLectures();
+  const deleteLecture = useDeleteLecture(fetchLectures);
   const filteredLectures = useFilteredLectures(
     lectures,
     selectedTags,
     searchTerm
   );
   const { semesters, separateds } = useTransformLectureData(lectures);
+  const userinfos = useSelector((state) => state.user);
 
-  const { pageNumbers, currentPage, setCurrentPage, calculatePageNumbers } = usePagenation(lectures.length);
+  const { pageNumbers, currentPage, setCurrentPage, calculatePageNumbers } =
+    usePagenation(lectures.length);
 
   useEffect(() => {
     if (error) {
@@ -37,7 +42,11 @@ export function LectureList() {
   useEffect(() => {
     calculatePageNumbers(filteredLectures.length);
     setCurrentPage(1);
-  }, [filteredLectures])
+  }, [filteredLectures]);
+
+  useEffect(() => {
+    console.log(lectures);
+  }, [lectures]);
 
   return (
     <>
@@ -45,7 +54,7 @@ export function LectureList() {
       <section id="lectureList">
         <div className="lectureList__header">
           <h2>{MAIN.TITLE}</h2>
-          <LectureBtn />
+          {userinfos?.userData?.role === 3 && <LectureBtn />}
         </div>
         <LectureFilter
           semesters={semesters}
@@ -57,8 +66,12 @@ export function LectureList() {
           <LoadingPage />
         ) : (
           <>
-            <LectureCardWrapper lectures={filteredLectures} currentPage={currentPage} />
-            <Paging 
+            <LectureCardWrapper
+              lectures={filteredLectures}
+              currentPage={currentPage}
+              deleteLecture={deleteLecture}
+            />
+            <Paging
               numbers={pageNumbers}
               currentPage={currentPage}
               setCurrentPage={setCurrentPage}
