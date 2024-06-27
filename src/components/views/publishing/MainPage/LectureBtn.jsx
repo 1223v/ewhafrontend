@@ -6,9 +6,9 @@ import { MAIN } from "../../../../constants/text";
 export function LectureBtn () {
   const navigate = useNavigate();
   return(
-    <div className="lectureBtn">
+    <div className="lectureBtn" onClick={() => navigate('/lecture_add')}>
       <GrAdd size="15" className="lectureBtn__img"/>
-      <span onClick={() => navigate('/lecture_add')}>{MAIN.BTN.create}</span>
+      <span>{MAIN.BTN.create}</span>
     </div>
   )
 }
