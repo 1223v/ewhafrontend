@@ -37,6 +37,7 @@ import LectureModPage from "./views/LectureAddPage/LectureModPage";
 // publishing
 import MainPublishingPage from "../pages/PublishingPage/MainPublishingPage";
 import MyPagePublishingPage from "../pages/PublishingPage/MyPagePublishingPage";
+import StudentListPublishingPage from "../pages/PublishingPage/StudentListPublishingPage";
 
 function App() {
   //false : 로그인 안한 유저
@@ -78,6 +79,8 @@ function App() {
   const NewProbListProfessorPage = Auth(ProbListProfessorPage, true, 3); // 교수자 과제 리스트 페이지
   const NewProfessorProbFeedbackPage = Auth(ProfessorProbFeedbackPage, true, 3); // 교수 과제 피드백 페이지
   const NewProfessorGraphPage = Auth(ProfessorGraphPage, true, 3); // 교수 과제 그래프 페이지
+
+  const NewStudentListPublishingPage = Auth(StudentListPublishingPage, true, 3) // 수강생 조회 페이지
 
   return (
     <div className="App">
@@ -171,6 +174,7 @@ function App() {
 
         <Route path="/test/main" element={<NewMainPublishingPage />} />
         <Route path="/test/mypage" element={<NewMyPagePublishingPage />} />
+        <Route path="/test/student" element={<NewStudentListPublishingPage />} />
       </Routes>
     </div>
   );

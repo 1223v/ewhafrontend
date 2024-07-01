@@ -1,0 +1,24 @@
+#studentListWrapper {
+  width: 100%;
+  /* max-width: 1620px; */
+  margin: 0 auto;
+  background-color: var(--light-blue-color);
+  font-size: 16px;
+}
+
+@media screen and (max-width: 880px) {
+  #studentListWrapper {
+    font-size: 12px;
+  }
+}
+
+.studentListWrapper__content {
+  width: 70%;
+  max-width: 1200px;
+  height: 100%;
+  margin: 0 auto;
+  padding: calc(var(--margin-size-lg) * 3) 0;
+
+  display: flex;
+  flex-direction: column;
+}
