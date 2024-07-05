@@ -111,6 +111,10 @@
   color: var(--text-color);
   border-radius: 50px;
   cursor: pointer;
+
+/*  display: flex;
+  align-items: center;
+  justify-content: center;*/
 }
 
 .studentListTd-btn.accept {
