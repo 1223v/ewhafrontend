@@ -24,7 +24,14 @@ const TagSelect = ({ lectures, selectedTags, onTagChange, onTagClose }) => {
       </Select>
       <div style={{ marginTop: "10px" }}>
         {selectedTags.map((tag, index) => (
-          <Tag key={index} closable onClose={() => onTagClose(tag)}>
+          <Tag
+            key={index}
+            closable
+            onClose={(e) => {
+              e.preventDefault();
+              onTagClose(tag);
+            }}
+          >
             {tag}
           </Tag>
         ))}

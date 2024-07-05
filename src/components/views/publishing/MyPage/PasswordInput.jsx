@@ -1,3 +1,4 @@
+import classNames from 'classnames';
 import React from 'react';
 import { useFormContext } from 'react-hook-form';
 
@@ -5,7 +6,7 @@ export const PasswordInput = ({
   title,
   name
 }) => {
-  const { register } = useFormContext();
+  const { register, formState: { errors } } = useFormContext();
   return (
     <div className='passwordInput'>
       <span>{title}</span>
@@ -13,10 +14,15 @@ export const PasswordInput = ({
         <span>
           <input 
             type='password'
-            {...register(name)}
+            {...register(name, {
+              required: '필수 입력값입니다.'
+            })}
+            className={errors[name] && "error"}
           />
         </span>
-        <span></span>
+        <span className={classNames('error-massage', { display: errors[name] })}>
+          <span>{errors[name]?.message ? errors[name]?.message : "&nbsp;"}</span>
+        </span>
       </div>
     </div>
   )

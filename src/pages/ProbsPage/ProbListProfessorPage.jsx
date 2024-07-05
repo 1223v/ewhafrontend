@@ -90,20 +90,6 @@ function ProbListProfessorPage() {
                         className="flex items-center px-6 py-3 text-xs font-bold text-left text-gray-500 uppercase "
                       >
                         No
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          className="w-4 h-4"
-                          fill="none"
-                          viewBox="0 0 24 24"
-                          stroke="currentColor"
-                          strokeWidth={1}
-                        >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            d="M17 13l-5 5m0 0l-5-5m5 5V6"
-                          />
-                        </svg>
                       </th>
 
                       <th
@@ -112,20 +98,6 @@ function ProbListProfessorPage() {
                       >
                         <span className="inline-flex items-center">
                           제목
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            className="w-4 h-4"
-                            fill="none"
-                            viewBox="0 0 24 24"
-                            stroke="currentColor"
-                            strokeWidth={2}
-                          >
-                            <path
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                              d="M17 13l-5 5m0 0l-5-5m5 5V6"
-                            />
-                          </svg>
                         </span>
                       </th>
                       <th
@@ -146,6 +118,12 @@ function ProbListProfessorPage() {
                       >
                         마감일
                       </th>
+                      <th
+                        scope="col"
+                        className="px-6 py-3 text-xs font-bold text-center text-gray-500 uppercase "
+                      >
+                        완료 학생 수
+                      </th>
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-gray-200">
@@ -154,6 +132,7 @@ function ProbListProfessorPage() {
                         <React.Fragment key={index}>
                           <tr
                             onClick={() => onDetailPageMove(assignment.as_no)}
+                            className="cursor-pointer"
                           >
                             <td className="px-6 py-4 text-sm font-medium text-gray-800 whitespace-nowrap">
                               {index + 1}
@@ -186,6 +165,12 @@ function ProbListProfessorPage() {
                               style={{ fontSize: "13px" }}
                             >
                               <Timeformat dateString={assignment.limit_time} />
+                            </td>
+                            <td
+                              className="px-6 py-4 text-sm font-medium text-center whitespace-nowrap mx-auto"
+                              style={{ fontSize: "13px" }}
+                            >
+                              <CompleteSpan>{assignment.done_count} / {assignment.student_count}</CompleteSpan>
                             </td>
                           </tr>
                         </React.Fragment>
@@ -282,4 +267,11 @@ const CreateBtn = styled.button`
   line-height: 1.375rem;
   box-shadow: 0px 3px 5px -1px rgba(0, 0, 0, 0.2),
     0px 6px 10px 0px rgba(0, 0, 0, 0.14), 0px 1px 18px 0px rgba(0, 0, 0, 0.12);
+`;
+
+const CompleteSpan = styled.span`
+  padding: 0.3rem 1rem;
+  // border-radius: 20px;
+  // background-color: #fff;
+  // border: 0.1px solid #b4b4b4;
 `;

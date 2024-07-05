@@ -87,20 +87,6 @@ function ProbSelfStudysPage() {
                         className="flex items-center px-6 py-3 text-xs font-bold text-left text-gray-500 uppercase "
                       >
                         No
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          className="w-4 h-4"
-                          fill="none"
-                          viewBox="0 0 24 24"
-                          stroke="currentColor"
-                          strokeWidth={1}
-                        >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            d="M17 13l-5 5m0 0l-5-5m5 5V6"
-                          />
-                        </svg>
                       </th>
 
                       <th
@@ -109,20 +95,6 @@ function ProbSelfStudysPage() {
                       >
                         <span className="inline-flex items-center">
                           제목
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            className="w-4 h-4"
-                            fill="none"
-                            viewBox="0 0 24 24"
-                            stroke="currentColor"
-                            strokeWidth={2}
-                          >
-                            <path
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                              d="M17 13l-5 5m0 0l-5-5m5 5V6"
-                            />
-                          </svg>
                         </span>
                       </th>
                     </tr>
@@ -133,6 +105,7 @@ function ProbSelfStudysPage() {
                         <React.Fragment key={index}>
                           <tr
                             onClick={() => onDetailPageMove(assignment.as_no)}
+                            className="cursor-pointer"
                           >
                             <td className="px-6 py-4 text-sm font-medium text-gray-800 whitespace-nowrap">
                               {index + 1}

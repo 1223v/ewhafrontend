@@ -80,7 +80,7 @@ function App() {
   const NewProfessorProbFeedbackPage = Auth(ProfessorProbFeedbackPage, true, 3); // 교수 과제 피드백 페이지
   const NewProfessorGraphPage = Auth(ProfessorGraphPage, true, 3); // 교수 과제 그래프 페이지
 
-  const NewStudentListPublishingPage = Auth(StudentListPublishingPage, true, 3) // 수강생 조회 페이지
+//  const NewStudentListPublishingPage = Auth(StudentListPublishingPage, true, 3) // 수강생 조회 페이지
 
   return (
     <div className="App">
@@ -174,7 +174,7 @@ function App() {
 
         <Route path="/test/main" element={<NewMainPublishingPage />} />
         <Route path="/test/mypage" element={<NewMyPagePublishingPage />} />
-        <Route path="/test/student" element={<NewStudentListPublishingPage />} />
+        <Route path="/test/student" element={<StudentListPublishingPage />} />
       </Routes>
     </div>
   );

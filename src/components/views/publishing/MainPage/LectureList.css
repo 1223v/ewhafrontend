@@ -286,25 +286,35 @@
 
 /* LectureCardWrapper */
 .lectureCardWrapper {
-  /* width: 100%; */
+  width: 100%;
+  /* overflow-x: hidden; */
   margin: var(--margin-size-lg) 0;
   display: grid;
   gap: var(--margin-size-lg);
-  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-columns: repeat(3, 
+    minmax(
+      min(calc((90vw - 5px - var(--margin-size-lg) * 2) / 3), calc((1195px - var(--margin-size-lg) * 2) / 3)), 
+      max(calc((90vw - 5px - var(--margin-size-lg) * 2) / 3), calc((1195px - var(--margin-size-lg) * 2) / 3))
+    )
+  );
   grid-template-rows: auto auto auto;
 }
 
 @media screen and (max-width: 880px) {
   .lectureCardWrapper {
-    grid-template-columns: 1fr 1fr;
-    grid-template-rows: auto auto auto;
+    grid-template-columns: repeat(2, 
+      calc((calc(90vw - 5px) - (var(--margin-size-lg) * 2)) / 2)
+    );
+    grid-template-rows: auto auto auto auto;
   }
 }
 
 @media screen and (max-width: 530px) {
   .lectureCardWrapper {
-    grid-template-columns: 1fr;
-    grid-template-rows: repeat(6, auto);
+    grid-template-columns: 
+      calc((calc(90vw - 5px) - (var(--margin-size-lg) * 2))
+    );
+    grid-template-rows: repeat(8, auto);
   }
 }
 
@@ -314,6 +324,7 @@
   display: flex;
   flex-direction: column;
   gap: var(--padding-width-sm);
+  z-index: 0;
 
   /* width: 100%; */
   height: auto;
@@ -330,10 +341,23 @@
   box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.15);
 }
 
+.lectureCard_name-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  position: relative;
+}
+
 .lectureCard_name {
+  width: 90%;
   color: var(--text-color);
   font-size: var(--font-size-md);
   font-weight: 800;
+
+  white-space: nowrap;
+  overflow-x: hidden;
+  text-overflow: ellipsis;
 }
 
 .lectureCard_count {
@@ -347,4 +371,11 @@
   align-items: center;
   gap: var(--padding-width-sm);
   margin-top: var(--margin-size-sm);
+}
+
+
+@media screen and (max-width: 530px) {
+  .lectureCard{
+    width: 100%;
+  }
 }

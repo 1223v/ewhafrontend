@@ -1,6 +1,9 @@
 import classNames from 'classnames';
 import React from 'react';
+import { IoCheckmark } from "react-icons/io5";
+import { IoClose } from "react-icons/io5";
 import { STUDENTLIST } from '../../../../constants/text';
+
 
 export const StudentListTd = ({ idx, data, isWait }) => {
   console.log(idx);
@@ -37,16 +40,32 @@ export const StudentListTd = ({ idx, data, isWait }) => {
         <span>{data.email}</span>
       </td>
       {/* TODO: 등록일 없음 */}
+      {!isWait &&
+        <td
+          className={classNames("studentListTd__email",`wd-25`)}
+        >
+        	<span>{data.registerDate}</span>
+        </td>
+      }
+
       {isWait && 
         <td
           className={classNames("studentListTd__btn",`wd-25`)}
         >
-          <span
-            className='studentListTd-btn reject'
-          >거절</span>
-          <span
-            className='studentListTd-btn accept'
-          >수락</span>
+	 <span className='studentListTd-btn reject'>
+	  <IoClose
+	   style={{'color': '#EA4C4C'}}
+	  />
+          <span>거절</span>
+	 </span>
+	 <span
+	  className='studentListTd-btn accept'
+	 >
+	  <IoCheckmark 
+	   style={{'color': '#1A845C'}}
+	  />
+          <span>수락</span>
+	 </span>
         </td>
       }
     </tr>

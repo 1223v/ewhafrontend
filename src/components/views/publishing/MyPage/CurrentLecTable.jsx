@@ -12,10 +12,10 @@ export const CurrentLecTable = ({ lectures }) => {
       <tbody>
         {
           lectures?.map((lec, idx) => (
-            <React.Fragment>
+            <React.Fragment key={lec.lecture_no}>
               <CurrentLecTd 
-                key={lec.lecture_no}
                 idx={idx + 1}
+                lec_no={lec.lecture_no}
                 lecture_name={lec.lecture_name}
                 major={lec.major}
                 separated={lec.separated}

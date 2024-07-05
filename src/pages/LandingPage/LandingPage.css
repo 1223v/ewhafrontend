@@ -9,10 +9,9 @@ body {
 }
 
 .lecture_class {
-  /* width: 800px;
-  margin: 0 auto; */
+  width: 920px;
+  margin: 0 auto;
   position: relative;
-  left: calc(50% - 460px);
 }
 .profile_img {
   width: 230px;

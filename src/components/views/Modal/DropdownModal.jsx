@@ -6,23 +6,9 @@ import { PiDotsThreeBold } from "react-icons/pi";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 
-function DropdownModal({ lectureNo }) {
+function DropdownModal({ lectureNo, deleteLecture }) {
   const onDeleteButton = () => {
-    //   if (window.confirm('삭제하시겠습니까?')) {
-    //     Axios.get(`${API_URL}api/lecture/delete?lecture_no=${props.num}`, {
-    //         withCredentials: true,
-    //     }).then((response) => {
-    //         // 요청이 성공한 경우의 처리
-    //         alert(response.data.msg);
-    //         Axios.get(`${API_URL}api/lecture/list`, {
-    //             withCredentials: true,
-    //         }).then((response) => {
-    //             // 요청이 성공한 경우의 처리
-    //             props.setLectures(response.data.lecturelist);
-    //             //props.setLectureStatus(!props.LectureStatus);
-    //         });
-    //     });
-    // }
+    deleteLecture(lectureNo);
   };
 
   const items = [
@@ -40,7 +26,7 @@ function DropdownModal({ lectureNo }) {
     },
     {
       label: (
-        <StyleLink to={`/lecture_detail?lecture_no=${lectureNo}`}>
+        <StyleLink to={`/test/student?lecture_no=${lectureNo}`}>
           <IoMdPerson size="15" style={{ margin: "3px 10px 0px 0px" }} />
           수강생 조회
         </StyleLink>

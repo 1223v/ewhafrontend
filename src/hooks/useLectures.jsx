@@ -1,5 +1,5 @@
 import Axios from "axios";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { API_URL } from "../components/Config";
 
 const useLectures = () => {
@@ -7,30 +7,30 @@ const useLectures = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  useEffect(() => {
-    const fetchLectures = async () => {
-      try {
-        const response = await Axios.get(`${API_URL}api/lecture/list`, {
-          withCredentials: true,
-        });
+  const fetchLectures = useCallback(async () => {
+    try {
+      const response = await Axios.get(`${API_URL}api/lecture/list`, {
+        withCredentials: true,
+      });
 
-        if (Array.isArray(response.data.lecturelist)) {
-          setLectures(response.data.lecturelist);
-        } else {
-          setLectures([]);
-        }
-      } catch (error) {
-        setError(error);
-        console.error(error);
-      } finally {
-        setLoading(false);
+      if (Array.isArray(response.data.lecturelist)) {
+        setLectures(response.data.lecturelist);
+      } else {
+        setLectures([]);
       }
-    };
-
-    fetchLectures();
+    } catch (error) {
+      setError(error);
+      console.error(error);
+    } finally {
+      setLoading(false);
+    }
   }, []);
 
-  return { lectures, loading, error };
+  useEffect(() => {
+    fetchLectures();
+  }, [fetchLectures]);
+
+  return { lectures, loading, error, fetchLectures };
 };
 
 export default useLectures;

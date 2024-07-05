@@ -20,7 +20,7 @@
 .info-header__btn {
   font-weight: 700;
   font-size: var(--font-size-sm);
-  background-color: #05422B;
+  background-color: #045a39;
   color: var(--white-color);
   border-radius: 10px;
   padding: 0.5rem 1.5rem;
@@ -34,16 +34,54 @@
   height: 100%;
   border-radius: 50px;
   box-shadow: 4px 6px 50px 20px rgba(0, 0, 0, 0.07);
+  background-color: var(--white-color);
 
   display: flex;
   align-items: center;
+
+  /* position: relative; */
+  z-index: 101 !important;
+}
+
+@media screen and (max-width: 880px) {
+  .infoTable {
+    flex-direction: column;
+    padding: var(--margin-size-lg) 0;
+  }
 }
 
 /* InfoTableProfile */
 
 .infoTableProfile {
   width: 35%;
+  height: 100%;
   text-align: center;
+  /* border-right: 1px solid var(--border-color); */
+  
+  display: flex;
+  flex-direction: column;
+  gap: var(--margin-size-lg);
+  /* flex-grow: 1; */
+}
+
+.infoTableProfile__wrapper {
+  object-fit: cover;
+}
+
+.infoTableProfile__wrapper > img {
+  width: var(--image-lg);
+  height: var(--image-lg);
+  border-radius: 100px;
+  border: 1px solid var(--border-color);
+}
+
+@media screen and (max-width: 880px) {
+  .infoTableProfile {
+    width: 72%;
+    border-right: none;
+    border-bottom: 1px solid var(--border-color);
+    padding: var(--margin-size-lg) 0;
+  }
 }
 
 /* InfoTableData */
@@ -51,12 +89,151 @@
 .infoTableData {
   width: 65%;
   margin: var(--margin-size-lg) 0;
+  border-left: 1px solid var(--border-color);
   
   display: flex;
   flex-direction: column;
   align-items: center;
   /* justify-content: center; */
 }
+
+@media screen and (max-width: 880px) {
+  .infoTableData {
+    width: 90%;
+    border-left: none;
+  }
+}
+
+.infoTableData__input {
+  width: 80%;
+  box-sizing: border-box;
+  padding: var(--margin-size-sm);
+  border: 1px solid var(--border-color);
+  background-color: var(--background-color);
+  border-radius: 5px;
+  font-family: "Noto Sans KR", sans-serif;
+  /* text-align: right; */
+}
+/* 
+.relative {
+  position: relative;
+} */
+
+.infoTableData__input:focus {
+  outline: 1px solid var(--gray-color);
+}
+
+.infoTableData__ul {
+  position: absolute;
+  /* top: 0; */
+  right: 0;
+
+  display: flex;
+  flex-direction: column;
+  width: 80%;
+
+}
+
+
+.infoTableData__select {
+  position: relative;
+  width: 80%;
+  min-width: 60px;
+}
+
+@media screen and (max-width: 880px) {
+  .infoTableData__select {
+    width: 80%;
+    min-width: auto;
+  }
+}
+
+.infoTableData__select__button {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5vw;
+
+  box-sizing: border-box;
+  width: 100%;
+  padding: var(--margin-size-sm);
+  background-color: var(--background-color);
+  border: 1px solid var(--border-color);
+  border-radius: 5px;
+  /* box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.05); */
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.infoTableData__select__button:hover {
+  background-color: var(--light-gray-color);
+}
+
+.infoTableData__select__button.active {
+  background-color: var(--light-gray-color);
+}
+
+.infoTableData__select__button > span {
+  color: var(--gray-color);
+  font-weight: 500;
+  font-size: var(--font-size-sm);
+  white-space: nowrap;
+}
+
+.infoTableData__select__button > img {
+  width: max(0.625rem, min(1.5vw, 0.75rem));
+  transition: transform 0.3s ease;
+}
+
+.infoTableData__select__button.active > img {
+  transform: rotate(180deg);
+  transition: transform 0.3s ease;
+}
+
+.infoTableData__select__button-box {
+  position: absolute;
+  top: calc(var(--font-size-sm) + 1rem);
+  left: 0;
+  /* width: fit-content; */
+  width: 100%;
+  box-sizing: border-box;
+
+  padding: 0.5rem 1rem;
+  background-color: var(--white-color);
+  border-radius: 10px;
+  box-shadow: 2px 4px 10px 5px rgba(0, 0, 0, 0.07);
+
+  opacity: 0;
+  transform: translateY(-10px);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  pointer-events: none;
+  z-index: 1001;
+}
+
+.infoTableData__select__button-box.active {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto; /* Allows interaction when visible */
+}
+
+.infoTableData__select__button-box__item {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  white-space: nowrap;
+  gap: var(--margin-size-sm);
+  margin: var(--margin-size-sm) 0;
+  cursor: pointer;
+}
+
+.infoTableData__select__button-box__item__txt {
+  color: var(--text-color);
+}
+.infoTableData__select__button-box__item__txt:hover {
+  background-color: var(--background-color);
+}
+
 
 /* InfoTableDataItem */
 
@@ -75,8 +252,48 @@
   font-weight: 400;
 }
 
+.infoTableDataItem__input {
+  width: 80%;
+  padding: var(--padding-width-sm);
+  border: 1px solid var(--border-color);
+  background-color: var(--background-color);
+  border-radius: 5px;
+  font-family: "Noto Sans KR", sans-serif;
+}
+
+.infoTableDataItem__btn {
+  padding: var(--padding-width-sm) var(--margin-size-sm);
+  border: 1px solid var(--gray-color);
+  border-radius: 10px;
+  cursor: pointer;
+}
+
 .infoTableDataItem__content {
   color: var(--text-color);
   font-size: var(--font-size-sm);
   font-weight: 500;
+}
+
+/* Modal */
+
+.modal_overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #2B2B2B10;
+  z-index: 101;
+}
+
+.modal {
+  position: absolute;
+  left: 0;
+  top: 0;
+  /* left: 12.5vw;
+  top: 32.5vh; */
+  width: 50vw;
+  height: 35vh;
+  background-color: var(--white-color);
+  border-radius: 30px;
 }

@@ -2,15 +2,12 @@ import React from "react";
 import LectureCard from "./LectureCard";
 
 // 메인페이지 - 강의 카드 wrapper
-function LectureCardWrapper({ 
-  lectures, 
-  currentPage 
-}) {
+function LectureCardWrapper({ lectures, currentPage, deleteLecture }) {
   return (
     <section className="lectureCardWrapper">
       {lectures
         ?.filter((_, index) => Math.floor(index / 6) + 1 === currentPage)
-        .map(item => (
+        .map((item) => (
           <React.Fragment key={item.lecture_no}>
             <LectureCard
               id={item.lecture_no}
@@ -20,10 +17,11 @@ function LectureCardWrapper({
               semester={item.semester}
               major={item.major}
               seperated={item.separated}
+              professor={item.professor}
+              deleteLecture={deleteLecture}
             />
           </React.Fragment>
-        )
-      )}
+        ))}
     </section>
   );
 }

@@ -1,6 +1,6 @@
 #currentLec {
   width: 100%;
-  margin: var(--margin-size-lg) 0;
+  margin: calc(var(--margin-size-lg) * 3) 0;
 }
 
 .currentLec-header {
@@ -51,6 +51,11 @@
   padding: var(--margin-size-md) 0;
   background-color: var(--white-color);
 }
+/* 
+.currentLecTd:hover {
+  padding: var(--margin-size-md) 0;
+  background-color: var(--light-gray-color);
+} */
 
 .currentLecTd__no {
   font-size: var(--font-size-sm);
@@ -73,7 +78,7 @@
   background-color: #05422B10;
   font-weight: 500;
   border-radius: 15px;
-  padding: var(--margin-size-sm);
+  padding: var(--padding-width-sm) var(--margin-size-sm);
 }
 .currentLecTd__atCnt {
   font-size: var(--font-size-sm);
@@ -81,13 +86,13 @@
   background-color: #0019FF05;
   font-weight: 500;
   border-radius: 15px;
-  padding: var(--margin-size-sm);
+  padding: var(--padding-width-sm) var(--margin-size-sm);
 }
 .currentLecTd__btn {
   font-size: var(--font-size-sm);
   color: var(--text-color);
   font-weight: 500;
-  padding: var(--padding-width-lg) var(--margin-size-sm);
+  padding: var(--padding-height-sm) var(--padding-width-sm);
   border: 1px solid var(--border-color);
   border-radius: 10px;
   cursor: pointer;

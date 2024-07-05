@@ -11,6 +11,28 @@ export const StudentList = () => {
   const lecture_no = +location.search.split("=")[1];
   // const { waitList } = useFetchWaitList(lecture_no);
 
+  const studentList = [
+    {
+      "email": "dev_student@test.com",
+      "major": "\ud55c\uc77c\ubc88\uc5ed",
+      "registerDate": "2024-01-01",
+      "user_name": "\ud559\uc0dd"
+    },
+    {
+      "email": "dev_student@test.com",
+      "major": "\ud55c\uc77c\ubc88\uc5ed",
+      "registerDate": "2024-01-01",
+      "user_name": "\ud559\uc0dd"
+    },
+    {
+      "email": "1223v@test.com",
+      "major": "\ud55c\uc77c\ubc88\uc5ed",
+      "registerDate": "2024-01-01",
+      "user_name": "\ud559\uc0dd"
+    },
+  ];  
+
+
   const waitList = [
     {
       "email": "dev_student@test.com", 
@@ -37,7 +59,7 @@ export const StudentList = () => {
       <StudentListTable 
         title="수강생 목록"
         header={STUDENTLIST.STUDENT}
-        tableList={waitList}
+        tableList={studentList}
       />
       <StudentListTable 
         title="대기 목록"
