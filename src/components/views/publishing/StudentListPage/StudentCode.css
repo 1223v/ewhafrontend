@@ -1,0 +1,94 @@
+/* StudentCode */
+
+.studentCode {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+  margin: var(--margin-size-lg) 0;
+  gap: var(--margin-size-lg);
+}
+
+.studentCode__title {
+  font-size: var(--font-size-h1);
+  font-weight: 700;
+}
+
+/* StudentCodeBox */
+
+.studentCodeBox {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  padding: var(--margin-size-lg);
+  background-color: var(--white-color);
+  border: 2px solid var(--border-color);
+  border-radius: 10px;
+}
+
+.studentCodeBox__left {
+}
+
+.studentCodeBox__left > p {
+  margin-top: 0;
+  display: flex;
+  align-items: center;
+  gap: var(--padding-width-sm);
+}
+
+.studentCodeBox__left > p > span {
+  color: var(--text-color);
+  font-weight: 700;
+  font-size: var(--font-size-h3);
+}
+
+.studentCodeBox__left-date {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: var(--padding-width-sm);
+
+  color: var(--text-color);
+  font-weight: 500;
+  font-size: var(--font-size-h4);
+}
+
+.studentCodeBox__off {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--margin-size-sm);
+}
+
+/* StudentCodeItem */
+
+.studentCodeItem {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: var(--padding-width-sm);
+}
+
+.studentCodeItem__wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--padding-width-sm);
+}
+
+.studentCodeItem__num {
+  width: calc(var(--margin-size-lg) * 1.8);
+  height: calc(var(--margin-size-lg) * 1.8);
+  text-align: center;
+  line-height: calc(var(--margin-size-lg) * 1.8);
+
+  background-color: var(--background-color);
+  border-radius: 10px;
+  border: 1.5px solid var(--border-color);
+  color: var(--text-color);
+  font-size: var(--font-size-h2);
+  font-weight: 700;
+}

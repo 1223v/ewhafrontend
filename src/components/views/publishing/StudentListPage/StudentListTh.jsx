@@ -8,7 +8,7 @@ export const StudentListTh = ({ data }) => {
         data.map((item) => (
           <th
             key={item.id}
-            className={classNames(`wd-${item.width}`)}
+            className={classNames("studentListTh__th", `wd-${item.width}`)}
           >
             <span>{item.txt}</span>
           </th>

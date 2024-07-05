@@ -1,0 +1,122 @@
+/* StudentList */
+
+.studentList {
+  width: 100%;
+}
+
+/* StudentListTable */
+
+.studentListTable {
+  width: 100%;
+  margin: calc(var(--margin-size-lg) * 2) 0;
+}
+
+.studentListTable__title {
+  font-size: var(--font-size-md);
+  font-weight: 700;
+}
+
+.studentListTable > table {
+  width: 100%;
+  text-align: center;
+  margin: var(--margin-size-lg) 0;
+  border-collapse: collapse;
+  border-spacing: 0;
+  border: 1.5px solid var(--border-color);
+}
+
+.studentListTable > table > thead {
+  border-radius: 10px 10px 0 0;
+}
+
+/* StudentListTh */
+
+.studentListTh {
+  width: 100%;
+  background-color: var(--table-background-color);
+  border-radius: 10px 10px 0 0;
+  border: 1px solid var(--border-color);
+}
+
+.studentListTh__th {
+  background-color: var(--table-background-color);
+  padding: calc(var(--margin-size-md) * 1.5) 0;
+}
+
+.studentListTh__th > span {
+  font-size: var(--font-size-h3);
+}
+
+/* StudentListTd */
+
+.studentListTd {
+  width: 100%;
+  background-color: var(--white-color);
+  border: 1px solid var(--border-color);
+}
+
+.studentListTd.dimmed {
+  background-color: var(--background-color);
+}
+
+.studentListTd > td {
+  padding: var(--margin-size-md) 0;
+}
+
+.studentListTd__status {
+  font-weight: 700;
+  font-size: var(--font-size-xsm);
+  padding: var(--padding-width-sm) var(--margin-size-sm);
+  border-radius: 6px;
+}
+
+
+.studentListTd__status.wait {
+  background-color: rgba(var(--wait-color-rgb), 0.1);
+  color: rgba(var(--wait-color-rgb), 1);
+}
+
+.studentListTd__status.reject {
+  background-color: rgba(var(--reject-color-rgb), 0.1);
+  color: rgba(var(--reject-color-rgb), 1);
+}
+
+.studentListTd__name {
+  color: var(--text-color);
+  font-size: var(--font-size-md);
+}
+
+.studentListTd__major {
+  color: var(--gray-color);
+  font-size: var(--font-size-h3);
+}
+
+.studentListTd__email {
+  color: var(--text-color);
+  font-size: var(--font-size-sm);
+}
+
+/* .studentListTd__btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--margin-size-sm);
+} */
+
+.studentListTd-btn {
+  font-weight: 500;
+  font-size: var(--font-size-sm);
+  padding: var(--padding-width-sm) var(--margin-size-sm);
+  margin: 0 var(--padding-height-sm);
+  color: var(--text-color);
+  border-radius: 50px;
+  cursor: pointer;
+}
+
+.studentListTd-btn.accept {
+  border: 1px solid var(--accept-btn-color);
+}
+
+.studentListTd-btn.reject {
+  border: 1px solid var(--reject-btn-color);
+}
