@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { MAIN } from "../../../../constants/text";
 import useDeleteLecture from "../../../../hooks/useDeleteLecture";
 import useFilteredLectures from "../../../../hooks/useFilteredLectures";
+import useLectureRequest from "../../../../hooks/useLectureRequest";
 import useLectures from "../../../../hooks/useLectures";
 import { usePagenation } from "../../../../hooks/usePagenation";
 import useTransformLectureData from "../../../../hooks/useTransformLectureData";
@@ -20,6 +21,7 @@ export function LectureList() {
   const navigate = useNavigate();
   const [selectedTags, setSelectedTags] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
+  const { lectureRequest } = useLectureRequest();
   const { lectures, loading, error, fetchLectures } = useLectures();
   const deleteLecture = useDeleteLecture(fetchLectures);
   const filteredLectures = useFilteredLectures(
@@ -48,13 +50,26 @@ export function LectureList() {
     console.log(lectures);
   }, [lectures]);
 
+  const handleCreateLecture = () => navigate('/lecture_add');
+  const handleLectureRequest = () => {
+    const { data } = lectureRequest("0200-8791");
+    console.log(data);
+  };
+
   return (
     <>
       <NavBar />
       <section id="lectureList">
         <div className="lectureList__header">
           <h2>{MAIN.TITLE}</h2>
-          {userinfos?.userData?.role === 3 && <LectureBtn />}
+          {userinfos?.userData?.role === 3 ? 
+            <LectureBtn
+              onClick={handleCreateLecture}
+            >{MAIN.BTN.create}</LectureBtn> : 
+            <LectureBtn
+              onClick={handleLectureRequest}
+            >수강신청</LectureBtn>
+          }
         </div>
         <LectureFilter
           semesters={semesters}
