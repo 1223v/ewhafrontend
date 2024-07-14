@@ -1,15 +1,26 @@
+import { Modal } from 'antd';
 import classNames from 'classnames';
-import React from 'react';
-import { IoCheckmark } from "react-icons/io5";
-import { IoClose } from "react-icons/io5";
+import dayjs from "dayjs";
+import React, { useState } from 'react';
+import { IoCheckmark, IoClose } from "react-icons/io5";
 import { STUDENTLIST } from '../../../../constants/text';
 
 
-export const StudentListTd = ({ idx, data, isWait }) => {
-  console.log(idx);
+export const StudentListTd = ({ idx, data, isWait, applyStudent }) => {
+  const [isModalOpen, setIsModalOpen] = useState(0); // 1: 수락, 2: 거절
+
+  const handleOk = async () => {
+    applyStudent(data.user_no, isModalOpen === 1 ? true : false);
+    setIsModalOpen(0);
+  };
+
+  const handleCancel = () => {
+    setIsModalOpen(0);
+  };
+
   return (
     <tr className={classNames('studentListTd', {
-      dimmed: idx % 2 == 1
+      dimmed: idx % 2 === 1
     })}>
       {
         isWait && 
@@ -39,12 +50,11 @@ export const StudentListTd = ({ idx, data, isWait }) => {
       >
         <span>{data.email}</span>
       </td>
-      {/* TODO: 등록일 없음 */}
       {!isWait &&
         <td
           className={classNames("studentListTd__email",`wd-25`)}
         >
-        	<span>{data.registerDate}</span>
+        	<span>{dayjs(data.register_time).format("YYYY년 MM월 DD일")}</span>
         </td>
       }
 
@@ -52,20 +62,32 @@ export const StudentListTd = ({ idx, data, isWait }) => {
         <td
           className={classNames("studentListTd__btn",`wd-25`)}
         >
-	 <span className='studentListTd-btn reject'>
-	  <IoClose
-	   style={{'color': '#EA4C4C'}}
-	  />
-          <span>거절</span>
-	 </span>
-	 <span
-	  className='studentListTd-btn accept'
-	 >
-	  <IoCheckmark 
-	   style={{'color': '#1A845C'}}
-	  />
-          <span>수락</span>
-	 </span>
+          {
+            data.status && (
+              <span 
+                className='studentListTd-btn reject'
+                onClick={() => setIsModalOpen(2)}
+              >
+                <IoClose
+                  style={{'color': '#EA4C4C'}}
+                />
+                <span>거절</span>
+              </span>
+            )
+          }
+          <span
+            className='studentListTd-btn accept'
+            onClick={() => setIsModalOpen(1)}
+          >
+            <IoCheckmark 
+              style={{'color': '#1A845C'}}
+            />
+            <span>수락</span>
+          </span>
+
+          <Modal title="수강신청 승인" open={isModalOpen ? true : false} onOk={handleOk} onCancel={handleCancel}>
+            <p>수강신청을 {isModalOpen === 1 ? "수락" : "거절"}하시겠습니까?</p>
+          </Modal>
         </td>
       }
     </tr>
