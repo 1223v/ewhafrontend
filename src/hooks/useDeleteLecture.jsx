@@ -2,9 +2,13 @@ import Axios from "axios";
 import { useCallback } from "react";
 import { API_URL } from "../components/Config";
 
-const useDeleteLecture = (fetchLectures) => {
-  const deleteLecture = useCallback(
+const useDeleteLecture = (
+  fetchLectures
+) => {
+  const deleteLecture = 
+  useCallback(
     (lectureNo) => {
+      
       if (window.confirm("삭제하시겠습니까?")) {
         Axios.get(`${API_URL}api/lecture/delete?lecture_no=${lectureNo}`, {
           withCredentials: true,

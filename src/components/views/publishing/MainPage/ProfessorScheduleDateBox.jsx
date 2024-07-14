@@ -75,9 +75,9 @@ function ProfessorScheduleDateBox({
           <span className="scheduleDateBox__line__circle__item"></span>
           {/* <div className="scheduleDateBox__line__circle">
           </div> */}
-          <p
+          <span
             className={classNames("scheduleDateBox__line", { last: isLast })}
-          ></p>
+          ></span>
         </div>
         <div className="scheduleDateBox-info">
           <ScheduleDateBoxInfo
@@ -98,8 +98,9 @@ function ProfessorScheduleDateBox({
           series={series}
           colors={colors}
           type="radialBar"
-          height={180}
+          height={150}
           width={160}
+          style={{minHeight:"100px"}}
         />
       </div>
     </div>

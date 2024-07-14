@@ -27,9 +27,12 @@ const useFilteredLectures = (lectures, selectedTags, searchTerm) => {
 
   useEffect(() => {
     filterLectures();
-  }, [lectures, selectedTags, searchTerm]);
+  }, [
+    lectures
+    , selectedTags, searchTerm
+  ]);
 
-  return filteredLectures;
+  return { filteredLectures };
 };
 
 export default useFilteredLectures;

@@ -7,7 +7,9 @@ const useLectures = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  const fetchLectures = useCallback(async () => {
+  const fetchLectures = 
+  useCallback(
+    async () => {
     try {
       const response = await Axios.get(`${API_URL}api/lecture/list`, {
         withCredentials: true,
@@ -24,13 +26,16 @@ const useLectures = () => {
     } finally {
       setLoading(false);
     }
-  }, []);
+  }
+  , []);
 
   useEffect(() => {
     fetchLectures();
-  }, [fetchLectures]);
+  }, [
+    fetchLectures
+  ]);
 
-  return { lectures, loading, error, fetchLectures };
+  return { lectures, loading, error, fetchLectures};
 };
 
 export default useLectures;

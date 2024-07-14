@@ -2,12 +2,12 @@
 
 .banner {
   /* width: 100vw; */
-  max-width: 2000px;
+  /* max-width: 2000px; */
   max-height: 584px;
   height: 584px;
-  background-image: url('../../../../assets/images/banner_pc.jpg');
+  background-image: url('https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2Fv6xIf%2FbtsIwq2vnyL%2FWh3ORkF8qS4AfCpB8p35Z0%2Fimg.jpg');
   background-size: cover;
-  background-position: center; 
+  background-position: top; 
   background-repeat: no-repeat; 
 
   display: flex;
@@ -18,7 +18,7 @@
 
 @media screen and (max-width: 880px) {
   .banner {
-    background-image: url('../../../../assets/images/banner_mobile.jpg');
+    background-image: url('https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2FloFCh%2FbtsIu8vecej%2FKUp1MkCK7yptpq5iFz9cz1%2Fimg.jpg');
     background-position: top;
     height: 500px;
   }

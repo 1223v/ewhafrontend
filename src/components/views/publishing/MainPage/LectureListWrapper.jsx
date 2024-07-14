@@ -8,8 +8,8 @@ import LoadingPage from '../../Loading/LoadingPage';
 import { Paging } from '../../Paging/Paging';
 import LectureCardWrapper from "./LectureCardWrapper";
 import LectureFilter from "./LectureFilter";
-
 import "./LectureList.css";
+
 
 function LectureListWrapper () {
   const [selectedTags, setSelectedTags] = useState([]);
@@ -19,16 +19,16 @@ function LectureListWrapper () {
   
   const { filteredLectures } = useFilteredLectures(lectures, selectedTags, searchTerm);
   const { semesters, separateds } = useTransformLectureData(lectures);
-  console.log(lectures, semesters, separateds);
+  // console.log(lectures, semesters, separateds);
 
   const { pageNumbers, currentPage, setCurrentPage, calculatePageNumbers } =
     usePagenation(lectures.length);
 
   useEffect(() => {
-    if (filteredLectures.length !== lectures.length) {
+    // if (filteredLectures.length !== lectures.length) {
       calculatePageNumbers(filteredLectures.length);
       setCurrentPage(1);
-    }
+    // }
   }, [filteredLectures]);
 
   

@@ -39,7 +39,7 @@
 
 @media screen and (max-width: 880px) {
   .scheduleCalendar {
-    width: 80%;
+    width: 100%;
     display: flex;
     justify-content: center;
   }
@@ -94,14 +94,14 @@
   flex-grow: 1;
   display: flex;
   flex-direction: column;
-  gap: var(--margin-size-lg);
+  /* gap: var(--margin-size-lg); */
 }
 
 @media screen and (max-width: 880px) {
   .scheduleDate {
     box-sizing: border-box;
     margin: var(--margin-size-lg) 0;
-    width: 90%;
+    width: 100%;
     max-width: 500px;
     /* height: fit-content; */
     min-height: 200px;
@@ -120,6 +120,7 @@
   }
   .scheduleDate__wrapper__item {
     gap: var(--font-size-xlg);
+    margin-top: var(--margin-size-lg);
   }
 }
 
@@ -133,6 +134,12 @@
   width: 100%;
 
   position: relative;
+  transition: background-color 0.3s ease;
+  padding: var(--margin-size-sm) 0;
+}
+
+.scheduleDateBox:hover {
+  background-color: var(--background-color);
 }
 
 .scheduleDateBox.student {
@@ -264,9 +271,20 @@
 
 .scheduleDateBox-chart {
   position: absolute;
-  top: calc(var(--font-size-sm) * (-1) + var(--font-size-md) * (-1));
+  top: calc(var(--font-size-sm) * (-0.7));
   right: 0;
+  /* max-height: 100px; */
+
 }
+
+.scheduleDateBox-chart > div,
+.scheduleDateBox-chart > div > div,
+.scheduleDateBox-chart > div > div > svg,
+.scheduleDateBox-chart > div > div > svg > foreignObject {
+  height: 100px !important;
+  min-height: 100px !important;
+}
+
 
 /* ScheduleEmptyBox */
 

@@ -10,10 +10,11 @@ export const Paging = ({
 }) => {
   return (
     <section id={styles.paging}>
-      {numbers?.length > 0 && (
+      {/* {numbers?.length > 2 ? ( */}
         <>
           <IoChevronBackOutline 
             onClick={() => setCurrentPage(currentPage > 1 ? currentPage - 1 : 1)}
+            style={{'cursor': 'pointer'}}
           />
           {numbers?.map((n) => (
             <PagingNumber 
@@ -25,9 +26,10 @@ export const Paging = ({
           ))}
           <IoChevronForwardOutline 
             onClick={() => setCurrentPage(currentPage < numbers.length ? currentPage + 1 : currentPage)}
+            style={{'cursor': 'pointer'}}
           />
         </>
-      )}
+      {/* ) : null} */}
     </section>
   )
 }
