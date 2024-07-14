@@ -5,6 +5,8 @@ import { API_URL } from "../components/Config";
 // 메인페이지 - 일자별 일정 custom hook
 const useFetchLectureCode = (lecture_no) => {
   const [code, setCode] = useState("");
+  const [lectureName, setLectureName] = useState("");
+  const [updateTime, setUpdateTime] = useState("");
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   
@@ -14,6 +16,8 @@ const useFetchLectureCode = (lecture_no) => {
         withCredentials: true,
       });
       setCode(response.data.code);
+      setLectureName(response.data.lecture_name);
+      setUpdateTime(response.data.update_time);
     } catch (error) {
       setError(error);
       console.error(error);
@@ -26,7 +30,7 @@ const useFetchLectureCode = (lecture_no) => {
     fetchLectureCode();
   }, []);
 
-  return { fetchLectureCode, code, loading, error };
+  return { fetchLectureCode, lectureName, updateTime, code, loading, error };
 };
 
 export default useFetchLectureCode;

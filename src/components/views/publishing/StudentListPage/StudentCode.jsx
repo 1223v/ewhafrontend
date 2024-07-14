@@ -1,13 +1,26 @@
 import React from 'react';
-
-import "./StudentCode.css";
+import { useLocation } from 'react-router-dom';
 import { StudentCodeBox } from './StudentCodeBox';
+import { StudentCodeWrapper } from './StudentCodeWrapper';
+
+import useFetchLectureCode from '../../../../hooks/useFetchLectureCode';
+import useModifyLectureCode from '../../../../hooks/useModifyLectureCode';
 
 export const StudentCode = () => {
+  const location = useLocation();
+  const lecture_no = +location.search.split("=")[1];
+
+  const { fetchLectureCode, lectureName, updateTime, code } = useFetchLectureCode(lecture_no);
+  const { modifyLectureCode } = useModifyLectureCode(lecture_no);
+
   return (
-    <section className='studentCode'>
-      <span className='studentCode__title'>한일번역 AAAA반</span>
-      <StudentCodeBox />
-    </section>
+    <StudentCodeWrapper lectureName={lectureName}>
+      <StudentCodeBox 
+        code={code}
+        updateTime={updateTime}
+        fetchLectureCode={fetchLectureCode}
+        modifyLectureCode={modifyLectureCode}
+      />
+    </StudentCodeWrapper>
   )
 }
