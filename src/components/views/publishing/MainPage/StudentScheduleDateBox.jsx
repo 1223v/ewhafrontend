@@ -24,11 +24,6 @@ function StudentScheduleDateBox({
       }
     >
       <div className="scheduleDateBox-box">
-        <div className="scheduleDateBox-box__line ">
-          {/* <div className="scheduleDateBox__line__circle">
-          </div> */}
-          <span className="scheduleDateBox__line line_style"></span>
-        </div>
         <div className="scheduleDateBox-info">
           <ScheduleDateBoxInfo
             name={name}
@@ -37,7 +32,12 @@ function StudentScheduleDateBox({
             endDate={endDate}
           />
           <span className="scheduleDateBox-info__complete">
-            {done === 0 ? <span>미제출</span> : <span>제출 완료</span>}
+            {done === 0 ? 
+              <span
+                className="scheduleDateBox-info__noTxt"
+              >미제출</span> : 
+              <span>제출 완료</span>
+            }
           </span>
         </div>
       </div>

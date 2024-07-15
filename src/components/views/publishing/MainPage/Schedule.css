@@ -150,6 +150,15 @@
   width: 100%;
   background-color: rgba(var(--primary-color-rgb), 0.03);
   position: relative;
+  cursor: pointer;
+  border-left: 2px solid var(--primary-color);
+  margin: var(--margin-size-sm) 0;
+}
+
+@media screen and (max-width: 880px) {
+  .scheduleDateBox.student {
+    margin-top: var(--padding-width-sm);
+  }
 }
 
 .scheduleDateBox-box {
@@ -267,6 +276,10 @@
   font-size: var(--font-size-sm);
   color: rgba(5, 66, 43, 0.8);
   font-weight: 600;
+}
+
+.scheduleDateBox-info__noTxt {
+  color: var(--gray-color);
 }
 
 .scheduleDateBox-chart {
