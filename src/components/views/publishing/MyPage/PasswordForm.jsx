@@ -40,10 +40,16 @@ export const PasswordForm = ({
     }
   }, [currentPw, newPw, newPwChk, setError, clearErrors]);
 
+  const onSubmit = (data) => {
+    console.log(data);
+    onClose();
+  }
+
   return (
     <Form
-      defaultValues={defaultValues}
       onClose={onClose}
+      methods={methods}
+      onSubmit={onSubmit}
     >
       {
         MYPAGE.MODAL.title.map((t) => 

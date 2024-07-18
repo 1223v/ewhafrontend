@@ -1,6 +1,6 @@
 import Axios from "axios";
-import { LOGIN_USER, AUTH_USER, REGISTER_USER } from "./types";
 import { API_URL } from "../components/Config";
+import { AUTH_USER, LOGIN_USER, REGISTER_USER } from "./types";
 
 export function loginUser(dataToSubmit) {
   const request = Axios.post(`${API_URL}api/user/login`, dataToSubmit, {
@@ -25,6 +25,7 @@ export function registerUser(dataToSubmit) {
 }
 
 export function auth() {
+  console.log(API_URL);
   const request = Axios.get(`${API_URL}api/user/auth`, {
     withCredentials: true,
   }).then((response) => response.data);

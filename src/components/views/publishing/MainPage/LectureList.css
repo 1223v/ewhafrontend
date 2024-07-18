@@ -8,6 +8,8 @@
   margin: 3rem auto;
 }
 
+/* LectureListHeader */
+
 .lectureList__header {
   display: flex;
   align-items: center;
@@ -16,6 +18,25 @@
 
 .lectureList__header > h1 {
   font-size: var(--font-size-h1);
+}
+
+.lectureList__header__modal {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: var(--margin-size-sm);
+}
+
+.lectureList__header__modal-title {
+  font-size: var(--font-size-md);
+  color: var(--text-color);
+  font-weight: 700;
+}
+
+.lectureList__header__modal-subTitle {
+  font-size: var(--font-size-sm);
+  color: var(--gray-color);
 }
 
 /* LectureBtn */
@@ -378,4 +399,34 @@
   .lectureCard{
     width: 100%;
   }
+}
+
+/* CodeInput */
+.codeInput {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: var(--padding-width-sm);
+}
+
+.codeInput__wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--padding-width-sm);
+}
+
+.codeInput__wrapper > input {
+  width: calc(var(--margin-size-lg) * 1.8);
+  height: calc(var(--margin-size-lg) * 1.8);
+  text-align: center;
+  line-height: calc(var(--margin-size-lg) * 1.8);
+
+  background-color: var(--background-color);
+  border-radius: 10px;
+  border: 1.5px solid var(--border-color);
+  color: var(--text-color);
+  font-size: var(--font-size-h2);
+  font-weight: 700;
 }

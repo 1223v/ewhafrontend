@@ -16,7 +16,7 @@ const useLectureRequest = () => {
       const response = await Axios.post(`${API_URL}api/lecture/request`, body, {
         withCredentials: true,
       });
-      return response.data;
+      return response;
     } catch (error) {
       setError(error);
       console.error(error);
