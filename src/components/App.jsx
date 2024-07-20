@@ -173,7 +173,7 @@ function App() {
         <Route path="/test" element={<NewTest />} />
 
         <Route path="/test/main" element={<NewMainPublishingPage />} />
-        <Route path="/test/mypage" element={<NewMyPagePublishingPage />} />
+        <Route path="/mypage" element={<NewMyPagePublishingPage />} />
         <Route path="/test/student" element={<StudentListPublishingPage />} />
       </Routes>
     </div>
