@@ -415,6 +415,7 @@
   align-items: center;
   justify-content: center;
   gap: var(--padding-width-sm);
+  margin: var(--margin-size-sm) 0;
 }
 
 .codeInput__wrapper > input {

@@ -62,6 +62,11 @@ function LectureListHeader() {
 
 
   const onSubmit = (data) => {
+    const isEvery = Object.values(data).every(value => value !== '');
+    if (!isEvery) {
+      message.error("전체 코드를 입력해주세요.");
+      return;
+    }
     const code = dictToCustomString(data);
     handleLectureRequest(code);
     onClose();
