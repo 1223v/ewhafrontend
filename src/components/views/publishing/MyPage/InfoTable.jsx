@@ -1,16 +1,16 @@
 import { InfoTableData } from "./InfoTableData";
 import { InfoTableProfile } from "./InfoTableProfile";
 
+import { useContext } from "react";
 import "./Info.css";
+import { InfoContext } from "./InfoProvider";
 
 // 마이페이지 - 기본 정보 테이블
 export const InfoTable = ({ 
-  modify,
-  editableUserInfo,
-  setEditableUserInfo,
   userInfo
 }) => {
-  
+  const { modify, editableUserInfo, setEditableUserInfo } = useContext(InfoContext);
+
   return (
     <div className="infoTable">
       <InfoTableProfile 

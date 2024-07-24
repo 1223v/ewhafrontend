@@ -1,9 +1,10 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useContext, useEffect, useMemo, useState } from "react";
 import { InfoTableDataItem } from "./InfoTableDataItem";
 
 import { IMAGES } from "../../../../constants/image";
 import { Modal } from "../../Modal/Modal";
 import "./Info.css";
+import { InfoContext } from "./InfoProvider";
 import { PasswordForm } from "./PasswordForm";
 
 const EditableField = ({ modify, value, children }) => {
@@ -13,10 +14,8 @@ const EditableField = ({ modify, value, children }) => {
 // 마이페이지 - 테이블 중 데이터 부분
 export const InfoTableData = ({ 
   userInfo,
-  modify,
-  editableUserInfo,
-  setEditableUserInfo
 }) => {
+  const { modify, editableUserInfo, setEditableUserInfo } = useContext(InfoContext);
   const majors = [
     {
       id: 0,
@@ -67,9 +66,6 @@ export const InfoTableData = ({
     })
   }, [userInfo]);
 
-  // if (loading) {
-  //   return <LoadingPage />
-  // }
   return (
     <div className="infoTableData">
       <InfoTableDataItem name="이름">

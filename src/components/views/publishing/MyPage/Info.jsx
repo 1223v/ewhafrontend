@@ -1,5 +1,6 @@
-import { useState } from "react";
+import React, { useContext } from "react";
 import { InfoHeader } from "./InfoHeader";
+import { InfoContext, InfoProvider } from "./InfoProvider";
 import { InfoTable } from "./InfoTable";
 
 import { message } from "antd";
@@ -9,11 +10,18 @@ import "./Info.css";
 
 // 마이페이지 - 기본 정보
 export const Info = () => {
-  const [modify, setModify] = useState(true);
-  const [editableUserInfo, setEditableUserInfo] = useState({});
-
   const { modifyUser } = useModifyUser();
   const { fetchUser, userInfo } = useFetchUser();
+
+  return (
+    <InfoProvider>
+      <UserInfoContent modifyUser={modifyUser} fetchUser={fetchUser} userInfo={userInfo} />
+    </InfoProvider>
+  );
+};
+
+const UserInfoContent = ({ modifyUser, fetchUser, userInfo }) => {
+  const { modify, setModify, editableUserInfo, setEditableUserInfo } = useContext(InfoContext);
 
   const handleModify = async () => {
     setModify(true);
@@ -49,5 +57,5 @@ export const Info = () => {
         userInfo={userInfo}
       />
     </section>
-  )
-}
+  );
+};

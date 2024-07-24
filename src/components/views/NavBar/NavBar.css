@@ -9,6 +9,7 @@
     z-index: 990;
     box-sizing: border-box;
     transition: background-color 0.3s ease; /* 배경색 변경에 트랜지션 추가 */
+    
 }
   
 .navbar.scrolled {
@@ -16,6 +17,7 @@
 }
 
 .nav-header {
+    justify-content: center;
     background-color: white;
     border-bottom: 0;
     padding: 0 4px 0 24px;

@@ -54,6 +54,7 @@ function NavBar() {
     <nav className={`navbar ${isScrolled ? "scrolled" : ""}`}>
       <Layout>
         <Layout.Header className="nav-header">
+          <div style={{maxWidth: "1200px", textAlign:"center"}}>
           <div className="logo">
             <Link to="/">
               <img
@@ -91,6 +92,7 @@ function NavBar() {
               <LeftMenu mode={"inline"} />
               <RightMenu mode={"inline"} onLogoutHandler={onLogoutHandler}/>
             </Drawer>
+          </div>
           </div>
         </Layout.Header>
       </Layout>
