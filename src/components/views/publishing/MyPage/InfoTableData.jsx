@@ -2,8 +2,6 @@ import React, { useEffect, useMemo, useState } from "react";
 import { InfoTableDataItem } from "./InfoTableDataItem";
 
 import { IMAGES } from "../../../../constants/image";
-import useFetchUser from "../../../../hooks/useFetchUser";
-import LoadingPage from "../../Loading/LoadingPage";
 import { Modal } from "../../Modal/Modal";
 import "./Info.css";
 import { PasswordForm } from "./PasswordForm";
@@ -13,7 +11,12 @@ const EditableField = ({ modify, value, children }) => {
 };
 
 // 마이페이지 - 테이블 중 데이터 부분
-export const InfoTableData = ({ modify }) => {
+export const InfoTableData = ({ 
+  userInfo,
+  modify,
+  editableUserInfo,
+  setEditableUserInfo
+}) => {
   const majors = [
     {
       id: 0,
@@ -39,6 +42,14 @@ export const InfoTableData = ({ modify }) => {
       id: 5,
       name: "한영통역"
     },
+    {
+      id: 6,
+      name: "한불번역"
+    },
+    {
+      id: 7,
+      name: "한불통역"
+    },
   ];
 
   const memorizedMajors = useMemo(() => {return majors}, []);
@@ -49,9 +60,6 @@ export const InfoTableData = ({ modify }) => {
 
   const [selectOpen, setSelectOpen] = useState(false); // select 오픈 여부
 
-  const { userInfo, loading } = useFetchUser();
-  const [editableUserInfo, setEditableUserInfo] = useState();
-
   useEffect(() => {
     userInfo && setEditableUserInfo({
       name: userInfo.name,
@@ -59,9 +67,9 @@ export const InfoTableData = ({ modify }) => {
     })
   }, [userInfo]);
 
-  if (loading) {
-    return <LoadingPage />
-  }
+  // if (loading) {
+  //   return <LoadingPage />
+  // }
   return (
     <div className="infoTableData">
       <InfoTableDataItem name="이름">

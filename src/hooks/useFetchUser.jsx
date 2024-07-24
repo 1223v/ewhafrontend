@@ -8,25 +8,26 @@ const useFetchUser = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   
+  const fetchUser = async (date) => {
+    try {
+      const response = await Axios.get(`${API_URL}api/user`, {
+        withCredentials: true,
+      });
+
+      setUserInfo(response.data);
+    } catch (error) {
+      setError(error);
+      console.error(error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   useEffect(() => {
-    const fetchUser = async (date) => {
-      try {
-        const response = await Axios.get(`${API_URL}api/user`, {
-          withCredentials: true,
-        });
-  
-        setUserInfo(response.data);
-      } catch (error) {
-        setError(error);
-        console.error(error);
-      } finally {
-        setLoading(false);
-      }
-    };
     fetchUser();
   }, []);
 
-  return { userInfo, loading, error };
+  return { fetchUser, userInfo, loading, error };
 };
 
 export default useFetchUser;
