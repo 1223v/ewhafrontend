@@ -17,6 +17,7 @@
 }
 
 .nav-header {
+    display: flex;
     justify-content: center;
     background-color: white;
     border-bottom: 0;
@@ -51,6 +52,7 @@
     box-sizing: border-box;
     float: left;
     z-index: 99992;
+    max-width: 1200px;
 }
 .navbar-menu .ant-layout-header {
     padding: 0 20px;
