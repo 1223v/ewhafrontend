@@ -46,14 +46,9 @@ const UserInfoContent = ({ modifyUser, fetchUser, userInfo }) => {
   return (
     <section id="info">
       <InfoHeader 
-        modify={modify}
-        setModify={setModify}
         handleModify={handleModify}
       />
       <InfoTable 
-        modify={modify}
-        editableUserInfo={editableUserInfo}
-        setEditableUserInfo={setEditableUserInfo}
         userInfo={userInfo}
       />
     </section>

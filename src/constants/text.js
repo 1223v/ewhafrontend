@@ -21,7 +21,8 @@ export const MYPAGE = {
   },
   BTN: {
     modifyOn: "수정",
-    modifyOff: "수정 완료"
+    modifyOff: "수정 완료",
+    cancle: "취소"
   },
   INFO_TABLE: [
     {

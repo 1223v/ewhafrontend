@@ -14,10 +14,18 @@ export const InfoHeader = ({
       <span className="info-header__title">{MYPAGE.TITLE.info}</span>
       {
         !modify ?
-        <span 
-          className="info-header__btn" 
-          onClick={handleModify}
-        >{MYPAGE.BTN.modifyOff}</span> : 
+        (
+          <span>
+            <span 
+              className="info-header__btn cancle" 
+              onClick={() => setModify(true)}
+            >{MYPAGE.BTN.cancle}</span>
+            <span 
+              className="info-header__btn" 
+              onClick={handleModify}
+            >{MYPAGE.BTN.modifyOff}</span>
+          </span>
+        ) : 
         <span 
           className="info-header__btn" 
           onClick={() => setModify(false)}
