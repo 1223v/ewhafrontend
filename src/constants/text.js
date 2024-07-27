@@ -139,6 +139,10 @@ export const MYPAGE = {
       cancle: "취소",
       modify: "변경"
     }
+  },
+  CURRENT_LEC: {
+    year: "2024",
+    semester: "1학기"
   }
 }
 
