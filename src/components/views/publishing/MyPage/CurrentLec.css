@@ -50,6 +50,7 @@
 .currentLecTd {
   padding: var(--margin-size-md) 0;
   background-color: var(--white-color);
+  cursor: pointer;
 }
 /* 
 .currentLecTd:hover {

@@ -14,13 +14,21 @@ export const CurrentLecTd = ({
   const baseClass = "currentLecTd";
   const navigate = useNavigate();
 
-  const movePage = (id) => {
+  const toLecturePage = (id) => {
     console.log(id);
     navigate(`/prob/list/professor?lecture_no=${id}`);
   }
 
+  const toStudentPage = (e) => {
+    e.stopPropagation();
+    navigate(`/test/student?lecture_no=${lec_no}`)
+  }
+
   return (
-    <tr onClick={() => movePage(lec_no)}>
+    <tr 
+      className={`${baseClass}`}
+      onClick={() => toLecturePage(lec_no)}
+    >
       <td className={classNames(baseClass, "wd-10")}>
         <span className={`${baseClass}__no`}>{idx}</span>
       </td>
@@ -37,7 +45,10 @@ export const CurrentLecTd = ({
         <span className={`${baseClass}__atCnt`}>{attendee_count}명</span>
       </td>
       <td className={classNames(baseClass, "wd-15")}>
-        <span className={`${baseClass}__btn`}>수강생 조회</span>
+        <span 
+          className={`${baseClass}__btn`}
+          onClick={(e) => toStudentPage(e)}
+        >수강생 조회</span>
       </td>
     </tr>
   )
