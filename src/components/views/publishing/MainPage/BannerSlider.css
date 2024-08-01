@@ -1,0 +1,11 @@
+/* App.css 또는 BannerSlider.css */
+.banner-slider {
+    width: 80%;
+    margin: 0 auto;
+  }
+  
+  .banner-slider img {
+    width: 100%;
+    height: auto;
+  }
+  
