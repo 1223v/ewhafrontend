@@ -14,6 +14,12 @@
   font-weight: 700;
 }
 
+.currentLec-header__student {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
 /* CurrentLecTable */
 
 .currentLecTable {
@@ -59,7 +65,7 @@
 } */
 
 .currentLecTd__no {
-  font-size: var(--font-size-sm);
+  font-size: var(--font-size-h3);
   color: var(--gray-color);
   font-weight: 500;
 }
@@ -97,4 +103,14 @@
   border: 1px solid var(--border-color);
   border-radius: 10px;
   cursor: pointer;
+}
+.currentLecTd__professor {
+  font-size: var(--font-size-h3);
+  color: var(--text-color);
+  font-weight: 500;
+}
+.currentLecTd__date {
+  font-size: var(--font-size-sm);
+  color: var(--gray-color);
+  font-weight: 500;
 }

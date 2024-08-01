@@ -9,7 +9,8 @@ import { CurrentLecTh } from "./CurrentLecTh";
 export const CurrentLecTable = ({ lectures }) => {
   const filteredLectures = lectures?.filter(el => el.year === MYPAGE.CURRENT_LEC.year && el.semester === MYPAGE.CURRENT_LEC.semester);
   const { pageNumbers, currentPage, setCurrentPage } =
-    usePagenation(filteredLectures.length);
+    usePagenation(filteredLectures.length, 5);
+
   return (
     <>
       <table className="currentLecTable">
@@ -19,10 +20,11 @@ export const CurrentLecTable = ({ lectures }) => {
         <tbody>
           {
             filteredLectures
+            ?.filter((_, id) => Math.floor(id / 5) === currentPage - 1)
             ?.map((lec, idx) => (
               <React.Fragment key={lec.lecture_no}>
                 <CurrentLecTd 
-                  idx={idx + 1}
+                  idx={(currentPage - 1) * 5 + (idx + 1)}
                   lec_no={lec.lecture_no}
                   lecture_name={lec.lecture_name}
                   major={lec.major}
@@ -35,7 +37,7 @@ export const CurrentLecTable = ({ lectures }) => {
           }
         </tbody>
       </table>
-      {filteredLectures?.length > 6 &&
+      {filteredLectures?.length > 5 &&
         <Paging
           numbers={pageNumbers}
           currentPage={currentPage}
