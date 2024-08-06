@@ -1,6 +1,6 @@
-// BannerSlider.js
 import React from 'react';
 import Slider from 'react-slick';
+import './BannerSlider.css'; // CSS 파일 임포트
 
 const BannerSlider = () => {
   const settings = {
@@ -11,20 +11,21 @@ const BannerSlider = () => {
     slidesToScroll: 1,
     autoplay: true,
     autoplaySpeed: 3000,
+    
   };
+
+  const banners = [
+    "banner1", "banner2", "banner3"
+  ];
 
   return (
     <div className="banner-slider">
       <Slider {...settings}>
-        <div>
-          <img src="path_to_your_image1.jpg" alt="Banner 1" />
-        </div>
-        <div>
-          <img src="path_to_your_image2.jpg" alt="Banner 2" />
-        </div>
-        <div>
-          <img src="path_to_your_image3.jpg" alt="Banner 3" />
-        </div>
+        {banners.map((banner, index) => (
+          <div key={index} className={`banner ${banner}`}>
+            {/* 필요하면 추가 콘텐츠를 여기에 넣으세요 */}
+          </div>
+        ))}
       </Slider>
     </div>
   );

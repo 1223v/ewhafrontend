@@ -1,11 +1,49 @@
-/* App.css 또는 BannerSlider.css */
+/* BannerSlider.css */
 .banner-slider {
-    width: 80%;
-    margin: 0 auto;
+  width: 100%;
+  overflow: hidden;
+}
+
+.banner {
+  max-height: 584px;
+  height: 584px;
+  background-size: cover;
+  background-position: top; 
+  background-repeat: no-repeat;
+  display: flex;
+  align-items: center;
+  justify-content: center; /* 추가 콘텐츠가 있을 경우 중앙 정렬 */
+  overflow-y: hidden;
+  margin: 0 auto;
+}
+
+.banner.banner1 {
+  background-image: url('https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2Fv6xIf%2FbtsIwq2vnyL%2FWh3ORkF8qS4AfCpB8p35Z0%2Fimg.jpg');
+}
+
+.banner.banner2 {
+  background-image: url('https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2Fv6xIf%2FbtsIwq2vnyL%2FWh3ORkF8qS4AfCpB8p35Z0%2Fimg.jpg');
+}
+
+.banner.banner3 {
+  background-image: url('https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2Fv6xIf%2FbtsIwq2vnyL%2FWh3ORkF8qS4AfCpB8p35Z0%2Fimg.jpg');
+}
+
+@media screen and (max-width: 880px) {
+  .banner {
+    height: 500px;
   }
-  
-  .banner-slider img {
-    width: 100%;
-    height: auto;
+
+  .banner.banner1 {
+    background-image: url('https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2FloFCh%2FbtsIu8vecej%2FKUp1MkCK7yptpq5iFz9cz1%2Fimg.jpg');
   }
-  
+
+  .banner.banner2 {
+    background-image: url('https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2FloFCh%2FbtsIu8vecej%2FKUp1MkCK7yptpq5iFz9cz1%2Fimg.jpg');
+  }
+
+  .banner.banner3 {
+    background-image: url('https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2FloFCh%2FbtsIu8vecej%2FKUp1MkCK7yptpq5iFz9cz1%2Fimg.jpg');
+  }
+}
+
