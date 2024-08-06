@@ -1,5 +1,7 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
+import { FaCheck } from "react-icons/fa";
 import { IMAGES } from "../../../../constants/image";
+
 
 function LectureFilterSelect({
   defaultTxt,
@@ -8,6 +10,7 @@ function LectureFilterSelect({
   addTag,
   removeTag,
 }) {
+  const containerRef = useRef(null);
   const [isOpen, setIsOpen] = useState(false);
 
   const isSelected = (item) => {
@@ -27,8 +30,21 @@ function LectureFilterSelect({
     }
   };
 
+  const handleClickOutside = (event) => {
+    if (containerRef.current && !containerRef.current.contains(event.target)) {
+      setIsOpen(false);
+    }
+  };
+
+  useEffect(() => {
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
   return (
-    <div className="lectureFilterSelect">
+    <div className="lectureFilterSelect" ref={containerRef}>
       <div
         className={`lectureFilterSelect__button ${isOpen && "active"}`}
         onClick={() => setIsOpen((prev) => !prev)}
@@ -53,7 +69,7 @@ function LectureFilterSelect({
                     selected && "active"
                   }`}
                   onClick={() => updateSelectedList(item, selected)}
-                ></span>
+                ><FaCheck style={{color: 'white' }}/></span>
                 <span className="lectureFilterSelect-box__item__txt">
                   {item.txt}
                 </span>

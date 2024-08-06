@@ -227,6 +227,9 @@
   border: 1px solid var(--border-color);
   background-color: var(--background-color);
   cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .lectureFilterSelect-box__item__button.active {
