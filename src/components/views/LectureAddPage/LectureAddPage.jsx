@@ -53,7 +53,7 @@ function LectureAddPage() {
   const [checkedList, setCheckedList] = useState([]);
   const [Liststudent, setListstudent] = useState([]);
   const [Titlelist, setTitlelist] = useState("");
-  const [Yearlist, setYearlist] = useState("2023");
+  const [Yearlist, setYearlist] = useState("2024");
   const [Semesterlist, setSemesterlist] = useState("1학기");
   const [Majorlist, setMajorlist] = useState("한일통역");
   const [Separatedlist, setSeparatedlist] = useState("1분반");
