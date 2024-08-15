@@ -11,29 +11,31 @@ function RequestLecTable({ lectures }) {
     console.log(lectures);
   return (
     <>
-      <table className="currentLecTable">
-        <thead>
-          <RequestLecTh />
-        </thead>
-        <tbody>
-          {
-            lectures
-            ?.filter((_, id) => Math.floor(id / 5) === currentPage - 1)
-            ?.map((lec, idx) => (
-              <React.Fragment key={lec.lecture_no}>
-                <RequestLecTd 
-                  idx={(currentPage - 1) * 5 + (idx + 1)}
-                  lec_no={lec.lecture_no}
-                  lecture_name={lec.lecture_name}
-                  professor={lec.professor}
-                  lecClass={lec.class}
-                  status={lec.status}
-                />
-              </React.Fragment>
-            ))
-          }
-        </tbody>
-      </table>
+      <div className="currentLec-table">
+        <table className="currentLecTable">
+          <thead>
+            <RequestLecTh />
+          </thead>
+          <tbody>
+            {
+              lectures
+              ?.filter((_, id) => Math.floor(id / 5) === currentPage - 1)
+              ?.map((lec, idx) => (
+                <React.Fragment key={lec.lecture_no}>
+                  <RequestLecTd 
+                    idx={(currentPage - 1) * 5 + (idx + 1)}
+                    lec_no={lec.lecture_no}
+                    lecture_name={lec.lecture_name}
+                    professor={lec.professor}
+                    lecClass={lec.class}
+                    status={lec.status}
+                  />
+                </React.Fragment>
+              ))
+            }
+          </tbody>
+        </table>
+      </div>
       {lectures?.length > 6 &&
         <Paging
           numbers={pageNumbers}

@@ -3,6 +3,7 @@ import { useForm } from 'react-hook-form';
 import { MYPAGE } from '../../../../constants/text';
 import { PasswordInput } from './PasswordInput';
 
+import useModifyPw from '../../../../hooks/useModifyPw';
 import Form from '../../Form/Form';
 import "./Password.css";
 
@@ -20,7 +21,7 @@ export const PasswordForm = ({
     defaultValues: defaultValues
   });
 
-  const { watch, setError, clearErrors } = methods;
+  const { watch, setError, clearErrors, handleSubmit } = methods;
 
   const currentPw = watch('currentPw');
   const newPw = watch('newPw');
@@ -40,9 +41,18 @@ export const PasswordForm = ({
     }
   }, [currentPw, newPw, newPwChk, setError, clearErrors]);
 
-  const onSubmit = (data) => {
+  const { modifyPw } = useModifyPw();
+  
+  const onSubmit = async (data) => {
     console.log(data);
-    onClose();
+    const res = await modifyPw({
+      old_pw: data.currentPw,
+      new_pw: data.newPw
+    })
+    console.log(res);
+    if (res.isSuccess) {
+      onClose();
+    }
   }
 
   return (
@@ -52,11 +62,12 @@ export const PasswordForm = ({
       onSubmit={onSubmit}
     >
       {
-        MYPAGE.MODAL.title.map((t) => 
+        MYPAGE.MODAL.title.map((t, i) => 
           <PasswordInput 
             key={t.idx} 
             title={t.title}
             name={t.name}
+            onSubmit={onSubmit}
           />
         )
       }
