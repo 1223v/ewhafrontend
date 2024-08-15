@@ -17,7 +17,6 @@ function Form({
             <button onClick={onClose} id='wt'>{MYPAGE.MODAL.btn.cancle}</button>
             <button type='submit' id='bk'>
               확인
-              {/* {MYPAGE.MODAL.btn.modify} */}
             </button>
           </div>
         </section>

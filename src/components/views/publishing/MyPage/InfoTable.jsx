@@ -5,7 +5,8 @@ import "./Info.css";
 
 // 마이페이지 - 기본 정보 테이블
 export const InfoTable = ({ 
-  userInfo
+  userInfo,
+  handleModify
 }) => {
   return (
     <div className="infoTable">
@@ -14,6 +15,7 @@ export const InfoTable = ({
       />
       <InfoTableData 
         userInfo={userInfo}
+        handleModify={handleModify}
       />
     </div>
   )

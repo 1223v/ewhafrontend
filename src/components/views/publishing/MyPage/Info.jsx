@@ -50,6 +50,7 @@ const UserInfoContent = ({ modifyUser, fetchUser, userInfo }) => {
       />
       <InfoTable 
         userInfo={userInfo}
+        handleModify={handleModify}
       />
     </section>
   );

@@ -2,6 +2,8 @@ import React, { useContext, useEffect, useMemo, useState } from "react";
 import { InfoTableDataItem } from "./InfoTableDataItem";
 
 import { IMAGES } from "../../../../constants/image";
+import { MYPAGE } from "../../../../constants/text";
+import useLogout from "../../../../hooks/useLogout";
 import { Modal } from "../../Modal/Modal";
 import "./Info.css";
 import { InfoContext } from "./InfoProvider";
@@ -14,8 +16,9 @@ const EditableField = ({ modify, value, children }) => {
 // 마이페이지 - 테이블 중 데이터 부분
 export const InfoTableData = ({ 
   userInfo,
+  handleModify
 }) => {
-  const { modify, editableUserInfo, setEditableUserInfo } = useContext(InfoContext);
+  const { modify, setModify, editableUserInfo, setEditableUserInfo } = useContext(InfoContext);
   const majors = [
     {
       id: 0,
@@ -58,6 +61,7 @@ export const InfoTableData = ({
   const onClose = () => setIsOpen(false); // 모달 닫기
 
   const [selectOpen, setSelectOpen] = useState(false); // select 오픈 여부
+  const { onLogoutHandler } = useLogout();
 
   useEffect(() => {
     userInfo && setEditableUserInfo({
@@ -125,6 +129,36 @@ export const InfoTableData = ({
           onClick={onOpen}
         >비밀번호 변경</span>
       </InfoTableDataItem>
+
+      <>
+        {
+          !modify ?
+          (
+            <div className='info-btn__mobile'>
+              <span 
+                className="info-header__btn cancle" 
+                onClick={() => setModify(true)}
+              >{MYPAGE.BTN.cancle}</span>
+              <span 
+                className="info-header__btn" 
+                onClick={handleModify}
+              >{MYPAGE.BTN.modifyOff}</span>
+            </div>
+          ) : 
+          (
+            <div className='info-btn__mobile'>
+              <span
+                className="info-header__btn logout" 
+                onClick={onLogoutHandler}
+              >로그아웃</span>
+              <span 
+                className="info-header__btn" 
+                onClick={() => setModify(false)}
+              >{MYPAGE.BTN.modifyOn}</span>
+            </div>
+          )
+        }
+      </>
 
       {/* 비밀번호 변경 모달 React Portal */}
       {modify && (

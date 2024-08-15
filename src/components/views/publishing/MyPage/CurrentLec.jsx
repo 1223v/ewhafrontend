@@ -32,10 +32,10 @@ export const CurrentLec = () => {
           <div className="currentLec-header">
             {
               userinfos?.userData?.role === 3 ?
-              <span>{MYPAGE.TITLE.lec}</span> :
+              <span className="currentLec-header__title">{MYPAGE.TITLE.lec}</span> :
               (
                 <div className="currentLec-header__student">
-                  <span>{MYPAGE.TITLE.regist}</span>
+                  <span className="currentLec-header__title">{MYPAGE.TITLE.regist}</span>
                   <FilterBox 
                     selectedStatus={selectedStatus}
                     setSelectedStatus={setSelectedStatus}
@@ -48,7 +48,8 @@ export const CurrentLec = () => {
           userinfos?.userData?.role === 3 ?
           <CurrentLecTable 
             lectures={lectures}
-          /> :
+          />
+           :
           <RequestLecTable 
             lectures={filteredRequests(requestList)}
           />

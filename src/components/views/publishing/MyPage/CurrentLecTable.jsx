@@ -13,30 +13,32 @@ export const CurrentLecTable = ({ lectures }) => {
 
   return (
     <>
-      <table className="currentLecTable">
-        <thead>
-          <CurrentLecTh />
-        </thead>
-        <tbody>
-          {
-            filteredLectures
-            ?.filter((_, id) => Math.floor(id / 5) === currentPage - 1)
-            ?.map((lec, idx) => (
-              <React.Fragment key={lec.lecture_no}>
-                <CurrentLecTd 
-                  idx={(currentPage - 1) * 5 + (idx + 1)}
-                  lec_no={lec.lecture_no}
-                  lecture_name={lec.lecture_name}
-                  major={lec.major}
-                  separated={lec.separated}
-                  assignment_count={lec.assignment_count}
-                  attendee_count={lec.attendee_count}
-                />
-              </React.Fragment>
-            ))
-          }
-        </tbody>
-      </table>
+      <div className="currentLec-table">
+        <table className="currentLecTable">
+          <thead>
+            <CurrentLecTh />
+          </thead>
+          <tbody>
+            {
+              filteredLectures
+              ?.filter((_, id) => Math.floor(id / 5) === currentPage - 1)
+              ?.map((lec, idx) => (
+                <React.Fragment key={lec.lecture_no}>
+                  <CurrentLecTd 
+                    idx={(currentPage - 1) * 5 + (idx + 1)}
+                    lec_no={lec.lecture_no}
+                    lecture_name={lec.lecture_name}
+                    major={lec.major}
+                    separated={lec.separated}
+                    assignment_count={lec.assignment_count}
+                    attendee_count={lec.attendee_count}
+                  />
+                </React.Fragment>
+              ))
+            }
+          </tbody>
+        </table>
+      </div>
       {filteredLectures?.length > 5 &&
         <Paging
           numbers={pageNumbers}
