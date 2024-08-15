@@ -1,11 +1,10 @@
 import { MenuOutlined } from "@ant-design/icons";
 import { Button, Drawer, Layout } from "antd";
-import Axios from "axios";
 import React, { useEffect, useState } from "react";
 import { BsPersonCircle } from "react-icons/bs";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { IMAGES } from "../../../constants/image";
-import { API_URL } from "../../Config";
+import useLogout from "../../../hooks/useLogout";
 import LeftMenu from "./LeftMenu";
 import "./NavBar.css";
 import RightMenu from "./RightMenu";
@@ -13,18 +12,7 @@ import RightMenu from "./RightMenu";
 function NavBar() {
   const [open, setOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
-  const navigate = useNavigate();
-  const onLogoutHandler = () => {
-    Axios.get(`${API_URL}api/user/logout`, { withCredentials: true }).then(
-      (response) => {
-        if (response.data.logoutSuccess) {
-          navigate("/login");
-        } else {
-          alert("Error");
-        }
-      }
-    );
-  };
+  const { onLogoutHandler } = useLogout();
 
   const showDrawer = () => {
     setOpen(!open);
