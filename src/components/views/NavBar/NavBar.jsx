@@ -13,6 +13,10 @@ function NavBar() {
   const [open, setOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const { onLogoutHandler } = useLogout();
+  
+  const onContactHandle = () => {
+    window.open('https://open.kakao.com/o/sqeD9KKg', '_blank');
+  };
 
   const showDrawer = () => {
     setOpen(!open);
@@ -57,7 +61,7 @@ function NavBar() {
               <ul>
                 <li><Link to="/" className="hrefStyle">HOME</Link></li>
                 <li><Link to="/prob/selfstudys" className="hrefStyle" >자습용 과제</Link></li>
-                <li>CONTACT US</li>
+                <li onClick={onContactHandle}>CONTACT US</li>
               </ul>
             </div>
             <Button className="menuButton" type="text" onClick={showDrawer}>
