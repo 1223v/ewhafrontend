@@ -17,7 +17,8 @@ export const MAIN = {
 export const MYPAGE = {
   TITLE: {
     info: "기본 정보",
-    lec: "진행중인 강의"
+    lec: "진행중인 강의",
+    regist: " 강의 신청 목록"
   },
   BTN: {
     modifyOn: "수정",
@@ -117,6 +118,41 @@ export const MYPAGE = {
     ]
   },
 
+  REQUEST_TABLE: {
+    th: [
+      {
+        id: 0,
+        txt: "NO",
+        width: "10"
+      },
+      {
+        id: 1,
+        txt: "강의명",
+        width: "25"
+      },
+      {
+        id: 2,
+        txt: "분반",
+        width: "20"
+      },
+      {
+        id: 3,
+        txt: "교수",
+        width: "15"
+      },
+      {
+        id: 4,
+        txt: "신청일자",
+        width: "15"
+      },
+      {
+        id: 5,
+        txt: "상태",
+        width: "10"
+      },
+    ]
+  },
+
   MODAL: {
     title: [
       {
@@ -143,7 +179,22 @@ export const MYPAGE = {
   CURRENT_LEC: {
     year: "2024",
     semester: "1학기"
-  }
+  },
+
+  FILTER: [
+    {
+      id: 0,
+      txt: "전체"
+    },
+    {
+      id: 1,
+      txt: "거절"
+    },
+    {
+      id: 2,
+      txt: "대기"
+    },
+  ]
 }
 
 export const STUDENTLIST = {

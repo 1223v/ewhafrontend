@@ -44,7 +44,9 @@ function LectureListWrapper () {
       {loading ? (
         <LoadingPage />
       ) : (
+        
         <>
+
           <LectureCardWrapper
             lectures={filteredLectures}
             currentPage={currentPage}
@@ -55,6 +57,7 @@ function LectureListWrapper () {
             currentPage={currentPage}
             setCurrentPage={setCurrentPage}
           />
+          
         </>
       )}
     </div>

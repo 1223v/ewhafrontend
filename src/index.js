@@ -13,6 +13,8 @@ import { ThemeProvider } from "styled-components";
 import MainContextProvider from "../src/components/views/AudioRecord/Sections/MainContext";
 import Reducer from "./_reducers";
 import theme from "./style/theme/theme";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
 
 const createStoreWithMiddleware = applyMiddleware(
   promiseMiddleware,

@@ -279,6 +279,12 @@
   box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.07);
 }
 
+
+.lectureFilterSearch:hover {
+  
+  box-shadow: 10px 10px 16px rgba(0, 0, 0, 0.15);
+}
+
 @media screen and (max-width: 880px) {
   .lectureFilterSearch {
     width: calc(100% - 1rem - 1.5vw - var(--font-size-md));
