@@ -621,9 +621,8 @@ const LectureNameinput = styled.input`
 
 const ProbDescriptionTextarea = styled.textarea`
   width: 100%;
-
   padding: 20px;
-
+  white-space: pre-wrap;
   margin-top: 10px;
   margin-right: 10px;
   box-sizing: border-box;
@@ -631,15 +630,17 @@ const ProbDescriptionTextarea = styled.textarea`
   border: solid 1px #d3d3d3;
   resize: vertical;
   background-color: #ffffff;
-  overflow: hidden;
   font-size: 0.875rem;
   line-height: 1.375rem;
   border-radius: 0.5rem;
+  overflow-x: hidden;
+  overflow-y: auto;
 
   &:focus {
     outline: 2px solid #04653d;
   }
 `;
+
 
 const Purposeinput = styled.input`
   width: 100%;

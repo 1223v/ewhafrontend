@@ -5,8 +5,6 @@ import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { API_URL } from "../../Config";
 import NavBar from "../NavBar/NavBar";
-import StudentAddModal from "../StudentAddModal/StudentAddModal";
-import LectureListPage from "./Sections/LectureListPage";
 
 const Year = [
   { value: "2026", label: "2026년" },
@@ -277,8 +275,8 @@ function LectureAddPage() {
             />
           </LectureNameinputDiv>
         </LectureNameDiv>
-        <hr style={{ background: "#d3d3d3", height: "1px", border: "0" }} />
-        <div>
+        {/* <hr style={{ background: "#d3d3d3", height: "1px", border: "0" }} /> */}
+        {/* <div>
           <LectureNameDiv>
             <LectureName>수강생 명단</LectureName>
             <LectureName2>
@@ -301,7 +299,7 @@ function LectureAddPage() {
           <div>
             <LectureListPage Liststudent={Liststudent} onRemove={onRemove} />
           </div>
-        </div>
+        </div> */}
       </LectureAddFormDiv>
       <LectureCreateDiv>
         <LectureCreateButton onClick={onSaveButton}>
@@ -317,7 +315,7 @@ export default LectureAddPage;
 const LectureBackgroudDiv = styled.div`
   background-color: #f7f7fa;
   width: 100%;
-  height: 1500px;
+  // height: 1500px;
 `;
 
 const LectureAddFormDiv = styled.div`
@@ -326,7 +324,7 @@ const LectureAddFormDiv = styled.div`
   margin: auto;
   background-color: #ffffff;
   width: 800px;
-  height: 100%;
+  // height: 100%;
   @media screen and (max-width: 830px) {
     width: auto;
   }
