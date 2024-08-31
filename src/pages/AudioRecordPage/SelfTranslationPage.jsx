@@ -55,6 +55,7 @@ function SelfTranslationPage() {
         if (response.data.isSuccess) {
           // 요청이 성공한 경우의 처리
 
+          // setOriginalText(response.data.original_text.split("\n"));
           setOriginalText(response.data.original_text);
           setAssignName(response.data.as_name);
           setAssignType(response.data.as_type);
@@ -105,12 +106,14 @@ function SelfTranslationPage() {
 
       <FeedbackDiv>
         <Original>
-          <h4>원문 </h4>
-          <OriginalBox>{OriginalText}</OriginalBox>
+          <h3>원문 </h3>
+          <OriginalBox>
+            {OriginalText}
+          </OriginalBox>
         </Original>
 
         <Interpretation>
-          <h4>번역</h4>
+          <h3>번역</h3>
           <InterpretationBox
             placeholder="여기에 입력하세요"
             onChange={onTextChange}
@@ -215,9 +218,15 @@ const OriginalBox = styled.div`
   width: auto;
   height: 500px;
   overflow-y: auto;
+  box-sizing: border-box;
   word-wrap: break-word;
   border: 1px solid #d3d3d3;
   border-radius: 4px;
+  padding: 8px;
+  overflow-wrap: break-word;
+  line-height: 65px;
+  white-space: pre-wrap;
+  font-size: 1.1rem;
 
   background-color: #f9f9f9;
 `;
@@ -246,8 +255,9 @@ const InterpretationBox = styled.textarea`
   resize: none;
   background-color: #ffffff;
   overflow-y: auto;
-  font-size: 0.875rem;
-  line-height: 1.375rem;
+  font-size: 1.1rem;
+  line-height: 65px;
   border-radius: 0.5rem;
-  padding: 0.75rem;
+  padding: 8px;
+  font-family: "Noto Sans KR", sans-serif;
 `;
