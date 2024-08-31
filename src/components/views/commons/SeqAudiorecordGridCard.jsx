@@ -36,7 +36,8 @@ function SeqAudiorecordGridcard(props) {
 
   useEffect(() => {
     if (TemporarySubmitCheck) {
-      if (props.Submitlist.length !== 0) {
+      console.log(props)
+      if (props?.Submitlist?.length !== 0) {
         props.setLoading(false);
         props.setRealsubmit([...props.Realsubmit, props.Submitlist]);
         props.setDisable(props.Disable + 1);

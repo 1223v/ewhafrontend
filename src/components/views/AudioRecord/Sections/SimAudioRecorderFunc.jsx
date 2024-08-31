@@ -18,6 +18,23 @@ export default function SimAudioRecorderFunc(props) {
   const [audioSrc, setAudioSrc] = useState("");
   const [audioType, setAudioType] = useState("audio/mp3");
   const [shouldHide, setshouldHide] = useState(false);
+  
+  // Web Audio API 관련 설정
+  const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+  const recorderDestination = audioContext.createMediaStreamDestination();
+
+  // 마이크 입력 처리
+  useEffect(() => {
+    navigator.mediaDevices.getUserMedia({ audio: true })
+      .then(stream => {
+        const microphone = audioContext.createMediaStreamSource(stream);
+        microphone.connect(recorderDestination);  // 녹음 스트림만 처리
+      })
+      .catch(error => {
+        console.error('마이크 입력을 가져오는데 실패했습니다:', error);
+      });
+  }, []);
+
   const Mp = EffectSound(MP, 1);
 
   const controlAudio = (status) => {
@@ -29,6 +46,7 @@ export default function SimAudioRecorderFunc(props) {
       ? controlAudio("inactive")
       : controlAudio("recording");
   };
+
   const audioProps = {
     audioType,
     status,
@@ -69,6 +87,7 @@ export default function SimAudioRecorderFunc(props) {
     errorCallback: (err) => {
       console.log("error", err);
     },
+    mediaStream: recorderDestination.stream // 녹음 스트림 연결
   };
 
   const onRecordCheck = () => {
