@@ -4,6 +4,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { VscSend } from "react-icons/vsc";
 import { useLocation, useNavigate } from "react-router-dom";
 import styled from "styled-components";
+import { FEEDBACK_OPTION } from "../../../constants/text";
 import { API_URL } from "../../Config";
 import { fullyDecodeURI, fullyEncodeURI } from "./fullyEncodeURI";
 
@@ -23,17 +24,14 @@ function FeedbackGridCard(props) {
   const [CheckList, setCheckList] = useState(props.obj); // 체크리스트\
   const [FeedbackAttributes, setFeedbackAttributes] = useState(""); // 피드백 속성
   const [isSelectOpen, setIsSelectOpen] = useState(false);
-  const [FeedbackOptions] = useState([
-    { label: "translation_error", value: "translation_error" },
-    { label: "omission", value: "omission" },
-    { label: "expression", value: "expression" },
-    { label: "intonation", value: "intonation" },
-    { label: "grammar_error", value: "grammar_error" },
-    { label: "pause", value: "pause" },
-    { label: "filler", value: "filler" },
-    { label: "cancellation", value: "cancellation" },
-    { label: "others", value: "others" },
-  ]); // 피드백 옵션
+  // const [FeedbackOptions] = useState(props.type === "번역" ? FEEDBACK_OPTION.translation : FEEDBACK_OPTION.interpriting); // 피드백 옵션
+
+// 해당 값의 라벨을 찾는 함수
+const getLabelForValue = (value) => {
+  const FeedbackOptions = props.type === "번역" ? FEEDBACK_OPTION.translation : FEEDBACK_OPTION.interpriting;
+  const option = FeedbackOptions.find((option) => option.value === value);
+  return option ? option.label : value;
+};
 
   /**
    * 앵커링 관련 함수
@@ -248,7 +246,7 @@ function FeedbackGridCard(props) {
             <Select
               style={{ width: 150 }}
               placement="topLeft"
-              options={FeedbackOptions}
+              options={props.type === "번역" ? FEEDBACK_OPTION.translation : FEEDBACK_OPTION.interpriting}
               placeholder="변경"
               onChange={onSelectChange}
               open={isSelectOpen}
@@ -258,7 +256,7 @@ function FeedbackGridCard(props) {
         </div>
 
         <Feedbacktext>
-          <TagDiv>{props.obj}</TagDiv>
+          <TagDiv>{getLabelForValue(props.obj)}</TagDiv>
         </Feedbacktext>
         <div>
           <FeedbackTextField
@@ -279,9 +277,6 @@ function FeedbackGridCard(props) {
 
 export default FeedbackGridCard;
 
-const FeedbackTextDiv = styled.div`
-  margin-right: 10px;
-`;
 
 const MainTitle = styled.h5`
   margin: 13px;

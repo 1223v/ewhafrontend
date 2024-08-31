@@ -277,6 +277,7 @@ function ProfessorProbFeedbackPage() {
               <React.Fragment key={index}>
                 <FeedbackGridCard
                   id={lesson.id}
+                  type={AssignType}
                   begin={lesson.span.begin}
                   end={lesson.span.end}
                   obj={lesson.obj}

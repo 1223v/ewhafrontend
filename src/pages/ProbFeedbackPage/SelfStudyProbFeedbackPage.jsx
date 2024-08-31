@@ -253,30 +253,31 @@ function SelfStudyProbFeedbackPage() {
 
         <Estimation>
           <h4>피드백</h4>
-          <EstimationBox>
-            {Sectioncontent?.map((lesson, index) => (
-              <React.Fragment key={index}>
-                <SelfStudyFeedbackGridCard
-                  id={lesson.id}
-                  begin={lesson.span.begin}
-                  end={lesson.span.end}
-                  obj={lesson.obj}
-                  Datacontent={Datacontent}
-                  setDatacontent={setDatacontent}
-                  TextContent={TextContent}
-                  AttributesContent={AttributesContent}
-                  Sectioncontent={Sectioncontent}
-                  SubmitAttributesContent={SubmitAttributesContent}
-                  NewAttributeCount={NewAttributeCount}
-                  Anchoring={Anchoring}
-                  setAnchoring={setAnchoring}
-                  ChangeDetection={ChangeDetection}
-                  setChangeDetection={setChangeDetection}
-                  TextAeToFeedbackDetection={TextAeToFeedbackDetection}
-                />
-              </React.Fragment>
-            ))}
-          </EstimationBox>
+            <EstimationBox>
+              {Sectioncontent?.map((lesson, index) => (
+                <React.Fragment key={index}>
+                  <SelfStudyFeedbackGridCard
+                    id={lesson.id}
+                    type={AssignType}
+                    begin={lesson.span.begin}
+                    end={lesson.span.end}
+                    obj={lesson.obj}
+                    Datacontent={Datacontent}
+                    setDatacontent={setDatacontent}
+                    TextContent={TextContent}
+                    AttributesContent={AttributesContent}
+                    Sectioncontent={Sectioncontent}
+                    SubmitAttributesContent={SubmitAttributesContent}
+                    NewAttributeCount={NewAttributeCount}
+                    Anchoring={Anchoring}
+                    setAnchoring={setAnchoring}
+                    ChangeDetection={ChangeDetection}
+                    setChangeDetection={setChangeDetection}
+                    TextAeToFeedbackDetection={TextAeToFeedbackDetection}
+                  />
+                </React.Fragment>
+              ))}
+            </EstimationBox>
         </Estimation>
       </FeedbackDiv>
 
