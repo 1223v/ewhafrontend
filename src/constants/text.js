@@ -252,3 +252,22 @@ export const STUDENTLIST = {
     false: "거절"
   }
 };
+export const FEEDBACK_OPTION = {
+  translation: [
+    { label: "오역", value: "translation_error" },
+    { label: "누락", value: "omission" },
+    { label: "표현", value: "expression" },
+    { label: "문법 오류", value: "grammar_error" },
+    { label: "기타", value: "others" },
+  ],
+  interpriting: [
+    { label: "오역", value: "translation_error" },
+    { label: "누락", value: "omission" },
+    { label: "표현", value: "expression" },
+    { label: "문법 오류", value: "grammar_error" },
+    { label: "침묵", value: "pause" },
+    { label: "필러", value: "filler" },
+    { label: "취소", value: "cancellation" },
+    { label: "기타", value: "others" },
+  ]
+}
