@@ -53,6 +53,7 @@ const getLabelForValue = (value) => {
   // };
 
   const onSelectChange = (value) => {
+    console.log('value: ', value);
     // 선택한 값이 CheckList에 이미 있으면 아무 것도 하지 않고 리턴
     if (CheckList.includes(value)) return;
 

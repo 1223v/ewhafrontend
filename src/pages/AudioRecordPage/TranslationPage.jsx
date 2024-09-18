@@ -23,6 +23,10 @@ function TranslationPage() {
   };
 
   const onSubmitButton = () => {
+    if (InterpretationText.trim(" ") === "") {
+      message.error("최소 1자 이상 입력해야합니다.");
+      return;
+    }
     if (window.confirm("과제를 저장하고 제출하시겠습니까?")) {
       let body = {
         translate_text: InterpretationText,
@@ -217,12 +221,18 @@ const Original = styled.div`
 `;
 
 const OriginalBox = styled.div`
-  width: auto;
+    width: auto;
   height: 500px;
   overflow-y: auto;
+  box-sizing: border-box;
   word-wrap: break-word;
   border: 1px solid #d3d3d3;
   border-radius: 4px;
+  padding: 8px;
+  overflow-wrap: break-word;
+  line-height: 65px;
+  white-space: pre-wrap;
+  font-size: 1.1rem;
 
   background-color: #f9f9f9;
 `;
@@ -246,13 +256,14 @@ const Interpretation = styled.div`
 const InterpretationBox = styled.textarea`
   width: 100%;
   height: 500px;
-  box-sizing: border-box;
-  border: solid 1px #d3d3d3;
-  resize: none;
-  background-color: #ffffff;
   overflow-y: auto;
-  font-size: 0.875rem;
-  line-height: 1.375rem;
-  border-radius: 0.5rem;
-  padding: 0.75rem;
+  box-sizing: border-box;
+  word-wrap: break-word;
+  border: 1px solid #d3d3d3;
+  border-radius: 4px;
+  padding: 8px;
+  overflow-wrap: break-word;
+  line-height: 65px;
+  white-space: pre-wrap;
+  font-size: 1.1rem;
 `;
