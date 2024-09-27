@@ -4,6 +4,7 @@ import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { loginUser } from "../../_actions/user_action";
 import { API_URL } from "../../components/Config";
+import { IMAGES } from "../../constants/image";
 import "./LoginPage.css";
 import background from "./background.mp4";
 
@@ -75,24 +76,24 @@ function LoginPage() {
       <div className="login-wrapper">
         <div className="login-wrapper2">
           <div className="login-wrapper-padding">
-            <h2>
+            
               <img
-                src="https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2FbCAVka%2FbtrY2o9XY6e%2Fld0UENc2vedDW60ngkDyI1%2Fimg.jpg"
-                width="60%"
-                height="60%"
+                src={IMAGES.loginLogo}
+                width="80%"
+                height="70%"
                 style={{
                   margin: "auto",
                   display: "block",
-                  marginBottom: "15%",
+                  
                 }}
                 alt=""
               />
-            </h2>
+            
 
             <form
               onSubmit={onSubmitHandler}
               id="login-form"
-              style={{ marginTop: "10%" }}
+              style={{ marginTop: "2%" }}
             >
               <div className="id-text">이메일</div>
               <input

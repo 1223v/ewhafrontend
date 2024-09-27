@@ -19,10 +19,10 @@
 } */
 
 .banner {
-  width: 100%;
+  width: 1245px;
   height: auto; /* 자동 높이 설정 */
   max-height: 500px; /* 최대 높이 제한 */
-  background-size: cover;
+  background-size: contain;
   background-position: center;
   background-repeat: no-repeat;
   display: flex;
@@ -34,26 +34,66 @@
 }
 
 .banner.banner1 {
-  background-image: url('https://www.ewha.ac.kr/_attach/image/2021/10/yeldnKgJYJwtQxcQFzLx.jpg');
+  background-image: url('https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2FeBj0E3%2FbtsJPnEnXah%2FLWmcHXi7Eu4oKOyoT3PVrK%2Fimg.png');
 }
 
 .banner.banner2 {
-  background-image: url('https://www.ewha.ac.kr/_attach/image/2024/02/AouQctSOQhyoYxgBaFct.jpg');
+  background-image: url('https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2FcVeVVu%2FbtsJO8OdQP2%2Fg6hR8nPOp2X9IkaVRUpfcK%2Fimg.png');
+  
 }
+
+.banner.banner3 {
+  background-image: url('https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2FEv1KV%2FbtsJPpvs3iN%2F6tWRATGvQpKBKCRfoiqj8k%2Fimg.png');
+}
+
+.banner.banner4 {
+  background-image: url('https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2FPNNN3%2FbtsJPMcxhsc%2FIE0OAEajFwYzFlWeOIwAP1%2Fimg.png');
+}
+
+.banner.banner5 {
+  background-image: url('https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2Fb51c8b%2FbtsJQxFGSEV%2FwDoY4LbVjyMcKYFI7JLlB0%2Fimg.png');
+}
+
+.banner.banner6 {
+  background-image: url('https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2FcPDRtw%2FbtsJQXjOkxy%2Fh1l2qJ1VLBsGW0mwFKEFVK%2Fimg.png');
+}
+
+/* .banner.banner1 {
+  background-image: url('https://www.ewha.ac.kr/_attach/image/2021/10/yeldnKgJYJwtQxcQFzLx.jpg');
+} */
 
 @media screen and (max-width: 880px) {
   .banner {
-    height: 394px;
+    height: 190px;
     padding-top: 0;
-    background-size: cover;
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
     aspect-ratio: auto;
   }
 
   .banner.banner1 {
-    background-image: url('https://www.ewha.ac.kr/_attach/image/2021/10/vDlkepAOyVAWXYeCyPMu.jpg');
-  }
+  background-image: url('https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2FeBj0E3%2FbtsJPnEnXah%2FLWmcHXi7Eu4oKOyoT3PVrK%2Fimg.png');
+}
 
-  .banner.banner2 {
-    background-image: url('https://www.ewha.ac.kr/_attach/image/2024/02/eDQzajNhLNIupVjmMxIl.jpg');
-  }
+.banner.banner2 {
+  background-image: url('https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2FcVeVVu%2FbtsJO8OdQP2%2Fg6hR8nPOp2X9IkaVRUpfcK%2Fimg.png');
+  
+}
+
+.banner.banner3 {
+  background-image: url('https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2FEv1KV%2FbtsJPpvs3iN%2F6tWRATGvQpKBKCRfoiqj8k%2Fimg.png');
+}
+
+.banner.banner4 {
+  background-image: url('https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2FPNNN3%2FbtsJPMcxhsc%2FIE0OAEajFwYzFlWeOIwAP1%2Fimg.png');
+}
+
+.banner.banner5 {
+  background-image: url('https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2Fb51c8b%2FbtsJQxFGSEV%2FwDoY4LbVjyMcKYFI7JLlB0%2Fimg.png');
+}
+
+.banner.banner6 {
+  background-image: url('https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2FcPDRtw%2FbtsJQXjOkxy%2Fh1l2qJ1VLBsGW0mwFKEFVK%2Fimg.png');
+}
 }

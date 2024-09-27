@@ -1,6 +1,7 @@
 export const IMAGES = {
   // Nav
-  logo: "https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2FbgyBpv%2FbtsIvbZBan3%2FNuVg84au8x0XpOTF7CMVV0%2Fimg.png",
+  logo: "https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2FVQ1eJ%2FbtsJPRdOpOh%2FL1WyzARHjNnsUSFQPORIkk%2Fimg.png",
+  loginLogo: "https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2FcrLLvX%2FbtsJQohTQLl%2FR2PnEYcfdE0zvLMFK1OG70%2Fimg.png",
 
   // 메인페이지
   bannerPC: require("../assets/images/banner_pc.jpg"),
@@ -10,5 +11,5 @@ export const IMAGES = {
   calendar: require("../assets/images/ic_calendar.png"),
 
   // 마이페이지
-  profile: require("../assets/images/img_chiikyaw.png"),
+  profile: "https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2FcrLLvX%2FbtsJQohTQLl%2FR2PnEYcfdE0zvLMFK1OG70%2Fimg.png",
 }

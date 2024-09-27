@@ -15,7 +15,7 @@ const BannerSlider = () => {
   };
 
   const banners = [
-    "banner1", "banner2"
+    "banner1", "banner2", "banner3", "banner4", "banner5", "banner6"
   ];
 
   return (

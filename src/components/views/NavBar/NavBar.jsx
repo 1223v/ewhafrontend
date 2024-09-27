@@ -51,7 +51,7 @@ function NavBar() {
             <Link to="/">
               <img
                 src={IMAGES.logo}
-                style={{ height: "33px", marginTop: "15px" }}
+                style={{ height: "55px", marginTop: "5px" }}
                 alt="ewha_logo"
               />
             </Link>
