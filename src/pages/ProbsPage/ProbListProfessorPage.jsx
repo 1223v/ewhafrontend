@@ -82,7 +82,7 @@ function ProbListProfessorPage() {
           <div className="overflow-x-hidden">
             <div className="p-1.5 w-full inline-block align-middle">
               <div className="overflow-auto border rounded-lg">
-                <table className="min-w-full divide-y divide-gray-200 overflow-x-auto">
+                <table className="min-w-full divide-y divide-gray-200 overflow-x-auto border-collapse">
                   <thead className="bg-gray-50 overflow-x-auto">
                     <tr>
                       <th
@@ -126,13 +126,15 @@ function ProbListProfessorPage() {
                       </th>
                     </tr>
                   </thead>
-                  <tbody className="divide-y divide-gray-200">
+                  <tbody 
+                    // className="divide-y divide-gray-200"
+                  >
                     {Problist?.map((assignment, index) => {
                       return (
                         <React.Fragment key={index}>
                           <tr
                             onClick={() => onDetailPageMove(assignment.as_no)}
-                            className="cursor-pointer"
+                            className="cursor-pointer border-solid border-2 border-gray-200"
                           >
                             <td className="px-6 py-4 text-sm font-medium text-gray-800 whitespace-nowrap">
                               {index + 1}

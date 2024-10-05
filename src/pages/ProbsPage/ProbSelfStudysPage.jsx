@@ -24,6 +24,8 @@ function ProbSelfStudysPage() {
       .then((response) => {
         // 요청이 성공한 경우의 처리
 
+        // console.log(response.data);
+
         setLectureName(response.data.lecture_name);
         setProblist(response.data.prob_list);
       })
@@ -79,7 +81,7 @@ function ProbSelfStudysPage() {
           <div className="overflow-x-hidden">
             <div className="p-1.5 w-full inline-block align-middle">
               <div className="overflow-auto border rounded-lg">
-                <table className="min-w-full divide-y divide-gray-200 overflow-x-auto">
+                <table className="min-w-full divide-y divide-gray-200 overflow-x-auto border-collapse">
                   <thead className="bg-gray-50 overflow-x-auto">
                     <tr>
                       <th
@@ -97,6 +99,24 @@ function ProbSelfStudysPage() {
                           제목
                         </span>
                       </th>
+
+                      <th
+                        scope="col"
+                        className="px-6 py-3 text-xs font-bold text-left text-gray-500 uppercase "
+                      >
+                        <span className="inline-flex items-center">
+                          완료여부
+                        </span>
+                      </th>
+
+                      {/* <th
+                        scope="col"
+                        className="px-6 py-3 text-xs font-bold text-left text-gray-500 uppercase "
+                      >
+                        <span className="inline-flex items-center">
+                          시작일
+                        </span>
+                      </th> */}
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-gray-200">
@@ -105,7 +125,7 @@ function ProbSelfStudysPage() {
                         <React.Fragment key={index}>
                           <tr
                             onClick={() => onDetailPageMove(assignment.as_no)}
-                            className="cursor-pointer"
+                            className="cursor-pointer border-solid border-2 border-gray-200"
                           >
                             <td className="px-6 py-4 text-sm font-medium text-gray-800 whitespace-nowrap">
                               {index + 1}
@@ -114,6 +134,14 @@ function ProbSelfStudysPage() {
                             <td className="px-6 py-4 text-sm text-gray-800 whitespace-nowrap">
                               {assignment.as_name}
                             </td>
+
+                            <td className="px-6 py-4 text-sm text-gray-800 whitespace-nowrap">
+                              {assignment.end_submission ? "완료" : "미완료"}
+                            </td>
+
+                            {/* <td className="px-6 py-4 text-sm text-gray-800 whitespace-nowrap">
+                              {assignment.open_time}
+                            </td> */}
                           </tr>
                         </React.Fragment>
                       );
